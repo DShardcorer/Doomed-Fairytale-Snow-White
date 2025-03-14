@@ -8,6 +8,31 @@ public class PlayerManager : MonoBehaviour, ILifecycle<GameManager>
     public GameManager GameManager => _gameManager;
 
     [SerializeField] private GameObject _playerPrefab;
+    [SerializeField] private float _playerSpeed = 5;
+    [SerializeField] private float _playerHealth = 100;
+    [SerializeField] private float _playerInteractionRange = 3;
+    [SerializeField] private float _dashSpeed = 20;
+    [SerializeField] private float _dashDuration = 0.667f;
+    [SerializeField] private float _dashCooldown = 1f;
+
+    [SerializeField] private float _attackDamage = 10;
+    [SerializeField] private float _attackRange = 1;
+    [SerializeField] private float _attackCooldown = 1;
+    [SerializeField] private float _attackDashVelocity = 5;
+
+    public float AttackDamage => _attackDamage;
+    public float AttackRange => _attackRange;
+    public float AttackCooldown => _attackCooldown;
+    public float AttackDashVelocity => _attackDashVelocity;
+
+
+
+    public float PlayerSpeed => _playerSpeed;
+    public float PlayerHealth => _playerHealth;
+    public float PlayerInteractionRange => _playerInteractionRange;
+    public float DashSpeed => _dashSpeed;
+    public float DashDuration => _dashDuration;
+    public float DashCooldown => _dashCooldown;
 
     public void Initialize(GameManager gameManager)
     {
@@ -18,22 +43,14 @@ public class PlayerManager : MonoBehaviour, ILifecycle<GameManager>
     public void CreatePlayer()
     {
         GameObject playerGameObject = Instantiate(_playerPrefab);
+
+        //PlayerView creation
+        PlayerView playerView = playerGameObject.GetComponent<PlayerView>();
+        Debug.Log(playerView.Rigidbody2D);
         
-        //PlayerMovement creation
-        PlayerMovementView playerMovementView = playerGameObject.GetComponent<PlayerMovementView>();
-        PlayerMovementProperties playerMovementProperties = new PlayerMovementProperties();
-        PlayerMovement playerMovement = new PlayerMovement(playerMovementProperties, playerMovementView);
-
-
-        //PlayerInteract creation
-        PlayerInteractView playerInteractView = playerGameObject.GetComponent<PlayerInteractView>();
-        PlayerInteractProperties playerInteractProperties = new PlayerInteractProperties();
-        PlayerInteract playerInteract = new PlayerInteract(playerInteractProperties, playerInteractView);
-
-
-
-        //Player creation
-        _player = new Player(playerMovement, playerInteract);
+        //PlayerMovementState creation
+        // //Player creation
+        _player = new Player(playerView);
         _player.Initialize(this);
     }
     public Player GetPlayer()

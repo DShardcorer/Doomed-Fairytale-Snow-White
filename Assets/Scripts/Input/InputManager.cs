@@ -7,6 +7,9 @@ public class InputManager : MonoBehaviour, ILifecycle<GameManager>
 
     private PlayerInputActions _playerInputActions;
 
+    public event EventHandler attackInputted;
+    public event EventHandler dashInputted;
+
 
     public void Initialize(GameManager gameManager)
     {
@@ -18,6 +21,9 @@ public class InputManager : MonoBehaviour, ILifecycle<GameManager>
 
     private void InitializeEvents()
     {
+        _playerInputActions.Player.Attack.performed += ctx => attackInputted?.Invoke(this, EventArgs.Empty);
+        _playerInputActions.Player.Dash.performed += ctx => dashInputted?.Invoke(this, EventArgs.Empty);
+
 
     }
 
@@ -31,7 +37,8 @@ public class InputManager : MonoBehaviour, ILifecycle<GameManager>
         _playerInputActions.Disable();
     }
     public Vector2 GetMovementVector(){
-        return _playerInputActions.Player.Move.ReadValue<Vector2>();
+        Vector2 movement = _playerInputActions.Player.Move.ReadValue<Vector2>();
+        return movement;
     }
 
 
