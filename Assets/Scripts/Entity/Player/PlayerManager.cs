@@ -8,31 +8,10 @@ public class PlayerManager : MonoBehaviour, ILifecycle<GameManager>
     public GameManager GameManager => _gameManager;
 
     [SerializeField] private GameObject _playerPrefab;
-    [SerializeField] private float _playerSpeed = 5;
-    [SerializeField] private float _playerHealth = 100;
-    [SerializeField] private float _playerInteractionRange = 3;
-    [SerializeField] private float _dashSpeed = 20;
-    [SerializeField] private float _dashDuration = 0.667f;
-    [SerializeField] private float _dashCooldown = 1f;
 
-    [SerializeField] private float _attackDamage = 10;
-    [SerializeField] private float _attackRange = 1;
-    [SerializeField] private float _attackCooldown = 1;
-    [SerializeField] private float _attackDashVelocity = 5;
-
-    public float AttackDamage => _attackDamage;
-    public float AttackRange => _attackRange;
-    public float AttackCooldown => _attackCooldown;
-    public float AttackDashVelocity => _attackDashVelocity;
+    [SerializeField] private PlayerPropertiesSO _playerPropertiesSO;
 
 
-
-    public float PlayerSpeed => _playerSpeed;
-    public float PlayerHealth => _playerHealth;
-    public float PlayerInteractionRange => _playerInteractionRange;
-    public float DashSpeed => _dashSpeed;
-    public float DashDuration => _dashDuration;
-    public float DashCooldown => _dashCooldown;
 
     public void Initialize(GameManager gameManager)
     {
@@ -49,7 +28,8 @@ public class PlayerManager : MonoBehaviour, ILifecycle<GameManager>
         Debug.Log(playerView.Rigidbody2D);
 
         //PlayerProperties creation
-        PlayerProperties playerProperties = new PlayerProperties();
+
+        PlayerProperties playerProperties = new PlayerProperties(_playerPropertiesSO);
 
         PlayerIdlingState playerIdlingState = new PlayerIdlingState(AnimationStateHelper.IS_IDLING);
 

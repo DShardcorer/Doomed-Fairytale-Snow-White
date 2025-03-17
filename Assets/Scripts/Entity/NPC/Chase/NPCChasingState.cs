@@ -1,16 +1,8 @@
 using UnityEngine;
 
-public class NPCChasingState : MonoBehaviour
+public class NPCChasingState : NPCState
 {
-    // Start is called once before the first execution of Update after the MonoBehaviour is created
-    void Start()
+    public NPCChasingState(string animationBoolName) : base(animationBoolName)
     {
-        
-    }
-
-    // Update is called once per frame
-    void Update()
-    {
-        
     }
 }

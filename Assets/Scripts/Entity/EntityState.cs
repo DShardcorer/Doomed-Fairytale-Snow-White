@@ -4,6 +4,7 @@ public class EntityState
 {
     protected Entity _controller;
     protected EntityStateMachine _stateMachine;
+    protected EntityProperties _properties;
     protected EntityView _view;
     protected Rigidbody2D _rigidbody;
     protected Animator _animator;
@@ -20,6 +21,7 @@ public class EntityState
     {
         _controller = controller;
         _stateMachine = _controller.StateMachine;
+        _properties = _controller.Properties;
         _view = _controller.View;
         _rigidbody = _controller.View.Rigidbody2D;
         _animator = _controller.View.Animator;
@@ -31,11 +33,10 @@ public class EntityState
     }
     public virtual void UpdateState()
     {
-        _stateTimer -= Time.deltaTime;
     }
     public virtual void FixedUpdateState()
     {
-
+        _view.SetAnimationDirection(_properties.lastMovementVector);
     }
 
     public virtual void OnAnimationEnd()

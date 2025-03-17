@@ -17,4 +17,7 @@ public abstract class Entity
         _properties = properties;
         _stateMachine = new EntityStateMachine();
     }
+    public virtual void FixedUpdateLogic(){
+        _properties.currentPosition = _view.transform.position;
+    }
 }

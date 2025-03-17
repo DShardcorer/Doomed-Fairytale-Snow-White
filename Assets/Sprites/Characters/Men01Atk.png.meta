@@ -97,177 +97,353 @@ TextureImporter:
     serializedVersion: 2
     sprites:
     - serializedVersion: 2
-      name: Idle_Down_0
+      name: Men01Atk_0
       rect:
         serializedVersion: 2
-        x: 18
-        y: 20
-        width: 14
-        height: 25
-      alignment: 0
-      pivot: {x: 0, y: 0}
+        x: 21
+        y: 198
+        width: 20
+        height: 34
+      alignment: 7
+      pivot: {x: 0.5, y: 0}
       border: {x: 0, y: 0, z: 0, w: 0}
       customData: 
       outline: []
       physicsShape: []
-      tessellationDetail: -1
+      tessellationDetail: 0
       bones: []
-      spriteID: 2e49394d6a76de150800000000000000
-      internalID: 5903488652781262050
+      spriteID: 8d7dc9f25d637a6479d8c67ef586e5e6
+      internalID: 1293138585
       vertices: []
       indices: 
       edges: []
       weights: []
     - serializedVersion: 2
-      name: Idle_Down_1
+      name: Men01Atk_1
       rect:
         serializedVersion: 2
-        x: 66
-        y: 20
-        width: 14
-        height: 24
-      alignment: 0
-      pivot: {x: 0, y: 0}
+        x: 89
+        y: 197
+        width: 21
+        height: 32
+      alignment: 7
+      pivot: {x: 0.5, y: 0}
       border: {x: 0, y: 0, z: 0, w: 0}
       customData: 
       outline: []
       physicsShape: []
-      tessellationDetail: -1
+      tessellationDetail: 0
       bones: []
-      spriteID: 6284370fa7a68eb90800000000000000
-      internalID: -7212397726981208026
+      spriteID: f1eaaa75631516b44806b362d045e76c
+      internalID: -1367112916
       vertices: []
       indices: 
       edges: []
       weights: []
     - serializedVersion: 2
-      name: Idle_Down_2
+      name: Men01Atk_2
       rect:
         serializedVersion: 2
-        x: 114
-        y: 20
-        width: 14
-        height: 24
-      alignment: 0
-      pivot: {x: 0, y: 0}
+        x: 153
+        y: 197
+        width: 21
+        height: 33
+      alignment: 7
+      pivot: {x: 0.5, y: 0}
       border: {x: 0, y: 0, z: 0, w: 0}
       customData: 
       outline: []
       physicsShape: []
-      tessellationDetail: -1
+      tessellationDetail: 0
       bones: []
-      spriteID: f433d288c0860b840800000000000000
-      internalID: 5237800769665446735
+      spriteID: 0202d5a9d9c72ab4abf557c70948e666
+      internalID: 807619287
       vertices: []
       indices: 
       edges: []
       weights: []
     - serializedVersion: 2
-      name: Idle_Down_3
+      name: Men01Atk_3
       rect:
         serializedVersion: 2
-        x: 162
-        y: 20
-        width: 14
-        height: 25
-      alignment: 0
-      pivot: {x: 0, y: 0}
+        x: 217
+        y: 197
+        width: 21
+        height: 33
+      alignment: 7
+      pivot: {x: 0.5, y: 0}
       border: {x: 0, y: 0, z: 0, w: 0}
       customData: 
       outline: []
       physicsShape: []
-      tessellationDetail: -1
+      tessellationDetail: 0
       bones: []
-      spriteID: 83fb6951a30e76360800000000000000
-      internalID: 7162940272430989112
+      spriteID: 9649c8986957da64a942edd37e345780
+      internalID: -1220939714
       vertices: []
       indices: 
       edges: []
       weights: []
     - serializedVersion: 2
-      name: Idle_Down_4
+      name: Men01Atk_4
+      rect:
+        serializedVersion: 2
+        x: 22
+        y: 135
+        width: 23
+        height: 32
+      alignment: 7
+      pivot: {x: 0.5, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: 881d94b73861ef143816bc297d13b2ed
+      internalID: 755820459
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: Men01Atk_5
+      rect:
+        serializedVersion: 2
+        x: 75
+        y: 135
+        width: 34
+        height: 32
+      alignment: 7
+      pivot: {x: 0.5, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: da7b5a03ac7b6b745b67f7dfd4c32754
+      internalID: 247768871
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: Men01Atk_6
+      rect:
+        serializedVersion: 2
+        x: 140
+        y: 135
+        width: 33
+        height: 32
+      alignment: 7
+      pivot: {x: 0.5, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: 2b23365b3d6b0154ba1499eb321b06a7
+      internalID: -1236484747
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: Men01Atk_7
+      rect:
+        serializedVersion: 2
+        x: 204
+        y: 135
+        width: 33
+        height: 32
+      alignment: 7
+      pivot: {x: 0.5, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: 0bae429af1f8c5c4b8535911f7b27260
+      internalID: 1035046775
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: Men01Atk_8
+      rect:
+        serializedVersion: 2
+        x: 19
+        y: 71
+        width: 23
+        height: 32
+      alignment: 7
+      pivot: {x: 0.5, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: 3d0eb91ce298e904fb51d192446c2437
+      internalID: 605443190
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: Men01Atk_9
+      rect:
+        serializedVersion: 2
+        x: 83
+        y: 71
+        width: 34
+        height: 32
+      alignment: 7
+      pivot: {x: 0.5, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: c05a6e2575096ef4db948f407483cdb0
+      internalID: -2131976051
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: Men01Atk_10
+      rect:
+        serializedVersion: 2
+        x: 147
+        y: 71
+        width: 33
+        height: 32
+      alignment: 7
+      pivot: {x: 0.5, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: f545050a60f7b8a4f9ed50c949c36845
+      internalID: -741608094
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: Men01Atk_11
+      rect:
+        serializedVersion: 2
+        x: 211
+        y: 71
+        width: 33
+        height: 32
+      alignment: 7
+      pivot: {x: 0.5, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: 470fd9f706ae74d499526524feded094
+      internalID: -1677577178
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: Men01Atk_12
+      rect:
+        serializedVersion: 2
+        x: 23
+        y: 4
+        width: 15
+        height: 37
+      alignment: 7
+      pivot: {x: 0.5, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: 04abf042e8228a846aea95a118bff0b2
+      internalID: 244264209
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: Men01Atk_13
+      rect:
+        serializedVersion: 2
+        x: 82
+        y: 4
+        width: 21
+        height: 39
+      alignment: 7
+      pivot: {x: 0.5, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: b328a49689ff2774693e819515a1c40c
+      internalID: -241762024
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: Men01Atk_14
+      rect:
+        serializedVersion: 2
+        x: 146
+        y: 4
+        width: 21
+        height: 38
+      alignment: 7
+      pivot: {x: 0.5, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: bdb02938d866d7e4b8cbc1273bd0b68e
+      internalID: -1655217954
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: Men01Atk_15
       rect:
         serializedVersion: 2
         x: 210
-        y: 20
-        width: 14
-        height: 25
-      alignment: 0
-      pivot: {x: 0, y: 0}
+        y: 4
+        width: 21
+        height: 38
+      alignment: 7
+      pivot: {x: 0.5, y: 0}
       border: {x: 0, y: 0, z: 0, w: 0}
       customData: 
       outline: []
       physicsShape: []
-      tessellationDetail: -1
+      tessellationDetail: 0
       bones: []
-      spriteID: 31903bee1fcd764e0800000000000000
-      internalID: -1988377778810844909
-      vertices: []
-      indices: 
-      edges: []
-      weights: []
-    - serializedVersion: 2
-      name: Idle_Down_5
-      rect:
-        serializedVersion: 2
-        x: 258
-        y: 20
-        width: 14
-        height: 24
-      alignment: 0
-      pivot: {x: 0, y: 0}
-      border: {x: 0, y: 0, z: 0, w: 0}
-      customData: 
-      outline: []
-      physicsShape: []
-      tessellationDetail: -1
-      bones: []
-      spriteID: 7a47c88f557b994f0800000000000000
-      internalID: -821423877148347225
-      vertices: []
-      indices: 
-      edges: []
-      weights: []
-    - serializedVersion: 2
-      name: Idle_Down_6
-      rect:
-        serializedVersion: 2
-        x: 306
-        y: 20
-        width: 14
-        height: 24
-      alignment: 0
-      pivot: {x: 0, y: 0}
-      border: {x: 0, y: 0, z: 0, w: 0}
-      customData: 
-      outline: []
-      physicsShape: []
-      tessellationDetail: -1
-      bones: []
-      spriteID: 27da2fd65c00f57c0800000000000000
-      internalID: -4080541889421202062
-      vertices: []
-      indices: 
-      edges: []
-      weights: []
-    - serializedVersion: 2
-      name: Idle_Down_7
-      rect:
-        serializedVersion: 2
-        x: 354
-        y: 20
-        width: 14
-        height: 25
-      alignment: 0
-      pivot: {x: 0, y: 0}
-      border: {x: 0, y: 0, z: 0, w: 0}
-      customData: 
-      outline: []
-      physicsShape: []
-      tessellationDetail: -1
-      bones: []
-      spriteID: af69be84f969b7b90800000000000000
-      internalID: -7243029964827945222
+      spriteID: cc8531cb92fff1a44b692f1301bdfd3c
+      internalID: -1463140207
       vertices: []
       indices: 
       edges: []
@@ -276,7 +452,7 @@ TextureImporter:
     customData: 
     physicsShape: []
     bones: []
-    spriteID: 
+    spriteID: f57804f964e2ab14689a2b847293e095
     internalID: 0
     vertices: []
     indices: 
@@ -286,14 +462,22 @@ TextureImporter:
     spriteCustomMetadata:
       entries: []
     nameFileIdTable:
-      Idle_Down_0: 5903488652781262050
-      Idle_Down_1: -7212397726981208026
-      Idle_Down_2: 5237800769665446735
-      Idle_Down_3: 7162940272430989112
-      Idle_Down_4: -1988377778810844909
-      Idle_Down_5: -821423877148347225
-      Idle_Down_6: -4080541889421202062
-      Idle_Down_7: -7243029964827945222
+      Men01Atk_0: 1293138585
+      Men01Atk_1: -1367112916
+      Men01Atk_10: -741608094
+      Men01Atk_11: -1677577178
+      Men01Atk_12: 244264209
+      Men01Atk_13: -241762024
+      Men01Atk_14: -1655217954
+      Men01Atk_15: -1463140207
+      Men01Atk_2: 807619287
+      Men01Atk_3: -1220939714
+      Men01Atk_4: 755820459
+      Men01Atk_5: 247768871
+      Men01Atk_6: -1236484747
+      Men01Atk_7: 1035046775
+      Men01Atk_8: 605443190
+      Men01Atk_9: -2131976051
   mipmapLimitGroupName: 
   pSDRemoveMatte: 0
   userData: 

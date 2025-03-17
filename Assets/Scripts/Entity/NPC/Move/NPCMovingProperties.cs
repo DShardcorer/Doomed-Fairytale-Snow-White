@@ -8,7 +8,6 @@ public class NPCMovingProperties
     private float movingTime = 2.0f;
     public float MovingTime => movingTime;
 
-    public Vector2 lastMovementVector;
 
 
     public NPCMovingProperties(float moveSpeed = 2.0f, float movingTime = 2.0f)

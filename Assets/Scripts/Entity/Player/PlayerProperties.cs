@@ -1,13 +1,8 @@
 using UnityEngine;
 
-public class PlayerProperties: EntityProperties
+public class PlayerProperties : EntityProperties
 {
-
-
-    public PlayerProperties()
+    public PlayerProperties(EntityPropertiesSO entityPropertiesSO) : base(entityPropertiesSO)
     {
     }
-
-
-    
 }

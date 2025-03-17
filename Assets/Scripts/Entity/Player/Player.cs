@@ -61,6 +61,7 @@ public class Player : Entity, ILifecycle<PlayerManager>, IFixedUpdatable, IUpdat
         _inputManager = _parent.GameManager.InputManager;
         _inputManager.dashInputted += OnDashInputted;
         _inputManager.attackInputted += OnAttackInputted;
+        _parent.GameManager.CameraManager.SetFollowTarget(_playerView.transform);
 
 
         //Add to update managers
@@ -96,9 +97,9 @@ public class Player : Entity, ILifecycle<PlayerManager>, IFixedUpdatable, IUpdat
         _stateMachine.ChangeState(_playerDashingState);
     }
 
-    public void FixedUpdateLogic()
+    public override void FixedUpdateLogic()
     {
-
+        base.FixedUpdateLogic();
         _stateMachine.FixedUpdateLogic();
     }
 

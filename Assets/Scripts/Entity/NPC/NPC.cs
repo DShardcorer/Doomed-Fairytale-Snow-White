@@ -1,14 +1,18 @@
+using System;
 using UnityEngine;
 
 public class NPC : Entity, ILifecycle<NPCManager>, IUpdatable, IFixedUpdatable
 {
     protected NPCManager _parent;
-    private NPCView _npcView;
+    protected NPCView _npcView;
     public NPCView NPCView => _npcView;
-    private NPCProperties _npcProperties;
+    protected NPCProperties _npcProperties;
     public NPCProperties NPCProperties => _npcProperties;
-    private EntityDetector _entityDetector;
-    public EntityDetector EntityDetector => _entityDetector;
+    protected FOVDetector _fovDetector;
+    public FOVDetector FOVDetector => _fovDetector;
+    protected ProximityDetector _proximityDetector;
+    public ProximityDetector ProximityDetector => _proximityDetector;
+
 
     public bool IsBusy = false;
 
@@ -23,20 +27,14 @@ public class NPC : Entity, ILifecycle<NPCManager>, IUpdatable, IFixedUpdatable
     // Moving
     protected NPCMovingState _npcMovingState;
     public NPCMovingState NPCMovingState => _npcMovingState;
-    protected NPCMovingProperties _npcMovingProperties;
-    public NPCMovingProperties NPCMovingProperties => _npcMovingProperties;
 
     // Attacking
     protected NPCAttackingState _npcAttackingState;
     public NPCAttackingState NPCAttackingState => _npcAttackingState;
-    protected NPCAttackingProperties _npcAttackingProperties;
-    public NPCAttackingProperties NPCAttackingProperties => _npcAttackingProperties;
 
     // Chasing
     private NPCChasingState _npcChasingState;
     public NPCChasingState NPCChasingState => _npcChasingState;
-    private NPCChasingProperties _npcChasingProperties;
-    public NPCChasingProperties NPCChasingProperties => _npcChasingProperties;
 
     #endregion StateDefinitions
 
@@ -61,7 +59,15 @@ public class NPC : Entity, ILifecycle<NPCManager>, IUpdatable, IFixedUpdatable
         _view.Initialize(this);
 
         // Entity detector initialization
-        _entityDetector = _view.GetComponentInChildren<EntityDetector>();
+        _fovDetector = _view.GetComponentInChildren<FOVDetector>();
+        _fovDetector.Initialize(this);
+        _proximityDetector = _view.GetComponentInChildren<ProximityDetector>();
+        _proximityDetector.Initialize(this);
+
+        _proximityDetector.OnEntityFromDifferentFactionSpottedInProximity += OnEntityFromDifferentFactionSpottedInProximity;
+        _fovDetector.OnClosestEntityFromDifferentFactionSpottedInFOV += OnClosestEntityFromDifferentFactionSpottedInFOV;
+
+
 
         // State initialization
         _npcIdlingState.Initialize(this);
@@ -69,10 +75,17 @@ public class NPC : Entity, ILifecycle<NPCManager>, IUpdatable, IFixedUpdatable
 
     }
 
-    public virtual void InitializeStates()
+    protected virtual void OnClosestEntityFromDifferentFactionSpottedInFOV(object sender, Entity e)
     {
-
+        
     }
+
+    protected virtual void OnEntityFromDifferentFactionSpottedInProximity(object sender, Entity e)
+    {
+        Debug.Log("Entity from different faction spotted in proximity");
+        _properties.lastMovementVector = (e.View.transform.position - _view.transform.position).normalized;
+    }
+
 
     public void UpdateLogic()
     {
@@ -80,8 +93,9 @@ public class NPC : Entity, ILifecycle<NPCManager>, IUpdatable, IFixedUpdatable
         _stateMachine.UpdateLogic();
     }
 
-    public void FixedUpdateLogic()
+    public override void FixedUpdateLogic()
     {
+        base.FixedUpdateLogic();
         if (IsBusy) return;
         _stateMachine.FixedUpdateLogic();
     }
@@ -90,5 +104,8 @@ public class NPC : Entity, ILifecycle<NPCManager>, IUpdatable, IFixedUpdatable
     {
         _parent.GameManager.UpdateManager.RemoveUpdatable(this);
         _parent.GameManager.FixedUpdateManager.RemoveFixedUpdatable(this);
+
+        _proximityDetector.OnEntityFromDifferentFactionSpottedInProximity -= OnEntityFromDifferentFactionSpottedInProximity;
+        _fovDetector.OnClosestEntityFromDifferentFactionSpottedInFOV -= OnClosestEntityFromDifferentFactionSpottedInFOV;
     }
 }

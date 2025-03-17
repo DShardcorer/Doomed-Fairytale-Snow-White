@@ -8,23 +8,23 @@ public class NPCMovingState : NPCState
         _npcMovingProperties = npcMovingProperties;
     }
 
-    private float _moveTimer = 0;
 
     public override void EnterState()
     {
         base.EnterState();
-        _moveTimer = _npcMovingProperties.MovingTime;
-        _npcMovingProperties.lastMovementVector = GetRandomDirection();
-        Vector2 roundedDirection = new Vector2(Mathf.Round(_npcMovingProperties.lastMovementVector.x), Mathf.Round(_npcMovingProperties.lastMovementVector.y));
-        _npc.EntityDetector.SetColliderRotation(Vector2.SignedAngle(Vector2.down, roundedDirection));
+        _stateTimer = _npcMovingProperties.MovingTime;
+        _properties.lastMovementVector = GetRandomDirection();
+
     }
 
     public override void FixedUpdateState()
     {
-        _moveTimer -= Time.fixedDeltaTime;
-        _rigidbody.linearVelocity = _npcMovingProperties.lastMovementVector * _npcMovingProperties.MoveSpeed;
-        _view.SetAnimationDirection(_npcMovingProperties.lastMovementVector);
-        if (_moveTimer <= 0)
+        base.FixedUpdateState();
+        _stateTimer -= Time.fixedDeltaTime;
+        Vector2 roundedDirection = new Vector2(Mathf.Round(_properties.lastMovementVector.x), Mathf.Round(_properties.lastMovementVector.y));
+        _npc.FOVDetector.SetColliderRotation(Vector2.SignedAngle(Vector2.down, roundedDirection));
+        _rigidbody.linearVelocity = _properties.lastMovementVector * _npcMovingProperties.MoveSpeed;
+        if (_stateTimer <= 0)
         {
             _stateMachine.ChangeState(_npc.NPCIdlingState);
         }

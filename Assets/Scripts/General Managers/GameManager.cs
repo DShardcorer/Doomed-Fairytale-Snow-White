@@ -8,12 +8,12 @@ public class GameManager : MonoBehaviour
     [SerializeField] private PlayerManager _playerManager;
     [SerializeField] private UpdateManager _updateManager;
     [SerializeField] private FixedUpdateManager _fixedUpdateManager;
-    [SerializeField] private EnemyManager _enemyManager;
+    [SerializeField] private NativeManager _enemyManager;
     [SerializeField] private CameraManager _cameraManager;
 
     public InputManager InputManager => _inputManager;
     public PoolManager PoolManager => _poolManager;
-    public EnemyManager EnemyManager => _enemyManager;
+    public NativeManager EnemyManager => _enemyManager;
     public PlayerManager PlayerManager => _playerManager;
     public UpdateManager UpdateManager => _updateManager;
     public FixedUpdateManager FixedUpdateManager => _fixedUpdateManager;

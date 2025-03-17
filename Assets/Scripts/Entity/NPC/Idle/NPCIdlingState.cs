@@ -7,17 +7,17 @@ public class NPCIdlingState : NPCState
     {
         _npcIdlingProperties = npcIdlingProperties;
     }
-    private float idleTimer = 0;
     public override void EnterState()
     {
         base.EnterState();
-        idleTimer = _npcIdlingProperties.IdleTime;
+        _stateTimer = _npcIdlingProperties.IdleTime;
     }
 
     public override void FixedUpdateState()
     {
-        idleTimer -= Time.fixedDeltaTime;
-        if (idleTimer <= 0)
+        base.FixedUpdateState();
+        _stateTimer -= Time.fixedDeltaTime;
+        if (_stateTimer <= 0)
         {
             _stateMachine.ChangeState(_npc.NPCMovingState);
         }
