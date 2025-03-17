@@ -25,7 +25,7 @@ public class PlayerManager : MonoBehaviour, ILifecycle<GameManager>
 
         //PlayerView creation
         PlayerView playerView = playerGameObject.GetComponent<PlayerView>();
-        Debug.Log(playerView.Rigidbody2D);
+
 
         //PlayerProperties creation
 

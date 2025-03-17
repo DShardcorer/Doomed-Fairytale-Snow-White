@@ -56,6 +56,7 @@ public class Player : Entity, ILifecycle<PlayerManager>, IFixedUpdatable, IUpdat
     }
     public void Initialize(PlayerManager parent)
     {
+        base.Initialize();
         //Getting references
         _parent = parent;
         _inputManager = _parent.GameManager.InputManager;

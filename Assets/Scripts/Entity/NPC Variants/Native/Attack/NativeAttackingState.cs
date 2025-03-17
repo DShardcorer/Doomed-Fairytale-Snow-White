@@ -8,7 +8,18 @@ public class NativeAttackingState : NativeState
         _nativeAttackingProperties = nativeAttackingProperties;
     }
 
-    
+    public override void FixedUpdateState()
+    {
+        base.FixedUpdateState();
+        if (!_isAnimationEnded)
+        {
+            _rigidbody.linearVelocity = 0.5f * _native.NativeProperties.lastMovementVector * _native.NativeProperties.MoveSpeed;
+        }
+        else
+        {
+            _stateMachine.ChangeState(_native.NativeChasingState);
+        }
+    }
 
 
 }

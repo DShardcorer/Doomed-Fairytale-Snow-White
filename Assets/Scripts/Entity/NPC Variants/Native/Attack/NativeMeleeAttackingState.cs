@@ -10,11 +10,10 @@ public class NativeMeleeAttackingState : NativeAttackingState
     public override void EnterState()
     {
         base.EnterState();
-        _stateTimer = _properties.AttackCooldown;
     }
     public override void FixedUpdateState()
     {
-        base.FixedUpdateState();
+
         //If target is out of attack range, chase the target
         if (Vector3.Distance(_native.View.transform.position, _properties.target.View.transform.position) > _properties.AttackRange)
         {
@@ -25,13 +24,10 @@ public class NativeMeleeAttackingState : NativeAttackingState
         {
             _stateMachine.ChangeState(_native.NativeIdlingState);
         }
+        base.FixedUpdateState();
 
-        _stateTimer -= Time.fixedDeltaTime;
-        if (_stateTimer <= 0)
-        {
-            Attack();
-            _stateTimer = _properties.AttackCooldown;
-        }
+
+
 
 
 

@@ -34,7 +34,6 @@ public class NativeManager : NPCManager
 
         native.NativeView.transform.position = position;
         _enemies.Add(native);
-        Debug.Log("Native spawned");
     }
     public void Update()
     {

@@ -14,6 +14,7 @@ public class NPC : Entity, ILifecycle<NPCManager>, IUpdatable, IFixedUpdatable
     public ProximityDetector ProximityDetector => _proximityDetector;
 
 
+
     public bool IsBusy = false;
 
     #region StateDefinitions
@@ -73,6 +74,8 @@ public class NPC : Entity, ILifecycle<NPCManager>, IUpdatable, IFixedUpdatable
         _npcIdlingState.Initialize(this);
         _npcMovingState.Initialize(this);
 
+        base.Initialize();
+
     }
 
     protected virtual void OnClosestEntityFromDifferentFactionSpottedInFOV(object sender, Entity e)
@@ -82,7 +85,7 @@ public class NPC : Entity, ILifecycle<NPCManager>, IUpdatable, IFixedUpdatable
 
     protected virtual void OnEntityFromDifferentFactionSpottedInProximity(object sender, Entity e)
     {
-        Debug.Log("Entity from different faction spotted in proximity");
+
         _properties.lastMovementVector = (e.View.transform.position - _view.transform.position).normalized;
     }
 

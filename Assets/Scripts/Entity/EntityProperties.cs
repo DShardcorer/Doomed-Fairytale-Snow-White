@@ -21,7 +21,22 @@ public class EntityProperties
     public float AttackDamage { get => attackDamage; set => attackDamage = value; }
     public float AttackCooldown { get => attackCooldown; set => attackCooldown = value; }
 
-    public EntityProperties (EntityPropertiesSO entityPropertiesSO){
+
+    protected AttackType attackType; // Select attack type in Inspector
+    protected float attackRadius = 1.5f; // For OverlapCircle
+    protected Vector2 attackBoxSize = new Vector2(2f, 1f); // For OverlapBox
+    protected Vector2 attackCapsuleSize = new Vector2(2f, 1f); // For OverlapCapsule
+
+
+    public AttackType AttackType => attackType;
+    public float AttackRadius => attackRadius;
+    public Vector2 AttackBoxSize => attackBoxSize;
+    public Vector2 AttackCapsuleSize => attackCapsuleSize;
+    
+
+
+    public EntityProperties(EntityPropertiesSO entityPropertiesSO)
+    {
         maxHealth = entityPropertiesSO.maxHealth;
         currentHealth = maxHealth;
         moveSpeed = entityPropertiesSO.moveSpeed;
@@ -29,6 +44,10 @@ public class EntityProperties
         attackDamage = entityPropertiesSO.attackDamage;
         attackCooldown = entityPropertiesSO.attackCooldown;
         entityFaction = entityPropertiesSO.faction;
+        attackType = entityPropertiesSO.attackType;
+        attackRadius = entityPropertiesSO.attackRadius;
+        attackBoxSize = entityPropertiesSO.attackBoxSize;
+        attackCapsuleSize = entityPropertiesSO.attackCapsuleSize;
     }
 
 }

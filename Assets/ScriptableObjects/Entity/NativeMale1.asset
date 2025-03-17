@@ -15,7 +15,11 @@ MonoBehaviour:
   faction: 3
   maxHealth: 100
   moveSpeed: 3
-  attackRange: 2
   attackDamage: 10
-  attackCooldown: 2
+  attackCooldown: 0.5
+  attackType: 0
+  attackRadius: 0.6
+  attackBoxSize: {x: 2, y: 1}
+  attackCapsuleSize: {x: 2, y: 1}
+  attackRange: 2
   chaseRange: 7

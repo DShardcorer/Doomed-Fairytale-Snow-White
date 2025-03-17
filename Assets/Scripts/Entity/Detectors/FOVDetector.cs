@@ -64,7 +64,6 @@ public class FOVDetector : MonoBehaviour
 
         if (closestEntity != null)
         {
-            Debug.Log("Closest entity detected: " + closestEntity.View.name);
             OnClosestEntityFromDifferentFactionSpottedInFOV?.Invoke(this, closestEntity);
         }
     }
@@ -72,9 +71,9 @@ public class FOVDetector : MonoBehaviour
     /// <summary>
     /// Optional method to adjust the FOV collider rotation.
     /// </summary>
-    public void SetColliderRotation(float angle)
+    public void SetColliderRotation(Vector2 direction)
     {
-        transform.localRotation = Quaternion.Euler(0, 0, angle);
+        transform.localRotation = Quaternion.Euler(0, 0, Vector2.SignedAngle(Vector2.down, direction));
     }
 
     private void OnDrawGizmosSelected()
