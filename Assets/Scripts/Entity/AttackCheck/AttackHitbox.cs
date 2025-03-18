@@ -4,20 +4,22 @@ public class AttackHitbox : MonoBehaviour, ILifecycle<Entity>
 {
     private Entity _parent;
     private EntityProperties _properties;
+
     [Header("Attack Settings")]
-    public AttackType attackType; // Select attack type in Inspector
+    public AttackType attackType;
+    public Transform attackPoint;
 
-    public Transform attackPoint; // Set attack origin in the Inspector
+    public float attackRadius = 1.5f;
+    public Vector2 attackBoxSize = new Vector2(2f, 1f);
+    public Vector2 attackCapsuleSize = new Vector2(2f, 1f);
+    public float attackRange = 2f;
 
-    public float attackRadius = 1.5f; // For OverlapCircle
-    public Vector2 attackBoxSize = new Vector2(2f, 1f); // For OverlapBox
-    public Vector2 attackCapsuleSize = new Vector2(2f, 1f); // For OverlapCapsule
-    public float attackRange = 2f; // For Raycast (spears, ranged attacks)
     private Vector3 _originalLocalPosition;
     private LayerMask entityLayer;
 
     [Header("Gizmo Settings")]
-    public bool showGizmos = true; // Toggle gizmos
+    public bool showGizmos = true;
+
     public void Initialize(Entity parent)
     {
         _parent = parent;
@@ -29,74 +31,102 @@ public class AttackHitbox : MonoBehaviour, ILifecycle<Entity>
         attackRange = _properties.AttackRange;
         _originalLocalPosition = attackPoint.localPosition;
         entityLayer = LayerHelper.EntityLayerMask;
-
     }
+
     public void Dispose()
     {
         _parent = null;
         _properties = null;
     }
+
     public void SetAttackHitBoxRotation(Vector2 direction)
     {
         transform.localRotation = Quaternion.Euler(0, 0, Vector2.SignedAngle(Vector2.down, direction));
     }
 
-    public void PerformAttack(AttackType type, float damage)
+    // === Overloaded PerformAttack Methods === //
+
+    public void PerformAttack(float damage = 20f)
     {
-        attackType = type;
-        PerformAttack(damage);
+        PerformAttack(attackType, damage);
     }
 
-
-    public void PerformAttack(float damage = 20)
+    public void PerformAttack(AttackType type, float damage)
     {
-        if (attackPoint == null)
-        {
-            Debug.LogError("Attack point is not assigned!");
-            return;
-        }
-
-        Collider2D[] hitEntities = null;
-        RaycastHit2D hitRay = default;
-
-        switch (attackType)
+        switch (type)
         {
             case AttackType.OverlapCircle:
-                hitEntities = Physics2D.OverlapCircleAll(attackPoint.position, attackRadius, entityLayer);
+                PerformCircleAttack(damage, attackRadius);
                 break;
 
             case AttackType.OverlapBox:
-                hitEntities = Physics2D.OverlapBoxAll(attackPoint.position, attackBoxSize, 0f, entityLayer);
+                PerformBoxAttack(damage, attackBoxSize);
                 break;
 
             case AttackType.OverlapCapsule:
-                hitEntities = Physics2D.OverlapCapsuleAll(attackPoint.position, attackCapsuleSize, CapsuleDirection2D.Horizontal, 0f, entityLayer);
+                PerformCapsuleAttack(damage, attackCapsuleSize);
                 break;
 
             case AttackType.Raycast:
-                hitRay = Physics2D.Raycast(attackPoint.position, attackPoint.right, attackRange, entityLayer);
-                if (hitRay.collider != null)
-                {
-                    Debug.Log("Hit: " + hitRay.collider.name);
-                    // Apply damage or effect
-                }
-                return; // Skip the loop since it's a single target hit
+                PerformRaycastAttack(damage, attackRange);
+                break;
         }
-        if (hitEntities == null)
+    }
+
+    public void PerformCircleAttack(float damage, float radius)
+    {
+        if (attackPoint == null) return;
+
+        Collider2D[] hitEntities = Physics2D.OverlapCircleAll(attackPoint.position, radius, entityLayer);
+        ProcessHitEntities(hitEntities, damage);
+    }
+
+    public void PerformBoxAttack(float damage, Vector2 size)
+    {
+        if (attackPoint == null) return;
+
+        Collider2D[] hitEntities = Physics2D.OverlapBoxAll(attackPoint.position, size, 0f, entityLayer);
+        ProcessHitEntities(hitEntities, damage);
+    }
+
+    public void PerformCapsuleAttack(float damage, Vector2 size)
+    {
+        if (attackPoint == null) return;
+
+        Collider2D[] hitEntities = Physics2D.OverlapCapsuleAll(attackPoint.position, size, CapsuleDirection2D.Horizontal, 0f, entityLayer);
+        ProcessHitEntities(hitEntities, damage);
+    }
+
+    public void PerformRaycastAttack(float damage, float range)
+    {
+        if (attackPoint == null) return;
+
+        RaycastHit2D hitRay = Physics2D.Raycast(attackPoint.position, -attackPoint.up, range, entityLayer);
+        if (hitRay.collider != null)
         {
-            return;
+            Debug.Log("Hit: " + hitRay.collider.name);
+            ApplyDamage(hitRay.collider, damage);
         }
-        // Process detected entities
-        if (hitEntities != null)
+        Debug.DrawRay(attackPoint.position, -attackPoint.up * range, Color.red, 1f);
+    }
+
+    // === Helper Methods === //
+
+    private void ProcessHitEntities(Collider2D[] hitEntities, float damage)
+    {
+        if (hitEntities == null || hitEntities.Length == 0) return;
+
+        foreach (Collider2D entity in hitEntities)
         {
-            foreach (Collider2D entity in hitEntities)
-            {
-                Debug.Log("Hit: " + entity.name);
-                if (entity.TryGetComponent<EntityView>(out EntityView e))
-                {
-                    e.Controller.TakeDamage(damage);
-                }
-            }
+            ApplyDamage(entity, damage);
+        }
+    }
+
+    private void ApplyDamage(Collider2D entity, float damage)
+    {
+        if (entity.TryGetComponent<EntityView>(out EntityView e))
+        {
+            e.Controller.TakeDamage(damage);
         }
     }
 
@@ -117,7 +147,7 @@ public class AttackHitbox : MonoBehaviour, ILifecycle<Entity>
                 break;
 
             case AttackType.OverlapCapsule:
-                Gizmos.DrawWireCube(attackPoint.position, attackCapsuleSize); // Placeholder for capsule
+                Gizmos.DrawWireCube(attackPoint.position, attackCapsuleSize);
                 break;
 
             case AttackType.Raycast:

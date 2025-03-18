@@ -4,13 +4,13 @@ public class PlayerShootingProperties
 {
     private float _shootDamage = 20;
     private float _shootRange = 100;
-    private float _shootKnockbackForce = 10;
+    private float _shootKnockbackForce =3;
 
     public float ShootDamage => _shootDamage;
     public float ShootRange => _shootRange;
     public float ShootKnockbackForce => _shootKnockbackForce;
 
-    public PlayerShootingProperties(float shootDamage, float shootRange, float shootKnockbackForce)
+    public PlayerShootingProperties(float shootDamage = 20, float shootRange = 100, float shootKnockbackForce = 3)
     {
         _shootDamage = shootDamage;
         _shootRange = shootRange;

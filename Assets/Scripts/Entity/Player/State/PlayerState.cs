@@ -14,7 +14,6 @@ public abstract class PlayerState : EntityState
 
     public virtual void Initialize(Player controller)
     {
-        Debug.Log("PlayerState Initialize");
         _player = controller;
         _inputManager = _player.InputManager;
         if (_inputManager == null)

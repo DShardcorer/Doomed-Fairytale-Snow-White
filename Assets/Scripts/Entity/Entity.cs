@@ -1,6 +1,8 @@
 
 
 using System;
+using UnityEngine;
+
 
 public abstract class Entity
 {
@@ -9,6 +11,9 @@ public abstract class Entity
     protected EntityProperties _properties;
     protected SkillSystem _skillSystem;
     public SkillSystem SkillSystem => _skillSystem;
+    private StatSystem _statSystem;
+    public StatSystem StatSystem => _statSystem;
+
 
     public EntityStateMachine StateMachine => _stateMachine;
     public EntityView View => _view;
@@ -20,12 +25,13 @@ public abstract class Entity
     public AnimationTriggers AnimationTriggers => _animationTriggers;
 
 
-    public Entity(EntityView view, EntityProperties properties, SkillSystem skillSystem, EntityStateMachine stateMachine)
+    public Entity(EntityView view, EntityProperties properties, StatSystem statSystem, SkillSystem skillSystem, EntityStateMachine stateMachine)
     {
         _view = view;
         _attackHitbox = view.GetComponentInChildren<AttackHitbox>();
         _animationTriggers = view.GetComponentInChildren<AnimationTriggers>();
         _properties = properties;
+        _statSystem = statSystem;
         _skillSystem = skillSystem;
         _stateMachine = stateMachine;
     }
@@ -41,6 +47,7 @@ public abstract class Entity
     }
     public void TakeDamage(float damage)
     {
+        Debug.Log($"Entity {this} took {damage} damage");
         _view.PlayDamagedAnimation();
         _properties.CurrentHealth -= damage;
         if (_properties.CurrentHealth <= 0)

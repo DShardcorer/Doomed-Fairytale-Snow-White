@@ -10,6 +10,8 @@ public class InputManager : MonoBehaviour, ILifecycle<GameManager>
     public event EventHandler attackInputted;
     public event EventHandler dashInputted;
 
+    public event EventHandler skill1Inputted;
+
 
     public void Initialize(GameManager gameManager)
     {
@@ -23,6 +25,7 @@ public class InputManager : MonoBehaviour, ILifecycle<GameManager>
     {
         _playerInputActions.Player.Attack.performed += ctx => attackInputted?.Invoke(this, EventArgs.Empty);
         _playerInputActions.Player.Dash.performed += ctx => dashInputted?.Invoke(this, EventArgs.Empty);
+        _playerInputActions.Player.Skill1.performed += ctx => skill1Inputted?.Invoke(this, EventArgs.Empty);
 
 
     }

@@ -36,7 +36,6 @@ public abstract class Skill : ILifecycle<SkillSystem>, IUpdatable, IFixedUpdatab
     }
     public virtual void UpdateLogic()
     {
-        Debug.Log(_cooldownTimer);
         if (_cooldownTimer > 0)
         {
             _cooldownTimer -= Time.deltaTime;
@@ -56,7 +55,6 @@ public abstract class Skill : ILifecycle<SkillSystem>, IUpdatable, IFixedUpdatab
 
     public virtual bool TryUseSkill()
     {
-        Debug.Log("Cooldown timer: " + _cooldownTimer);
         if (CanUseSkill())
         {
             UseSkill();

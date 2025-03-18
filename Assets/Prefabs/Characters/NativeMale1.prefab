@@ -9,7 +9,7 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 6496285486885672628}
-  m_Layer: 7
+  m_Layer: 0
   m_Name: Detector
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -42,7 +42,7 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 4700425233244283603}
-  m_Layer: 7
+  m_Layer: 0
   m_Name: AttackPoint
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -74,7 +74,7 @@ GameObject:
   m_Component:
   - component: {fileID: 1425896304759716220}
   - component: {fileID: 8790251195446367886}
-  m_Layer: 7
+  m_Layer: 0
   m_Name: AttackCheck
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -115,9 +115,6 @@ MonoBehaviour:
   attackBoxSize: {x: 2, y: 1}
   attackCapsuleSize: {x: 2, y: 1}
   attackRange: 2
-  entityLayer:
-    serializedVersion: 2
-    m_Bits: 128
   showGizmos: 1
 --- !u!1 &5677022194220952719
 GameObject:
@@ -129,7 +126,7 @@ GameObject:
   m_Component:
   - component: {fileID: 2695006390710047087}
   - component: {fileID: 1243674975157458303}
-  m_Layer: 7
+  m_Layer: 0
   m_Name: Shadow
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -217,7 +214,7 @@ GameObject:
   - component: {fileID: 5414220884618300243}
   - component: {fileID: 1574765236028765713}
   - component: {fileID: 9172922678341726413}
-  m_Layer: 7
+  m_Layer: 0
   m_Name: FOVDetector
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -315,7 +312,7 @@ GameObject:
   - component: {fileID: 1134335906896758176}
   - component: {fileID: 7593040260488497619}
   - component: {fileID: 7930638316737153574}
-  m_Layer: 7
+  m_Layer: 0
   m_Name: ProximityDetector
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -516,7 +513,7 @@ GameObject:
   - component: {fileID: 5831472366758297305}
   - component: {fileID: 1262725022863923004}
   - component: {fileID: 4545833827162117862}
-  m_Layer: 7
+  m_Layer: 0
   m_Name: Visual
   m_TagString: Untagged
   m_Icon: {fileID: 0}

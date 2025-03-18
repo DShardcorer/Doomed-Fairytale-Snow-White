@@ -35,8 +35,13 @@ public class PlayerManager : MonoBehaviour, ILifecycle<GameManager>
         PlayerDashingProperties playerDashingProperties = new PlayerDashingProperties();
         PlayerDashingState playerDashingState = new PlayerDashingState(playerDashingProperties, AnimationStateHelper.IS_DASHING);
         DashSkill dashSkill = new DashSkill(SkillNameHelper.DashSkill, 2f, playerDashingState);
-        SkillSystem skillSystem = new SkillSystem(new List<Skill> { dashSkill });
+        
 
+        PlayerShootingProperties playerShootingProperties = new PlayerShootingProperties();
+        PlayerShootingState playerShootingState = new PlayerShootingState(playerShootingProperties, AnimationStateHelper.IS_SHOOTING);
+        ShootSkill shootSkill = new ShootSkill(SkillNameHelper.ShootSkill, 2f, playerShootingState);
+        
+        SkillSystem skillSystem = new SkillSystem(new List<Skill> { dashSkill, shootSkill });
 
 
 

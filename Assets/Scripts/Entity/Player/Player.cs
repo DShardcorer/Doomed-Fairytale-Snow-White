@@ -49,6 +49,7 @@ public class Player : Entity, ILifecycle<PlayerManager>, IFixedUpdatable, IUpdat
         _inputManager = _parent.GameManager.InputManager;
         _inputManager.dashInputted += OnDashInputted;
         _inputManager.attackInputted += OnAttackInputted;
+        _inputManager.skill1Inputted += OnSkill1Inputted;
         _parent.GameManager.CameraManager.SetFollowTarget(_playerView.transform);
 
 
@@ -77,6 +78,8 @@ public class Player : Entity, ILifecycle<PlayerManager>, IFixedUpdatable, IUpdat
 
     }
 
+
+
     private void OnAttackInputted(object sender, EventArgs e)
     {
         if (IsBusy) return;
@@ -86,11 +89,13 @@ public class Player : Entity, ILifecycle<PlayerManager>, IFixedUpdatable, IUpdat
     private void OnDashInputted(object sender, EventArgs e)
     {
         if (IsBusy) return;
-        if (_skillSystem.GetSkill(SkillNameHelper.DashSkill).TryUseSkill())
-        {
-        }
+       _skillSystem.GetSkill(SkillNameHelper.DashSkill).TryUseSkill();
 
-
+    }
+    private void OnSkill1Inputted(object sender, EventArgs e)
+    {
+        if (IsBusy) return;
+        _skillSystem.GetSkill(SkillNameHelper.ShootSkill).TryUseSkill();
     }
 
     public override void FixedUpdateLogic()
