@@ -7,6 +7,7 @@ public class Player : Entity, ILifecycle<PlayerManager>, IFixedUpdatable, IUpdat
     private InputManager _inputManager;
     public InputManager InputManager => _inputManager;
 
+
     private PlayerView _playerView;
     public PlayerView PlayerView => _playerView;
 
@@ -16,8 +17,6 @@ public class Player : Entity, ILifecycle<PlayerManager>, IFixedUpdatable, IUpdat
 
 
     public bool IsBusy = false;
-
-
     //Idling
     private PlayerIdlingState _playerIdlingState;
     public PlayerIdlingState PlayerIdlingState => _playerIdlingState;
@@ -25,33 +24,21 @@ public class Player : Entity, ILifecycle<PlayerManager>, IFixedUpdatable, IUpdat
     //Moving
     private PlayerMovingState _playerMovingState;
     public PlayerMovingState PlayerMovingState => _playerMovingState;
-    private PlayerMovingProperties _playerMovingProperties;
-    public PlayerMovingProperties PlayerMovingProperties => _playerMovingProperties;
 
-
-    //Dashing
-    private PlayerDashingState _playerDashingState;
-    public PlayerDashingState PlayerDashingState => _playerDashingState;
-    private PlayerDashingProperties _playerDashingProperties;
-    public PlayerDashingProperties PlayerDashingProperties => _playerDashingProperties;
 
 
     //Attacking
     private PlayerAttackingState _playerAttackingState;
     public PlayerAttackingState PlayerAttackingState => _playerAttackingState;
-    private PlayerAttackingProperties _playerAttackingProperties;
-    public PlayerAttackingProperties PlayerAttackingProperties => _playerAttackingProperties;
-
 
     public Player(PlayerView view, PlayerProperties properties,
-     PlayerIdlingState playerIdlingState, PlayerMovingState playerMovingState,
-     PlayerDashingState playerDashingState, PlayerAttackingState playerAttackingState ) : base(view, properties)
+ PlayerIdlingState playerIdlingState, PlayerMovingState playerMovingState, PlayerAttackingState playerAttackingState,
+ SkillSystem skillSystem, EntityStateMachine stateMachine) : base(view, properties, skillSystem, stateMachine)
     {
         _playerView = view;
         _playerProperties = properties;
         _playerIdlingState = playerIdlingState;
         _playerMovingState = playerMovingState;
-        _playerDashingState = playerDashingState;
         _playerAttackingState = playerAttackingState;
     }
     public void Initialize(PlayerManager parent)
@@ -75,14 +62,18 @@ public class Player : Entity, ILifecycle<PlayerManager>, IFixedUpdatable, IUpdat
 
 
         //State creation
-        
-         _playerIdlingState.Initialize(this);
-         _playerMovingState.Initialize(this);
-         _playerDashingState.Initialize(this);
-         _playerAttackingState.Initialize(this);
 
- 
+        _playerIdlingState.Initialize(this);
+        _playerMovingState.Initialize(this);
+        _playerAttackingState.Initialize(this);
+
+
         _stateMachine.Initialize(_playerIdlingState);
+
+
+
+        //SkillSystem initialization
+        _skillSystem.Initialize(this);
 
     }
 
@@ -95,7 +86,11 @@ public class Player : Entity, ILifecycle<PlayerManager>, IFixedUpdatable, IUpdat
     private void OnDashInputted(object sender, EventArgs e)
     {
         if (IsBusy) return;
-        _stateMachine.ChangeState(_playerDashingState);
+        if (_skillSystem.GetSkill(SkillNameHelper.DashSkill).TryUseSkill())
+        {
+        }
+
+
     }
 
     public override void FixedUpdateLogic()

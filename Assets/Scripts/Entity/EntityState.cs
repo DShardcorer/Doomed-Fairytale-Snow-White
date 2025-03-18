@@ -1,8 +1,9 @@
+using System;
 using UnityEngine;
 
-public class EntityState
+public abstract class EntityState
 {
-    protected Entity _controller;
+    protected Entity _entity;
     protected EntityStateMachine _stateMachine;
     protected EntityProperties _properties;
     protected EntityView _view;
@@ -19,18 +20,24 @@ public class EntityState
 
     public virtual void Initialize(Entity controller)
     {
-        _controller = controller;
-        _stateMachine = _controller.StateMachine;
-        _properties = _controller.Properties;
-        _view = _controller.View;
-        _rigidbody = _controller.View.Rigidbody2D;
-        _animator = _controller.View.Animator;
+        _entity = controller;
+        _stateMachine = _entity.StateMachine;
+        _properties = _entity.Properties;
+        _view = _entity.View;
+        _rigidbody = _entity.View.Rigidbody2D;
+        _animator = _entity.View.Animator;
     }
     public virtual void EnterState()
     {
+        _entity.AnimationTriggers.OnTakingEffect += OnTakingEffect;
         _isAnimationEnded = false;
         _view.StartStateAnimation(_animationBoolName);
     }
+
+    protected virtual void OnTakingEffect(object sender, EventArgs e){
+        Debug.Log("Taking effect");
+    }
+
     public virtual void UpdateState()
     {
     }
@@ -47,6 +54,7 @@ public class EntityState
     public virtual void ExitState()
     {
         _view.StopStateAnimation(_animationBoolName);
+        _entity.AnimationTriggers.OnTakingEffect -= OnTakingEffect;
     }
     public bool IsAnimationEnded()
     {

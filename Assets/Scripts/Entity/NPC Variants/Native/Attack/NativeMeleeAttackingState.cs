@@ -25,16 +25,11 @@ public class NativeMeleeAttackingState : NativeAttackingState
             _stateMachine.ChangeState(_native.NativeIdlingState);
         }
         base.FixedUpdateState();
-
-
-
-
-
-
     }
 
-    private void Attack()
+    protected override void OnTakingEffect(object sender, EventArgs e)
     {
-        Debug.Log("Attacking");
+        _entity.AttackHitbox.PerformAttack(_entity.Properties.AttackType, _entity.Properties.AttackDamage);
     }
+
 }

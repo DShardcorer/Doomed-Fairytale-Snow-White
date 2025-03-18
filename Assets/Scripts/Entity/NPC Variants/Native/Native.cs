@@ -23,7 +23,12 @@ public class Native : NPC
 
 
 
-    public Native(NativeView view, NativeProperties properties, NativeIdlingState nativeIdlingState, NativeMovingState nativeMovingState, NativeChasingState nativeChasingState, NativeAttackingState nativeAttackingState) : base(view, properties, nativeIdlingState, nativeMovingState)
+    public Native(NativeView view, NativeProperties properties,
+     NativeIdlingState nativeIdlingState, NativeMovingState nativeMovingState,
+      NativeChasingState nativeChasingState, NativeAttackingState nativeAttackingState,
+        SkillSystem skillSystem, EntityStateMachine stateMachine
+      ) : 
+      base(view, properties, nativeIdlingState, nativeMovingState, skillSystem, stateMachine)
     {
         _nativeView = view;
         _nativeProperties = properties;

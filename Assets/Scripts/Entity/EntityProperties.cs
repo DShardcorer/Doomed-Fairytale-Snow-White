@@ -3,7 +3,7 @@ using UnityEngine;
 public class EntityProperties
 {
     public EntityFaction entityFaction;
-    public Vector2 lastMovementVector = Vector2.zero;
+    public Vector2 lastMovementVector = Vector2.down;
     public Entity target;
     public Vector2 currentPosition;
 

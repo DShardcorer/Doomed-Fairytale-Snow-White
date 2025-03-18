@@ -1,3 +1,4 @@
+using System.Collections.Generic;
 using UnityEngine;
 
 public class PlayerManager : MonoBehaviour, ILifecycle<GameManager>
@@ -28,9 +29,18 @@ public class PlayerManager : MonoBehaviour, ILifecycle<GameManager>
 
 
         //PlayerProperties creation
-
         PlayerProperties playerProperties = new PlayerProperties(_playerPropertiesSO);
 
+        //SkillSystem creation
+        PlayerDashingProperties playerDashingProperties = new PlayerDashingProperties();
+        PlayerDashingState playerDashingState = new PlayerDashingState(playerDashingProperties, AnimationStateHelper.IS_DASHING);
+        DashSkill dashSkill = new DashSkill(SkillNameHelper.DashSkill, 2f, playerDashingState);
+        SkillSystem skillSystem = new SkillSystem(new List<Skill> { dashSkill });
+
+
+
+
+        //States creation
         PlayerIdlingState playerIdlingState = new PlayerIdlingState(AnimationStateHelper.IS_IDLING);
 
 
@@ -38,15 +48,15 @@ public class PlayerManager : MonoBehaviour, ILifecycle<GameManager>
         PlayerMovingState playerMovingState = new PlayerMovingState(playerMovingProperties, AnimationStateHelper.IS_MOVING);
 
 
-        PlayerDashingProperties playerDashingProperties = new PlayerDashingProperties();
-        PlayerDashingState playerDashingState = new PlayerDashingState(playerDashingProperties, AnimationStateHelper.IS_DASHING);
+
 
 
         PlayerAttackingProperties playerAttackingProperties = new PlayerAttackingProperties();
         PlayerAttackingState playerAttackingState = new PlayerAttackingState(playerAttackingProperties, AnimationStateHelper.IS_ATTACKING);
 
+        EntityStateMachine stateMachine = new EntityStateMachine();
 
-        _player = new Player(playerView, playerProperties, playerIdlingState, playerMovingState, playerDashingState, playerAttackingState);
+        _player = new Player(playerView, playerProperties, playerIdlingState, playerMovingState, playerAttackingState, skillSystem, stateMachine);
         _player.Initialize(this);
     }
     public Player GetPlayer()

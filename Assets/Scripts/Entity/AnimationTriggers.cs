@@ -1,3 +1,4 @@
+using System;
 using UnityEngine;
 
 public class AnimationTriggers : MonoBehaviour, ILifecycle<Entity>
@@ -5,6 +6,8 @@ public class AnimationTriggers : MonoBehaviour, ILifecycle<Entity>
     private Entity _entity;
     private AttackHitbox _attackHitbox;
     private EntityStateMachine _stateMachine;
+
+    public event EventHandler OnTakingEffect;
 
     public void Dispose()
     {
@@ -35,7 +38,8 @@ public class AnimationTriggers : MonoBehaviour, ILifecycle<Entity>
 
     public void PerformAttack()
     {
-        _attackHitbox.PerformAttack(_entity.Properties.AttackType);
+        OnTakingEffect?.Invoke(this, EventArgs.Empty);
+
     }
 
 

@@ -15,6 +15,8 @@ public class NativeManager : NPCManager
         NativeProperties nativeProperties = new NativeProperties(_nativePropertiesSO);
 
 
+        SkillSystem skillSystem = new SkillSystem(new List<Skill> {});
+
         //State creation
         NativeIdlingProperties nativeIdlingProperties = new NativeIdlingProperties(2);
         NativeIdlingState nativeIdlingState = new NativeIdlingState(nativeIdlingProperties, AnimationStateHelper.IS_IDLING);
@@ -28,8 +30,13 @@ public class NativeManager : NPCManager
         NativeAttackingProperties nativeAttackingProperties = new NativeAttackingProperties();
         NativeMeleeAttackingState nativeAttackingState = new NativeMeleeAttackingState(nativeAttackingProperties, AnimationStateHelper.IS_ATTACKING);
 
-        Native native = new Native(nativeView, nativeProperties, nativeIdlingState, nativeMovingState, nativeChasingState, nativeAttackingState);
-        
+
+        EntityStateMachine stateMachine = new EntityStateMachine();
+
+        Native native = new Native(nativeView, nativeProperties,
+         nativeIdlingState, nativeMovingState, nativeChasingState, nativeAttackingState,
+        skillSystem, stateMachine);
+
         native.Initialize(this);
 
         native.NativeView.transform.position = position;
@@ -37,8 +44,9 @@ public class NativeManager : NPCManager
     }
     public void Update()
     {
-        if(Input.GetKeyDown(KeyCode.N)){
-            SpawnMeleeNative(new Vector3(0,0,0));
+        if (Input.GetKeyDown(KeyCode.N))
+        {
+            SpawnMeleeNative(new Vector3(0, 0, 0));
         }
     }
 

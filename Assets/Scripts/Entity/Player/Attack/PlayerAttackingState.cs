@@ -1,3 +1,4 @@
+using System;
 using UnityEngine;
 
 public class PlayerAttackingState : PlayerState
@@ -16,7 +17,7 @@ public class PlayerAttackingState : PlayerState
     public override void FixedUpdateState()
     {
         base.FixedUpdateState();
-        if(!_isAnimationEnded)
+        if (!_isAnimationEnded)
         {
         }
         else
@@ -30,6 +31,11 @@ public class PlayerAttackingState : PlayerState
     {
         _player.IsBusy = false;
         base.ExitState();
+    }
+
+    protected override void OnTakingEffect(object sender, EventArgs e)
+    {
+        _entity.AttackHitbox.PerformAttack(_entity.Properties.AttackType, _entity.Properties.AttackDamage);
     }
 
 

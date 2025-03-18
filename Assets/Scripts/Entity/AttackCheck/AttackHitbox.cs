@@ -41,14 +41,14 @@ public class AttackHitbox : MonoBehaviour, ILifecycle<Entity>
         transform.localRotation = Quaternion.Euler(0, 0, Vector2.SignedAngle(Vector2.down, direction));
     }
 
-    public void PerformAttack(AttackType type)
+    public void PerformAttack(AttackType type, float damage)
     {
         attackType = type;
-        PerformAttack();
+        PerformAttack(damage);
     }
 
 
-    public void PerformAttack()
+    public void PerformAttack(float damage = 20)
     {
         if (attackPoint == null)
         {
@@ -94,7 +94,7 @@ public class AttackHitbox : MonoBehaviour, ILifecycle<Entity>
                 Debug.Log("Hit: " + entity.name);
                 if (entity.TryGetComponent<EntityView>(out EntityView e))
                 {
-                    e.Controller.TakeDamage(_parent.Properties.AttackDamage);
+                    e.Controller.TakeDamage(damage);
                 }
             }
         }

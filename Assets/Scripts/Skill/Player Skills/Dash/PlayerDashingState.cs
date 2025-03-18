@@ -1,3 +1,5 @@
+
+
 using UnityEngine;
 
 public class PlayerDashingState : PlayerState
@@ -9,6 +11,7 @@ public class PlayerDashingState : PlayerState
     }
     public override void EnterState()
     {
+        Debug.Log($"Entering {this.GetType().Name}. Player: {_player}, Rigidbody: {_rigidbody}, StateMachine: {_stateMachine}");
         base.EnterState();
         _player.IsBusy = true;
     }

@@ -39,7 +39,10 @@ public class NPC : Entity, ILifecycle<NPCManager>, IUpdatable, IFixedUpdatable
 
     #endregion StateDefinitions
 
-    public NPC(NPCView view, NPCProperties properties, NPCIdlingState npcIdlingState, NPCMovingState npcMovingState) : base(view, properties)
+    public NPC(NPCView view, NPCProperties properties, 
+    NPCIdlingState npcIdlingState, NPCMovingState npcMovingState,
+    SkillSystem skillSystem, EntityStateMachine stateMachine
+    ) : base(view, properties, skillSystem, stateMachine)
     {
         _npcView = view;
         _npcProperties = properties;
