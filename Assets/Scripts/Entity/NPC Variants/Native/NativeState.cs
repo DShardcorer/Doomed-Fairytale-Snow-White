@@ -3,7 +3,8 @@ using UnityEngine;
 public class NativeState : NPCState
 {
     protected Native _native;
-    public NativeState(string animationBoolName) : base(animationBoolName)
+
+    public NativeState(string animationBoolName, EntityStateProperties entityStateProperties) : base(animationBoolName, entityStateProperties)
     {
     }
 

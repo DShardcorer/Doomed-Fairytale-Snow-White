@@ -3,7 +3,9 @@ using UnityEngine;
 
 public abstract class EntityState
 {
+    protected EntityStateProperties _entityStateProperties;
     protected Entity _entity;
+    public Entity Entity => _entity;
     protected EntityStateMachine _stateMachine;
     protected EntityProperties _properties;
     protected EntityView _view;
@@ -13,11 +15,11 @@ public abstract class EntityState
     protected bool _isAnimationEnded;
     protected string _animationBoolName;
 
-    public EntityState(string animationBoolName)
+    public EntityState(string animationBoolName, EntityStateProperties entityStateProperties)
     {
+        _entityStateProperties = entityStateProperties;
         _animationBoolName = animationBoolName;
     }
-
     public virtual void Initialize(Entity controller)
     {
         _entity = controller;
@@ -26,6 +28,7 @@ public abstract class EntityState
         _view = _entity.View;
         _rigidbody = _entity.View.Rigidbody2D;
         _animator = _entity.View.Animator;
+        _entityStateProperties.Initialize(this);
     }
     public virtual void EnterState()
     {

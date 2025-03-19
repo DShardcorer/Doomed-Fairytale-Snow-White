@@ -19,7 +19,7 @@ public class NativeManager : NPCManager
 
         //State creation
         NativeIdlingProperties nativeIdlingProperties = new NativeIdlingProperties(2);
-        NativeIdlingState nativeIdlingState = new NativeIdlingState(nativeIdlingProperties, AnimationStateHelper.IS_IDLING);
+        NativeIdlingState nativeIdlingState = new NativeIdlingState( AnimationStateHelper.IS_IDLING, nativeIdlingProperties);
 
         NativeMovingProperties nativeMovingProperties = new NativeMovingProperties(2);
         NativeMovingState nativeMovingState = new NativeMovingState(nativeMovingProperties, AnimationStateHelper.IS_MOVING);
@@ -28,7 +28,7 @@ public class NativeManager : NPCManager
         NativeMeleeChasingState nativeChasingState = new NativeMeleeChasingState(nativeChasingProperties, AnimationStateHelper.IS_CHASING);
 
         NativeAttackingProperties nativeAttackingProperties = new NativeAttackingProperties();
-        NativeMeleeAttackingState nativeAttackingState = new NativeMeleeAttackingState(nativeAttackingProperties, AnimationStateHelper.IS_ATTACKING);
+        NativeMeleeAttackingState nativeAttackingState = new NativeMeleeAttackingState(AnimationStateHelper.IS_ATTACKING, nativeAttackingProperties);
 
 
         EntityStateMachine stateMachine = new EntityStateMachine();
@@ -39,7 +39,7 @@ public class NativeManager : NPCManager
 
 
 
-        NativeProperties nativeProperties = new NativeProperties(EntityFaction.Native, statSystem.CombatStats.Health.BaseValue, 10);
+        NativeProperties nativeProperties = new NativeProperties(EntityFaction.Native, statSystem.CombatStatBoard.Health.BaseValue, 10);
 
         
 

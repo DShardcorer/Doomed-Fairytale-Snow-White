@@ -1,6 +1,7 @@
+using System;
 using UnityEngine;
 
-public class PlayerAttackingProperties
+public class PlayerAttackingProperties: EntityStateProperties
 {
     private float _attackDamage = 10f;
     public float AttackDamage => _attackDamage;
@@ -19,4 +20,8 @@ public class PlayerAttackingProperties
     }
 
 
+    protected override void UpdateDerivedProperties(object sender, EventArgs e)
+    {
+        _attackDamage = CombatStatBoard.PhysicalAttack.ModifiedValue;
+    }
 }

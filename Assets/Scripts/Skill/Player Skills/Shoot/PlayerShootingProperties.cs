@@ -1,6 +1,7 @@
+using System;
 using UnityEngine;
 
-public class PlayerShootingProperties
+public class PlayerShootingProperties: EntityStateProperties
 {
     private float _shootDamage = 20;
     private float _shootRange = 100;
@@ -15,5 +16,10 @@ public class PlayerShootingProperties
         _shootDamage = shootDamage;
         _shootRange = shootRange;
         _shootKnockbackForce = shootKnockbackForce;
+    }
+
+    protected override void UpdateDerivedProperties(object sender, EventArgs e)
+    {
+        _shootDamage = CombatStatBoard.PhysicalAttack.ModifiedValue;
     }
 }

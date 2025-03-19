@@ -2,7 +2,7 @@ using UnityEngine;
 
 public class NPCState : EntityState
 {
-    public NPCState(string animationBoolName) : base(animationBoolName)
+    public NPCState(string animationBoolName, EntityStateProperties entityStateProperties) : base(animationBoolName, entityStateProperties)
     {
     }
 

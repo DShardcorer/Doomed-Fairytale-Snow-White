@@ -1,3 +1,4 @@
+using System;
 using System.Collections.Generic;
 using UnityEngine;
 
@@ -5,18 +6,19 @@ public class StatSystem : ILifecycle<Entity>
 {
     private Entity _parent;
     public Entity Entity => _parent;
-    public AbilityStatBoard AbilityStats { get; private set; }
-    public CombatStatBoard CombatStats { get; private set; }
+    public AbilityStatBoard AbilityStatBoard { get; private set; }
+    public CombatStatBoard CombatStatBoard { get; private set; }
     public AttackStatType PreferredAttackStat { get; set; }
 
     private List<StatModifier> _abilityModifiers = new List<StatModifier>();
     private List<StatModifier> _combatModifiers = new List<StatModifier>();
+    public event EventHandler OnStatsChanged;
 
     public StatSystem(AbilityStatBoard baseStats, AttackStatType preferredAttackStat)
     {
-        AbilityStats = baseStats;
+        AbilityStatBoard = baseStats;
         PreferredAttackStat = preferredAttackStat;
-        CombatStats = new CombatStatBoard(AbilityStats, PreferredAttackStat);
+        CombatStatBoard = new CombatStatBoard(AbilityStatBoard, PreferredAttackStat);
         RecalculateStats();
     }
     public void Initialize(Entity parent)
@@ -31,10 +33,11 @@ public class StatSystem : ILifecycle<Entity>
     }
     public void RecalculateStats()
     {
-        AbilityStats.CalculateModified(_abilityModifiers);
-        CombatStats.CalculateBase(AbilityStats, PreferredAttackStat);
-        CombatStats.CalculateModified(AbilityStats, PreferredAttackStat, _combatModifiers);
+        AbilityStatBoard.CalculateModified(_abilityModifiers);
+        CombatStatBoard.CalculateBase(AbilityStatBoard, PreferredAttackStat);
+        CombatStatBoard.CalculateModified(AbilityStatBoard, PreferredAttackStat, _combatModifiers);
         // Optionally, trigger events for UI updates.
+        OnStatsChanged?.Invoke(this, EventArgs.Empty);
     }
 
     public void AddAbilityModifier(StatModifier modifier)

@@ -4,10 +4,12 @@ public class NativeChasingState : NativeState
 {
 
     protected NativeChasingProperties _nativeChasingProperties;
-    public NativeChasingState(NativeChasingProperties nativeChasingProperties, string animationBoolName) : base(animationBoolName)
+
+    public NativeChasingState(string animationBoolName, NativeChasingProperties entityStateProperties) : base(animationBoolName, entityStateProperties)
     {
-        _nativeChasingProperties = nativeChasingProperties;
+        _nativeChasingProperties = entityStateProperties;
     }
+
     public override void FixedUpdateState()
     {
         base.FixedUpdateState();

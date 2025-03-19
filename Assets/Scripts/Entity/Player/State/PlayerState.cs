@@ -8,7 +8,7 @@ public abstract class PlayerState : EntityState
 
     protected InputManager _inputManager;
 
-    protected PlayerState(string animationBoolName) : base(animationBoolName)
+    protected PlayerState(string animationBoolName, EntityStateProperties entityStateProperties) : base(animationBoolName, entityStateProperties)
     {
     }
 

@@ -1,6 +1,7 @@
+using System;
 using UnityEngine;
 
-public class NPCMovingProperties
+public class NPCMovingProperties: EntityStateProperties
 {
     private float moveSpeed = 2.0f;
     public float MoveSpeed => moveSpeed;
@@ -14,5 +15,10 @@ public class NPCMovingProperties
     {
         this.moveSpeed = moveSpeed;
         this.movingTime = movingTime;
+    }
+
+    protected override void UpdateDerivedProperties(object sender, EventArgs e)
+    {
+        
     }
 }

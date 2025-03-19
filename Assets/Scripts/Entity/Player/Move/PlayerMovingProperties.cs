@@ -1,6 +1,7 @@
+using System;
 using UnityEngine;
 
-public class PlayerMovingProperties
+public class PlayerMovingProperties: EntityStateProperties
 {
     private float _moveSpeed = 5f;
     public float MoveSpeed => _moveSpeed;
@@ -12,4 +13,7 @@ public class PlayerMovingProperties
         _moveSpeed = moveSpeed;
     }
 
+    protected override void UpdateDerivedProperties(object sender, EventArgs e)
+    {
+    }
 }

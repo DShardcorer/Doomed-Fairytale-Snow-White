@@ -3,7 +3,7 @@ using UnityEngine;
 public class NPCMovingState : NPCState
 {
     private NPCMovingProperties _npcMovingProperties;
-    public NPCMovingState(NPCMovingProperties npcMovingProperties, string animationBoolName) : base(animationBoolName)
+    public NPCMovingState(NPCMovingProperties npcMovingProperties, string animationBoolName) : base(animationBoolName, npcMovingProperties)
     {
         _npcMovingProperties = npcMovingProperties;
     }

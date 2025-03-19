@@ -88,7 +88,7 @@ public class Player : Entity, ILifecycle<PlayerManager>, IFixedUpdatable, IUpdat
         _stateMachine.ChangeState(_playerAttackingState);
 
         //Log every stat in combatstats
-        Debug.Log(_statSystem.CombatStats.ToString());
+        Debug.Log(_statSystem.CombatStatBoard.ToString());
         
     }
 

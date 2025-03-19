@@ -5,10 +5,12 @@ using UnityEngine;
 public class PlayerDashingState : PlayerState
 {
     protected PlayerDashingProperties _playerDashingProperties;
-    public PlayerDashingState(PlayerDashingProperties playerDashingProperties, string animationBoolName) : base(animationBoolName)
+
+    public PlayerDashingState(string animationBoolName, PlayerDashingProperties entityStateProperties) : base(animationBoolName, entityStateProperties)
     {
-        _playerDashingProperties = playerDashingProperties;
+        _playerDashingProperties = entityStateProperties;
     }
+
     public override void EnterState()
     {
         base.EnterState();

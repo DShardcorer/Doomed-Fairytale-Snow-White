@@ -2,7 +2,7 @@ using UnityEngine;
 
 public class PlayerIdlingState : PlayerState
 {
-    public PlayerIdlingState(string animationBoolName) : base(animationBoolName)
+    public PlayerIdlingState(string animationBoolName, EntityStateProperties entityStateProperties) : base(animationBoolName, entityStateProperties)
     {
     }
 

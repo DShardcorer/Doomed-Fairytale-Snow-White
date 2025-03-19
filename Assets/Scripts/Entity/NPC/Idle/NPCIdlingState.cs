@@ -3,10 +3,12 @@ using UnityEngine;
 public class NPCIdlingState : NPCState
 {
     private NPCIdlingProperties _npcIdlingProperties;
-    public NPCIdlingState(NPCIdlingProperties npcIdlingProperties, string animationBoolName) : base(animationBoolName)
+
+    public NPCIdlingState(string animationBoolName, NPCIdlingProperties entityStateProperties) : base(animationBoolName, entityStateProperties)
     {
-        _npcIdlingProperties = npcIdlingProperties;
+        _npcIdlingProperties = entityStateProperties;
     }
+
     public override void EnterState()
     {
         base.EnterState();

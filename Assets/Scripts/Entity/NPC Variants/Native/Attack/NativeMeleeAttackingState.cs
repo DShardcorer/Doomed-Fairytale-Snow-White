@@ -3,7 +3,7 @@ using UnityEngine;
 
 public class NativeMeleeAttackingState : NativeAttackingState
 {
-    public NativeMeleeAttackingState(NativeAttackingProperties nativeAttackingProperties, string animationBoolName) : base(nativeAttackingProperties, animationBoolName)
+    public NativeMeleeAttackingState(string animationBoolName, NativeAttackingProperties entityStateProperties) : base(animationBoolName, entityStateProperties)
     {
     }
 

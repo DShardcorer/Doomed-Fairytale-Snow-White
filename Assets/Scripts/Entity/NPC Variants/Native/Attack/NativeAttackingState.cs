@@ -3,11 +3,13 @@ using UnityEngine;
 public class NativeAttackingState : NativeState
 {
     protected NativeAttackingProperties _nativeAttackingProperties;
-    public NativeAttackingProperties NativeAttackingProperties => _nativeAttackingProperties;
-    public NativeAttackingState(NativeAttackingProperties nativeAttackingProperties, string animationBoolName) : base(animationBoolName)
+
+    public NativeAttackingState(string animationBoolName, NativeAttackingProperties entityStateProperties) : base(animationBoolName, entityStateProperties)
     {
-        _nativeAttackingProperties = nativeAttackingProperties;
+        _nativeAttackingProperties = entityStateProperties;
     }
+
+    public NativeAttackingProperties NativeAttackingProperties => _nativeAttackingProperties;
 
     public override void FixedUpdateState()
     {

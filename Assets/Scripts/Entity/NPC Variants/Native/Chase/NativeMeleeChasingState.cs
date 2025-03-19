@@ -4,7 +4,7 @@ public class NativeMeleeChasingState : NativeChasingState
 {
     private float _attackRange;
     private float _attackCooldown;
-    public NativeMeleeChasingState(NativeChasingProperties nativeChasingProperties, string animationBoolName) : base(nativeChasingProperties, animationBoolName)
+    public NativeMeleeChasingState(NativeChasingProperties nativeChasingProperties, string animationBoolName) : base(animationBoolName, nativeChasingProperties)
     {
     }
 

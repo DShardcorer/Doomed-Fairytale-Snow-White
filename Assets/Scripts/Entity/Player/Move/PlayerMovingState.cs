@@ -3,9 +3,10 @@ using UnityEngine;
 public class PlayerMovingState : PlayerState
 {
     private PlayerMovingProperties _playerMovingProperties;
-    public PlayerMovingState(PlayerMovingProperties playerMovingProperties, string animationBoolName) : base(animationBoolName)
+
+    public PlayerMovingState(string animationBoolName, PlayerMovingProperties entityStateProperties) : base(animationBoolName, entityStateProperties)
     {
-        _playerMovingProperties = playerMovingProperties;
+        _playerMovingProperties = entityStateProperties;
     }
 
     public override void FixedUpdateState()

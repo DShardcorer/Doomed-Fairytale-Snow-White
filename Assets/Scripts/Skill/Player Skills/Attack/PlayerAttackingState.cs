@@ -4,10 +4,12 @@ using UnityEngine;
 public class PlayerAttackingState : PlayerState
 {
     private PlayerAttackingProperties _playerAttackProperties;
-    public PlayerAttackingState(PlayerAttackingProperties playerAttackProperties, string animationBoolName) : base(animationBoolName)
+
+    public PlayerAttackingState(string animationBoolName, PlayerAttackingProperties entityStateProperties) : base(animationBoolName, entityStateProperties)
     {
-        _playerAttackProperties = playerAttackProperties;
+        _playerAttackProperties = entityStateProperties;
     }
+
     public override void EnterState()
     {
         base.EnterState();

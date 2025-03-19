@@ -1,6 +1,7 @@
+using System;
 using UnityEngine;
 
-public class NativeChasingProperties
+public class NativeChasingProperties: EntityStateProperties
 {
     private float chaseSpeed = 3.0f;
     public float ChaseSpeed => chaseSpeed;
@@ -12,13 +13,19 @@ public class NativeChasingProperties
     public float AttackCooldown => attackCooldown;
 
     private float attackRange = 3.0f;
-    public float AttackRange => attackRange;
 
-    public NativeChasingProperties(float chaseSpeed = 3.0f, float chasingTime = 2.0f, float attackCooldown = 1.0f, float attackRange = 3.0f)
+    public NativeChasingProperties(float chaseSpeed = 3f, float chasingTime = 2f, float attackCooldown = 3f)
     {
         this.chaseSpeed = chaseSpeed;
         this.chasingTime = chasingTime;
         this.attackCooldown = attackCooldown;
-        this.attackRange = attackRange;
+    }
+
+    public float AttackRange => attackRange;
+
+
+
+    protected override void UpdateDerivedProperties(object sender, EventArgs e)
+    {
     }
 }

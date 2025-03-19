@@ -4,9 +4,10 @@ using UnityEngine;
 public class PlayerShootingState : PlayerState
 {
     private PlayerShootingProperties _playerShootingProperties;
-    public PlayerShootingState(PlayerShootingProperties playerShootingProperties, string animationBoolName) : base(animationBoolName)
+
+    public PlayerShootingState(string animationBoolName, PlayerShootingProperties entityStateProperties) : base(animationBoolName, entityStateProperties)
     {
-        _playerShootingProperties = playerShootingProperties;
+        _playerShootingProperties = entityStateProperties as PlayerShootingProperties;
     }
 
     public override void EnterState()
