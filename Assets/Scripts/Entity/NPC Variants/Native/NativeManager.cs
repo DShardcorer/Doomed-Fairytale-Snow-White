@@ -4,7 +4,7 @@ using UnityEngine;
 public class NativeManager : NPCManager
 {
     [SerializeField] private GameObject _nativePrefab;
-    [SerializeField] private NPCPropertiesSO _nativePropertiesSO;
+    [SerializeField] private AbilityStatboardSO _abilityStatboardSO;
     private List<Native> _enemies = new List<Native>();
 
 
@@ -12,7 +12,7 @@ public class NativeManager : NPCManager
     {
         // // EnemyProperties enemyProperties = new EnemyProperties(_enemyPropertiesSO);
         NativeView nativeView = _poolManager.GetObject(_nativePrefab.name).GetComponent<NativeView>();
-        NativeProperties nativeProperties = new NativeProperties(_nativePropertiesSO);
+        
 
 
         SkillSystem skillSystem = new SkillSystem(new List<Skill> {});
@@ -33,9 +33,19 @@ public class NativeManager : NPCManager
 
         EntityStateMachine stateMachine = new EntityStateMachine();
 
+        //Stat system creation
+        AbilityStatBoard abilityStatBoard = new AbilityStatBoard(_abilityStatboardSO);
+        StatSystem statSystem = new StatSystem(abilityStatBoard, AttackStatType.Strength);
+
+
+
+        NativeProperties nativeProperties = new NativeProperties(EntityFaction.Native, statSystem.CombatStats.Health.BaseValue, 10);
+
+        
+
         Native native = new Native(nativeView, nativeProperties,
          nativeIdlingState, nativeMovingState, nativeChasingState, nativeAttackingState,
-        skillSystem, stateMachine);
+        statSystem, skillSystem, stateMachine);
 
         native.Initialize(this);
 

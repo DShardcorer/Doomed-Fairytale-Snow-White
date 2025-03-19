@@ -16,6 +16,10 @@ public abstract class PlayerState : EntityState
     {
         _player = controller;
         _inputManager = _player.InputManager;
+        if (_player == null)
+        {
+            Debug.LogError("Player is null");
+        }
         if (_inputManager == null)
         {
             Debug.LogError("InputManager is null");

@@ -2,6 +2,8 @@ using UnityEngine;
 
 public class NativeMeleeChasingState : NativeChasingState
 {
+    private float _attackRange;
+    private float _attackCooldown;
     public NativeMeleeChasingState(NativeChasingProperties nativeChasingProperties, string animationBoolName) : base(nativeChasingProperties, animationBoolName)
     {
     }
@@ -26,11 +28,11 @@ public class NativeMeleeChasingState : NativeChasingState
 
 
         // Check if the target is in attack range
-        if (Vector3.Distance(_native.View.transform.position, _properties.target.View.transform.position) <= _properties.AttackRange)
+        if (Vector3.Distance(_native.View.transform.position, _properties.target.View.transform.position) <= _nativeChasingProperties.AttackRange)
         {
             if (_stateTimer <= 0)
             {
-                _stateTimer = _native.NativeProperties.AttackCooldown;
+                _stateTimer = _nativeChasingProperties.AttackCooldown;
                 _stateMachine.ChangeState(_native.NativeAttackingState);
             }
         }

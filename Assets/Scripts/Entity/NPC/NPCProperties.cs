@@ -4,9 +4,10 @@ public class NPCProperties : EntityProperties
 {
     protected float chaseRange;
     public float ChaseRange => chaseRange;
-    public NPCProperties(NPCPropertiesSO entityPropertiesSO) : base(entityPropertiesSO)
+    public NPCProperties(EntityFaction entityFaction, float maxHealth, float chaseRange = 10) : base(entityFaction, maxHealth)
     {
-        chaseRange = entityPropertiesSO.chaseRange;
+        this.chaseRange = chaseRange;
     }
+
 }
 

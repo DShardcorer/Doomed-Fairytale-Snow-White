@@ -33,7 +33,8 @@ public class Player : Entity, ILifecycle<PlayerManager>, IFixedUpdatable, IUpdat
 
     public Player(PlayerView view, PlayerProperties properties,
  PlayerIdlingState playerIdlingState, PlayerMovingState playerMovingState, PlayerAttackingState playerAttackingState,
- SkillSystem skillSystem, EntityStateMachine stateMachine) : base(view, properties, skillSystem, stateMachine)
+ StatSystem statSystem,
+ SkillSystem skillSystem, EntityStateMachine stateMachine) : base(view, properties, statSystem, skillSystem, stateMachine)
     {
         _playerView = view;
         _playerProperties = properties;
@@ -76,6 +77,7 @@ public class Player : Entity, ILifecycle<PlayerManager>, IFixedUpdatable, IUpdat
         //SkillSystem initialization
         _skillSystem.Initialize(this);
 
+
     }
 
 
@@ -84,12 +86,16 @@ public class Player : Entity, ILifecycle<PlayerManager>, IFixedUpdatable, IUpdat
     {
         if (IsBusy) return;
         _stateMachine.ChangeState(_playerAttackingState);
+
+        //Log every stat in combatstats
+        Debug.Log(_statSystem.CombatStats.ToString());
+        
     }
 
     private void OnDashInputted(object sender, EventArgs e)
     {
         if (IsBusy) return;
-       _skillSystem.GetSkill(SkillNameHelper.DashSkill).TryUseSkill();
+        _skillSystem.GetSkill(SkillNameHelper.DashSkill).TryUseSkill();
 
     }
     private void OnSkill1Inputted(object sender, EventArgs e)

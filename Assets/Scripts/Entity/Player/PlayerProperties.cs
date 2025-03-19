@@ -2,7 +2,7 @@ using UnityEngine;
 
 public class PlayerProperties : EntityProperties
 {
-    public PlayerProperties(EntityPropertiesSO entityPropertiesSO) : base(entityPropertiesSO)
+    public PlayerProperties(EntityFaction entityFaction, float maxHealth) : base(entityFaction, maxHealth)
     {
     }
 }

@@ -35,14 +35,17 @@ public class NPC : Entity, ILifecycle<NPCManager>, IUpdatable, IFixedUpdatable
 
     // Chasing
     private NPCChasingState _npcChasingState;
+
+
     public NPCChasingState NPCChasingState => _npcChasingState;
 
     #endregion StateDefinitions
 
     public NPC(NPCView view, NPCProperties properties, 
     NPCIdlingState npcIdlingState, NPCMovingState npcMovingState,
+    StatSystem statSystem,
     SkillSystem skillSystem, EntityStateMachine stateMachine
-    ) : base(view, properties, skillSystem, stateMachine)
+    ) : base(view, properties, statSystem, skillSystem, stateMachine)
     {
         _npcView = view;
         _npcProperties = properties;

@@ -11,7 +11,7 @@ public abstract class Entity
     protected EntityProperties _properties;
     protected SkillSystem _skillSystem;
     public SkillSystem SkillSystem => _skillSystem;
-    private StatSystem _statSystem;
+    protected StatSystem _statSystem;
     public StatSystem StatSystem => _statSystem;
 
 
@@ -44,13 +44,15 @@ public abstract class Entity
     {
         _attackHitbox.Initialize(this);
         _animationTriggers.Initialize(this);
+        _statSystem.Initialize(this);
+
     }
     public void TakeDamage(float damage)
     {
         Debug.Log($"Entity {this} took {damage} damage");
         _view.PlayDamagedAnimation();
-        _properties.CurrentHealth -= damage;
-        if (_properties.CurrentHealth <= 0)
+        _properties.currentHealth -= damage;
+        if (_properties.currentHealth <= 0)
         {
             Die();
         }

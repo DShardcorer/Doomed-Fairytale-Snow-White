@@ -9,8 +9,7 @@ public class PlayerManager : MonoBehaviour, ILifecycle<GameManager>
     public GameManager GameManager => _gameManager;
 
     [SerializeField] private GameObject _playerPrefab;
-
-    [SerializeField] private PlayerPropertiesSO _playerPropertiesSO;
+    [SerializeField] private AbilityStatboardSO _abilityStatboardSO;
 
 
 
@@ -28,8 +27,7 @@ public class PlayerManager : MonoBehaviour, ILifecycle<GameManager>
         PlayerView playerView = playerGameObject.GetComponent<PlayerView>();
 
 
-        //PlayerProperties creation
-        PlayerProperties playerProperties = new PlayerProperties(_playerPropertiesSO);
+
 
         //SkillSystem creation
         PlayerDashingProperties playerDashingProperties = new PlayerDashingProperties();
@@ -61,7 +59,15 @@ public class PlayerManager : MonoBehaviour, ILifecycle<GameManager>
 
         EntityStateMachine stateMachine = new EntityStateMachine();
 
-        _player = new Player(playerView, playerProperties, playerIdlingState, playerMovingState, playerAttackingState, skillSystem, stateMachine);
+        //Stat system creation
+        AbilityStatBoard abilityStatBoard = new AbilityStatBoard(_abilityStatboardSO);
+        StatSystem statSystem = new StatSystem(abilityStatBoard, AttackStatType.Strength);
+
+
+        //PlayerProperties creation
+        PlayerProperties playerProperties = new PlayerProperties(EntityFaction.Player, statSystem.CombatStats.Health.BaseValue);
+
+        _player = new Player(playerView, playerProperties, playerIdlingState, playerMovingState, playerAttackingState,statSystem, skillSystem, stateMachine);
         _player.Initialize(this);
     }
     public Player GetPlayer()

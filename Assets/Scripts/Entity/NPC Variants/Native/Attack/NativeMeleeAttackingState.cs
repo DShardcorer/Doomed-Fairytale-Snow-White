@@ -15,7 +15,7 @@ public class NativeMeleeAttackingState : NativeAttackingState
     {
 
         //If target is out of attack range, chase the target
-        if (Vector3.Distance(_native.View.transform.position, _properties.target.View.transform.position) > _properties.AttackRange)
+        if (Vector3.Distance(_native.View.transform.position, _properties.target.View.transform.position) >_nativeAttackingProperties.AttackRange)
         {
             _stateMachine.ChangeState(_native.NativeChasingState);
         }
@@ -29,7 +29,7 @@ public class NativeMeleeAttackingState : NativeAttackingState
 
     protected override void OnTakingEffect(object sender, EventArgs e)
     {
-        _entity.AttackHitbox.PerformAttack(_entity.Properties.AttackType, _entity.Properties.AttackDamage);
+        _entity.AttackHitbox.PerformAttack( _nativeAttackingProperties.AttackType, _nativeAttackingProperties.AttackDamage);
     }
 
 }

@@ -35,7 +35,7 @@ public class PlayerAttackingState : PlayerState
 
     protected override void OnTakingEffect(object sender, EventArgs e)
     {
-        _entity.AttackHitbox.PerformAttack(_entity.Properties.AttackType, _entity.Properties.AttackDamage);
+        _entity.AttackHitbox.PerformAttack(AttackType.OverlapCircle, _playerAttackProperties.AttackDamage);
     }
 
 

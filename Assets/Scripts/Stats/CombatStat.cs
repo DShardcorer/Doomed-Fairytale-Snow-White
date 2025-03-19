@@ -1,9 +1,11 @@
 public class CombatStat
 {
-    public float Value { get; private set; }
+    public float BaseValue { get; set; }
+    public float ModifiedValue { get; set; }
 
-    public CombatStat(float value)
+    public CombatStat(float baseValue = 10)
     {
-        Value = value;
+        BaseValue = baseValue;
+        ModifiedValue = baseValue;
     }
 }

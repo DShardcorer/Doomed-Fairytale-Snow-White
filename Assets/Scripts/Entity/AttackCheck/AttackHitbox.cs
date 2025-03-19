@@ -6,7 +6,7 @@ public class AttackHitbox : MonoBehaviour, ILifecycle<Entity>
     private EntityProperties _properties;
 
     [Header("Attack Settings")]
-    public AttackType attackType;
+    public AttackType attackType = AttackType.OverlapCircle;
     public Transform attackPoint;
 
     public float attackRadius = 1.5f;
@@ -24,11 +24,6 @@ public class AttackHitbox : MonoBehaviour, ILifecycle<Entity>
     {
         _parent = parent;
         _properties = _parent.Properties;
-        attackType = _properties.AttackType;
-        attackRadius = _properties.AttackRadius;
-        attackBoxSize = _properties.AttackBoxSize;
-        attackCapsuleSize = _properties.AttackCapsuleSize;
-        attackRange = _properties.AttackRange;
         _originalLocalPosition = attackPoint.localPosition;
         entityLayer = LayerHelper.EntityLayerMask;
     }

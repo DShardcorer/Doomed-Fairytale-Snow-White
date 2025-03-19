@@ -1,7 +1,7 @@
 
 public class NativeProperties : NPCProperties
 {
-    public NativeProperties(NPCPropertiesSO enemyStatsSO) : base(enemyStatsSO)
+    public NativeProperties(EntityFaction entityFaction, float maxHealth, float chaseRange = 10) : base(entityFaction, maxHealth, chaseRange)
     {
     }
 }
