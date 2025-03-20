@@ -33,8 +33,7 @@ public class Player : Entity, ILifecycle<PlayerManager>, IFixedUpdatable, IUpdat
 
     public Player(PlayerView view, PlayerProperties properties,
  PlayerIdlingState playerIdlingState, PlayerMovingState playerMovingState, PlayerAttackingState playerAttackingState,
- StatSystem statSystem,
- SkillSystem skillSystem, EntityStateMachine stateMachine) : base(view, properties, statSystem, skillSystem, stateMachine)
+ StatSystem statSystem, SkillSystem skillSystem, EntityStateMachine stateMachine, Inventory inventory) : base(view, properties, statSystem, skillSystem, stateMachine, inventory)
     {
         _playerView = view;
         _playerProperties = properties;
@@ -60,7 +59,7 @@ public class Player : Entity, ILifecycle<PlayerManager>, IFixedUpdatable, IUpdat
 
 
         //View initialization
-        _view.Initialize(this);
+        _playerView.Initialize(this);
 
 
         //State creation

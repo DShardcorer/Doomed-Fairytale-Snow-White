@@ -13,7 +13,6 @@ public abstract class EntityStateProperties : ILifecycle<EntityState>
     }
     public void Initialize(EntityState parent)
     {
-        Debug.Log("Initializing EntityStateProperties");
         _parent = parent;
         _combatStatBoard = parent.Entity.StatSystem.CombatStatBoard;
         _abilityStatBoard = parent.Entity.StatSystem.AbilityStatBoard;

@@ -27,9 +27,9 @@ public class Native : NPC
      NativeIdlingState nativeIdlingState, NativeMovingState nativeMovingState,
       NativeChasingState nativeChasingState, NativeAttackingState nativeAttackingState,
         StatSystem statSystem,
-        SkillSystem skillSystem, EntityStateMachine stateMachine
+        SkillSystem skillSystem, EntityStateMachine stateMachine, Inventory inventory
       ) : 
-      base(view, properties, nativeIdlingState, nativeMovingState, statSystem, skillSystem, stateMachine)
+      base(view, properties, nativeIdlingState, nativeMovingState, statSystem, skillSystem, stateMachine, inventory)
     {
         _nativeView = view;
         _nativeProperties = properties;

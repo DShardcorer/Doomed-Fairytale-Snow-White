@@ -68,7 +68,9 @@ public class PlayerManager : MonoBehaviour, ILifecycle<GameManager>
         //PlayerProperties creation
         PlayerProperties playerProperties = new PlayerProperties(EntityFaction.Player, statSystem.CombatStatBoard.Health.BaseValue);
 
-        _player = new Player(playerView, playerProperties, playerIdlingState, playerMovingState, playerAttackingState,statSystem, skillSystem, stateMachine);
+        Inventory inventory = new Inventory();
+
+        _player = new Player(playerView, playerProperties, playerIdlingState, playerMovingState, playerAttackingState,statSystem, skillSystem, stateMachine, inventory);
         _player.Initialize(this);
     }
     public Player GetPlayer()

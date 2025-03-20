@@ -13,6 +13,8 @@ public abstract class Entity
     public SkillSystem SkillSystem => _skillSystem;
     protected StatSystem _statSystem;
     public StatSystem StatSystem => _statSystem;
+    protected Inventory _inventory;
+    public Inventory Inventory => _inventory;
 
 
     public EntityStateMachine StateMachine => _stateMachine;
@@ -25,7 +27,7 @@ public abstract class Entity
     public AnimationTriggers AnimationTriggers => _animationTriggers;
 
 
-    public Entity(EntityView view, EntityProperties properties, StatSystem statSystem, SkillSystem skillSystem, EntityStateMachine stateMachine)
+    public Entity(EntityView view, EntityProperties properties, StatSystem statSystem, SkillSystem skillSystem, EntityStateMachine stateMachine, Inventory inventory)
     {
         _view = view;
         _attackHitbox = view.GetComponentInChildren<AttackHitbox>();
@@ -34,7 +36,9 @@ public abstract class Entity
         _statSystem = statSystem;
         _skillSystem = skillSystem;
         _stateMachine = stateMachine;
+        _inventory = inventory;
     }
+
 
     public virtual void FixedUpdateLogic()
     {
@@ -42,9 +46,12 @@ public abstract class Entity
     }
     public virtual void Initialize()
     {
+        _inventory.Initialize(this);
         _attackHitbox.Initialize(this);
         _animationTriggers.Initialize(this);
         _statSystem.Initialize(this);
+        //debuglog inventory
+        Debug.Log($"Entity {this} initialized with inventory {_inventory}");
 
     }
     public void TakeDamage(float damage)

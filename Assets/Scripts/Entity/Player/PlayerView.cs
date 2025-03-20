@@ -2,11 +2,12 @@ using UnityEngine;
 
 public class PlayerView : EntityView
 {
-    private new Player _controller;
-    public override void Initialize(Entity controller)
+    private Player _player;
+    public Player Player => _player;
+    public void Initialize(Player controller)
     {
         base.Initialize(controller);
-        _controller = (Player)controller;
+        _player = controller;
     }
 
 }

@@ -35,6 +35,7 @@ public class ObjectPool : MonoBehaviour
             objectStack.Push(obj);
         }
         GameObject objectToReturn = objectStack.Pop();
+        objectToReturn.SetActive(true);
         return objectToReturn;
     }
 

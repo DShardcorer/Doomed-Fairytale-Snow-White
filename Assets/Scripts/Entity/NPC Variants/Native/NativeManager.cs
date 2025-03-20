@@ -41,11 +41,11 @@ public class NativeManager : NPCManager
 
         NativeProperties nativeProperties = new NativeProperties(EntityFaction.Native, statSystem.CombatStatBoard.Health.BaseValue, 10);
 
-        
+        Inventory inventory = new Inventory();
 
         Native native = new Native(nativeView, nativeProperties,
          nativeIdlingState, nativeMovingState, nativeChasingState, nativeAttackingState,
-        statSystem, skillSystem, stateMachine);
+        statSystem, skillSystem, stateMachine, inventory);
 
         native.Initialize(this);
 
