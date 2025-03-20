@@ -23,17 +23,9 @@ public class ItemObject : MonoBehaviour, IInteractable
     }
 
 
-    private void OnTriggerEnter2D(Collider2D collision)
+    public void Interact(Player player)
     {
-        if (collision.CompareTag("Player"))
-        {
-            collision.GetComponent<PlayerView>().Player.Inventory.AddItem(itemData);
-            Destroy(gameObject);
-        }
-    }
-
-    public void Interact()
-    {
-        throw new System.NotImplementedException();
+        player.Inventory.AddItem(itemData);
+        Destroy(gameObject);
     }
 }

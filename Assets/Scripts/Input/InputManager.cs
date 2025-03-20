@@ -11,6 +11,7 @@ public class InputManager : MonoBehaviour, ILifecycle<GameManager>
     public event EventHandler dashInputted;
 
     public event EventHandler skill1Inputted;
+    public event EventHandler interactInputted;
     public event EventHandler openInventoryInputted;
 
 
@@ -28,6 +29,7 @@ public class InputManager : MonoBehaviour, ILifecycle<GameManager>
         _playerInputActions.Player.Dash.performed += ctx => dashInputted?.Invoke(this, EventArgs.Empty);
         _playerInputActions.Player.Skill1.performed += ctx => skill1Inputted?.Invoke(this, EventArgs.Empty);
         _playerInputActions.Player.OpenInventory.performed += ctx => openInventoryInputted?.Invoke(this, EventArgs.Empty);
+        _playerInputActions.Player.Interact.performed += ctx => interactInputted?.Invoke(this, EventArgs.Empty);
     }
 
     public GameManager GetGameManager(){

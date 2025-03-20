@@ -1,6 +1,8 @@
-using UnityEngine;
-
 public interface IInteractable
 {
-    public void Interact();
+    /// <summary>
+    /// Called when an interactor interacts with this object.
+    /// </summary>
+    /// <param name="player">The interacting player's controller.</param>
+    void Interact(Player player);
 }

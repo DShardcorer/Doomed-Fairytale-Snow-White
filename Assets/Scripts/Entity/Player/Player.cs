@@ -14,6 +14,9 @@ public class Player : Entity, ILifecycle<PlayerManager>, IFixedUpdatable, IUpdat
     private PlayerProperties _playerProperties;
     public PlayerProperties PlayerProperties => _playerProperties;
 
+    private PlayerInteraction _playerInteraction;
+    public PlayerInteraction PlayerInteraction => _playerInteraction;
+
 
 
     public bool IsBusy = false;
@@ -40,6 +43,7 @@ public class Player : Entity, ILifecycle<PlayerManager>, IFixedUpdatable, IUpdat
         _playerIdlingState = playerIdlingState;
         _playerMovingState = playerMovingState;
         _playerAttackingState = playerAttackingState;
+        _playerInteraction = view.GetComponentInChildren<PlayerInteraction>();
     }
     public void Initialize(PlayerManager parent)
     {
@@ -60,6 +64,7 @@ public class Player : Entity, ILifecycle<PlayerManager>, IFixedUpdatable, IUpdat
 
         //View initialization
         _playerView.Initialize(this);
+        _playerInteraction.Initialize(this);
 
 
         //State creation

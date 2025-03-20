@@ -17,6 +17,7 @@ public class PlayerMovingState : PlayerState
             _rigidbody.linearVelocity = _inputManager.GetMovementVector() * _playerMovingProperties.MoveSpeed;
             _player.PlayerProperties.lastMovementVector = _inputManager.GetMovementVector();
             _player.AttackHitbox.SetAttackHitBoxRotation(_player.PlayerProperties.lastMovementVector);
+            _player.PlayerInteraction.SetInteractRotation(_player.PlayerProperties.lastMovementVector);
             
         }
         else
