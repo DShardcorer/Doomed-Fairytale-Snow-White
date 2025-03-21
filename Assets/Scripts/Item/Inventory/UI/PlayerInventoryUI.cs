@@ -1,3 +1,4 @@
+using System;
 using System.Collections.Generic;
 using UnityEngine;
 
@@ -5,8 +6,7 @@ public class PlayerInventoryUI : MonoBehaviour, ILifecycle<UIManager>
 {
     private UIManager _uiManager;
     public UIManager UIManager => _uiManager;
-    private PlayerInventoryManager _playerInventoryManager;
-    public PlayerInventoryManager PlayerInventoryManager => _playerInventoryManager;
+
 
     public List<PlayerInventoryTabUI> playerInventoryTabs;
 
@@ -15,7 +15,13 @@ public class PlayerInventoryUI : MonoBehaviour, ILifecycle<UIManager>
     public void Initialize(UIManager manager)
     {
         _uiManager = manager;
-        _playerInventoryManager = GameManager.Instance.PlayerInventoryManager;
+        GameManager.Instance.PlayerManager.GetPlayer().Inventory.OnItemListChanged += Inventory_OnItemListChanged;
+        GameManager.Instance.PlayerManager.GetPlayer().Inventory.OnMaterialItemListChanged += Inventory_OnMaterialItemListChanged;
+        GameManager.Instance.PlayerManager.GetPlayer().Inventory.OnConsumableItemListChanged += Inventory_OnConsumableItemListChanged;
+        GameManager.Instance.PlayerManager.GetPlayer().Inventory.OnEquipmentItemListChanged += Inventory_OnEquipmentItemListChanged;
+        GameManager.Instance.PlayerManager.GetPlayer().Inventory.OnMiscellaneousItemListChanged += Inventory_OnMiscellaneousItemListChanged;
+        
+        
         foreach (PlayerInventoryPageUI page in playerInventoryPages)
         {
             page.Initialize(this);
@@ -24,7 +30,6 @@ public class PlayerInventoryUI : MonoBehaviour, ILifecycle<UIManager>
         {
             tab.Initialize(this);
         }
-        Debug.Log("Player Inventory UI Initialized");
 
         //Deselct all tabs
         foreach (PlayerInventoryTabUI tab in playerInventoryTabs)
@@ -42,20 +47,46 @@ public class PlayerInventoryUI : MonoBehaviour, ILifecycle<UIManager>
         playerInventoryPages[0].gameObject.SetActive(true);
         
     }
-    public void UpdateAllUI()
+
+    private void Inventory_OnMiscellaneousItemListChanged(object sender, List<InventoryItem> e)
+    {
+        UpdateInventoryUI(PlayerInventoryType.Miscellaneous, e);
+    }
+
+    private void Inventory_OnEquipmentItemListChanged(object sender, List<InventoryItem> e)
+    {
+        UpdateInventoryUI(PlayerInventoryType.Equipment, e);
+    }
+
+    private void Inventory_OnConsumableItemListChanged(object sender, List<InventoryItem> e)
+    {
+        UpdateInventoryUI(PlayerInventoryType.Consumable, e);
+    }
+
+    private void Inventory_OnMaterialItemListChanged(object sender, List<InventoryItem> e)
+    {
+        UpdateInventoryUI(PlayerInventoryType.Material, e);
+    }
+
+    private void Inventory_OnItemListChanged(object sender, List<InventoryItem> e)
+    {
+        UpdateInventoryUI(PlayerInventoryType.All, e);
+    }
+
+    public void UpdateAllUI(List<InventoryItem> items)
     {
         foreach (PlayerInventoryPageUI page in playerInventoryPages)
         {
-            page.UpdateUI();
+            page.UpdateUI(items);
         }
     }
-    public void UpdateInventoryUI(PlayerInventoryType playerInventoryType)
+    public void UpdateInventoryUI(PlayerInventoryType playerInventoryType, List<InventoryItem> items)
     {
         foreach (PlayerInventoryPageUI page in playerInventoryPages)
         {
             if (page.playerInventoryType == playerInventoryType)
             {
-                page.UpdateUI();
+                page.UpdateUI(items);
             }
         }
     }
@@ -90,6 +121,6 @@ public class PlayerInventoryUI : MonoBehaviour, ILifecycle<UIManager>
 
     public void Dispose()
     {
-        _playerInventoryManager = null;
+        _uiManager = null;
     }
 }

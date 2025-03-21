@@ -10,7 +10,6 @@ public class InventoryItem
     public InventoryItem(ItemData itemData)
     {
         ItemData = itemData;
-        AddToStack();
     }
 
     public void AddToStack()

@@ -8,36 +8,32 @@ public class PlayerInventoryPageUI : MonoBehaviour, ILifecycle<PlayerInventoryUI
     private PlayerInventoryUI _playerInventoryUI;
     public PlayerInventoryUI PlayerInventoryUI => _playerInventoryUI;
     
-    private Inventory _inventory;
-    public Inventory PlayerInventory => _inventory;
 
 
     private List<ItemSlotUI> _itemSlots = new List<ItemSlotUI>();
 
     private PoolManager _poolManager;
 
-    public void Initialize(PlayerInventoryUI playerInventorUI)
+    public void Initialize(PlayerInventoryUI playerInventoryUI)
     {
-        _playerInventoryUI = playerInventorUI;
-        _inventory = _playerInventoryUI.PlayerInventoryManager.PlayerInventory;
-        _poolManager = _playerInventoryUI.PlayerInventoryManager.Manager.PoolManager;
-        UpdateUI();
+        _playerInventoryUI = playerInventoryUI;
+        _poolManager = GameManager.Instance.PoolManager;
     }
 
-    public void UpdateUI()
+    public void UpdateUI(List<InventoryItem> items)
     {
         Debug.Log("Updating UI");
         // Ensure we have the correct number of slots
-        AdjustItemSlotCount(_inventory.items.Count);
+        AdjustItemSlotCount(items.Count);
 
         // Update each slot with the corresponding item
-        for (int i = 0; i < _inventory.items.Count; i++)
+        for (int i = 0; i < items.Count; i++)
         {
-            _itemSlots[i].UpdateUI(_inventory.items[i]);
+            _itemSlots[i].UpdateUI(items[i]);
         }
 
         // Disable extra slots if necessary
-        for (int i = _inventory.items.Count; i < _itemSlots.Count; i++)
+        for (int i = items.Count; i < _itemSlots.Count; i++)
         {
             _itemSlots[i].UpdateUI(null);
         }
@@ -65,7 +61,6 @@ public class PlayerInventoryPageUI : MonoBehaviour, ILifecycle<PlayerInventoryUI
     public void Dispose()
     {
         _playerInventoryUI = null;
-        _inventory = null;
         _itemSlots.Clear();
         _itemSlots = null;
         _poolManager = null;
