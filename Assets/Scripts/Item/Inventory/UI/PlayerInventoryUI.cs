@@ -1,65 +1,95 @@
-using System;
-using UnityEngine;
 using System.Collections.Generic;
+using UnityEngine;
 
-public class PlayerInventoryUI : MonoBehaviour
+public class PlayerInventoryUI : MonoBehaviour, ILifecycle<UIManager>
 {
+    private UIManager _uiManager;
+    public UIManager UIManager => _uiManager;
     private PlayerInventoryManager _playerInventoryManager;
-    public PlayerInventoryManager InventoryManager => _playerInventoryManager;
-    
-    private Inventory _inventory;
-    public Inventory PlayerInventory => _inventory;
+    public PlayerInventoryManager PlayerInventoryManager => _playerInventoryManager;
 
-    [SerializeField] private Transform _itemSlotParent;
+    public List<PlayerInventoryTabUI> playerInventoryTabs;
 
-    private List<ItemSlotUI> _itemSlots = new List<ItemSlotUI>();
+    public List<PlayerInventoryPageUI> playerInventoryPages;
 
-    private PoolManager _poolManager;
-
-    public void Initialize(PlayerInventoryManager playerInventoryManager, Inventory inventory)
+    public void Initialize(UIManager manager)
     {
-        _playerInventoryManager = playerInventoryManager;
-        _inventory = inventory;
-        _poolManager = _playerInventoryManager.Manager.PoolManager;
+        _uiManager = manager;
+        _playerInventoryManager = GameManager.Instance.PlayerInventoryManager;
+        foreach (PlayerInventoryPageUI page in playerInventoryPages)
+        {
+            page.Initialize(this);
+        }
+        foreach (PlayerInventoryTabUI tab in playerInventoryTabs)
+        {
+            tab.Initialize(this);
+        }
+        Debug.Log("Player Inventory UI Initialized");
+
+        //Deselct all tabs
+        foreach (PlayerInventoryTabUI tab in playerInventoryTabs)
+        {
+            tab.DeselectTab();
+        }
+        //Select the first tab
+        playerInventoryTabs[0].SelectTab();
+        //Hide all pages
+        foreach (PlayerInventoryPageUI page in playerInventoryPages)
+        {
+            page.gameObject.SetActive(false);
+        }
+        //Show the first page
+        playerInventoryPages[0].gameObject.SetActive(true);
         
-        UpdateUI();
     }
-
-    public void UpdateUI()
+    public void UpdateAllUI()
     {
-        Debug.Log("Updating UI");
-        // Ensure we have the correct number of slots
-        AdjustItemSlotCount(_inventory.items.Count);
-
-        // Update each slot with the corresponding item
-        for (int i = 0; i < _inventory.items.Count; i++)
+        foreach (PlayerInventoryPageUI page in playerInventoryPages)
         {
-            _itemSlots[i].UpdateUI(_inventory.items[i]);
+            page.UpdateUI();
         }
-
-        // Disable extra slots if necessary
-        for (int i = _inventory.items.Count; i < _itemSlots.Count; i++)
+    }
+    public void UpdateInventoryUI(PlayerInventoryType playerInventoryType)
+    {
+        foreach (PlayerInventoryPageUI page in playerInventoryPages)
         {
-            _itemSlots[i].UpdateUI(null);
+            if (page.playerInventoryType == playerInventoryType)
+            {
+                page.UpdateUI();
+            }
         }
     }
 
-    private void AdjustItemSlotCount(int requiredCount)
+    public void SwitchToInventoryType(PlayerInventoryType playerInventoryType)
     {
-        // Add more slots if needed
-        while (_itemSlots.Count < requiredCount)
+        foreach (PlayerInventoryTabUI tab in playerInventoryTabs)
         {
-            ItemSlotUI newSlot = _poolManager.GetObject(UINameHelper.ItemSlotUI).GetComponent<ItemSlotUI>();
-            newSlot.transform.SetParent(_itemSlotParent, false);
-            _itemSlots.Add(newSlot);
+            if (tab.playerInventoryType == playerInventoryType)
+            {
+                tab.SelectTab();
+            }
+            else
+            {
+                tab.DeselectTab();
+            }
         }
+        foreach (PlayerInventoryPageUI page in playerInventoryPages)
+        {
+            if (page.playerInventoryType == playerInventoryType)
+            {
+                page.gameObject.SetActive(true);
+            }
+            else
+            {
+                page.gameObject.SetActive(false);
+            }
+        }
+    }
+    
 
-        // Return excess slots to the pool if needed
-        while (_itemSlots.Count > requiredCount)
-        {
-            ItemSlotUI excessSlot = _itemSlots[_itemSlots.Count - 1];
-            _poolManager.ReturnObject(UINameHelper.ItemSlotUI, excessSlot.gameObject);
-            _itemSlots.RemoveAt(_itemSlots.Count - 1);
-        }
+
+    public void Dispose()
+    {
+        _playerInventoryManager = null;
     }
 }

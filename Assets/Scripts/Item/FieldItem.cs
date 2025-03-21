@@ -1,6 +1,6 @@
 using UnityEngine;
 
-public class ItemObject : MonoBehaviour, IInteractable
+public class FieldItem : MonoBehaviour, IInteractable
 {
     private SpriteRenderer spriteRenderer;
 

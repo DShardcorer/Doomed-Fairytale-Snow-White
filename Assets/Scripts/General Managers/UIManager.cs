@@ -6,8 +6,15 @@ public class UIManager : MonoBehaviour
 {
     public static UIManager Instance { get; private set; }
 
-    // Container where UI screens will be placed (usually a panel on a Canvas)
     public Transform uiContainer;
+
+    [SerializeField]
+    private PauseMenuUI _pauseMenuUI;
+    public PauseMenuUI PauseMenuUI => _pauseMenuUI;
+
+    [SerializeField]
+    private PlayerInventoryUI _playerInventoryUI;
+    public PlayerInventoryUI PlayerInventoryUI => _playerInventoryUI;
 
 
     // Stack to track active UI screens.
@@ -18,7 +25,7 @@ public class UIManager : MonoBehaviour
 
     private void Awake()
     {
-        // Singleton pattern implementation.
+
         if (Instance == null)
         {
             Instance = this;
@@ -27,6 +34,7 @@ public class UIManager : MonoBehaviour
         {
             Destroy(gameObject);
         }
+
     }
     private void Start()
     {
@@ -35,12 +43,23 @@ public class UIManager : MonoBehaviour
 
     private void Initialize()
     {
-        
+        GameManager.Instance.InputManager.openInventoryInputted += InputManager_openInventoryInputted;
+        _playerInventoryUI.Initialize(this);
+        if (_playerInventoryUI == null)
+        {
+            Debug.LogWarning("Player Inventory UI is null");
+        }
+        _pauseMenuUI.gameObject.SetActive(false);
+    }
+
+    private void InputManager_openInventoryInputted(object sender, EventArgs e)
+    {
+        _pauseMenuUI.gameObject.SetActive(!_pauseMenuUI.gameObject.activeSelf);
     }
 
     private void Update()
     {
-        // Listen for the Backspace key to navigate back.
+
         if (Input.GetKeyDown(KeyCode.Backspace))
         {
             PopUI();
