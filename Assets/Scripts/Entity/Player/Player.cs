@@ -36,7 +36,9 @@ public class Player : Entity, ILifecycle<PlayerManager>, IFixedUpdatable, IUpdat
 
     public Player(PlayerView view, PlayerProperties properties,
  PlayerIdlingState playerIdlingState, PlayerMovingState playerMovingState, PlayerAttackingState playerAttackingState,
- StatSystem statSystem, SkillSystem skillSystem, EntityStateMachine stateMachine, Inventory inventory) : base(view, properties, statSystem, skillSystem, stateMachine, inventory)
+ StatSystem statSystem, SkillSystem skillSystem, LevelSystem levelSystem, HealthSystem healthSystem, ManaSystem manaSystem, StaminaSystem staminaSystem,
+ EntityStateMachine stateMachine, Inventory inventory) 
+ : base(view, properties, statSystem, skillSystem, levelSystem, healthSystem, manaSystem, staminaSystem , stateMachine, inventory)
     {
         _playerView = view;
         _playerProperties = properties;
@@ -125,7 +127,8 @@ public class Player : Entity, ILifecycle<PlayerManager>, IFixedUpdatable, IUpdat
         _parent = null;
     }
 
-
-
-
+    public override void Die()
+    {
+        Debug.Log("Player died");
+    }
 }

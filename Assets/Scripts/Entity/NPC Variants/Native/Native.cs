@@ -26,10 +26,9 @@ public class Native : NPC
     public Native(NativeView view, NativeProperties properties,
      NativeIdlingState nativeIdlingState, NativeMovingState nativeMovingState,
       NativeChasingState nativeChasingState, NativeAttackingState nativeAttackingState,
-        StatSystem statSystem,
-        SkillSystem skillSystem, EntityStateMachine stateMachine, Inventory inventory
-      ) : 
-      base(view, properties, nativeIdlingState, nativeMovingState, statSystem, skillSystem, stateMachine, inventory)
+        StatSystem statSystem, SkillSystem skillSystem, LevelSystem levelSystem, HealthSystem healthSystem, ManaSystem manaSystem, StaminaSystem staminaSystem,
+        EntityStateMachine stateMachine, Inventory inventory
+      ) : base(view, properties, nativeIdlingState, nativeMovingState, statSystem, skillSystem, levelSystem, healthSystem, manaSystem, staminaSystem, stateMachine, inventory)
     {
         _nativeView = view;
         _nativeProperties = properties;
@@ -68,5 +67,10 @@ public class Native : NPC
     protected override void OnEntityFromDifferentFactionSpottedInProximity(object sender, Entity e)
     {
         base.OnEntityFromDifferentFactionSpottedInProximity(sender, e);
+    }
+    public override void Die()
+    {
+        base.Die();
+        _nativeManager.DespawnMeleeNative(this);
     }
 }

@@ -6,6 +6,13 @@ public abstract class Skill : ILifecycle<SkillSystem>, IUpdatable, IFixedUpdatab
     protected SkillSystem _parent;
     public SkillSystem Parent => _parent;
 
+    protected HealthSystem _healthSystem;
+    public HealthSystem HealthSystem => _healthSystem;
+    protected ManaSystem _manaSystem;
+    public ManaSystem ManaSystem => _manaSystem;
+    protected StaminaSystem _staminaSystem;
+    public StaminaSystem StaminaSystem => _staminaSystem;
+
     protected string _skillName;
     protected float _cooldown;
     protected float _cooldownTimer;
@@ -13,10 +20,23 @@ public abstract class Skill : ILifecycle<SkillSystem>, IUpdatable, IFixedUpdatab
     public string SkillName => _skillName;
     public float Cooldown => _cooldown;
     public float CooldownTimer => _cooldownTimer;
-    public Skill(string skillName, float cooldown)
+
+
+    protected float _healthCost;
+    public float HealthCost => _healthCost;
+    protected float _manaCost;
+    public float ManaCost => _manaCost;
+    protected float _staminaCost;
+    public float StaminaCost => _staminaCost;
+
+
+    public Skill(string skillName, float cooldown, float healthCost = 0, float manaCost = 0, float staminaCost = 30)
     {
         _skillName = skillName;
         _cooldown = cooldown;
+        _healthCost = healthCost;
+        _manaCost = manaCost;
+        _staminaCost = staminaCost;
     }
     public virtual void Initialize(SkillSystem parent)
     {
@@ -25,6 +45,9 @@ public abstract class Skill : ILifecycle<SkillSystem>, IUpdatable, IFixedUpdatab
         GameManager.Instance.FixedUpdateManager.AddFixedUpdatable(this);
         GameManager.Instance.UpdateManager.AddUpdatable(this);
         _cooldownTimer = 0;
+        _healthSystem = _parent.Parent.HealthSystem;
+        _manaSystem = _parent.Parent.ManaSystem;
+        _staminaSystem = _parent.Parent.StaminaSystem;
 
     }
 
@@ -50,7 +73,23 @@ public abstract class Skill : ILifecycle<SkillSystem>, IUpdatable, IFixedUpdatab
 
     public virtual bool CanUseSkill()
     {
-        return _cooldownTimer <= 0;
+        if (_cooldownTimer > 0)
+        {
+            return false;
+        }
+        if (_healthSystem.CurrentHealth < _healthCost)
+        {
+            return false;
+        }
+        if (_manaSystem.CurrentMana < _manaCost)
+        {
+            return false;
+        }
+        if (_staminaSystem.CurrentStamina < _staminaCost)
+        {
+            return false;
+        }
+        return true;
     }
 
     public virtual bool TryUseSkill()
@@ -66,6 +105,9 @@ public abstract class Skill : ILifecycle<SkillSystem>, IUpdatable, IFixedUpdatab
     protected virtual void UseSkill()
     {
         _cooldownTimer = _cooldown;
+        _healthSystem.TakeDamage(_healthCost);
+        _manaSystem.TryUseMana(_manaCost);
+        _staminaSystem.TryUseStamina(_staminaCost);
     }
 
 

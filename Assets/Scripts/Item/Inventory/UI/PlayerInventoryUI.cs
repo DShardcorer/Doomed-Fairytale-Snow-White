@@ -1,6 +1,8 @@
 using System;
 using System.Collections.Generic;
+using TMPro;
 using UnityEngine;
+using UnityEngine.UI;
 
 public class PlayerInventoryUI : MonoBehaviour, ILifecycle<UIManager>
 {
@@ -12,6 +14,10 @@ public class PlayerInventoryUI : MonoBehaviour, ILifecycle<UIManager>
 
     public List<PlayerInventoryPageUI> playerInventoryPages;
 
+    public TextMeshProUGUI weightText;
+
+    
+
     public void Initialize(UIManager manager)
     {
         _uiManager = manager;
@@ -20,7 +26,7 @@ public class PlayerInventoryUI : MonoBehaviour, ILifecycle<UIManager>
         GameManager.Instance.PlayerManager.GetPlayer().Inventory.OnConsumableItemListChanged += Inventory_OnConsumableItemListChanged;
         GameManager.Instance.PlayerManager.GetPlayer().Inventory.OnEquipmentItemListChanged += Inventory_OnEquipmentItemListChanged;
         GameManager.Instance.PlayerManager.GetPlayer().Inventory.OnMiscellaneousItemListChanged += Inventory_OnMiscellaneousItemListChanged;
-        
+        GameManager.Instance.PlayerManager.GetPlayer().Inventory.OnWeightChanged += Inventory_OnWeightChanged;
         
         foreach (PlayerInventoryPageUI page in playerInventoryPages)
         {
@@ -46,6 +52,11 @@ public class PlayerInventoryUI : MonoBehaviour, ILifecycle<UIManager>
         //Show the first page
         playerInventoryPages[0].gameObject.SetActive(true);
         
+    }
+
+    private void Inventory_OnWeightChanged(object sender, Inventory.WeightEventArgs e)
+    {
+        weightText.text = e.currentWeight + " / " + e.weightCapacity;
     }
 
     private void Inventory_OnMiscellaneousItemListChanged(object sender, List<InventoryItem> e)

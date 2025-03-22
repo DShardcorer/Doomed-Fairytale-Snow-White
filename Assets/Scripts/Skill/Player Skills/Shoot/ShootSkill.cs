@@ -3,7 +3,10 @@ using UnityEngine;
 public class ShootSkill : Skill
 {
     private PlayerShootingState _shootingState;
-    public ShootSkill(string skillName, float cooldown, PlayerShootingState playerShootingState) : base(skillName, cooldown)
+    public ShootSkill(string skillName, float cooldown, 
+    float healthCost, float manaCost, float staminaCost,
+    PlayerShootingState playerShootingState) 
+    : base(skillName, cooldown, healthCost ,manaCost, staminaCost)
     {
         _shootingState = playerShootingState;
     }

@@ -43,9 +43,9 @@ public class NPC : Entity, ILifecycle<NPCManager>, IUpdatable, IFixedUpdatable
 
     public NPC(NPCView view, NPCProperties properties, 
     NPCIdlingState npcIdlingState, NPCMovingState npcMovingState,
-    StatSystem statSystem,
-    SkillSystem skillSystem, EntityStateMachine stateMachine, Inventory inventory
-    ) : base(view, properties, statSystem, skillSystem, stateMachine, inventory)
+    StatSystem statSystem, SkillSystem skillSystem, LevelSystem levelSystem, HealthSystem healthSystem, ManaSystem manaSystem, StaminaSystem staminaSystem,
+    EntityStateMachine stateMachine, Inventory inventory
+    ) : base(view, properties, statSystem, skillSystem, levelSystem, healthSystem, manaSystem, staminaSystem , stateMachine, inventory)
     {
         _npcView = view;
         _npcProperties = properties;
@@ -116,5 +116,20 @@ public class NPC : Entity, ILifecycle<NPCManager>, IUpdatable, IFixedUpdatable
 
         _proximityDetector.OnEntityFromDifferentFactionSpottedInProximity -= OnEntityFromDifferentFactionSpottedInProximity;
         _fovDetector.OnClosestEntityFromDifferentFactionSpottedInFOV -= OnClosestEntityFromDifferentFactionSpottedInFOV;
+
+        //null all references
+        _parent = null;
+        _npcView = null;
+        _npcProperties = null;
+        _fovDetector = null;
+        _proximityDetector = null;
+        _npcIdlingState = null;
+        _npcMovingState = null;
+        
+    }
+
+    public override void Die()
+    {
+        
     }
 }

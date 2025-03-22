@@ -16,6 +16,21 @@ public class UIManager : MonoBehaviour
     private PlayerInventoryUI _playerInventoryUI;
     public PlayerInventoryUI PlayerInventoryUI => _playerInventoryUI;
 
+    [SerializeField]
+    private HealthUI _healthUI;
+    public HealthUI HealthUI => _healthUI;
+
+    [SerializeField]
+    private ManaUI _manaUI;
+    public ManaUI ManaUI => _manaUI;
+
+    [SerializeField]
+    private StaminaUI _staminaUI;
+    public StaminaUI StaminaUI => _staminaUI;
+
+
+
+
 
     // Stack to track active UI screens.
     private Stack<GameObject> uiStack = new Stack<GameObject>();
@@ -43,16 +58,29 @@ public class UIManager : MonoBehaviour
 
     private void Initialize()
     {
-        GameManager.Instance.InputManager.openInventoryInputted += InputManager_openInventoryInputted;
+        GameManager.Instance.InputManager.openMenuInputted += InputManager_openMenuInputted;
         _playerInventoryUI.Initialize(this);
         if (_playerInventoryUI == null)
         {
             Debug.LogWarning("Player Inventory UI is null");
         }
         _pauseMenuUI.gameObject.SetActive(false);
+        _healthUI.Initialize(this);
+        _manaUI.Initialize(this);
+        _staminaUI.Initialize(this);
+
+        InvokeInitialEvents();
     }
 
-    private void InputManager_openInventoryInputted(object sender, EventArgs e)
+    private void InvokeInitialEvents()
+    {
+        GameManager.Instance.PlayerManager.GetPlayer().Inventory.InvokeInitialEvents();
+        GameManager.Instance.PlayerManager.GetPlayer().HealthSystem.InvokeInitialEvents();
+        GameManager.Instance.PlayerManager.GetPlayer().ManaSystem.InvokeInitialEvents();
+        GameManager.Instance.PlayerManager.GetPlayer().StaminaSystem.InvokeInitialEvents();
+    }
+
+    private void InputManager_openMenuInputted(object sender, EventArgs e)
     {
         _pauseMenuUI.gameObject.SetActive(!_pauseMenuUI.gameObject.activeSelf);
     }

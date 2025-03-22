@@ -12,14 +12,12 @@ public class NativeManager : NPCManager
     {
         // // EnemyProperties enemyProperties = new EnemyProperties(_enemyPropertiesSO);
         NativeView nativeView = _poolManager.GetObject(_nativePrefab.name).GetComponent<NativeView>();
-        
 
-
-        SkillSystem skillSystem = new SkillSystem(new List<Skill> {});
+        SkillSystem skillSystem = new SkillSystem(new List<Skill> { });
 
         //State creation
         NativeIdlingProperties nativeIdlingProperties = new NativeIdlingProperties(2);
-        NativeIdlingState nativeIdlingState = new NativeIdlingState( AnimationStateHelper.IS_IDLING, nativeIdlingProperties);
+        NativeIdlingState nativeIdlingState = new NativeIdlingState(AnimationStateHelper.IS_IDLING, nativeIdlingProperties);
 
         NativeMovingProperties nativeMovingProperties = new NativeMovingProperties(2);
         NativeMovingState nativeMovingState = new NativeMovingState(nativeMovingProperties, AnimationStateHelper.IS_MOVING);
@@ -41,16 +39,33 @@ public class NativeManager : NPCManager
 
         NativeProperties nativeProperties = new NativeProperties(EntityFaction.Native, statSystem.CombatStatBoard.Health.BaseValue, 10);
 
+
+        //LevelSystem creation
+        LevelSystem levelSystem = new LevelSystem();
+
+        //HealthSystem creation (convert health to int)
+        HealthSystem healthSystem = new HealthSystem((int)statSystem.CombatStatBoard.Health.ModifiedValue);
+
+        //ManaSystem creation
+        ManaSystem manaSystem = new ManaSystem((int)statSystem.CombatStatBoard.Mana.ModifiedValue);
+
+        //StaminaSystem creation
+        StaminaSystem staminaSystem = new StaminaSystem((int)statSystem.CombatStatBoard.Stamina.ModifiedValue);
         Inventory inventory = new Inventory();
 
-        Native native = new Native(nativeView, nativeProperties,
-         nativeIdlingState, nativeMovingState, nativeChasingState, nativeAttackingState,
-        statSystem, skillSystem, stateMachine, inventory);
+        Native native = new Native(nativeView, nativeProperties, nativeIdlingState, nativeMovingState, nativeChasingState, nativeAttackingState, statSystem, skillSystem, levelSystem, healthSystem, manaSystem, staminaSystem, stateMachine, inventory);
 
         native.Initialize(this);
 
         native.NativeView.transform.position = position;
         _enemies.Add(native);
+    }
+
+    public void DespawnMeleeNative(Native native)
+    {
+        _poolManager.ReturnObject(_nativePrefab.name, native.NativeView.gameObject);
+        native.Dispose();
+        _enemies.Remove(native);
     }
     public void Update()
     {

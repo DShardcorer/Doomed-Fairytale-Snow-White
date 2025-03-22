@@ -15,6 +15,14 @@ public abstract class Entity
     public StatSystem StatSystem => _statSystem;
     protected Inventory _inventory;
     public Inventory Inventory => _inventory;
+    private LevelSystem _levelSystem;
+    public LevelSystem LevelSystem => _levelSystem;
+    private HealthSystem _healthSystem;
+    public HealthSystem HealthSystem => _healthSystem;
+    private ManaSystem _manaSystem;
+    public ManaSystem ManaSystem => _manaSystem;
+    private StaminaSystem _staminaSystem;
+    public StaminaSystem StaminaSystem => _staminaSystem;
 
 
     public EntityStateMachine StateMachine => _stateMachine;
@@ -27,7 +35,10 @@ public abstract class Entity
     public AnimationTriggers AnimationTriggers => _animationTriggers;
 
 
-    public Entity(EntityView view, EntityProperties properties, StatSystem statSystem, SkillSystem skillSystem, EntityStateMachine stateMachine, Inventory inventory)
+    public Entity(EntityView view, EntityProperties properties, 
+    StatSystem statSystem, SkillSystem skillSystem, LevelSystem levelSystem,
+    HealthSystem healthSystem, ManaSystem manaSystem, StaminaSystem staminaSystem,
+    EntityStateMachine stateMachine, Inventory inventory)
     {
         _view = view;
         _attackHitbox = view.GetComponentInChildren<AttackHitbox>();
@@ -35,6 +46,10 @@ public abstract class Entity
         _properties = properties;
         _statSystem = statSystem;
         _skillSystem = skillSystem;
+        _levelSystem = levelSystem;
+        _healthSystem = healthSystem;
+        _manaSystem = manaSystem;
+        _staminaSystem = staminaSystem;
         _stateMachine = stateMachine;
         _inventory = inventory;
     }
@@ -50,23 +65,17 @@ public abstract class Entity
         _attackHitbox.Initialize(this);
         _animationTriggers.Initialize(this);
         _statSystem.Initialize(this);
-        //debuglog inventory
-        Debug.Log($"Entity {this} initialized with inventory {_inventory}");
+        _healthSystem.Initialize(this);
+        _manaSystem.Initialize(this);
+        _staminaSystem.Initialize(this);
 
     }
     public void TakeDamage(float damage)
     {
         Debug.Log($"Entity {this} took {damage} damage");
         _view.PlayDamagedAnimation();
-        _properties.currentHealth -= damage;
-        if (_properties.currentHealth <= 0)
-        {
-            Die();
-        }
+        _healthSystem.TakeDamage((int)damage);
     }
 
-    private void Die()
-    {
-        _view.gameObject.SetActive(false);
-    }
+    public abstract void Die();
 }

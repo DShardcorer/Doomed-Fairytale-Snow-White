@@ -12,7 +12,7 @@ public class InputManager : MonoBehaviour, ILifecycle<GameManager>
 
     public event EventHandler skill1Inputted;
     public event EventHandler interactInputted;
-    public event EventHandler openInventoryInputted;
+    public event EventHandler openMenuInputted;
 
 
     public void Initialize(GameManager gameManager)
@@ -28,7 +28,7 @@ public class InputManager : MonoBehaviour, ILifecycle<GameManager>
         _playerInputActions.Player.Attack.performed += ctx => attackInputted?.Invoke(this, EventArgs.Empty);
         _playerInputActions.Player.Dash.performed += ctx => dashInputted?.Invoke(this, EventArgs.Empty);
         _playerInputActions.Player.Skill1.performed += ctx => skill1Inputted?.Invoke(this, EventArgs.Empty);
-        _playerInputActions.Player.OpenInventory.performed += ctx => openInventoryInputted?.Invoke(this, EventArgs.Empty);
+        _playerInputActions.Player.OpenMenu.performed += ctx => openMenuInputted?.Invoke(this, EventArgs.Empty);
         _playerInputActions.Player.Interact.performed += ctx => interactInputted?.Invoke(this, EventArgs.Empty);
     }
 

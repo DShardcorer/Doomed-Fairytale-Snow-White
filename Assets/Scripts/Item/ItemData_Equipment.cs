@@ -1,3 +1,5 @@
+using UnityEngine;
+
 public enum EquipmentSlotType
 {
     Head,
@@ -23,10 +25,9 @@ public enum EquipmentItemType
 }
 
 
-
+[CreateAssetMenu(fileName = "New Equipment Item", menuName = "Equipment ItemData")]
 public class ItemData_Equipment : ItemData
 {
-
-
-
+    public EquipmentSlotType equipmentSlotType;
+    
 }

@@ -3,7 +3,9 @@ using UnityEngine;
 public class DashSkill : Skill
 {
     private PlayerDashingState _dashingState;
-    public DashSkill(string skillName, float cooldown, PlayerDashingState playerDashingState) : base(skillName, cooldown)
+    public DashSkill(string skillName, float cooldown, float healthCost, float manaCost, float staminaCost,
+    PlayerDashingState playerDashingState) 
+    : base(skillName, cooldown, healthCost ,manaCost, staminaCost)
     {
         _dashingState = playerDashingState;
     }

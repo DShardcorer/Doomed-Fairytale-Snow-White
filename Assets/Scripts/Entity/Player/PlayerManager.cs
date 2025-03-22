@@ -32,12 +32,12 @@ public class PlayerManager : MonoBehaviour, ILifecycle<GameManager>
         //SkillSystem creation
         PlayerDashingProperties playerDashingProperties = new PlayerDashingProperties();
         PlayerDashingState playerDashingState = new PlayerDashingState(AnimationStateHelper.IS_DASHING, playerDashingProperties);
-        DashSkill dashSkill = new DashSkill(SkillNameHelper.DashSkill, 2f, playerDashingState);
+        DashSkill dashSkill = new DashSkill(SkillNameHelper.DashSkill, 2f, 0, 0, 30, playerDashingState);
         
 
         PlayerShootingProperties playerShootingProperties = new PlayerShootingProperties();
         PlayerShootingState playerShootingState = new PlayerShootingState(AnimationStateHelper.IS_SHOOTING, playerShootingProperties);
-        ShootSkill shootSkill = new ShootSkill(SkillNameHelper.ShootSkill, 2f, playerShootingState);
+        ShootSkill shootSkill = new ShootSkill(SkillNameHelper.ShootSkill, 2f, 0, 10, 30, playerShootingState);
         
         SkillSystem skillSystem = new SkillSystem(new List<Skill> { dashSkill, shootSkill });
 
@@ -50,10 +50,6 @@ public class PlayerManager : MonoBehaviour, ILifecycle<GameManager>
 
         PlayerMovingProperties playerMovingProperties = new PlayerMovingProperties();
         PlayerMovingState playerMovingState = new PlayerMovingState(AnimationStateHelper.IS_MOVING, playerMovingProperties);
-
-
-
-
 
         PlayerAttackingProperties playerAttackingProperties = new PlayerAttackingProperties();
         PlayerAttackingState playerAttackingState = new PlayerAttackingState(AnimationStateHelper.IS_ATTACKING, playerAttackingProperties);
@@ -68,9 +64,21 @@ public class PlayerManager : MonoBehaviour, ILifecycle<GameManager>
         //PlayerProperties creation
         PlayerProperties playerProperties = new PlayerProperties(EntityFaction.Player, statSystem.CombatStatBoard.Health.BaseValue);
 
+        //LevelSystem creation
+        LevelSystem levelSystem = new LevelSystem();
+
+        //HealthSystem creation (convert health to int)
+        HealthSystem healthSystem = new HealthSystem((int)statSystem.CombatStatBoard.Health.ModifiedValue);
+
+        //ManaSystem creation
+        ManaSystem manaSystem = new ManaSystem((int)statSystem.CombatStatBoard.Mana.ModifiedValue);
+
+        //StaminaSystem creation
+        StaminaSystem staminaSystem = new StaminaSystem((int)statSystem.CombatStatBoard.Stamina.ModifiedValue);
+
         Inventory inventory = new Inventory();
 
-        _player = new Player(playerView, playerProperties, playerIdlingState, playerMovingState, playerAttackingState,statSystem, skillSystem, stateMachine, inventory);
+        _player = new Player(playerView, playerProperties, playerIdlingState, playerMovingState, playerAttackingState, statSystem, skillSystem, levelSystem, healthSystem, manaSystem, staminaSystem, stateMachine, inventory);
         _player.Initialize(this);
     }
     public Player GetPlayer()
