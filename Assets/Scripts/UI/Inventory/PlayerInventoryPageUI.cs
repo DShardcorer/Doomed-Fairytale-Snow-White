@@ -22,7 +22,6 @@ public class PlayerInventoryPageUI : MonoBehaviour, ILifecycle<PlayerInventoryUI
 
     public void UpdateUI(List<InventoryItem> items)
     {
-        Debug.Log("Updating UI");
         // Ensure we have the correct number of slots
         AdjustItemSlotCount(items.Count);
 
@@ -44,7 +43,7 @@ public class PlayerInventoryPageUI : MonoBehaviour, ILifecycle<PlayerInventoryUI
         // Add more slots if needed
         while (_itemSlots.Count < requiredCount)
         {
-            ItemSlotUI newSlot = _poolManager.GetObject(UINameHelper.ItemSlotUI).GetComponent<ItemSlotUI>();
+            ItemSlotUI newSlot = _poolManager.GetObject(UINameHelper.InventorySlotUI).GetComponent<ItemSlotUI>();
             newSlot.transform.SetParent(transform, false);
             _itemSlots.Add(newSlot);
         }
@@ -53,7 +52,7 @@ public class PlayerInventoryPageUI : MonoBehaviour, ILifecycle<PlayerInventoryUI
         while (_itemSlots.Count > requiredCount)
         {
             ItemSlotUI excessSlot = _itemSlots[_itemSlots.Count - 1];
-            _poolManager.ReturnObject(UINameHelper.ItemSlotUI, excessSlot.gameObject);
+            _poolManager.ReturnObject(UINameHelper.InventorySlotUI, excessSlot.gameObject);
             _itemSlots.RemoveAt(_itemSlots.Count - 1);
         }
     }

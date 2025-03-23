@@ -26,9 +26,12 @@ public class Native : NPC
     public Native(NativeView view, NativeProperties properties,
      NativeIdlingState nativeIdlingState, NativeMovingState nativeMovingState,
       NativeChasingState nativeChasingState, NativeAttackingState nativeAttackingState,
-        StatSystem statSystem, SkillSystem skillSystem, LevelSystem levelSystem, HealthSystem healthSystem, ManaSystem manaSystem, StaminaSystem staminaSystem,
+        StatSystem statSystem, EquipmentSystem equipmentSystem,
+         SkillSystem skillSystem, LevelSystem levelSystem, HealthSystem healthSystem, ManaSystem manaSystem, StaminaSystem staminaSystem,
         EntityStateMachine stateMachine, Inventory inventory
-      ) : base(view, properties, nativeIdlingState, nativeMovingState, statSystem, skillSystem, levelSystem, healthSystem, manaSystem, staminaSystem, stateMachine, inventory)
+      ) : base(view, properties, nativeIdlingState, nativeMovingState, 
+      statSystem, equipmentSystem,
+      skillSystem, levelSystem, healthSystem, manaSystem, staminaSystem, stateMachine, inventory)
     {
         _nativeView = view;
         _nativeProperties = properties;

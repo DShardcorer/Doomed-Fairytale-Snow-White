@@ -9,12 +9,9 @@ public class UIManager : MonoBehaviour
     public Transform uiContainer;
 
     [SerializeField]
-    private PauseMenuUI _pauseMenuUI;
-    public PauseMenuUI PauseMenuUI => _pauseMenuUI;
+    private IngameMenuUI _ingameMenuUI;
+    public IngameMenuUI IngameMenuUI => _ingameMenuUI;
 
-    [SerializeField]
-    private PlayerInventoryUI _playerInventoryUI;
-    public PlayerInventoryUI PlayerInventoryUI => _playerInventoryUI;
 
     [SerializeField]
     private HealthUI _healthUI;
@@ -59,12 +56,8 @@ public class UIManager : MonoBehaviour
     private void Initialize()
     {
         GameManager.Instance.InputManager.openMenuInputted += InputManager_openMenuInputted;
-        _playerInventoryUI.Initialize(this);
-        if (_playerInventoryUI == null)
-        {
-            Debug.LogWarning("Player Inventory UI is null");
-        }
-        _pauseMenuUI.gameObject.SetActive(false);
+        _ingameMenuUI.Initialize(this);
+        _ingameMenuUI.gameObject.SetActive(false);
         _healthUI.Initialize(this);
         _manaUI.Initialize(this);
         _staminaUI.Initialize(this);
@@ -82,7 +75,7 @@ public class UIManager : MonoBehaviour
 
     private void InputManager_openMenuInputted(object sender, EventArgs e)
     {
-        _pauseMenuUI.gameObject.SetActive(!_pauseMenuUI.gameObject.activeSelf);
+        _ingameMenuUI.gameObject.SetActive(!_ingameMenuUI.gameObject.activeSelf);
     }
 
     private void Update()

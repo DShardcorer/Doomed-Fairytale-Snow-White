@@ -2,5 +2,7 @@ using UnityEngine;
 
 public static class UINameHelper
 {
-    public static string ItemSlotUI = "ItemSlotUI";
+    public static string InventorySlotUI = "InventorySlotUI";
+
+    public static string EquipmentInventorySlotUI = "EquipmentInventorySlotUI";
 }

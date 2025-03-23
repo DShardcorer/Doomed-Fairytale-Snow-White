@@ -1,18 +1,27 @@
 using System.Collections.Generic;
-using UnityEditor.SceneManagement;
 using UnityEngine;
 
 public class PoolManager : MonoBehaviour
 {
     private GameManager _parent;
-    [SerializeField] private List<PoolSO> poolSOList = new List<PoolSO>();
+    
+    [SerializeField] private List<PoolSO> uiElementsPoolSOList = new List<PoolSO>();
+    [SerializeField] private List<PoolSO> npcPoolSOList = new List<PoolSO>();
+    [SerializeField] private List<PoolSO> environmentPoolSOList = new List<PoolSO>();
 
     private Dictionary<string, ObjectPool> pools = new Dictionary<string, ObjectPool>();
 
     public void Initialize(GameManager parent)
     {
         _parent = parent;
-        foreach (PoolSO pool in poolSOList)
+        CreatePoolsFromList(uiElementsPoolSOList);
+        CreatePoolsFromList(npcPoolSOList);
+        CreatePoolsFromList(environmentPoolSOList);
+    }
+
+    private void CreatePoolsFromList(List<PoolSO> poolList)
+    {
+        foreach (PoolSO pool in poolList)
         {
             CreatePool(pool.key, pool.prefab, pool.size);
         }

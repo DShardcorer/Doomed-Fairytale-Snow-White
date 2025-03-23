@@ -7,6 +7,7 @@ public abstract class EntityState
     protected Entity _entity;
     public Entity Entity => _entity;
     protected EntityStateMachine _stateMachine;
+    protected SkillSystem _skillSystem;
     protected EntityProperties _properties;
     protected EntityView _view;
     protected Rigidbody2D _rigidbody;
@@ -24,6 +25,7 @@ public abstract class EntityState
     {
         _entity = controller;
         _stateMachine = _entity.StateMachine;
+        _skillSystem = _entity.SkillSystem;
         _properties = _entity.Properties;
         _view = _entity.View;
         _rigidbody = _entity.View.Rigidbody2D;

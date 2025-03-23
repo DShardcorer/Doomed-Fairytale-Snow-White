@@ -9,7 +9,7 @@ public class EntityProperties
     protected float moveSpeed;
     public float MoveSpeed => moveSpeed;
 
-    public EntityProperties(EntityFaction entityFaction, float moveSpeed = 5f)
+    public EntityProperties(EntityFaction entityFaction, float moveSpeed)
     {
         this.entityFaction = entityFaction;
         this.moveSpeed = moveSpeed;

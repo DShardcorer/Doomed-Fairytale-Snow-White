@@ -22,7 +22,7 @@ public class NativeManager : NPCManager
         NativeMovingProperties nativeMovingProperties = new NativeMovingProperties(2);
         NativeMovingState nativeMovingState = new NativeMovingState(nativeMovingProperties, AnimationStateHelper.IS_MOVING);
 
-        NativeChasingProperties nativeChasingProperties = new NativeChasingProperties(2);
+        NativeChasingProperties nativeChasingProperties = new NativeChasingProperties();
         NativeMeleeChasingState nativeChasingState = new NativeMeleeChasingState(nativeChasingProperties, AnimationStateHelper.IS_CHASING);
 
         NativeAttackingProperties nativeAttackingProperties = new NativeAttackingProperties();
@@ -35,11 +35,14 @@ public class NativeManager : NPCManager
         AbilityStatBoard abilityStatBoard = new AbilityStatBoard(_abilityStatboardSO);
         StatSystem statSystem = new StatSystem(abilityStatBoard, AttackStatType.Strength);
 
+        //Equipment system creation
+        EquipmentSystem equipmentSystem = new EquipmentSystem();
 
 
-        NativeProperties nativeProperties = new NativeProperties(EntityFaction.Native, statSystem.CombatStatBoard.Health.BaseValue, 10);
 
+        NativeProperties nativeProperties = new NativeProperties(EntityFaction.Native, 2, 10);
 
+        Debug.Log(nativeProperties.MoveSpeed);
         //LevelSystem creation
         LevelSystem levelSystem = new LevelSystem();
 
@@ -53,7 +56,9 @@ public class NativeManager : NPCManager
         StaminaSystem staminaSystem = new StaminaSystem((int)statSystem.CombatStatBoard.Stamina.ModifiedValue);
         Inventory inventory = new Inventory();
 
-        Native native = new Native(nativeView, nativeProperties, nativeIdlingState, nativeMovingState, nativeChasingState, nativeAttackingState, statSystem, skillSystem, levelSystem, healthSystem, manaSystem, staminaSystem, stateMachine, inventory);
+        Native native = new Native(nativeView, nativeProperties, nativeIdlingState, nativeMovingState, nativeChasingState, nativeAttackingState,
+         statSystem, equipmentSystem,
+          skillSystem, levelSystem, healthSystem, manaSystem, staminaSystem, stateMachine, inventory);
 
         native.Initialize(this);
 

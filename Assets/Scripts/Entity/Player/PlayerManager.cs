@@ -60,6 +60,9 @@ public class PlayerManager : MonoBehaviour, ILifecycle<GameManager>
         AbilityStatBoard abilityStatBoard = new AbilityStatBoard(_abilityStatboardSO);
         StatSystem statSystem = new StatSystem(abilityStatBoard, AttackStatType.Strength);
 
+        //Equipment system creation
+        EquipmentSystem equipmentSystem = new EquipmentSystem();
+
 
         //PlayerProperties creation
         PlayerProperties playerProperties = new PlayerProperties(EntityFaction.Player, statSystem.CombatStatBoard.Health.BaseValue);
@@ -78,7 +81,9 @@ public class PlayerManager : MonoBehaviour, ILifecycle<GameManager>
 
         Inventory inventory = new Inventory();
 
-        _player = new Player(playerView, playerProperties, playerIdlingState, playerMovingState, playerAttackingState, statSystem, skillSystem, levelSystem, healthSystem, manaSystem, staminaSystem, stateMachine, inventory);
+        _player = new Player(playerView, playerProperties, playerIdlingState, playerMovingState, playerAttackingState,
+         statSystem,equipmentSystem,
+          skillSystem, levelSystem, healthSystem, manaSystem, staminaSystem, stateMachine, inventory);
         _player.Initialize(this);
     }
     public Player GetPlayer()

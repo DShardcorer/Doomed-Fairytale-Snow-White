@@ -2,11 +2,12 @@ using UnityEngine;
 
 public class NPCProperties : EntityProperties
 {
-    protected float chaseRange;
-    public float ChaseRange => chaseRange;
-    public NPCProperties(EntityFaction entityFaction, float maxHealth, float chaseRange = 10) : base(entityFaction, maxHealth)
+    private float _chaseRange;
+    public float ChaseRange => _chaseRange;
+
+    public NPCProperties(EntityFaction entityFaction, float moveSpeed, float chaseRange) : base(entityFaction, moveSpeed)
     {
-        this.chaseRange = chaseRange;
+        _chaseRange = chaseRange;
     }
 
 }

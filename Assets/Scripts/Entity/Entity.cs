@@ -11,6 +11,8 @@ public abstract class Entity
     protected EntityProperties _properties;
     protected SkillSystem _skillSystem;
     public SkillSystem SkillSystem => _skillSystem;
+    protected EquipmentSystem _equipmentSystem;
+    public EquipmentSystem EquipmentSystem => _equipmentSystem;
     protected StatSystem _statSystem;
     public StatSystem StatSystem => _statSystem;
     protected Inventory _inventory;
@@ -36,7 +38,7 @@ public abstract class Entity
 
 
     public Entity(EntityView view, EntityProperties properties, 
-    StatSystem statSystem, SkillSystem skillSystem, LevelSystem levelSystem,
+    StatSystem statSystem, EquipmentSystem equipmentSystem, SkillSystem skillSystem, LevelSystem levelSystem,
     HealthSystem healthSystem, ManaSystem manaSystem, StaminaSystem staminaSystem,
     EntityStateMachine stateMachine, Inventory inventory)
     {
@@ -45,6 +47,7 @@ public abstract class Entity
         _animationTriggers = view.GetComponentInChildren<AnimationTriggers>();
         _properties = properties;
         _statSystem = statSystem;
+        _equipmentSystem = equipmentSystem;
         _skillSystem = skillSystem;
         _levelSystem = levelSystem;
         _healthSystem = healthSystem;

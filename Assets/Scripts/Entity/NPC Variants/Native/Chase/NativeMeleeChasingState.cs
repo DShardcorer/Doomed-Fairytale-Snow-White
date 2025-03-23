@@ -23,7 +23,6 @@ public class NativeMeleeChasingState : NativeChasingState
         }
 
         _properties.lastMovementVector = (_properties.target.View.transform.position - _native.View.transform.position).normalized;
-
         _rigidbody.linearVelocity = _properties.MoveSpeed * 1.5f * _properties.lastMovementVector;
 
 

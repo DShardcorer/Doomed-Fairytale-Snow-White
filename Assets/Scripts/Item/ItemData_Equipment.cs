@@ -1,3 +1,4 @@
+using System.Collections.Generic;
 using UnityEngine;
 
 public enum EquipmentSlotType
@@ -5,10 +6,13 @@ public enum EquipmentSlotType
     Head,
     Chest,
     Legs,
+    Boots,
     Hands,
     Weapon,
     OffHand,
-    Accessory
+    Necklace,
+    Ring1,
+    Ring2
 }
 public enum EquipmentItemType
 {
@@ -18,10 +22,11 @@ public enum EquipmentItemType
     Shield,
     Helmet,
     Chestplate,
+    Leggings,
     Boots,
     Gloves,
     Ring,
-    Amulet
+    Necklace
 }
 
 
@@ -29,5 +34,17 @@ public enum EquipmentItemType
 public class ItemData_Equipment : ItemData
 {
     public EquipmentSlotType equipmentSlotType;
+    public EquipmentItemType equipmentItemType;
+    public List<StatModifier> StatModifiers;
+
+    public string GetStatsString()
+    {
+        string statsString = "";
+        foreach (StatModifier statModifier in StatModifiers)
+        {
+            statsString += statModifier.GetStatString() + "\n";
+        }
+        return statsString;
+    }
     
 }

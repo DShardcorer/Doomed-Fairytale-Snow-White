@@ -43,9 +43,9 @@ public class NPC : Entity, ILifecycle<NPCManager>, IUpdatable, IFixedUpdatable
 
     public NPC(NPCView view, NPCProperties properties, 
     NPCIdlingState npcIdlingState, NPCMovingState npcMovingState,
-    StatSystem statSystem, SkillSystem skillSystem, LevelSystem levelSystem, HealthSystem healthSystem, ManaSystem manaSystem, StaminaSystem staminaSystem,
+    StatSystem statSystem, EquipmentSystem equipmentSystem, SkillSystem skillSystem, LevelSystem levelSystem, HealthSystem healthSystem, ManaSystem manaSystem, StaminaSystem staminaSystem,
     EntityStateMachine stateMachine, Inventory inventory
-    ) : base(view, properties, statSystem, skillSystem, levelSystem, healthSystem, manaSystem, staminaSystem , stateMachine, inventory)
+    ) : base(view, properties, statSystem, equipmentSystem, skillSystem, levelSystem, healthSystem, manaSystem, staminaSystem , stateMachine, inventory)
     {
         _npcView = view;
         _npcProperties = properties;

@@ -24,44 +24,75 @@ public class StatSystem : ILifecycle<Entity>
     public void Initialize(Entity parent)
     {
         _parent = parent;
+        //sub to equipment system
+        _parent.EquipmentSystem.OnEquipmentChanged += OnEquipmentChanged;
 
+    }
+
+    private void OnEquipmentChanged(object sender, IReadOnlyDictionary<EquipmentSlotType, ItemData_Equipment> e)
+    {
+        foreach (var item in e.Values)
+        {
+            if (item == null)
+            {
+                continue;
+            }
+            foreach (var modifier in item.StatModifiers)
+            {
+                if (modifier.StatType == StatType.Strength
+                || modifier.StatType == StatType.Dexterity
+                || modifier.StatType == StatType.Constitution
+                || modifier.StatType == StatType.Intelligence
+                || modifier.StatType == StatType.Wisdom
+                || modifier.StatType == StatType.Charisma)
+                {
+                    AddAbilityModifier(modifier);
+                }
+                else
+                {
+                    AddCombatModifier(modifier);
+                }
+            }
+        }
+        RecalculateStats();
     }
 
     public void Dispose()
     {
         _parent = null;
+        _abilityModifiers.Clear();
+        _combatModifiers.Clear();
+        AbilityStatBoard = null;
+        CombatStatBoard = null;
+        //unsub to equipment system
+        _parent.EquipmentSystem.OnEquipmentChanged -= OnEquipmentChanged;
     }
     public void RecalculateStats()
     {
         AbilityStatBoard.CalculateModified(_abilityModifiers);
         CombatStatBoard.CalculateBase(AbilityStatBoard, PreferredAttackStat);
         CombatStatBoard.CalculateModified(AbilityStatBoard, PreferredAttackStat, _combatModifiers);
-        // Optionally, trigger events for UI updates.
         OnStatsChanged?.Invoke(this, EventArgs.Empty);
     }
 
     public void AddAbilityModifier(StatModifier modifier)
     {
         _abilityModifiers.Add(modifier);
-        RecalculateStats();
     }
 
     public void RemoveAbilityModifier(StatModifier modifier)
     {
         _abilityModifiers.Remove(modifier);
-        RecalculateStats();
     }
 
     public void AddCombatModifier(StatModifier modifier)
     {
         _combatModifiers.Add(modifier);
-        RecalculateStats();
     }
 
     public void RemoveCombatModifier(StatModifier modifier)
     {
         _combatModifiers.Remove(modifier);
-        RecalculateStats();
     }
 
 

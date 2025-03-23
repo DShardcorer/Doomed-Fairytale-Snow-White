@@ -14,6 +14,7 @@ public class NativeChasingState : NativeState
     {
         base.FixedUpdateState();
         Vector2 roundedDirection = new Vector2(Mathf.Round(_properties.lastMovementVector.x), Mathf.Round(_properties.lastMovementVector.y));
+        
         _npc.FOVDetector.SetColliderRotation(_properties.lastMovementVector);
         _npc.AttackHitbox.SetAttackHitBoxRotation(_properties.lastMovementVector);
         

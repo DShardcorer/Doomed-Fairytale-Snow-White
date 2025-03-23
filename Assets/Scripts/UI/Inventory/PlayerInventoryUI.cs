@@ -1,15 +1,10 @@
 using System;
 using System.Collections.Generic;
 using TMPro;
-using UnityEngine;
-using UnityEngine.UI;
 
-public class PlayerInventoryUI : MonoBehaviour, ILifecycle<UIManager>
+
+public class PlayerInventoryUI : IngameMenuPageUI
 {
-    private UIManager _uiManager;
-    public UIManager UIManager => _uiManager;
-
-
     public List<PlayerInventoryTabUI> playerInventoryTabs;
 
     public List<PlayerInventoryPageUI> playerInventoryPages;
@@ -18,9 +13,9 @@ public class PlayerInventoryUI : MonoBehaviour, ILifecycle<UIManager>
 
     
 
-    public void Initialize(UIManager manager)
+    public override void Initialize(IngameMenuUI ingameMenuUI)
     {
-        _uiManager = manager;
+        base.Initialize(ingameMenuUI);
         GameManager.Instance.PlayerManager.GetPlayer().Inventory.OnItemListChanged += Inventory_OnItemListChanged;
         GameManager.Instance.PlayerManager.GetPlayer().Inventory.OnMaterialItemListChanged += Inventory_OnMaterialItemListChanged;
         GameManager.Instance.PlayerManager.GetPlayer().Inventory.OnConsumableItemListChanged += Inventory_OnConsumableItemListChanged;
@@ -37,12 +32,10 @@ public class PlayerInventoryUI : MonoBehaviour, ILifecycle<UIManager>
             tab.Initialize(this);
         }
 
-        //Deselct all tabs
         foreach (PlayerInventoryTabUI tab in playerInventoryTabs)
         {
             tab.DeselectTab();
         }
-        //Select the first tab
         playerInventoryTabs[0].SelectTab();
         //Hide all pages
         foreach (PlayerInventoryPageUI page in playerInventoryPages)
@@ -130,8 +123,4 @@ public class PlayerInventoryUI : MonoBehaviour, ILifecycle<UIManager>
     
 
 
-    public void Dispose()
-    {
-        _uiManager = null;
-    }
 }

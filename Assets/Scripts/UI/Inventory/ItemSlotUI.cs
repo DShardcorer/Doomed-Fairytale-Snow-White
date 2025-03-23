@@ -12,17 +12,17 @@ public class ItemSlotUI : MonoBehaviour, IPointerClickHandler
     private const float DoubleClickThreshold = 0.3f; // Time in seconds
 
 
-    public InventoryItem inventoryItem;
+    public InventoryItem _item;
 
     public void UpdateUI(InventoryItem item)
     {
         //print the item name
         Debug.Log("Updating UI for item: " + item.ItemData.itemName);
-        inventoryItem = item;
+        _item = item;
         _icon.sprite = item.ItemData.icon;
-        if (inventoryItem.stackSize > 1)
+        if (_item.stackSize > 1)
         {
-            _stackSizeText.text = inventoryItem.stackSize.ToString();
+            _stackSizeText.text = _item.stackSize.ToString();
         }
         else
         {
@@ -41,8 +41,8 @@ public class ItemSlotUI : MonoBehaviour, IPointerClickHandler
 
     private void OnDoubleClick()
     {
-        if(inventoryItem.ItemData.itemType == ItemType.Equipment){
-            Debug.Log("Equipping item: " + inventoryItem.ItemData.itemName);
+        if(_item.ItemData.itemType == ItemType.Equipment){
+            Debug.Log("Equipping item: " + _item.ItemData.itemName);
         }
     }
 
