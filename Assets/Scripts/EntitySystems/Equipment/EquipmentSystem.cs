@@ -23,6 +23,14 @@ public class EquipmentSystem : ILifecycle<Entity>
         }
     }
 
+    public void InvokeInitialEvents()
+    {
+        if (IsPlayerEntity())
+        {
+            PlayerEquipmentEventSystem.InvokePlayerEquipmentSystem_OnEquipmentChanged(_equippedItems);
+        }
+    }
+
     private void PlayerEquipmentUI_OnItemUnequipped(object sender, EquipmentInventoryItem e)
     {
         UnequipItem(e);

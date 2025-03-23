@@ -24,9 +24,17 @@ public class StatSystem : ILifecycle<Entity>
     public void Initialize(Entity parent)
     {
         _parent = parent;
-        //sub to equipment system
-        PlayerEquipmentEventSystem.PlayerEquipmentSystem_OnEquipmentChanged += OnEquipmentChanged;
-
+        if (_parent is Player)
+        {
+            PlayerEquipmentEventSystem.PlayerEquipmentSystem_OnEquipmentChanged += OnEquipmentChanged;
+        }
+    }
+    public void InvokeInitialEvents()
+    {
+        if (_parent is Player)
+        {
+            PlayerStatusEventSystem.InvokeStatsChanged(AbilityStatBoard, CombatStatBoard);
+        }
     }
 
     private void OnEquipmentChanged(object sender, IReadOnlyDictionary<EquipmentSlotType, EquipmentInventoryItem> e)
@@ -55,6 +63,11 @@ public class StatSystem : ILifecycle<Entity>
             }
         }
         RecalculateStats();
+        if (_parent is Player)
+        {
+            PlayerStatusEventSystem.InvokeStatsChanged(AbilityStatBoard, CombatStatBoard);
+        }
+
     }
 
     public void Dispose()
@@ -64,8 +77,10 @@ public class StatSystem : ILifecycle<Entity>
         _combatModifiers.Clear();
         AbilityStatBoard = null;
         CombatStatBoard = null;
-        //unsub to equipment system
-        PlayerEquipmentEventSystem.PlayerEquipmentSystem_OnEquipmentChanged -= OnEquipmentChanged;
+        if (_parent is Player)
+        {
+            PlayerEquipmentEventSystem.PlayerEquipmentSystem_OnEquipmentChanged -= OnEquipmentChanged;
+        }
     }
     public void RecalculateStats()
     {

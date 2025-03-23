@@ -116,8 +116,15 @@ public class CombatStatBoard
         return finalValue;
     }
 
+
     public override string ToString()
     {
-        return $"Health: {Health.ModifiedValue}, Physical Attack: {PhysicalAttack.ModifiedValue}, Magic Attack: {MagicAttack.ModifiedValue}, Physical Defense: {PhysicalDefense.ModifiedValue}, Magical Defense: {MagicalDefense.ModifiedValue}, Mana: {Mana.ModifiedValue}, Stamina: {Stamina.ModifiedValue}";
+        return $"Health: {Health.ModifiedValue} (+ {Health.ModifiedValue - Health.BaseValue}) \n" +
+                $"Mana: {Mana.ModifiedValue} (+ {Mana.ModifiedValue - Mana.BaseValue}) \n" +
+                $"Stamina: {Stamina.ModifiedValue} (+ {Stamina.ModifiedValue - Stamina.BaseValue}) \n" +
+                $"Physical Attack: {PhysicalAttack.ModifiedValue} (+ {PhysicalAttack.ModifiedValue - PhysicalAttack.BaseValue}) \n" +
+                $"Magic Attack: {MagicAttack.ModifiedValue} (+ {MagicAttack.ModifiedValue - MagicAttack.BaseValue}) \n" +
+                $"Physical Defense: {PhysicalDefense.ModifiedValue} (+ {PhysicalDefense.ModifiedValue - PhysicalDefense.BaseValue}) \n" +
+                $"Magical Defense: {MagicalDefense.ModifiedValue} (+ {MagicalDefense.ModifiedValue - MagicalDefense.BaseValue}) \n";
     }
 }

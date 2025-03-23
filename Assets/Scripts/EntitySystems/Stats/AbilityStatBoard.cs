@@ -62,4 +62,14 @@ public class AbilityStatBoard
         Wisdom.ModifiedValue = newWis;
         Charisma.ModifiedValue = newCha;
     }
+
+    public override string ToString()
+    {
+        return $"Strength: {Strength.ModifiedValue} (+ {Strength.ModifiedValue - Strength.BaseValue}) \n" +
+                $"Dexterity: {Dexterity.ModifiedValue} (+ {Dexterity.ModifiedValue - Dexterity.BaseValue}) \n" +
+                $"Constitution: {Constitution.ModifiedValue} (+ {Constitution.ModifiedValue - Constitution.BaseValue}) \n" +
+                $"Intelligence: {Intelligence.ModifiedValue} (+ {Intelligence.ModifiedValue - Intelligence.BaseValue}) \n" +
+                $"Wisdom: {Wisdom.ModifiedValue} (+ {Wisdom.ModifiedValue - Wisdom.BaseValue}) \n" +
+                $"Charisma: {Charisma.ModifiedValue} (+ {Charisma.ModifiedValue - Charisma.BaseValue})";
+    }
 }
