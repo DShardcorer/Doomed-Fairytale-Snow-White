@@ -25,7 +25,7 @@ public class StatSystem : ILifecycle<Entity>
     {
         _parent = parent;
         //sub to equipment system
-        _parent.EquipmentSystem.OnEquipmentChanged += OnEquipmentChanged;
+        PlayerEquipmentEventSystem.PlayerEquipmentSystem_OnEquipmentChanged += OnEquipmentChanged;
 
     }
 
@@ -65,7 +65,7 @@ public class StatSystem : ILifecycle<Entity>
         AbilityStatBoard = null;
         CombatStatBoard = null;
         //unsub to equipment system
-        _parent.EquipmentSystem.OnEquipmentChanged -= OnEquipmentChanged;
+        PlayerEquipmentEventSystem.PlayerEquipmentSystem_OnEquipmentChanged -= OnEquipmentChanged;
     }
     public void RecalculateStats()
     {

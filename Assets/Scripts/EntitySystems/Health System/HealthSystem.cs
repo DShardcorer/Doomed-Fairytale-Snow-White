@@ -1,17 +1,7 @@
 
 using System;
 using UnityEngine;
-public class HealthChangedEventArgs : EventArgs
-{
-    public float CurrentHealth { get; }
-    public float MaxHealth { get; }
 
-    public HealthChangedEventArgs(float currentHealth, float maxHealth)
-    {
-        CurrentHealth = currentHealth;
-        MaxHealth = maxHealth;
-    }
-}
 
 public class HealthSystem : ILifecycle<Entity>
 {
@@ -23,7 +13,6 @@ public class HealthSystem : ILifecycle<Entity>
     private float currentHealth;
     public float CurrentHealth => currentHealth;
 
-    public event EventHandler<HealthChangedEventArgs> OnHealthChanged;
 
 
 
@@ -40,7 +29,7 @@ public class HealthSystem : ILifecycle<Entity>
     }
     public void InvokeInitialEvents()
     {
-        OnHealthChanged?.Invoke(this, new HealthChangedEventArgs(currentHealth, maxHealth));
+        PlayerVitalStatsEventSystem.InvokeHealthChanged(this, new HealthChangedEventArgs(currentHealth, maxHealth));
     }
 
     public void Dispose()

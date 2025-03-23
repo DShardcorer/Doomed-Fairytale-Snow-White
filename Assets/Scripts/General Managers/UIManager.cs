@@ -48,12 +48,9 @@ public class UIManager : MonoBehaviour
         }
 
     }
-    private void Start()
-    {
-        Initialize();
-    }
 
-    private void Initialize()
+
+    public void Initialize()
     {
         GameManager.Instance.InputManager.openMenuInputted += InputManager_openMenuInputted;
         _ingameMenuUI.Initialize(this);

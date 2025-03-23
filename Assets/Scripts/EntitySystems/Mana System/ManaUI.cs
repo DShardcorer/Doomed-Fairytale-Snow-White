@@ -15,7 +15,7 @@ public class ManaUI : MonoBehaviour, ILifecycle<UIManager>
     {
         _parent = parent;
         manaFill.fillAmount = 1;
-        GameManager.Instance.PlayerManager.GetPlayer().ManaSystem.OnManaChanged += ManaSystem_OnManaChanged;
+        PlayerVitalStatsEventSystem.OnManaChanged += ManaSystem_OnManaChanged;
     }
 
     private void ManaSystem_OnManaChanged(object sender, ManaChangedEventArgs e)

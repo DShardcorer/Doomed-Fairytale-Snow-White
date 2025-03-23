@@ -17,7 +17,7 @@ public class HealthUI : MonoBehaviour, ILifecycle<UIManager>
     {
         _parent = parent;
         healthFill.fillAmount = 1;
-        GameManager.Instance.PlayerManager.GetPlayer().HealthSystem.OnHealthChanged += HealthSystem_OnHealthChanged;
+        PlayerVitalStatsEventSystem.OnHealthChanged += HealthSystem_OnHealthChanged;
     }
 
     private void HealthSystem_OnHealthChanged(object sender, HealthChangedEventArgs e)

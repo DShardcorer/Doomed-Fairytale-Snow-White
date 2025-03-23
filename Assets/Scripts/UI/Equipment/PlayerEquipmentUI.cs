@@ -1,3 +1,4 @@
+using System;
 using System.Collections.Generic;
 using UnityEngine;
 
@@ -8,6 +9,8 @@ public class PlayerEquipmentUI : IngameMenuPageUI
     [SerializeField] private EquipmentInventoryUI _equipmentInventoryUI;
     public EquipmentInventoryUI EquipmentInventoryUI => _equipmentInventoryUI;
 
+    public event EventHandler<EquipmentSlotType> OnUnequipItem;
+
     public override void Initialize(IngameMenuUI parent)
     {
         base.Initialize(parent);
@@ -16,9 +19,26 @@ public class PlayerEquipmentUI : IngameMenuPageUI
             equipmentSlotUI.Initialize(this);
         }
         _equipmentInventoryUI.Initialize(this);
+        PlayerEquipmentEventSystem.PlayerEquipmentSystem_OnEquipmentChanged += EquipmentSystem_OnEquipmentChanged;
     }
 
+    private void EquipmentSystem_OnEquipmentChanged(object sender, IReadOnlyDictionary<EquipmentSlotType, ItemData_Equipment> e)
+    {
+        foreach (EquipmentSlotUI equipmentSlotUI in _equipmentSlotUIs)
+        {
+            if (e.ContainsKey(equipmentSlotUI.SlotType))
+            {
+                equipmentSlotUI.UpdateUI(e[equipmentSlotUI.SlotType]);
+            }
+            else
+            {
+                equipmentSlotUI.UpdateUI(null);
+            }
+        }
+    }
 
-
-
+    public void FireUnequipItemEvent(EquipmentSlotType slotType)
+    {
+        OnUnequipItem?.Invoke(this, slotType);
+    }
 }

@@ -1,16 +1,5 @@
 using System;
 using UnityEngine;
-public class StaminaChangedEventArgs : EventArgs
-{
-    public float CurrentStamina { get; }
-    public float MaxStamina { get; }
-
-    public StaminaChangedEventArgs(float currentStamina, float maxStamina)
-    {
-        CurrentStamina = currentStamina;
-        MaxStamina = maxStamina;
-    }
-}
 
 public class StaminaSystem : ILifecycle<Entity>, IUpdatable
 {
@@ -21,8 +10,6 @@ public class StaminaSystem : ILifecycle<Entity>, IUpdatable
 
     private float currentStamina;
     public float CurrentStamina => currentStamina;
-
-    public event EventHandler<StaminaChangedEventArgs> OnStaminaChanged;
 
     public StaminaSystem(int maxStamina)
     {
@@ -37,7 +24,7 @@ public class StaminaSystem : ILifecycle<Entity>, IUpdatable
     }
     public void InvokeInitialEvents()
     {
-        OnStaminaChanged?.Invoke(this, new StaminaChangedEventArgs(currentStamina, maxStamina));
+        PlayerVitalStatsEventSystem.InvokeStaminaChanged(this, new StaminaChangedEventArgs(currentStamina, maxStamina));
     }
 
     public void Dispose()
@@ -58,7 +45,7 @@ public class StaminaSystem : ILifecycle<Entity>, IUpdatable
         if (currentStamina >= stamina)
         {
             UseStamina(stamina);
-            OnStaminaChanged?.Invoke(this, new StaminaChangedEventArgs(currentStamina, maxStamina));
+            PlayerVitalStatsEventSystem.InvokeStaminaChanged(this, new StaminaChangedEventArgs(currentStamina, maxStamina));
             return true;
         }
         return false;
@@ -74,12 +61,17 @@ public class StaminaSystem : ILifecycle<Entity>, IUpdatable
 
     public void RestoreStamina(float stamina)
     {
-        if(currentStamina >= maxStamina)
+        if (currentStamina >= maxStamina)
         {
             return;
         }
         currentStamina += stamina;
-        OnStaminaChanged?.Invoke(this, new StaminaChangedEventArgs(currentStamina, maxStamina));
+
+        if (currentStamina > maxStamina)
+        {
+            currentStamina = maxStamina;
+        }
+        PlayerVitalStatsEventSystem.InvokeStaminaChanged(this, new StaminaChangedEventArgs(currentStamina, maxStamina));
     }
 
 

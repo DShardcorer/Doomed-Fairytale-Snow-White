@@ -1,17 +1,5 @@
 using System;
 
-public class ManaChangedEventArgs : EventArgs
-{
-    public float CurrentMana { get; }
-    public float MaxMana { get; }
-
-    public ManaChangedEventArgs(float currentMana, float maxMana)
-    {
-        CurrentMana = currentMana;
-        MaxMana = maxMana;
-    }
-}
-
 public class ManaSystem: ILifecycle<Entity>
 {
     private Entity _entity;
@@ -21,7 +9,6 @@ public class ManaSystem: ILifecycle<Entity>
 
     private float currentMana;
     public float CurrentMana => currentMana;
-    public event EventHandler<ManaChangedEventArgs> OnManaChanged;
 
 
     public ManaSystem(float maxMana)
@@ -36,7 +23,7 @@ public class ManaSystem: ILifecycle<Entity>
     }
     public void InvokeInitialEvents()
     {
-        OnManaChanged?.Invoke(this, new ManaChangedEventArgs(currentMana, maxMana));
+        PlayerVitalStatsEventSystem.InvokeManaChanged(this, new ManaChangedEventArgs(currentMana, maxMana));
     }
 
     public void Dispose()
@@ -49,7 +36,7 @@ public class ManaSystem: ILifecycle<Entity>
         if (currentMana >= mana)
         {
             UseMana(mana);
-            OnManaChanged?.Invoke(this, new ManaChangedEventArgs(currentMana, maxMana));
+            PlayerVitalStatsEventSystem.InvokeManaChanged(this, new ManaChangedEventArgs(currentMana, maxMana));
             return true;
         }
         return false;

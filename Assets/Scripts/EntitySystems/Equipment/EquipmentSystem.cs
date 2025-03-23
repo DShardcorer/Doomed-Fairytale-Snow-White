@@ -9,18 +9,27 @@ public class EquipmentSystem: ILifecycle<Entity>
     private Dictionary<EquipmentSlotType, ItemData_Equipment> _equippedItems = new Dictionary<EquipmentSlotType, ItemData_Equipment>();
     public IReadOnlyDictionary<EquipmentSlotType, ItemData_Equipment> EquippedItems => _equippedItems;
 
-    public event EventHandler<IReadOnlyDictionary<EquipmentSlotType, ItemData_Equipment>> OnEquipmentChanged;
-
     public void Initialize(Entity parent)
     {
         _parent = parent;
+        PlayerEquipmentEventSystem.EquipmentInventoryUI_OnItemEquipped += EquipmentInventoryUI_OnItemEquipped;
     }
+
+
+
+    private void EquipmentInventoryUI_OnItemEquipped(object sender, EquipmentInventoryItem e)
+    {
+        Debug.Log("EquipmentInventoryUI_OnItemEquipped");
+        EquipItem(e.EquipmentData);
+        PlayerEquipmentEventSystem.InvokePlayerEquipmentSystem_OnEquipmentChanged(_equippedItems);
+    }
+
     public void Dispose()
     {
         _equippedItems.Clear();
         _equippedItems = null;
-        OnEquipmentChanged = null;
         _parent = null;
+        PlayerEquipmentEventSystem.EquipmentInventoryUI_OnItemEquipped -= EquipmentInventoryUI_OnItemEquipped;
     }   
 
     public void EquipItem(ItemData_Equipment item)
@@ -33,7 +42,7 @@ public class EquipmentSystem: ILifecycle<Entity>
         {
             _equippedItems.Add(item.equipmentSlotType, item);
         }
-        OnEquipmentChanged?.Invoke(this, _equippedItems);
+        PlayerEquipmentEventSystem.InvokePlayerEquipmentSystem_OnEquipmentChanged(_equippedItems);
     }
 
     public void UnequipItem(EquipmentSlotType slotType)
@@ -42,7 +51,7 @@ public class EquipmentSystem: ILifecycle<Entity>
         {
             _equippedItems.Remove(slotType);
         }
-        OnEquipmentChanged?.Invoke(this, _equippedItems);
+        PlayerEquipmentEventSystem.InvokePlayerEquipmentSystem_OnEquipmentChanged(_equippedItems);
     }
     public ItemData_Equipment GetEquippedItem(EquipmentSlotType slotType)
     {

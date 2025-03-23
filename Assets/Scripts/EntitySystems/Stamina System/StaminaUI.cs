@@ -15,7 +15,7 @@ public class StaminaUI : MonoBehaviour, ILifecycle<UIManager>
     {
         _parent = parent;
         staminaFill.fillAmount = 1;
-        GameManager.Instance.PlayerManager.GetPlayer().StaminaSystem.OnStaminaChanged += StaminaSystem_OnStaminaChanged;
+       PlayerVitalStatsEventSystem.OnStaminaChanged += StaminaSystem_OnStaminaChanged;
     }
 
     private void StaminaSystem_OnStaminaChanged(object sender, StaminaChangedEventArgs e)

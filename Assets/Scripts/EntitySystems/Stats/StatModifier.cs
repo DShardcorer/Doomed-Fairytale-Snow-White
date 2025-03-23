@@ -20,6 +20,7 @@ public class StatModifier
     public string GetStatString()
     {
         string modifierTypeString = ModifierType == ModifierType.Flat ? "" : "%";
-        return $"{StatType} + {Value} ({modifierTypeString})";
+        return $"{StatType}+{Value}{modifierTypeString}";
     }
+
 }

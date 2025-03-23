@@ -17,6 +17,7 @@ public class EquipmentInventorySlotUI : MonoBehaviour, IPointerClickHandler, ILi
     [SerializeField] private TextMeshProUGUI _equipmentNameText;
     [SerializeField] private TextMeshProUGUI _equipmentTypeText;
     [SerializeField] private TextMeshProUGUI _equipmentStatsText;
+    [SerializeField] private TextMeshProUGUI _equippedText;
 
     private float _lastClickTime;
     private const float DoubleClickThreshold = 0.3f; // Time in seconds
@@ -38,6 +39,7 @@ public class EquipmentInventorySlotUI : MonoBehaviour, IPointerClickHandler, ILi
         _equipmentNameText.text = item.EquipmentData.itemName;
         _equipmentTypeText.text = item.EquipmentData.equipmentItemType.ToString();
         _equipmentStatsText.text = item.EquipmentData.GetStatsString();
+        _equippedText.text = item.EquipmentData.isEquipped ? "E" : "";
 
     }
 

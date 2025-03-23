@@ -10,7 +10,6 @@ public class PlayerInventoryTabUI : MonoBehaviour, IPointerDownHandler, ILifecyc
     public void Initialize(PlayerInventoryUI parent)
     {
         _playerInventoryUI = parent;
-        Debug.Log("Player Inventory Tab Initialized");
     }
 
     public void Dispose()
@@ -20,7 +19,6 @@ public class PlayerInventoryTabUI : MonoBehaviour, IPointerDownHandler, ILifecyc
 
     public void OnPointerDown(PointerEventData eventData)
     {
-        Debug.Log("Pointer down event detected.");
         _playerInventoryUI.SwitchToInventoryType(playerInventoryType);
     }
 

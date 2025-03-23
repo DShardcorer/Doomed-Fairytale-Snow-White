@@ -9,7 +9,6 @@ public class IngameMenuTabUI : MonoBehaviour, IPointerDownHandler, ILifecycle<In
     public void Initialize(IngameMenuUI parent)
     {
         _ingameMenuUI = parent;
-        Debug.Log("Ingame Menu Tab Initialized");
     }
 
     public void Dispose()
@@ -19,7 +18,6 @@ public class IngameMenuTabUI : MonoBehaviour, IPointerDownHandler, ILifecycle<In
 
     public void OnPointerDown(PointerEventData eventData)
     {
-        Debug.Log("Pointer down event detected.");
         _ingameMenuUI.SwitchToMenuType(ingameMenuType);
     }
 

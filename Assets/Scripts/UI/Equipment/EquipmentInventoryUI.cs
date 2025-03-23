@@ -10,13 +10,13 @@ public class EquipmentInventoryUI : MonoBehaviour, ILifecycle<PlayerEquipmentUI>
 
     private List<EquipmentInventoryItem> _equipmentItems;
 
-    public event EventHandler<EquipmentInventoryItem> OnItemEquipped;
+    
 
 
 
     public void FireEquipEvent(EquipmentInventoryItem item)
     {
-        OnItemEquipped?.Invoke(this, item);
+        PlayerEquipmentEventSystem.InvokeEquipmentInventoryUI_OnItemEquipped(item);
     }
 
 
@@ -25,9 +25,12 @@ public class EquipmentInventoryUI : MonoBehaviour, ILifecycle<PlayerEquipmentUI>
     {
         _parent = parent;
         _poolManager = GameManager.Instance.PoolManager;
-        //sub to inventory change events
-        GameManager.Instance.PlayerManager.GetPlayer().Inventory.OnEquipmentItemListChanged += Inventory_OnEquipmentItemListChanged;
+        //sub to inventory eventsystem change events
+        PlayerInventoryEventSystem.OnEquipmentItemListChanged += Inventory_OnEquipmentItemListChanged;
+    
     }
+
+
 
     private void Inventory_OnEquipmentItemListChanged(object sender, List<InventoryItem> e)
     {

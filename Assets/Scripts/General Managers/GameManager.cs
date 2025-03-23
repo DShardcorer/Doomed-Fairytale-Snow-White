@@ -35,12 +35,8 @@ public class GameManager : MonoBehaviour
 
         
     }
-    private void Start()
-    {
-        Initialize();
-    }
 
-    private void Initialize()
+    public void Initialize()
     {
         _inputManager.Initialize(this);
         _cameraManager.Initialize(this);
