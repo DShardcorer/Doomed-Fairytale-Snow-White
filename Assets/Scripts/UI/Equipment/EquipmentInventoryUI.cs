@@ -27,10 +27,14 @@ public class EquipmentInventoryUI : MonoBehaviour, ILifecycle<PlayerEquipmentUI>
         _poolManager = GameManager.Instance.PoolManager;
         //sub to inventory eventsystem change events
         PlayerInventoryEventSystem.OnEquipmentItemListChanged += Inventory_OnEquipmentItemListChanged;
+        PlayerEquipmentEventSystem.PlayerEquipmentSystem_OnEquipmentChanged += EquipmentSystem_OnEquipmentChanged;
     
     }
 
-
+    private void EquipmentSystem_OnEquipmentChanged(object sender, IReadOnlyDictionary<EquipmentSlotType, EquipmentInventoryItem> e)
+    {
+        UpdateEquippedStatus();
+    }
 
     private void Inventory_OnEquipmentItemListChanged(object sender, List<InventoryItem> e)
     {
@@ -40,6 +44,13 @@ public class EquipmentInventoryUI : MonoBehaviour, ILifecycle<PlayerEquipmentUI>
     public void Dispose()
     {
         _parent = null;
+    }
+    public void UpdateEquippedStatus()
+    {
+        foreach (EquipmentInventorySlotUI slot in _equipmentSlots)
+        {
+            slot.UpdateEquippedStatus();
+        }
     }
 
     public void UpdateUI(List<InventoryItem> items)

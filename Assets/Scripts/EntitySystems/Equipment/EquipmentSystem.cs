@@ -2,26 +2,44 @@ using System;
 using System.Collections.Generic;
 using UnityEngine;
 
-public class EquipmentSystem: ILifecycle<Entity>
+public class EquipmentSystem : ILifecycle<Entity>
 {
     private Entity _parent;
     public Entity Entity => _parent;
-    private Dictionary<EquipmentSlotType, ItemData_Equipment> _equippedItems = new Dictionary<EquipmentSlotType, ItemData_Equipment>();
-    public IReadOnlyDictionary<EquipmentSlotType, ItemData_Equipment> EquippedItems => _equippedItems;
+    private Dictionary<EquipmentSlotType, EquipmentInventoryItem> _equippedItems = new Dictionary<EquipmentSlotType, EquipmentInventoryItem>();
+    public IReadOnlyDictionary<EquipmentSlotType, EquipmentInventoryItem> EquippedItems => _equippedItems;
+
+    // Helper method to check if the parent entity is the player.
+    private bool IsPlayerEntity() => _parent is Player; // Or use _parent.CompareTag("Player") if you tag your player
 
     public void Initialize(Entity parent)
     {
         _parent = parent;
-        PlayerEquipmentEventSystem.EquipmentInventoryUI_OnItemEquipped += EquipmentInventoryUI_OnItemEquipped;
+        // Only subscribe to player-specific events if this entity is the player.
+        if (IsPlayerEntity())
+        {
+            PlayerEquipmentEventSystem.EquipmentInventoryUI_OnItemEquipped += EquipmentInventoryUI_OnItemEquipped;
+            PlayerEquipmentEventSystem.PlayerEquipmentUI_OnItemUnequipped += PlayerEquipmentUI_OnItemUnequipped;
+        }
     }
 
-
+    private void PlayerEquipmentUI_OnItemUnequipped(object sender, EquipmentInventoryItem e)
+    {
+        UnequipItem(e);
+        if (IsPlayerEntity())
+        {
+            PlayerEquipmentEventSystem.InvokePlayerEquipmentSystem_OnEquipmentChanged(_equippedItems);
+        }
+    }
 
     private void EquipmentInventoryUI_OnItemEquipped(object sender, EquipmentInventoryItem e)
     {
         Debug.Log("EquipmentInventoryUI_OnItemEquipped");
-        EquipItem(e.EquipmentData);
-        PlayerEquipmentEventSystem.InvokePlayerEquipmentSystem_OnEquipmentChanged(_equippedItems);
+        EquipItem(e);
+        if (IsPlayerEntity())
+        {
+            PlayerEquipmentEventSystem.InvokePlayerEquipmentSystem_OnEquipmentChanged(_equippedItems);
+        }
     }
 
     public void Dispose()
@@ -29,31 +47,44 @@ public class EquipmentSystem: ILifecycle<Entity>
         _equippedItems.Clear();
         _equippedItems = null;
         _parent = null;
-        PlayerEquipmentEventSystem.EquipmentInventoryUI_OnItemEquipped -= EquipmentInventoryUI_OnItemEquipped;
-    }   
-
-    public void EquipItem(ItemData_Equipment item)
-    {
-        if (_equippedItems.ContainsKey(item.equipmentSlotType))
+        if (IsPlayerEntity())
         {
-            _equippedItems[item.equipmentSlotType] = item;
+            PlayerEquipmentEventSystem.EquipmentInventoryUI_OnItemEquipped -= EquipmentInventoryUI_OnItemEquipped;
+            PlayerEquipmentEventSystem.PlayerEquipmentUI_OnItemUnequipped -= PlayerEquipmentUI_OnItemUnequipped;
+        }
+    }
+
+    public void EquipItem(EquipmentInventoryItem item)
+    {
+        if (_equippedItems.ContainsKey(item.EquipmentData.equipmentSlotType))
+        {
+            _equippedItems[item.EquipmentData.equipmentSlotType] = item;
         }
         else
         {
-            _equippedItems.Add(item.equipmentSlotType, item);
+            _equippedItems.Add(item.EquipmentData.equipmentSlotType, item);
         }
-        PlayerEquipmentEventSystem.InvokePlayerEquipmentSystem_OnEquipmentChanged(_equippedItems);
+        item.isEquipped = true;
+        if (IsPlayerEntity())
+        {
+            PlayerEquipmentEventSystem.InvokePlayerEquipmentSystem_OnEquipmentChanged(_equippedItems);
+        }
     }
 
-    public void UnequipItem(EquipmentSlotType slotType)
+    public void UnequipItem(EquipmentInventoryItem item)
     {
-        if (_equippedItems.ContainsKey(slotType))
+        if (_equippedItems.ContainsKey(item.EquipmentData.equipmentSlotType))
         {
-            _equippedItems.Remove(slotType);
+            _equippedItems.Remove(item.EquipmentData.equipmentSlotType);
         }
-        PlayerEquipmentEventSystem.InvokePlayerEquipmentSystem_OnEquipmentChanged(_equippedItems);
+        item.isEquipped = false;
+        if (IsPlayerEntity())
+        {
+            PlayerEquipmentEventSystem.InvokePlayerEquipmentSystem_OnEquipmentChanged(_equippedItems);
+        }
     }
-    public ItemData_Equipment GetEquippedItem(EquipmentSlotType slotType)
+
+    public EquipmentInventoryItem GetEquippedItem(EquipmentSlotType slotType)
     {
         if (_equippedItems.ContainsKey(slotType))
         {

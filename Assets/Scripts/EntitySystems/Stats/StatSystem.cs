@@ -29,7 +29,7 @@ public class StatSystem : ILifecycle<Entity>
 
     }
 
-    private void OnEquipmentChanged(object sender, IReadOnlyDictionary<EquipmentSlotType, ItemData_Equipment> e)
+    private void OnEquipmentChanged(object sender, IReadOnlyDictionary<EquipmentSlotType, EquipmentInventoryItem> e)
     {
         foreach (var item in e.Values)
         {
@@ -37,7 +37,7 @@ public class StatSystem : ILifecycle<Entity>
             {
                 continue;
             }
-            foreach (var modifier in item.StatModifiers)
+            foreach (var modifier in item.EquipmentData.StatModifiers)
             {
                 if (modifier.StatType == StatType.Strength
                 || modifier.StatType == StatType.Dexterity

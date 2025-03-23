@@ -4,7 +4,7 @@ using UnityEngine;
 [CreateAssetMenu(fileName = "New Equipment Item", menuName = "Equipment ItemData")]
 public class ItemData_Equipment : ItemData
 {
-    public bool isEquipped = false;
+
     public EquipmentSlotType equipmentSlotType;
     public EquipmentItemType equipmentItemType;
     public List<StatModifier> StatModifiers;

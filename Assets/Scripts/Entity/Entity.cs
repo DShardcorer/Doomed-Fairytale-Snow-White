@@ -64,6 +64,7 @@ public abstract class Entity
     }
     public virtual void Initialize()
     {
+        _equipmentSystem.Initialize(this);
         _inventory.Initialize(this);
         _attackHitbox.Initialize(this);
         _animationTriggers.Initialize(this);

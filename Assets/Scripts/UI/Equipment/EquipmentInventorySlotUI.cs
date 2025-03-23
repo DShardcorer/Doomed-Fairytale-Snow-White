@@ -34,12 +34,14 @@ public class EquipmentInventorySlotUI : MonoBehaviour, IPointerClickHandler, ILi
 
     public void UpdateUI(EquipmentInventoryItem item)
     {
+
         _equipmentItem = item;
         _equipmentIcon.sprite = item.EquipmentData.icon;
         _equipmentNameText.text = item.EquipmentData.itemName;
         _equipmentTypeText.text = item.EquipmentData.equipmentItemType.ToString();
         _equipmentStatsText.text = item.EquipmentData.GetStatsString();
-        _equippedText.text = item.EquipmentData.isEquipped ? "E" : "";
+        _equippedText.text = item.isEquipped ? "E" : "";
+        Debug.Log("Equipped: " + item.isEquipped);
 
     }
 
@@ -56,5 +58,10 @@ public class EquipmentInventorySlotUI : MonoBehaviour, IPointerClickHandler, ILi
     private void OnDoubleClick()
     {
         _equipmentInventoryUI.FireEquipEvent(_equipmentItem);
+    }
+
+    public void UpdateEquippedStatus()
+    {
+        _equippedText.text = _equipmentItem.isEquipped ? "E" : "";
     }
 }

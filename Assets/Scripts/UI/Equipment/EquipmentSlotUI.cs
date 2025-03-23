@@ -8,17 +8,13 @@ public class EquipmentSlotUI : MonoBehaviour, ILifecycle<PlayerEquipmentUI>, IPo
     private PlayerEquipmentUI _playerEquipmentUI;
     public PlayerEquipmentUI PlayerEquipmentUI => _playerEquipmentUI;
     [SerializeField] private EquipmentSlotType _slotType;
-    private Image _iconImage;
+    [SerializeField] private Image _iconImage;
     public EquipmentSlotType SlotType => _slotType;
-    private ItemData_Equipment _itemData;
+    private EquipmentInventoryItem _item;
 
     private float _lastClickTime;
     private const float DoubleClickThreshold = 0.3f; // Time in seconds
 
-    private void Awake()
-    {
-        _iconImage = GetComponent<Image>();
-    }
 
     public void Initialize(PlayerEquipmentUI parent)
     {
@@ -30,17 +26,20 @@ public class EquipmentSlotUI : MonoBehaviour, ILifecycle<PlayerEquipmentUI>, IPo
         _playerEquipmentUI = null;
     }
 
-    public void UpdateUI(ItemData_Equipment itemData)
+    public void UpdateUI(EquipmentInventoryItem item)
     {
-        if (itemData != null)
+
+        if (item != null)
         {
-            _itemData = itemData;
-            _iconImage.sprite = itemData.icon;
+            _item = item;
+            _iconImage.sprite = _item.EquipmentData.icon;
+            _iconImage.GetComponent<CanvasGroup>().alpha = 1;
         }
         else
         {
-            _itemData = null;
+            _item = null;
             _iconImage.sprite = null;
+            _iconImage.GetComponent<CanvasGroup>().alpha = 0;
         }
     }
 
@@ -56,8 +55,10 @@ public class EquipmentSlotUI : MonoBehaviour, ILifecycle<PlayerEquipmentUI>, IPo
 
     private void Unequip()
     {
-        _playerEquipmentUI.FireUnequipItemEvent(_slotType);
-        _itemData = null;
+        _item.isEquipped = false;
+        _playerEquipmentUI.FireUnequipItemEvent(_item);
+        _item = null;
         _iconImage.sprite = null;
+        _iconImage.GetComponent<CanvasGroup>().alpha = 0;
     }
 }

@@ -1,15 +1,15 @@
 using System;
 
-public class ManaSystem: ILifecycle<Entity>
+public class ManaSystem : ILifecycle<Entity>
 {
     private Entity _entity;
     public Entity Entity => _entity;
+    
     private float maxMana;
     public float MaxMana => maxMana;
-
+    
     private float currentMana;
     public float CurrentMana => currentMana;
-
 
     public ManaSystem(float maxMana)
     {
@@ -21,9 +21,16 @@ public class ManaSystem: ILifecycle<Entity>
     {
         _entity = parent;
     }
+
+    // Helper method: check if the current entity is a player.
+    private bool IsPlayerEntity() => _entity is Player; // or use _entity.CompareTag("Player")
+
     public void InvokeInitialEvents()
     {
-        PlayerVitalStatsEventSystem.InvokeManaChanged(this, new ManaChangedEventArgs(currentMana, maxMana));
+        if (IsPlayerEntity())
+        {
+            PlayerVitalStatsEventSystem.InvokeManaChanged(this, new ManaChangedEventArgs(currentMana, maxMana));
+        }
     }
 
     public void Dispose()
@@ -36,7 +43,10 @@ public class ManaSystem: ILifecycle<Entity>
         if (currentMana >= mana)
         {
             UseMana(mana);
-            PlayerVitalStatsEventSystem.InvokeManaChanged(this, new ManaChangedEventArgs(currentMana, maxMana));
+            if (IsPlayerEntity())
+            {
+                PlayerVitalStatsEventSystem.InvokeManaChanged(this, new ManaChangedEventArgs(currentMana, maxMana));
+            }
             return true;
         }
         return false;
@@ -45,7 +55,7 @@ public class ManaSystem: ILifecycle<Entity>
     private void UseMana(float mana)
     {
         currentMana -= mana;
-        if (currentMana <= 0)
+        if (currentMana < 0)
         {
             currentMana = 0;
         }
@@ -57,6 +67,10 @@ public class ManaSystem: ILifecycle<Entity>
         if (currentMana > maxMana)
         {
             currentMana = maxMana;
+        }
+        if (IsPlayerEntity())
+        {
+            PlayerVitalStatsEventSystem.InvokeManaChanged(this, new ManaChangedEventArgs(currentMana, maxMana));
         }
     }
 }

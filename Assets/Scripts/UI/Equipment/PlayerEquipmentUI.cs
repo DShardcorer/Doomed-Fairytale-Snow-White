@@ -9,8 +9,6 @@ public class PlayerEquipmentUI : IngameMenuPageUI
     [SerializeField] private EquipmentInventoryUI _equipmentInventoryUI;
     public EquipmentInventoryUI EquipmentInventoryUI => _equipmentInventoryUI;
 
-    public event EventHandler<EquipmentSlotType> OnUnequipItem;
-
     public override void Initialize(IngameMenuUI parent)
     {
         base.Initialize(parent);
@@ -22,7 +20,7 @@ public class PlayerEquipmentUI : IngameMenuPageUI
         PlayerEquipmentEventSystem.PlayerEquipmentSystem_OnEquipmentChanged += EquipmentSystem_OnEquipmentChanged;
     }
 
-    private void EquipmentSystem_OnEquipmentChanged(object sender, IReadOnlyDictionary<EquipmentSlotType, ItemData_Equipment> e)
+    private void EquipmentSystem_OnEquipmentChanged(object sender, IReadOnlyDictionary<EquipmentSlotType, EquipmentInventoryItem> e)
     {
         foreach (EquipmentSlotUI equipmentSlotUI in _equipmentSlotUIs)
         {
@@ -35,10 +33,12 @@ public class PlayerEquipmentUI : IngameMenuPageUI
                 equipmentSlotUI.UpdateUI(null);
             }
         }
+        
     }
 
-    public void FireUnequipItemEvent(EquipmentSlotType slotType)
+    public void FireUnequipItemEvent(EquipmentInventoryItem item)
     {
-        OnUnequipItem?.Invoke(this, slotType);
+        PlayerEquipmentEventSystem.InvokePlayerEquipmentUI_OnItemUnequipped(item);
     }
+
 }
