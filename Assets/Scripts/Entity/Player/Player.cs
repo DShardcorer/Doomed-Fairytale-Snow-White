@@ -36,8 +36,8 @@ public class Player : Entity, ILifecycle<PlayerManager>, IFixedUpdatable, IUpdat
 
     public Player(PlayerView view, PlayerProperties properties,
  PlayerIdlingState playerIdlingState, PlayerMovingState playerMovingState, PlayerAttackingState playerAttackingState,
- StatSystem statSystem, EquipmentSystem equipmentSystem,
-  SkillSystem skillSystem, LevelSystem levelSystem, HealthSystem healthSystem, ManaSystem manaSystem, StaminaSystem staminaSystem,
+ PlayerStatSystem statSystem, PlayerEquipmentSystem equipmentSystem,
+  SkillSystem skillSystem, PlayerLevelSystem levelSystem, HealthSystem healthSystem, ManaSystem manaSystem, StaminaSystem staminaSystem,
  EntityStateMachine stateMachine, Inventory inventory)
  : base(view, properties, statSystem, equipmentSystem,
  skillSystem, levelSystem, healthSystem, manaSystem, staminaSystem, stateMachine, inventory)

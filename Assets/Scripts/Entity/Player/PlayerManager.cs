@@ -58,17 +58,17 @@ public class PlayerManager : MonoBehaviour, ILifecycle<GameManager>
 
         //Stat system creation
         AbilityStatBoard abilityStatBoard = new AbilityStatBoard(_abilityStatboardSO);
-        StatSystem statSystem = new StatSystem(abilityStatBoard, AttackStatType.Strength);
+        PlayerStatSystem statSystem = new PlayerStatSystem(abilityStatBoard, AttackStatType.Strength);
 
         //Equipment system creation
-        EquipmentSystem equipmentSystem = new EquipmentSystem();
+        PlayerEquipmentSystem equipmentSystem = new PlayerEquipmentSystem();
 
 
         //PlayerProperties creation
         PlayerProperties playerProperties = new PlayerProperties(EntityFaction.Player, statSystem.CombatStatBoard.Health.BaseValue);
 
         //LevelSystem creation
-        LevelSystem levelSystem = new LevelSystem();
+        PlayerLevelSystem levelSystem = new PlayerLevelSystem();
 
         //HealthSystem creation (convert health to int)
         HealthSystem healthSystem = new HealthSystem((int)statSystem.CombatStatBoard.Health.ModifiedValue);
