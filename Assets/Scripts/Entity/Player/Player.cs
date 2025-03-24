@@ -37,8 +37,8 @@ public class Player : Entity, ILifecycle<PlayerManager>, IFixedUpdatable, IUpdat
     public Player(PlayerView view, PlayerProperties properties,
  PlayerIdlingState playerIdlingState, PlayerMovingState playerMovingState, PlayerAttackingState playerAttackingState,
  PlayerStatSystem statSystem, PlayerEquipmentSystem equipmentSystem,
-  SkillSystem skillSystem, PlayerLevelSystem levelSystem, HealthSystem healthSystem, ManaSystem manaSystem, StaminaSystem staminaSystem,
- EntityStateMachine stateMachine, Inventory inventory)
+  SkillSystem skillSystem, PlayerLevelSystem levelSystem, PlayerHealthSystem healthSystem, PlayerManaSystem manaSystem, PlayerStaminaSystem staminaSystem,
+ EntityStateMachine stateMachine, PlayerInventorySystem inventory)
  : base(view, properties, statSystem, equipmentSystem,
  skillSystem, levelSystem, healthSystem, manaSystem, staminaSystem, stateMachine, inventory)
     {
@@ -72,7 +72,6 @@ public class Player : Entity, ILifecycle<PlayerManager>, IFixedUpdatable, IUpdat
 
 
         //State creation
-
         _playerIdlingState.Initialize(this);
         _playerMovingState.Initialize(this);
         _playerAttackingState.Initialize(this);

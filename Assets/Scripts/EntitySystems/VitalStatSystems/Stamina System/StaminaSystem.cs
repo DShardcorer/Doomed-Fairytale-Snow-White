@@ -3,12 +3,13 @@ using UnityEngine;
 
 public class StaminaSystem : ILifecycle<Entity>, IUpdatable
 {
-    private Entity _entity;
+    protected Entity _entity;
     public Entity Entity => _entity;
-    private float maxStamina;
+    
+    protected float maxStamina;
     public float MaxStamina => maxStamina;
 
-    private float currentStamina;
+    protected float currentStamina;
     public float CurrentStamina => currentStamina;
 
     public StaminaSystem(int maxStamina)
@@ -16,63 +17,66 @@ public class StaminaSystem : ILifecycle<Entity>, IUpdatable
         this.maxStamina = maxStamina;
         currentStamina = maxStamina;
     }
-    public void Initialize(Entity parent)
+    
+    public virtual void Initialize(Entity parent)
     {
         _entity = parent;
-        //add to update manager
+        // Register with the update manager
         GameManager.Instance.UpdateManager.AddUpdatable(this);
     }
-    public void InvokeInitialEvents()
+    
+    // Virtual method for derived classes to override with event invocation
+    protected virtual void OnStaminaChanged() { }
+    
+    public virtual void InvokeInitialEvents()
     {
-        PlayerVitalStatsEventSystem.InvokeStaminaChanged(this, new StaminaChangedEventArgs(currentStamina, maxStamina));
+        // Base implementation does nothing.
     }
-
-    public void Dispose()
+    
+    public virtual void Dispose()
     {
         _entity = null;
-        //remove from update manager
+        // Remove from update manager
         GameManager.Instance.UpdateManager.RemoveUpdatable(this);
     }
-    public void UpdateLogic()
+    
+    public virtual void UpdateLogic()
     {
-        //recover 5% of max stamina every second
+        // Recover 5% of max stamina every second
         RestoreStamina(maxStamina / 20 * Time.deltaTime);
     }
-
-
-    public bool TryUseStamina(float stamina)
+    
+    public virtual bool TryUseStamina(float stamina)
     {
         if (currentStamina >= stamina)
         {
             UseStamina(stamina);
-            PlayerVitalStatsEventSystem.InvokeStaminaChanged(this, new StaminaChangedEventArgs(currentStamina, maxStamina));
+            OnStaminaChanged();
             return true;
         }
         return false;
     }
-    private void UseStamina(float stamina)
+    
+    protected virtual void UseStamina(float stamina)
     {
         currentStamina -= stamina;
-        if (currentStamina <= 0)
+        if (currentStamina < 0)
         {
             currentStamina = 0;
         }
     }
-
-    public void RestoreStamina(float stamina)
+    
+    public virtual void RestoreStamina(float stamina)
     {
         if (currentStamina >= maxStamina)
         {
             return;
         }
         currentStamina += stamina;
-
         if (currentStamina > maxStamina)
         {
             currentStamina = maxStamina;
         }
-        PlayerVitalStatsEventSystem.InvokeStaminaChanged(this, new StaminaChangedEventArgs(currentStamina, maxStamina));
+        OnStaminaChanged();
     }
-
-
 }

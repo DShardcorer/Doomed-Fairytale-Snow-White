@@ -2,14 +2,14 @@ using System;
 using System.Collections.Generic;
 using UnityEngine;
 
-public class Inventory
+public class InventorySystem
 {
-    private Entity _entity;
+    protected Entity _entity;
     public Entity Entity => _entity;
 
-    private float _capacity;
+    protected float _capacity;
     public float Capacity => _capacity;
-    private float _currentWeight;
+    protected float _currentWeight;
     public float CurrentWeight => _currentWeight;
 
     public List<InventoryItem> items;
@@ -20,14 +20,14 @@ public class Inventory
 
     public List<InventoryItem> consumableItems;
     public Dictionary<ItemData, InventoryItem> consumableItemDictionary;
-    
+
     public List<InventoryItem> equipmentItems;
     public Dictionary<ItemData, InventoryItem> equipmentItemDictionary;
 
     public List<InventoryItem> miscellaneousItems;
     public Dictionary<ItemData, InventoryItem> miscellaneousItemDictionary;
 
-    public Inventory()
+    public InventorySystem()
     {
         items = new List<InventoryItem>();
         itemDictionary = new Dictionary<ItemData, InventoryItem>();
@@ -48,54 +48,42 @@ public class Inventory
         UpdateCurrentWeight();
     }
 
-    // Helper method to check if the owning entity is the player.
-    private bool IsPlayerEntity() => _entity is Player; // Or use _entity.CompareTag("Player")
-
-    public void InvokeInitialEvents()
+    public virtual void InvokeInitialEvents()
     {
-        if (IsPlayerEntity())
-        {
-            PlayerInventoryEventSystem.InvokeItemListChanged(items);
-            PlayerInventoryEventSystem.InvokeMaterialItemListChanged(materialItems);
-            PlayerInventoryEventSystem.InvokeConsumableItemListChanged(consumableItems);
-            PlayerInventoryEventSystem.InvokeEquipmentItemListChanged(equipmentItems);
-            PlayerInventoryEventSystem.InvokeMiscellaneousItemListChanged(miscellaneousItems);
-            PlayerInventoryEventSystem.InvokeWeightChanged(_currentWeight, _capacity);
-        }
+        // Base inventory system does not trigger events by default.
     }
 
-    public void UpdateCurrentWeight()
+    // Virtual hooks for notifying changes; default implementations do nothing.
+    protected virtual void OnItemListChanged(List<InventoryItem> items) { }
+    protected virtual void OnMaterialItemListChanged(List<InventoryItem> materialItems) { }
+    protected virtual void OnConsumableItemListChanged(List<InventoryItem> consumableItems) { }
+    protected virtual void OnEquipmentItemListChanged(List<InventoryItem> equipmentItems) { }
+    protected virtual void OnMiscellaneousItemListChanged(List<InventoryItem> miscellaneousItems) { }
+    protected virtual void OnWeightChanged(float currentWeight, float capacity) { }
+
+    public virtual void UpdateCurrentWeight()
     {
         _currentWeight = 0;
         foreach (InventoryItem item in items)
         {
             _currentWeight += item.ItemData.weight * item.stackSize;
         }
-        if (IsPlayerEntity())
-        {
-            PlayerInventoryEventSystem.InvokeWeightChanged(_currentWeight, _capacity);
-        }
+        OnWeightChanged(_currentWeight, _capacity);
     }
 
-    public void IncrementCurrentWeight(float weight)
+    public virtual void IncrementCurrentWeight(float weight)
     {
         _currentWeight += weight;
-        if (IsPlayerEntity())
-        {
-            PlayerInventoryEventSystem.InvokeWeightChanged(_currentWeight, _capacity);
-        }
+        OnWeightChanged(_currentWeight, _capacity);
     }
 
-    public void DecrementCurrentWeight(float weight)
+    public virtual void DecrementCurrentWeight(float weight)
     {
         _currentWeight -= weight;
-        if (IsPlayerEntity())
-        {
-            PlayerInventoryEventSystem.InvokeWeightChanged(_currentWeight, _capacity);
-        }
+        OnWeightChanged(_currentWeight, _capacity);
     }
 
-    public void AddItem(ItemData itemData)
+    public virtual void AddItem(ItemData itemData)
     {
         InventoryItem item;
         bool isNewItem = !itemDictionary.TryGetValue(itemData, out item);
@@ -114,37 +102,30 @@ public class Inventory
             case ItemType.Material:
                 if (isNewItem) materialItems.Add(item);
                 materialItemDictionary[itemData] = item;
-                if (IsPlayerEntity())
-                    PlayerInventoryEventSystem.InvokeMaterialItemListChanged(materialItems);
+                OnMaterialItemListChanged(materialItems);
                 break;
             case ItemType.Consumable:
                 if (isNewItem) consumableItems.Add(item);
                 consumableItemDictionary[itemData] = item;
-                if (IsPlayerEntity())
-                    PlayerInventoryEventSystem.InvokeConsumableItemListChanged(consumableItems);
+                OnConsumableItemListChanged(consumableItems);
                 break;
             case ItemType.Equipment:
                 if (isNewItem) equipmentItems.Add(item);
                 equipmentItemDictionary[itemData] = item;
-                if (IsPlayerEntity())
-                    PlayerInventoryEventSystem.InvokeEquipmentItemListChanged(equipmentItems);
+                OnEquipmentItemListChanged(equipmentItems);
                 break;
             case ItemType.Miscellaneous:
                 if (isNewItem) miscellaneousItems.Add(item);
                 miscellaneousItemDictionary[itemData] = item;
-                if (IsPlayerEntity())
-                    PlayerInventoryEventSystem.InvokeMiscellaneousItemListChanged(miscellaneousItems);
+                OnMiscellaneousItemListChanged(miscellaneousItems);
                 break;
         }
 
-        if (IsPlayerEntity())
-        {
-            PlayerInventoryEventSystem.InvokeItemListChanged(items);
-        }
+        OnItemListChanged(items);
         IncrementCurrentWeight(itemData.weight);
     }
 
-    public void RemoveItem(ItemData itemData)
+    public virtual void RemoveItem(ItemData itemData)
     {
         if (itemDictionary.ContainsKey(itemData))
         {
@@ -153,23 +134,19 @@ public class Inventory
             {
                 case ItemType.Material:
                     materialItemDictionary[itemData].RemoveFromStack();
-                    if (IsPlayerEntity())
-                        PlayerInventoryEventSystem.InvokeMaterialItemListChanged(materialItems);
+                    OnMaterialItemListChanged(materialItems);
                     break;
                 case ItemType.Consumable:
                     consumableItemDictionary[itemData].RemoveFromStack();
-                    if (IsPlayerEntity())
-                        PlayerInventoryEventSystem.InvokeConsumableItemListChanged(consumableItems);
+                    OnConsumableItemListChanged(consumableItems);
                     break;
                 case ItemType.Equipment:
                     equipmentItemDictionary[itemData].RemoveFromStack();
-                    if (IsPlayerEntity())
-                        PlayerInventoryEventSystem.InvokeEquipmentItemListChanged(equipmentItems);
+                    OnEquipmentItemListChanged(equipmentItems);
                     break;
                 case ItemType.Miscellaneous:
                     miscellaneousItemDictionary[itemData].RemoveFromStack();
-                    if (IsPlayerEntity())
-                        PlayerInventoryEventSystem.InvokeMiscellaneousItemListChanged(miscellaneousItems);
+                    OnMiscellaneousItemListChanged(miscellaneousItems);
                     break;
             }
             if (itemDictionary[itemData].stackSize <= 0)
@@ -181,33 +158,26 @@ public class Inventory
                     case ItemType.Material:
                         materialItems.Remove(materialItemDictionary[itemData]);
                         materialItemDictionary.Remove(itemData);
-                        if (IsPlayerEntity())
-                            PlayerInventoryEventSystem.InvokeMaterialItemListChanged(materialItems);
+                        OnMaterialItemListChanged(materialItems);
                         break;
                     case ItemType.Consumable:
                         consumableItems.Remove(consumableItemDictionary[itemData]);
                         consumableItemDictionary.Remove(itemData);
-                        if (IsPlayerEntity())
-                            PlayerInventoryEventSystem.InvokeConsumableItemListChanged(consumableItems);
+                        OnConsumableItemListChanged(consumableItems);
                         break;
                     case ItemType.Equipment:
                         equipmentItems.Remove(equipmentItemDictionary[itemData]);
                         equipmentItemDictionary.Remove(itemData);
-                        if (IsPlayerEntity())
-                            PlayerInventoryEventSystem.InvokeEquipmentItemListChanged(equipmentItems);
+                        OnEquipmentItemListChanged(equipmentItems);
                         break;
                     case ItemType.Miscellaneous:
                         miscellaneousItems.Remove(miscellaneousItemDictionary[itemData]);
                         miscellaneousItemDictionary.Remove(itemData);
-                        if (IsPlayerEntity())
-                            PlayerInventoryEventSystem.InvokeMiscellaneousItemListChanged(miscellaneousItems);
+                        OnMiscellaneousItemListChanged(miscellaneousItems);
                         break;
                 }
             }
-            if (IsPlayerEntity())
-            {
-                PlayerInventoryEventSystem.InvokeItemListChanged(items);
-            }
+            OnItemListChanged(items);
             DecrementCurrentWeight(itemData.weight);
         }
     }

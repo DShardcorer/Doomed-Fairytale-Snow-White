@@ -3,12 +3,13 @@ using UnityEngine;
 
 public class HealthSystem : ILifecycle<Entity>
 {
-    private Entity _entity;
+    protected Entity _entity;
     public Entity Entity => _entity;
-    private float maxHealth;
+    
+    protected float maxHealth;
     public float MaxHealth => maxHealth;
 
-    private float currentHealth;
+    protected float currentHealth;
     public float CurrentHealth => currentHealth;
 
     public HealthSystem(float maxHealth)
@@ -17,43 +18,34 @@ public class HealthSystem : ILifecycle<Entity>
         currentHealth = maxHealth;
     }
 
-    public void Initialize(Entity parent)
+    public virtual void Initialize(Entity parent)
     {
         _entity = parent;
     }
 
-    // Helper method to check if the owning entity is the player.
-    private bool IsPlayerEntity() => _entity is Player; // Or use _entity.CompareTag("Player")
+    // Virtual method for invoking initial events; base implementation does nothing.
+    public virtual void InvokeInitialEvents() { }
 
-    // Only invoke health events if the entity is a player.
-    public void InvokeInitialEvents()
-    {
-        if (IsPlayerEntity())
-        {
-            PlayerVitalStatsEventSystem.InvokeHealthChanged(this, new HealthChangedEventArgs(currentHealth, maxHealth));
-        }
-    }
-
-    public void Dispose()
+    public virtual void Dispose()
     {
         _entity = null;
     }
 
-    public void TakeDamage(float damage)
+    // Apply damage and trigger the OnHealthChanged hook.
+    public virtual void TakeDamage(float damage)
     {
         currentHealth -= damage;
         if (currentHealth < 0)
             currentHealth = 0;
-        
-        if (IsPlayerEntity())
-        {
-            // Update UI or other player-specific systems.
-            PlayerVitalStatsEventSystem.InvokeHealthChanged(this, new HealthChangedEventArgs(currentHealth, maxHealth));
-        }
-        
+
+        OnHealthChanged();
+
         if (currentHealth <= 0)
         {
             _entity.Die();
         }
     }
+
+    // Virtual hook for derived classes to override when health changes.
+    protected virtual void OnHealthChanged() { }
 }

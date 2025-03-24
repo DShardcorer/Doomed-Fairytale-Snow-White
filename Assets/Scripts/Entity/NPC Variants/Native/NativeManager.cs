@@ -54,7 +54,7 @@ public class NativeManager : NPCManager
 
         //StaminaSystem creation
         StaminaSystem staminaSystem = new StaminaSystem((int)statSystem.CombatStatBoard.Stamina.ModifiedValue);
-        Inventory inventory = new Inventory();
+        InventorySystem inventory = new InventorySystem();
 
         Native native = new Native(nativeView, nativeProperties, nativeIdlingState, nativeMovingState, nativeChasingState, nativeAttackingState,
          statSystem, equipmentSystem,

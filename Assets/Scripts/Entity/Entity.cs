@@ -15,8 +15,8 @@ public abstract class Entity
     public EquipmentSystem EquipmentSystem => _equipmentSystem;
     protected StatSystem _statSystem;
     public StatSystem StatSystem => _statSystem;
-    protected Inventory _inventory;
-    public Inventory Inventory => _inventory;
+    protected InventorySystem _inventory;
+    public InventorySystem Inventory => _inventory;
     private LevelSystem _levelSystem;
     public LevelSystem LevelSystem => _levelSystem;
     private HealthSystem _healthSystem;
@@ -40,7 +40,7 @@ public abstract class Entity
     public Entity(EntityView view, EntityProperties properties, 
     StatSystem statSystem, EquipmentSystem equipmentSystem, SkillSystem skillSystem, LevelSystem levelSystem,
     HealthSystem healthSystem, ManaSystem manaSystem, StaminaSystem staminaSystem,
-    EntityStateMachine stateMachine, Inventory inventory)
+    EntityStateMachine stateMachine, InventorySystem inventory)
     {
         _view = view;
         _attackHitbox = view.GetComponentInChildren<AttackHitbox>();

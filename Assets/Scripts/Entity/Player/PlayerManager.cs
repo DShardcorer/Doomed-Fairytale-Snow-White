@@ -71,15 +71,15 @@ public class PlayerManager : MonoBehaviour, ILifecycle<GameManager>
         PlayerLevelSystem levelSystem = new PlayerLevelSystem();
 
         //HealthSystem creation (convert health to int)
-        HealthSystem healthSystem = new HealthSystem((int)statSystem.CombatStatBoard.Health.ModifiedValue);
+        PlayerHealthSystem healthSystem = new PlayerHealthSystem((int)statSystem.CombatStatBoard.Health.ModifiedValue);
 
         //ManaSystem creation
-        ManaSystem manaSystem = new ManaSystem((int)statSystem.CombatStatBoard.Mana.ModifiedValue);
+        PlayerManaSystem manaSystem = new PlayerManaSystem((int)statSystem.CombatStatBoard.Mana.ModifiedValue);
 
         //StaminaSystem creation
-        StaminaSystem staminaSystem = new StaminaSystem((int)statSystem.CombatStatBoard.Stamina.ModifiedValue);
+        PlayerStaminaSystem staminaSystem = new PlayerStaminaSystem((int)statSystem.CombatStatBoard.Stamina.ModifiedValue);
 
-        Inventory inventory = new Inventory();
+        PlayerInventorySystem inventory = new PlayerInventorySystem();
 
         _player = new Player(playerView, playerProperties, playerIdlingState, playerMovingState, playerAttackingState,
          statSystem,equipmentSystem,

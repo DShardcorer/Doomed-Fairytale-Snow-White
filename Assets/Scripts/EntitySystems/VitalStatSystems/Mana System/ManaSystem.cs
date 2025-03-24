@@ -2,13 +2,13 @@ using System;
 
 public class ManaSystem : ILifecycle<Entity>
 {
-    private Entity _entity;
+    protected Entity _entity;
     public Entity Entity => _entity;
     
-    private float maxMana;
+    protected float maxMana;
     public float MaxMana => maxMana;
     
-    private float currentMana;
+    protected float currentMana;
     public float CurrentMana => currentMana;
 
     public ManaSystem(float maxMana)
@@ -17,42 +17,36 @@ public class ManaSystem : ILifecycle<Entity>
         currentMana = maxMana;
     }
 
-    public void Initialize(Entity parent)
+    public virtual void Initialize(Entity parent)
     {
         _entity = parent;
     }
 
-    // Helper method: check if the current entity is a player.
-    private bool IsPlayerEntity() => _entity is Player; // or use _entity.CompareTag("Player")
+    // Virtual method that derived classes can override to invoke mana changed events.
+    protected virtual void OnManaChanged() { }
 
-    public void InvokeInitialEvents()
+    public virtual void InvokeInitialEvents()
     {
-        if (IsPlayerEntity())
-        {
-            PlayerVitalStatsEventSystem.InvokeManaChanged(this, new ManaChangedEventArgs(currentMana, maxMana));
-        }
+        // Base implementation does nothing.
     }
 
-    public void Dispose()
+    public virtual void Dispose()
     {
         _entity = null;
     }
 
-    public bool TryUseMana(float mana)
+    public virtual bool TryUseMana(float mana)
     {
         if (currentMana >= mana)
         {
             UseMana(mana);
-            if (IsPlayerEntity())
-            {
-                PlayerVitalStatsEventSystem.InvokeManaChanged(this, new ManaChangedEventArgs(currentMana, maxMana));
-            }
+            OnManaChanged();
             return true;
         }
         return false;
     }
 
-    private void UseMana(float mana)
+    protected void UseMana(float mana)
     {
         currentMana -= mana;
         if (currentMana < 0)
@@ -61,16 +55,13 @@ public class ManaSystem : ILifecycle<Entity>
         }
     }
 
-    public void RestoreMana(float mana)
+    public virtual void RestoreMana(float mana)
     {
         currentMana += mana;
         if (currentMana > maxMana)
         {
             currentMana = maxMana;
         }
-        if (IsPlayerEntity())
-        {
-            PlayerVitalStatsEventSystem.InvokeManaChanged(this, new ManaChangedEventArgs(currentMana, maxMana));
-        }
+        OnManaChanged();
     }
 }

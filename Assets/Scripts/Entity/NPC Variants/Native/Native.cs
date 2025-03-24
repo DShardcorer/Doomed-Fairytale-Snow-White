@@ -28,7 +28,7 @@ public class Native : NPC
       NativeChasingState nativeChasingState, NativeAttackingState nativeAttackingState,
         StatSystem statSystem, EquipmentSystem equipmentSystem,
          SkillSystem skillSystem, LevelSystem levelSystem, HealthSystem healthSystem, ManaSystem manaSystem, StaminaSystem staminaSystem,
-        EntityStateMachine stateMachine, Inventory inventory
+        EntityStateMachine stateMachine, InventorySystem inventory
       ) : base(view, properties, nativeIdlingState, nativeMovingState, 
       statSystem, equipmentSystem,
       skillSystem, levelSystem, healthSystem, manaSystem, staminaSystem, stateMachine, inventory)
