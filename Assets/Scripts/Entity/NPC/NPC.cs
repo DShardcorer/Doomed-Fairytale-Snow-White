@@ -128,8 +128,5 @@ public class NPC : Entity, ILifecycle<NPCManager>, IUpdatable, IFixedUpdatable
         
     }
 
-    public override void Die()
-    {
-        
-    }
+
 }

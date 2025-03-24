@@ -81,5 +81,11 @@ public abstract class Entity
         _healthSystem.TakeDamage((int)damage);
     }
 
-    public abstract void Die();
+    public virtual void Die()
+    {
+        if (_properties.lastAttacker != null)
+        {
+            _properties.lastAttacker.LevelSystem.AddExperience(50);
+        }
+    }
 }

@@ -70,7 +70,10 @@ public class UIManager : MonoBehaviour
         GameManager.Instance.PlayerManager.GetPlayer().StaminaSystem.InvokeInitialEvents();
         GameManager.Instance.PlayerManager.GetPlayer().StatSystem.InvokeInitialEvents();
         GameManager.Instance.PlayerManager.GetPlayer().EquipmentSystem.InvokeInitialEvents();
+        GameManager.Instance.PlayerManager.GetPlayer().LevelSystem.InvokeInitialEvents();
     }
+
+
 
     private void InputManager_openMenuInputted(object sender, EventArgs e)
     {
@@ -79,6 +82,10 @@ public class UIManager : MonoBehaviour
 
     private void Update()
     {
+        if(Input.GetKeyDown(KeyCode.Space)){
+            //add 50 xp
+            GameManager.Instance.PlayerManager.GetPlayer().LevelSystem.AddExperience(50);
+        }
 
         if (Input.GetKeyDown(KeyCode.Backspace))
         {

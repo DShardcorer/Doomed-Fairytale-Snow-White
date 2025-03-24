@@ -20,6 +20,31 @@ public class AbilityStatBoard
         Charisma = new AbilityStat(abilityStatboardSO.Charisma);
     }
 
+    public void IncreaseStat(StatType statType, int points)
+    {
+        switch (statType)
+        {
+            case StatType.Strength:
+                Strength.BaseValue += points;
+                break;
+            case StatType.Dexterity:
+                Dexterity.BaseValue += points;
+                break;
+            case StatType.Constitution:
+                Constitution.BaseValue += points;
+                break;
+            case StatType.Intelligence:
+                Intelligence.BaseValue += points;
+                break;
+            case StatType.Wisdom:
+                Wisdom.BaseValue += points;
+                break;
+            case StatType.Charisma:
+                Charisma.BaseValue += points;
+                break;
+        }
+    }
+
     public void CalculateModified( List<StatModifier> modifiers)
     {
         // Start with base values.

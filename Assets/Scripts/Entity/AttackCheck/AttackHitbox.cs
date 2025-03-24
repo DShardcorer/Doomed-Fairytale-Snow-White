@@ -1,3 +1,4 @@
+using Unity.VisualScripting;
 using UnityEngine;
 
 public class AttackHitbox : MonoBehaviour, ILifecycle<Entity>
@@ -122,6 +123,7 @@ public class AttackHitbox : MonoBehaviour, ILifecycle<Entity>
         if (entity.TryGetComponent<EntityView>(out EntityView e))
         {
             e.Controller.TakeDamage(damage);
+            e.Controller.Properties.lastAttacker = _parent;
         }
     }
 

@@ -4,6 +4,7 @@ public class EntityProperties
 {
     public EntityFaction entityFaction;
     public Vector2 lastMovementVector = Vector2.down;
+    public Entity lastAttacker;
     public Entity target;
     public Vector2 currentPosition;
     protected float moveSpeed;

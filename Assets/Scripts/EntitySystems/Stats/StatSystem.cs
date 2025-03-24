@@ -12,7 +12,9 @@ public class StatSystem : ILifecycle<Entity>
 
     private List<StatModifier> _abilityModifiers = new List<StatModifier>();
     private List<StatModifier> _combatModifiers = new List<StatModifier>();
-    public event EventHandler OnStatsChanged;
+
+    private int _unallocatedAbilityStatPoints = 0;
+    public int UnallocatedAbilityStatPoints => _unallocatedAbilityStatPoints;
 
     public StatSystem(AbilityStatBoard baseStats, AttackStatType preferredAttackStat)
     {
@@ -26,18 +28,48 @@ public class StatSystem : ILifecycle<Entity>
         _parent = parent;
         if (_parent is Player)
         {
-            PlayerEquipmentEventSystem.PlayerEquipmentSystem_OnEquipmentChanged += OnEquipmentChanged;
+            PlayerEquipmentEventSystem.PlayerEquipmentSystem_OnEquipmentChanged += PlayerEquipmentEventSystem_OnEquipmentChanged;
+            PlayerLevelEventSystem.OnLevelChanged += PlayerLevelEventSystem_OnLevelChanged;
+            PlayerStatsEventSystem.OnStatPointAllocated += PlayerStatsEventSystem_OnStatPointAllocated;
         }
     }
     public void InvokeInitialEvents()
     {
         if (_parent is Player)
         {
-            PlayerStatusEventSystem.InvokeStatsChanged(AbilityStatBoard, CombatStatBoard);
+            PlayerStatsEventSystem.InvokeInitialStatsSet(AbilityStatBoard, CombatStatBoard);
+
         }
     }
 
-    private void OnEquipmentChanged(object sender, IReadOnlyDictionary<EquipmentSlotType, EquipmentInventoryItem> e)
+    private void PlayerStatsEventSystem_OnStatPointAllocated(object sender, StatType e)
+    {
+        AllocateAbilityStatPoints(e, 1);
+    }
+
+    private void PlayerLevelEventSystem_OnLevelChanged(object sender, OnLevelChangedEventArgs e)
+    {
+        _unallocatedAbilityStatPoints += 6;
+    }
+
+    public void AllocateAbilityStatPoints(StatType statType, int points)
+    {
+        if (_unallocatedAbilityStatPoints < points)
+        {
+            return;
+        }
+        _unallocatedAbilityStatPoints -= points;
+        AbilityStatBoard.IncreaseStat(statType, points);
+        RecalculateStats();
+        if (_parent is Player)
+        {
+            PlayerStatsEventSystem.InvokeStatsChanged(AbilityStatBoard, CombatStatBoard);
+        }
+    }
+
+
+
+    private void PlayerEquipmentEventSystem_OnEquipmentChanged(object sender, IReadOnlyDictionary<EquipmentSlotType, EquipmentInventoryItem> e)
     {
         foreach (var item in e.Values)
         {
@@ -63,10 +95,7 @@ public class StatSystem : ILifecycle<Entity>
             }
         }
         RecalculateStats();
-        if (_parent is Player)
-        {
-            PlayerStatusEventSystem.InvokeStatsChanged(AbilityStatBoard, CombatStatBoard);
-        }
+
 
     }
 
@@ -79,7 +108,8 @@ public class StatSystem : ILifecycle<Entity>
         CombatStatBoard = null;
         if (_parent is Player)
         {
-            PlayerEquipmentEventSystem.PlayerEquipmentSystem_OnEquipmentChanged -= OnEquipmentChanged;
+            PlayerEquipmentEventSystem.PlayerEquipmentSystem_OnEquipmentChanged -= PlayerEquipmentEventSystem_OnEquipmentChanged;
+            PlayerLevelEventSystem.OnLevelChanged -= PlayerLevelEventSystem_OnLevelChanged;
         }
     }
     public void RecalculateStats()
@@ -87,7 +117,11 @@ public class StatSystem : ILifecycle<Entity>
         AbilityStatBoard.CalculateModified(_abilityModifiers);
         CombatStatBoard.CalculateBase(AbilityStatBoard, PreferredAttackStat);
         CombatStatBoard.CalculateModified(AbilityStatBoard, PreferredAttackStat, _combatModifiers);
-        OnStatsChanged?.Invoke(this, EventArgs.Empty);
+        EntityStatsEventSystem.InvokeAbilityStatsChanged(_parent, AbilityStatBoard);
+        if (_parent is Player)
+        {
+            PlayerStatsEventSystem.InvokeStatsChanged(AbilityStatBoard, CombatStatBoard);
+        }
     }
 
     public void AddAbilityModifier(StatModifier modifier)

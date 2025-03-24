@@ -8,4 +8,9 @@ public class AbilityStat
         BaseValue = baseValue;
         ModifiedValue = baseValue;
     }
+
+    public override string ToString()
+    {
+        return $"{ModifiedValue} (+{ModifiedValue - BaseValue})";
+    }
 }

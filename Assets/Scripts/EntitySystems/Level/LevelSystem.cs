@@ -10,14 +10,17 @@ public class LevelSystem
     private int _experienceToNextLevel;
     public int ExperienceToNextLevel => _experienceToNextLevel;
 
-    public event EventHandler OnExperienceChanged;
-    public event EventHandler OnLevelChanged;
-
     public LevelSystem(int level= 1)
     {
         _level = level;
         _experience = 0;
         _experienceToNextLevel = CalculateExperienceToNextLevel(_level);
+    }
+
+    public void InvokeInitialEvents()
+    {
+        PlayerLevelEventSystem.InvokeOnInitialExperienceSet(_experience, _experienceToNextLevel);
+        PlayerLevelEventSystem.InvokeOnInitialLevelSet(_level);
     }
     public void AddExperience(int amount)
     {
@@ -27,9 +30,9 @@ public class LevelSystem
             _level++;
             _experience -= _experienceToNextLevel;
             _experienceToNextLevel = CalculateExperienceToNextLevel(_level);
-            OnLevelChanged?.Invoke(this, EventArgs.Empty);
+           PlayerLevelEventSystem.InvokeOnLevelChanged(_level);
         }
-        OnExperienceChanged?.Invoke(this, EventArgs.Empty);
+        PlayerLevelEventSystem.InvokeOnExperienceChanged(_experience, _experienceToNextLevel);
     }
 
     public int CalculateExperienceToNextLevel(int level)

@@ -3,7 +3,7 @@ using UnityEngine;
 
 public abstract class EntityStateProperties : ILifecycle<EntityState>
 {
-    private EntityState _parent;
+    protected EntityState _parent;
     private CombatStatBoard _combatStatBoard;
     public CombatStatBoard CombatStatBoard => _combatStatBoard;
     private AbilityStatBoard _abilityStatBoard;
@@ -16,17 +16,22 @@ public abstract class EntityStateProperties : ILifecycle<EntityState>
         _parent = parent;
         _combatStatBoard = parent.Entity.StatSystem.CombatStatBoard;
         _abilityStatBoard = parent.Entity.StatSystem.AbilityStatBoard;
-        _parent.Entity.StatSystem.OnStatsChanged += UpdateDerivedProperties;
-        UpdateDerivedProperties(this, EventArgs.Empty);
+        EntityStatsEventSystem.OnCombatStatsChanged += UpdateDerivedProperties;
+        UpdateDerivedProperties(_parent, _combatStatBoard);
     }
 
+    protected void UpdateDerivedProperties(object sender, CombatStatBoard e){
+        if(sender != _parent.Entity)
+            return;
+        UpdateDerivedProperties(sender, EventArgs.Empty);
+    }
     protected abstract void UpdateDerivedProperties(object sender, EventArgs e);
 
     public void Dispose()
     {
         _combatStatBoard = null;
         _parent = null;
-        _parent.Entity.StatSystem.OnStatsChanged -= UpdateDerivedProperties;
+        EntityStatsEventSystem.OnCombatStatsChanged -= UpdateDerivedProperties;
     }
 
 
