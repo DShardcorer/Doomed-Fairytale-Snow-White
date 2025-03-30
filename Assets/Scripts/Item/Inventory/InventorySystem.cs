@@ -48,6 +48,11 @@ public class InventorySystem
         UpdateCurrentWeight();
     }
 
+    public virtual void Dispose()
+    {
+        _entity = null;
+    }
+
     public virtual void InvokeInitialEvents()
     {
         // Base inventory system does not trigger events by default.

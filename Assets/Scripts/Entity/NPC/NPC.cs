@@ -109,7 +109,7 @@ public class NPC : Entity, ILifecycle<NPCManager>, IUpdatable, IFixedUpdatable
         _stateMachine.FixedUpdateLogic();
     }
 
-    public void Dispose()
+    public override void Dispose()
     {
         _parent.GameManager.UpdateManager.RemoveUpdatable(this);
         _parent.GameManager.FixedUpdateManager.RemoveFixedUpdatable(this);
@@ -125,6 +125,7 @@ public class NPC : Entity, ILifecycle<NPCManager>, IUpdatable, IFixedUpdatable
         _proximityDetector = null;
         _npcIdlingState = null;
         _npcMovingState = null;
+        base.Dispose();
         
     }
 

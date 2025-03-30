@@ -17,16 +17,16 @@ public class NativeManager : NPCManager
 
         //State creation
         NativeIdlingProperties nativeIdlingProperties = new NativeIdlingProperties(2);
-        NativeIdlingState nativeIdlingState = new NativeIdlingState(AnimationStateHelper.IS_IDLING, nativeIdlingProperties);
+        NativeIdlingState nativeIdlingState = new NativeIdlingState(HelperAnimationStateName.IS_IDLING, nativeIdlingProperties);
 
         NativeMovingProperties nativeMovingProperties = new NativeMovingProperties(2);
-        NativeMovingState nativeMovingState = new NativeMovingState(nativeMovingProperties, AnimationStateHelper.IS_MOVING);
+        NativeMovingState nativeMovingState = new NativeMovingState(nativeMovingProperties, HelperAnimationStateName.IS_MOVING);
 
         NativeChasingProperties nativeChasingProperties = new NativeChasingProperties();
-        NativeMeleeChasingState nativeChasingState = new NativeMeleeChasingState(nativeChasingProperties, AnimationStateHelper.IS_CHASING);
+        NativeMeleeChasingState nativeChasingState = new NativeMeleeChasingState(nativeChasingProperties, HelperAnimationStateName.IS_CHASING);
 
         NativeAttackingProperties nativeAttackingProperties = new NativeAttackingProperties();
-        NativeMeleeAttackingState nativeAttackingState = new NativeMeleeAttackingState(AnimationStateHelper.IS_ATTACKING, nativeAttackingProperties);
+        NativeMeleeAttackingState nativeAttackingState = new NativeMeleeAttackingState(HelperAnimationStateName.IS_ATTACKING, nativeAttackingProperties);
 
 
         EntityStateMachine stateMachine = new EntityStateMachine();

@@ -25,7 +25,12 @@ public class FieldItem : MonoBehaviour, IInteractable
 
     public void Interact(Player player)
     {
-        player.Inventory.AddItem(itemData);
+        player.InventorySystem.AddItem(itemData);
+        ItemQuestEventTrigger itemQuestEventTrigger = GetComponent<ItemQuestEventTrigger>();
+        if (itemQuestEventTrigger != null)
+        {
+            itemQuestEventTrigger.TriggerEvent();
+        }
         Destroy(gameObject);
     }
 }

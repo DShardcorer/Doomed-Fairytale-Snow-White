@@ -6,10 +6,8 @@ public class InputManager : MonoBehaviour, ILifecycle<GameManager>
     private GameManager _gameManager;
 
     private PlayerInputActions _playerInputActions;
-
     public event EventHandler attackInputted;
     public event EventHandler dashInputted;
-
     public event EventHandler skill1Inputted;
     public event EventHandler interactInputted;
     public event EventHandler openMenuInputted;

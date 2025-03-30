@@ -31,13 +31,13 @@ public class PlayerManager : MonoBehaviour, ILifecycle<GameManager>
 
         //SkillSystem creation
         PlayerDashingProperties playerDashingProperties = new PlayerDashingProperties();
-        PlayerDashingState playerDashingState = new PlayerDashingState(AnimationStateHelper.IS_DASHING, playerDashingProperties);
-        DashSkill dashSkill = new DashSkill(SkillNameHelper.DashSkill, 2f, 0, 0, 30, playerDashingState);
+        PlayerDashingState playerDashingState = new PlayerDashingState(HelperAnimationStateName.IS_DASHING, playerDashingProperties);
+        DashSkill dashSkill = new DashSkill(HelperSkillName.DashSkill, 2f, 0, 0, 30, playerDashingState);
         
 
         PlayerShootingProperties playerShootingProperties = new PlayerShootingProperties();
-        PlayerShootingState playerShootingState = new PlayerShootingState(AnimationStateHelper.IS_SHOOTING, playerShootingProperties);
-        ShootSkill shootSkill = new ShootSkill(SkillNameHelper.ShootSkill, 2f, 0, 10, 30, playerShootingState);
+        PlayerShootingState playerShootingState = new PlayerShootingState(HelperAnimationStateName.IS_SHOOTING, playerShootingProperties);
+        ShootSkill shootSkill = new ShootSkill(HelperSkillName.ShootSkill, 2f, 0, 10, 30, playerShootingState);
         
         SkillSystem skillSystem = new SkillSystem(new List<Skill> { dashSkill, shootSkill });
 
@@ -45,14 +45,14 @@ public class PlayerManager : MonoBehaviour, ILifecycle<GameManager>
 
         //States creation
         PlayerIdlingProperties playerIdlingProperties = new PlayerIdlingProperties();
-        PlayerIdlingState playerIdlingState = new PlayerIdlingState(AnimationStateHelper.IS_IDLING, playerIdlingProperties);
+        PlayerIdlingState playerIdlingState = new PlayerIdlingState(HelperAnimationStateName.IS_IDLING, playerIdlingProperties);
 
 
         PlayerMovingProperties playerMovingProperties = new PlayerMovingProperties();
-        PlayerMovingState playerMovingState = new PlayerMovingState(AnimationStateHelper.IS_MOVING, playerMovingProperties);
+        PlayerMovingState playerMovingState = new PlayerMovingState(HelperAnimationStateName.IS_MOVING, playerMovingProperties);
 
         PlayerAttackingProperties playerAttackingProperties = new PlayerAttackingProperties();
-        PlayerAttackingState playerAttackingState = new PlayerAttackingState(AnimationStateHelper.IS_ATTACKING, playerAttackingProperties);
+        PlayerAttackingState playerAttackingState = new PlayerAttackingState(HelperAnimationStateName.IS_ATTACKING, playerAttackingProperties);
 
         EntityStateMachine stateMachine = new EntityStateMachine();
 

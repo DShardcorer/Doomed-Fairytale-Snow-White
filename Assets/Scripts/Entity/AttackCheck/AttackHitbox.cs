@@ -26,7 +26,7 @@ public class AttackHitbox : MonoBehaviour, ILifecycle<Entity>
         _parent = parent;
         _properties = _parent.Properties;
         _originalLocalPosition = attackPoint.localPosition;
-        entityLayer = LayerHelper.EntityLayerMask;
+        entityLayer = HelperLayer.EntityLayerMask;
     }
 
     public void Dispose()

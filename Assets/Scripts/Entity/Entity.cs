@@ -15,8 +15,8 @@ public abstract class Entity
     public EquipmentSystem EquipmentSystem => _equipmentSystem;
     protected StatSystem _statSystem;
     public StatSystem StatSystem => _statSystem;
-    protected InventorySystem _inventory;
-    public InventorySystem Inventory => _inventory;
+    protected InventorySystem _inventorySystem;
+    public InventorySystem InventorySystem => _inventorySystem;
     private LevelSystem _levelSystem;
     public LevelSystem LevelSystem => _levelSystem;
     private HealthSystem _healthSystem;
@@ -40,7 +40,7 @@ public abstract class Entity
     public Entity(EntityView view, EntityProperties properties, 
     StatSystem statSystem, EquipmentSystem equipmentSystem, SkillSystem skillSystem, LevelSystem levelSystem,
     HealthSystem healthSystem, ManaSystem manaSystem, StaminaSystem staminaSystem,
-    EntityStateMachine stateMachine, InventorySystem inventory)
+    EntityStateMachine stateMachine, InventorySystem inventorySystem)
     {
         _view = view;
         _attackHitbox = view.GetComponentInChildren<AttackHitbox>();
@@ -54,7 +54,7 @@ public abstract class Entity
         _manaSystem = manaSystem;
         _staminaSystem = staminaSystem;
         _stateMachine = stateMachine;
-        _inventory = inventory;
+        _inventorySystem = inventorySystem;
     }
 
 
@@ -65,18 +65,16 @@ public abstract class Entity
     public virtual void Initialize()
     {
         _equipmentSystem.Initialize(this);
-        _inventory.Initialize(this);
+        _inventorySystem.Initialize(this);
         _attackHitbox.Initialize(this);
         _animationTriggers.Initialize(this);
         _statSystem.Initialize(this);
         _healthSystem.Initialize(this);
         _manaSystem.Initialize(this);
         _staminaSystem.Initialize(this);
-
     }
     public void TakeDamage(float damage)
     {
-        Debug.Log($"Entity {this} took {damage} damage");
         _view.PlayDamagedAnimation();
         _healthSystem.TakeDamage((int)damage);
     }
@@ -87,5 +85,18 @@ public abstract class Entity
         {
             _properties.lastAttacker.LevelSystem.AddExperience(50);
         }
+    }
+
+    public virtual void Dispose()
+    {
+        _view.Dispose();
+        _equipmentSystem.Dispose();
+        _inventorySystem.Dispose();
+        _attackHitbox.Dispose();
+        _animationTriggers.Dispose();
+        _statSystem.Dispose();
+        _healthSystem.Dispose();
+        _manaSystem.Dispose();
+        _staminaSystem.Dispose();
     }
 }

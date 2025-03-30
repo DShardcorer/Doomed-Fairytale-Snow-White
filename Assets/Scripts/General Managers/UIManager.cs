@@ -25,6 +25,9 @@ public class UIManager : MonoBehaviour
     private StaminaUI _staminaUI;
     public StaminaUI StaminaUI => _staminaUI;
 
+    [SerializeField]
+    private DamagePopupUIManager _damagePopupUIManager;
+    public DamagePopupUIManager DamagePopupUIManager => _damagePopupUIManager;
 
 
 
@@ -58,13 +61,14 @@ public class UIManager : MonoBehaviour
         _healthUI.Initialize(this);
         _manaUI.Initialize(this);
         _staminaUI.Initialize(this);
+        _damagePopupUIManager.Initialize(this);
 
         InvokeInitialEvents();
     }
 
     private void InvokeInitialEvents()
     {
-        GameManager.Instance.PlayerManager.GetPlayer().Inventory.InvokeInitialEvents();
+        GameManager.Instance.PlayerManager.GetPlayer().InventorySystem.InvokeInitialEvents();
         GameManager.Instance.PlayerManager.GetPlayer().HealthSystem.InvokeInitialEvents();
         GameManager.Instance.PlayerManager.GetPlayer().ManaSystem.InvokeInitialEvents();
         GameManager.Instance.PlayerManager.GetPlayer().StaminaSystem.InvokeInitialEvents();

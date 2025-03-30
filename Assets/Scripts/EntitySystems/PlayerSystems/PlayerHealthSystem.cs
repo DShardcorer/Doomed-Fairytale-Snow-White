@@ -10,17 +10,17 @@ public class PlayerHealthSystem : HealthSystem
     public override void Initialize(Entity parent)
     {
         base.Initialize(parent);
-        // Optionally, subscribe to additional player-specific events here if needed.
     }
 
     public override void InvokeInitialEvents()
     {
-        PlayerVitalStatsEventSystem.InvokeHealthChanged(this, new HealthChangedEventArgs(currentHealth, maxHealth));
+        base.InvokeInitialEvents();
+        PlayerVitalStatsEventSystem.InvokeHealthChanged(this, new HealthChangedEventArgs(lastCurrentHealth, currentHealth, maxHealth));
     }
 
-    // Override the hook to invoke player-specific health changed events.
     protected override void OnHealthChanged()
     {
-        PlayerVitalStatsEventSystem.InvokeHealthChanged(this, new HealthChangedEventArgs(currentHealth, maxHealth));
+        base.OnHealthChanged();
+        PlayerVitalStatsEventSystem.InvokeHealthChanged(this, new HealthChangedEventArgs(lastCurrentHealth, currentHealth, maxHealth));
     }
 }

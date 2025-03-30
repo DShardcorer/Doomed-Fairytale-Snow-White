@@ -16,11 +16,11 @@ public abstract class EntityStateProperties : ILifecycle<EntityState>
         _parent = parent;
         _combatStatBoard = parent.Entity.StatSystem.CombatStatBoard;
         _abilityStatBoard = parent.Entity.StatSystem.AbilityStatBoard;
-        EntityStatsEventSystem.OnCombatStatsChanged += UpdateDerivedProperties;
-        UpdateDerivedProperties(_parent, _combatStatBoard);
+        EntityStatsEventSystem.CombatStatsChanged += UpdateDerivedProperties;
+        UpdateDerivedProperties(_parent.Entity, _combatStatBoard);
     }
 
-    protected void UpdateDerivedProperties(object sender, CombatStatBoard e){
+    protected void UpdateDerivedProperties(Entity sender, CombatStatBoard e){
         if(sender != _parent.Entity)
             return;
         UpdateDerivedProperties(sender, EventArgs.Empty);
@@ -31,7 +31,7 @@ public abstract class EntityStateProperties : ILifecycle<EntityState>
     {
         _combatStatBoard = null;
         _parent = null;
-        EntityStatsEventSystem.OnCombatStatsChanged -= UpdateDerivedProperties;
+        EntityStatsEventSystem.CombatStatsChanged -= UpdateDerivedProperties;
     }
 
 

@@ -1,43 +1,44 @@
 using System;
 using UnityEngine;
-public class OnExperienceChangedEventArgs : EventArgs
+
+namespace Events.Player
 {
-    public int Experience { get; set; }
-    public int ExperienceToNextLevel { get; set; }
-}
-
-public class OnLevelChangedEventArgs : EventArgs
-{
-    public int level { get; set; }
-}
-
-
-public static class PlayerLevelEventSystem
-{
-    public static event EventHandler<OnExperienceChangedEventArgs> OnInitialExperienceSet;
-    public static event EventHandler<OnLevelChangedEventArgs> OnInitialLevelSet;
-    public static event EventHandler<OnExperienceChangedEventArgs> OnExperienceChanged;
-    public static event EventHandler<OnLevelChangedEventArgs> OnLevelChanged;
-
-    public static void InvokeOnExperienceChanged(int experience, int experienceToNextLevel)
+    public class OnExperienceChangedEventArgs : EventArgs
     {
-        OnExperienceChanged?.Invoke(null, new OnExperienceChangedEventArgs { Experience = experience, ExperienceToNextLevel = experienceToNextLevel });
+        public int Experience { get; set; }
+        public int ExperienceToNextLevel { get; set; }
     }
 
-    public static void InvokeOnLevelChanged(int level)
+    public class OnLevelChangedEventArgs : EventArgs
     {
-        OnLevelChanged?.Invoke(null, new OnLevelChangedEventArgs { level = level });
+        public int Level { get; set; }
     }
 
-    public static void InvokeOnInitialExperienceSet(int experience, int experienceToNextLevel)
+    public static class PlayerLevelEventSystem
     {
-        OnInitialExperienceSet?.Invoke(null, new OnExperienceChangedEventArgs { Experience = experience, ExperienceToNextLevel = experienceToNextLevel });
+        public static event EventHandler<OnExperienceChangedEventArgs> OnInitialExperienceSet;
+        public static event EventHandler<OnLevelChangedEventArgs> OnInitialLevelSet;
+        public static event EventHandler<OnExperienceChangedEventArgs> OnExperienceChanged;
+        public static event EventHandler<OnLevelChangedEventArgs> OnLevelChanged;
+
+        public static void InvokeInitialExperienceSet(int experience, int experienceToNextLevel)
+        {
+            OnInitialExperienceSet?.Invoke(null, new OnExperienceChangedEventArgs { Experience = experience, ExperienceToNextLevel = experienceToNextLevel });
+        }
+
+        public static void InvokeInitialLevelSet(int level)
+        {
+            OnInitialLevelSet?.Invoke(null, new OnLevelChangedEventArgs { Level = level });
+        }
+
+        public static void InvokeExperienceChanged(int experience, int experienceToNextLevel)
+        {
+            OnExperienceChanged?.Invoke(null, new OnExperienceChangedEventArgs { Experience = experience, ExperienceToNextLevel = experienceToNextLevel });
+        }
+
+        public static void InvokeLevelChanged(int level)
+        {
+            OnLevelChanged?.Invoke(null, new OnLevelChangedEventArgs { Level = level });
+        }
     }
-
-    public static void InvokeOnInitialLevelSet(int level)
-    {
-        OnInitialLevelSet?.Invoke(null, new OnLevelChangedEventArgs { level = level });
-    }
-
-
 }

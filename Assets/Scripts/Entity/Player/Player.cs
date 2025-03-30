@@ -102,13 +102,13 @@ public class Player : Entity, ILifecycle<PlayerManager>, IFixedUpdatable, IUpdat
     private void OnDashInputted(object sender, EventArgs e)
     {
         if (IsBusy) return;
-        _skillSystem.GetSkill(SkillNameHelper.DashSkill).TryUseSkill();
+        _skillSystem.GetSkill(HelperSkillName.DashSkill).TryUseSkill();
 
     }
     private void OnSkill1Inputted(object sender, EventArgs e)
     {
         if (IsBusy) return;
-        _skillSystem.GetSkill(SkillNameHelper.ShootSkill).TryUseSkill();
+        _skillSystem.GetSkill(HelperSkillName.ShootSkill).TryUseSkill();
     }
 
     public override void FixedUpdateLogic()
@@ -123,8 +123,21 @@ public class Player : Entity, ILifecycle<PlayerManager>, IFixedUpdatable, IUpdat
     }
 
 
-    public void Dispose()
+    public override void Dispose()
     {
+        base.Dispose();
+        _inputManager.dashInputted -= OnDashInputted;
+        _inputManager.attackInputted -= OnAttackInputted;
+        _inputManager.skill1Inputted -= OnSkill1Inputted;
+        _parent.GameManager.UpdateManager.RemoveUpdatable(this);
+        _parent.GameManager.FixedUpdateManager.RemoveFixedUpdatable(this);
+        _playerView = null;
+        _playerProperties = null;
+        _playerIdlingState = null;
+        _playerMovingState = null;
+        _playerAttackingState = null;
+        _playerInteraction = null;
+        _inputManager = null;
         _parent = null;
     }
 

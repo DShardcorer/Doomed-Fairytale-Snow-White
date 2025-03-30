@@ -1,4 +1,5 @@
 using UnityEngine;
+using Events.Player;
 
 public class PlayerLevelSystem : LevelSystem
 {
@@ -7,19 +8,19 @@ public class PlayerLevelSystem : LevelSystem
     public override void InvokeInitialEvents()
     {
         base.InvokeInitialEvents();
-        PlayerLevelEventSystem.InvokeOnInitialExperienceSet(_experience, _experienceToNextLevel);
-        PlayerLevelEventSystem.InvokeOnInitialLevelSet(_level);
+        PlayerLevelEventSystem.InvokeInitialExperienceSet(_experience, _experienceToNextLevel);
+        PlayerLevelEventSystem.InvokeInitialLevelSet(_level);
     }
 
     public override void AddExperience(int amount)
     {
         base.AddExperience(amount);
-        PlayerLevelEventSystem.InvokeOnExperienceChanged(_experience, _experienceToNextLevel);
+        PlayerLevelEventSystem.InvokeExperienceChanged(_experience, _experienceToNextLevel);
     }
 
     protected override void OnLevelUp()
     {
         base.OnLevelUp();
-        PlayerLevelEventSystem.InvokeOnLevelChanged(_level);
+        PlayerLevelEventSystem.InvokeLevelChanged(_level);
     }
 }

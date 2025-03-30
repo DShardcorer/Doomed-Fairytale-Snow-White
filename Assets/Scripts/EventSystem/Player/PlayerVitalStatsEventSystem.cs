@@ -2,11 +2,13 @@ using System;
 using UnityEngine;
 public class HealthChangedEventArgs : EventArgs
 {
+    public float LastCurrentHealth { get; }
     public float CurrentHealth { get; }
     public float MaxHealth { get; }
 
-    public HealthChangedEventArgs(float currentHealth, float maxHealth)
+    public HealthChangedEventArgs(float lastCurrentHealth, float currentHealth, float maxHealth)
     {
+        LastCurrentHealth = lastCurrentHealth;
         CurrentHealth = currentHealth;
         MaxHealth = maxHealth;
     }

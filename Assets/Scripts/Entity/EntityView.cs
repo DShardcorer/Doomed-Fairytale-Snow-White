@@ -14,7 +14,7 @@ public class EntityView : MonoBehaviour, ILifecycle<Entity>
     private SpriteRenderer _spriteRenderer;
     public SpriteRenderer SpriteRenderer => _spriteRenderer;
 
-    private Material _originalMaterial;
+    [SerializeField] private Material _originalMaterial;
     public Material OriginalMaterial => _originalMaterial;
     [SerializeField] private Material _flashOnHitMaterial;
     public Material FlashOnHitMaterial => _flashOnHitMaterial;
@@ -27,10 +27,10 @@ public class EntityView : MonoBehaviour, ILifecycle<Entity>
     private const string MOVEMENT_Y = "MovementY";
     public virtual void Initialize(Entity controller)
     {
+
         _controller = controller;
         _spriteRenderer = GetComponentInChildren<SpriteRenderer>();
         _rigidbody2D = GetComponent<Rigidbody2D>();
-        _originalMaterial = _spriteRenderer.material;
     }
 
 

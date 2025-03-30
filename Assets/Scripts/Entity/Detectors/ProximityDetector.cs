@@ -16,7 +16,7 @@ public class ProximityDetector : MonoBehaviour
 
     public virtual void OnTriggerEnter2D(Collider2D collision)
     {
-        if (((1 << collision.gameObject.layer) & LayerHelper.EntityLayerMask) == 0) return;
+        if (((1 << collision.gameObject.layer) & HelperLayer.EntityLayerMask) == 0) return;
         //Check if its an entity
         if (collision.TryGetComponent(out EntityView entityView))
         {

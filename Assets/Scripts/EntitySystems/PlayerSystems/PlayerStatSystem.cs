@@ -1,6 +1,7 @@
 using System;
 using System.Collections.Generic;
 using UnityEngine;
+using Events.Player;
 
 public class PlayerStatSystem : StatSystem
 {
@@ -12,7 +13,7 @@ public class PlayerStatSystem : StatSystem
     public override void Initialize(Entity parent)
     {
         base.Initialize(parent);
-        PlayerEquipmentEventSystem.PlayerEquipmentSystem_OnEquipmentChanged += PlayerEquipmentEventSystem_OnEquipmentChanged;
+        PlayerEquipmentEventSystem.OnEquipmentChanged += PlayerEquipmentEventSystem_OnEquipmentChanged;
         PlayerLevelEventSystem.OnLevelChanged += PlayerLevelEventSystem_OnLevelChanged;
         PlayerStatsEventSystem.OnStatPointAllocated += PlayerStatsEventSystem_OnStatPointAllocated;
     }
@@ -24,7 +25,7 @@ public class PlayerStatSystem : StatSystem
 
     public override void Dispose()
     {
-        PlayerEquipmentEventSystem.PlayerEquipmentSystem_OnEquipmentChanged -= PlayerEquipmentEventSystem_OnEquipmentChanged;
+        PlayerEquipmentEventSystem.OnEquipmentChanged -= PlayerEquipmentEventSystem_OnEquipmentChanged;
         PlayerLevelEventSystem.OnLevelChanged -= PlayerLevelEventSystem_OnLevelChanged;
         PlayerStatsEventSystem.OnStatPointAllocated -= PlayerStatsEventSystem_OnStatPointAllocated;
         base.Dispose();

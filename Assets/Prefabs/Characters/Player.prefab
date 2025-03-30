@@ -230,6 +230,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   _rigidbody2D: {fileID: 2493114286647210097}
   _animator: {fileID: 5489439651947330017}
+  _originalMaterial: {fileID: 2100000, guid: a97c105638bdf8b4a8650670310a4cd3, type: 2}
   _flashOnHitMaterial: {fileID: 2100000, guid: e8b163277ebd4d34389958d088bdf66a, type: 2}
 --- !u!1 &8696433483419659507
 GameObject:
@@ -403,6 +404,8 @@ MonoBehaviour:
     serializedVersion: 2
     m_Bits: 192
   interactPoint: {fileID: 7435998129982390485}
+  arrowPrefab: {fileID: 3082770073596763954, guid: 690bfd8191762e74b901aacdbb43d986, type: 3}
+  arrowOffset: {x: 0, y: 1, z: 0}
 --- !u!1 &9035609882390077292
 GameObject:
   m_ObjectHideFlags: 0

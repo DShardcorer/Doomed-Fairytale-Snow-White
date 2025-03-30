@@ -1,5 +1,6 @@
 using System;
 using UnityEngine;
+using System.Collections;
 
 public class PlayerInteraction : MonoBehaviour
 {
@@ -7,11 +8,32 @@ public class PlayerInteraction : MonoBehaviour
     private float interactRadius = 0.5f;
     [SerializeField] private LayerMask interactableLayer;
     public Transform interactPoint;
+    
+    [SerializeField] private GameObject arrowPrefab;
+    private GameObject currentArrow;
+    private Vector3 arrowOffset = new Vector3(0, 1f, 0);
+
+    private Coroutine arrowCoroutine;
 
     public void Initialize(Player player)
     {
         _player = player;
         _player.InputManager.interactInputted += Interact;
+    }
+
+    private void OnEnable()
+    {
+        // Start the coroutine when the script is enabled
+        arrowCoroutine = StartCoroutine(UpdateFloatingArrowRoutine());
+    }
+
+    private void OnDisable()
+    {
+        // Stop the coroutine if the script is disabled
+        if (arrowCoroutine != null)
+        {
+            StopCoroutine(arrowCoroutine);
+        }
     }
 
     private void Interact(object sender, EventArgs e)
@@ -26,6 +48,7 @@ public class PlayerInteraction : MonoBehaviour
             Debug.Log("No interactable object in range.");
         }
     }
+
     private IInteractable GetClosestInteractable()
     {
         Collider2D[] colliders = Physics2D.OverlapCircleAll(interactPoint.position, interactRadius, interactableLayer);
@@ -51,6 +74,46 @@ public class PlayerInteraction : MonoBehaviour
         return closestInteractable;
     }
 
+    // Coroutine that updates the floating arrow every 0.2 seconds
+    private IEnumerator UpdateFloatingArrowRoutine()
+    {
+        while (true)
+        {
+            IInteractable closestInteractable = GetClosestInteractable();
+
+            if (closestInteractable != null)
+            {
+                MonoBehaviour interactableMB = closestInteractable as MonoBehaviour;
+                if (interactableMB != null)
+                {
+                    Transform interactableTransform = interactableMB.transform;
+            
+                    if (currentArrow == null)
+                    {
+                        currentArrow = Instantiate(arrowPrefab, interactableTransform.position + arrowOffset, Quaternion.identity);
+                    }
+                    else
+                    {
+                        // Smoothly update the position (optional, for a nice effect)
+                        currentArrow.transform.position = Vector3.Lerp(currentArrow.transform.position,
+                                                                       interactableTransform.position + arrowOffset,
+                                                                       0.2f * 10f);
+                    }
+                }
+            }
+            else
+            {
+                // If no interactable is found, remove the arrow
+                if (currentArrow != null)
+                {
+                    Destroy(currentArrow);
+                }
+            }
+
+            yield return new WaitForSeconds(0.2f);
+        }
+    }
+
     public void SetInteractRotation(Vector2 direction)
     {
         transform.localRotation = Quaternion.Euler(0, 0, Vector2.SignedAngle(Vector2.down, direction));
@@ -61,12 +124,4 @@ public class PlayerInteraction : MonoBehaviour
         Gizmos.color = Color.yellow;
         Gizmos.DrawWireSphere(interactPoint.position, interactRadius);
     }
-
-
-
-
-
-
-
-
 }

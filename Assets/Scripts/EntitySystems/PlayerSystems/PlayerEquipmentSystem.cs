@@ -7,21 +7,21 @@ public class PlayerEquipmentSystem : EquipmentSystem
     {
         // For the player, set the parent and subscribe to equipment UI events.
         _parent = parent;
-        PlayerEquipmentEventSystem.EquipmentInventoryUI_OnItemEquipped += EquipmentInventoryUI_OnItemEquipped;
-        PlayerEquipmentEventSystem.PlayerEquipmentUI_OnItemUnequipped += PlayerEquipmentUI_OnItemUnequipped;
+        PlayerEquipmentEventSystem.OnEquipmentEquipped += EquipmentInventoryUI_OnItemEquipped;
+        PlayerEquipmentEventSystem.OnEquipmentUnequippedUnequipped += PlayerEquipmentUI_OnItemUnequipped;
     }
 
     public override void InvokeInitialEvents()
     {
         // Immediately notify that equipment has changed.
-        PlayerEquipmentEventSystem.InvokePlayerEquipmentSystem_OnEquipmentChanged(_equippedItems);
+        PlayerEquipmentEventSystem.InvokePlayerEquipmentSystem_EquipmentChanged(_equippedItems);
     }
 
     public override void Dispose()
     {
         // Unsubscribe from events before disposing.
-        PlayerEquipmentEventSystem.EquipmentInventoryUI_OnItemEquipped -= EquipmentInventoryUI_OnItemEquipped;
-        PlayerEquipmentEventSystem.PlayerEquipmentUI_OnItemUnequipped -= PlayerEquipmentUI_OnItemUnequipped;
+        PlayerEquipmentEventSystem.OnEquipmentEquipped -= EquipmentInventoryUI_OnItemEquipped;
+        PlayerEquipmentEventSystem.OnEquipmentUnequippedUnequipped -= PlayerEquipmentUI_OnItemUnequipped;
         base.Dispose();
     }
 
@@ -29,13 +29,13 @@ public class PlayerEquipmentSystem : EquipmentSystem
     {
         base.EquipItem(item);
         // Always invoke the equipment changed event for the player.
-        PlayerEquipmentEventSystem.InvokePlayerEquipmentSystem_OnEquipmentChanged(_equippedItems);
+        PlayerEquipmentEventSystem.InvokePlayerEquipmentSystem_EquipmentChanged(_equippedItems);
     }
 
     public override void UnequipItem(EquipmentInventoryItem item)
     {
         base.UnequipItem(item);
-        PlayerEquipmentEventSystem.InvokePlayerEquipmentSystem_OnEquipmentChanged(_equippedItems);
+        PlayerEquipmentEventSystem.InvokePlayerEquipmentSystem_EquipmentChanged(_equippedItems);
     }
 
     // Optionally override the event handlers if any additional behavior is needed.

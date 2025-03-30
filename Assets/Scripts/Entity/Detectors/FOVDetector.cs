@@ -34,7 +34,7 @@ public class FOVDetector : MonoBehaviour
     {
         // Setup a filter to only check for colliders on the desired layer.
         ContactFilter2D filter = new ContactFilter2D();
-        filter.SetLayerMask(LayerHelper.EntityLayerMask);
+        filter.SetLayerMask(HelperLayer.EntityLayerMask);
         filter.useTriggers = true; // Make sure triggers are included if needed.
 
         // Prepare an array to receive the overlapping colliders.

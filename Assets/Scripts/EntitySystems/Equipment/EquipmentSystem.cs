@@ -13,7 +13,7 @@ public class EquipmentSystem : ILifecycle<Entity>
     public virtual void Initialize(Entity parent)
     {
         _parent = parent;
-        // Common initialization for any entity, but no event subscriptions here.
+
     }
 
     public virtual void InvokeInitialEvents()

@@ -1,15 +1,23 @@
 using System.Collections.Generic;
+using System.Linq;
 using UnityEngine;
 
 public class PoolManager : MonoBehaviour
 {
     private GameManager _parent;
-    
-    [SerializeField] private List<PoolSO> uiElementsPoolSOList = new List<PoolSO>();
-    [SerializeField] private List<PoolSO> npcPoolSOList = new List<PoolSO>();
-    [SerializeField] private List<PoolSO> environmentPoolSOList = new List<PoolSO>();
+
+    private List<PoolSO> uiElementsPoolSOList;
+    private List<PoolSO> npcPoolSOList;
+    private List<PoolSO> environmentPoolSOList;
 
     private Dictionary<string, ObjectPool> pools = new Dictionary<string, ObjectPool>();
+
+    private void Awake()
+    {
+        uiElementsPoolSOList = Resources.LoadAll<PoolSO>("PoolSO/UI").ToList();
+        npcPoolSOList = Resources.LoadAll<PoolSO>("PoolSO/NPC").ToList();
+        environmentPoolSOList = Resources.LoadAll<PoolSO>("PoolSO/Environment").ToList();
+    }
 
     public void Initialize(GameManager parent)
     {

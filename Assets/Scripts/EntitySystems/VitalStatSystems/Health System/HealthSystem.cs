@@ -9,6 +9,8 @@ public class HealthSystem : ILifecycle<Entity>
     protected float maxHealth;
     public float MaxHealth => maxHealth;
 
+    protected float lastCurrentHealth;
+    public float LastCurrentHealth => lastCurrentHealth;
     protected float currentHealth;
     public float CurrentHealth => currentHealth;
 
@@ -16,12 +18,15 @@ public class HealthSystem : ILifecycle<Entity>
     {
         this.maxHealth = maxHealth;
         currentHealth = maxHealth;
+        lastCurrentHealth = maxHealth;
     }
 
     public virtual void Initialize(Entity parent)
     {
         _entity = parent;
     }
+
+
 
     // Virtual method for invoking initial events; base implementation does nothing.
     public virtual void InvokeInitialEvents() { }
@@ -34,6 +39,7 @@ public class HealthSystem : ILifecycle<Entity>
     // Apply damage and trigger the OnHealthChanged hook.
     public virtual void TakeDamage(float damage)
     {
+        lastCurrentHealth = currentHealth;
         currentHealth -= damage;
         if (currentHealth < 0)
             currentHealth = 0;
@@ -47,5 +53,7 @@ public class HealthSystem : ILifecycle<Entity>
     }
 
     // Virtual hook for derived classes to override when health changes.
-    protected virtual void OnHealthChanged() { }
+    protected virtual void OnHealthChanged() {
+        EntityVitalStatsEventSystem.InvokeHealthChanged(_entity, new HealthChangedEventArgs(lastCurrentHealth, currentHealth, maxHealth));
+     }
 }
