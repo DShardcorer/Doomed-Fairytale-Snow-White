@@ -4,12 +4,20 @@ using UnityEngine;
 [Serializable]
 public class InventoryItem
 {
-    public ItemData ItemData { get; private set; }
+    public ItemData ItemData;
     public int stackSize;
 
     public InventoryItem(ItemData itemData)
     {
         ItemData = itemData;
+    }
+    public void AddToStack(int amount)
+    {
+        stackSize += amount;
+    }
+    public void RemoveFromStack(int amount)
+    {
+        stackSize -= amount;
     }
 
     public void AddToStack()

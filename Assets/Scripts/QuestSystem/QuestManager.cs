@@ -30,6 +30,7 @@ public class QuestManager : MonoBehaviour, ILifecycle<GameManager>
         QuestEventSystem.OnQuestStarted += StartQuest;
         QuestEventSystem.OnQuestAdvanced += AdvanceQuest;
         QuestEventSystem.OnQuestCompleted += FinishQuest;
+        QuestEventSystem.OnQuestStepStateChanged += OnQuestStepStateChanged;
         PlayerLevelEventSystem.OnLevelChanged += OnLevelChanged;
         PlayerLevelEventSystem.OnInitialLevelSet += OnLevelChanged;
 
@@ -40,6 +41,14 @@ public class QuestManager : MonoBehaviour, ILifecycle<GameManager>
         updateQuestRequirementsCoroutine = StartCoroutine(UpdateQuestRequirements());
 
     }
+
+    private void OnQuestStepStateChanged(QuestEventSystem.QuestStepStateChangedEventArgs args)
+    {
+        Quest quest = GetQuestByQuestName(args.QuestName);
+        quest.StoreQuestStepState(args.QuestStepState, args.QuestStepIndex);
+        ChangeQuestState(args.QuestName, quest.questState);
+    }
+
     public void Dispose()
     {
         gameManager = null;
@@ -48,6 +57,10 @@ public class QuestManager : MonoBehaviour, ILifecycle<GameManager>
         QuestEventSystem.OnQuestStarted -= StartQuest;
         QuestEventSystem.OnQuestAdvanced -= AdvanceQuest;
         QuestEventSystem.OnQuestCompleted -= FinishQuest;
+        QuestEventSystem.OnQuestStepStateChanged -= OnQuestStepStateChanged;
+        PlayerLevelEventSystem.OnLevelChanged -= OnLevelChanged;
+        PlayerLevelEventSystem.OnInitialLevelSet -= OnLevelChanged;
+
         Destroy(gameObject);
     }
 
@@ -179,6 +192,21 @@ public class QuestManager : MonoBehaviour, ILifecycle<GameManager>
         {
             Debug.LogWarning($"Quest with name {questName} not found.");
             return null;
+        }
+    }
+
+    private void OnApplicationQuit()
+    {
+        //Debuglog all quests
+        foreach (var quest in questMap.Values)
+        {
+            Debug.Log($"Quest Name: {quest.questInfo.QuestName}, State: {quest.questState} \n" +
+                      $"Current Step Index: {quest.CurrentQuestStepIndex}, Steps: {quest.questInfo.questStepPrefabs.Length} \n");
+            for (int i = 0; i < quest.QuestStepStates.Length; i++)
+            {
+                Debug.Log($"Step {i}: {quest.QuestStepStates[i].state}");
+            }
+
         }
     }
 }

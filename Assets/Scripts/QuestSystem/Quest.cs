@@ -11,11 +11,20 @@ public class Quest : ILifecycle<QuestManager>
     public QuestState questState;
 
     private int currentQuestStepIndex;
+    public int CurrentQuestStepIndex => currentQuestStepIndex;
+    private QuestStepState[] questStepStates;
+    public QuestStepState[] QuestStepStates => questStepStates;
 
     public Quest(QuestInfoSO questInfo)
     {
         this.questInfo = questInfo;
-
+        this.currentQuestStepIndex = 0;
+        this.questState = QuestState.REQUIREMENTS_NOT_MET;
+        questStepStates = new QuestStepState[questInfo.questStepPrefabs.Length];
+        for (int i = 0; i < questStepStates.Length; i++)
+        {
+            questStepStates[i] = new QuestStepState();
+        }
     }
 
     public void Initialize(QuestManager parent)
@@ -46,7 +55,16 @@ public class Quest : ILifecycle<QuestManager>
         if (questStepPrefab != null)
         {
             GameObject questStepInstance = GameObject.Instantiate(questStepPrefab, parent);
-            questStepInstance.GetComponent<QuestStep>().Initialize(this);
+            Debug.Log($"Instantiated quest step: {questStepInstance.name} for quest: {questInfo.QuestName}");
+            QuestStep questStep = questStepInstance.GetComponent<QuestStep>();
+            if (questStep != null)
+            {
+                questStep.Initialize(this);
+            }
+            else
+            {
+                Debug.LogWarning($"Quest step prefab {questStepPrefab.name} does not have a QuestStep component.");
+            }
 
         }
     }
@@ -69,5 +87,37 @@ public class Quest : ILifecycle<QuestManager>
     {
         //Put reward into inventory
         Debug.Log($"Quest {questInfo.QuestName} completed! Rewards given.");
+        InventorySystem playerInventorySystem = GameManager.Instance.PlayerManager.GetPlayer().InventorySystem;
+        foreach (InventoryItem inventoryItem in questInfo.itemRewards)
+        {
+            playerInventorySystem.AddItem(inventoryItem.ItemData, inventoryItem.stackSize);
+        }
+
+        LevelSystem playerLevelSystem = GameManager.Instance.PlayerManager.GetPlayer().LevelSystem;
+        playerLevelSystem.AddExperience(questInfo.experienceReward);
+        Debug.Log($"Quest {questInfo.QuestName} completed! Experience given: {questInfo.experienceReward}");
+    }
+
+    public void StoreQuestStepState(QuestStepState questStepState, int index)
+    {
+        if (index < questStepStates.Length)
+        {
+            questStepStates[index] = questStepState;
+        }
+        else
+        {
+            Debug.LogWarning($"Index {index} is out of bounds for quest step states of quest {questInfo.QuestName}.");
+        }
+    }
+
+    public QuestData GetQuestData()
+    {
+        return new QuestData(questState, currentQuestStepIndex, questStepStates);
+    }
+    public void SetQuestData(QuestData questData)
+    {
+        questState = questData.questState;
+        currentQuestStepIndex = questData.currentQuestStepIndex;
+        questStepStates = questData.questStepStates;
     }
 }

@@ -3,9 +3,9 @@ using Events.Misc;
 using System;
 public class CollectCoinsQuestStep : QuestStep
 {
-    private int _coinsCollected = 0;
+    private int coinsCollected = 0;
 
-    private int _coinsToCollect = 3;
+    private int coinsToCollect = 3;
 
 
     private void OnEnable()
@@ -15,8 +15,9 @@ public class CollectCoinsQuestStep : QuestStep
 
     private void OnCoinCollected()
     {
-        _coinsCollected++;
-        if (_coinsCollected >= _coinsToCollect)
+        coinsCollected++;
+        UpdateState();
+        if (coinsCollected >= coinsToCollect)
         {
             FinishQuestStep();
         }
@@ -24,5 +25,12 @@ public class CollectCoinsQuestStep : QuestStep
     private void OnDisable()
     {
         MiscEventSystem.CoinCollected -= OnCoinCollected;
+    }
+
+    private void UpdateState()
+    {
+        string state = coinsCollected.ToString();
+        QuestStepState questStepState = new QuestStepState(state);
+        ChangeState(questStepState);
     }
 }

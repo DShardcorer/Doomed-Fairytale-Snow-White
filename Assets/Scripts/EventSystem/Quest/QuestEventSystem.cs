@@ -58,4 +58,32 @@ public static class QuestEventSystem
         }
     }
 
+
+
+    public class QuestStepStateChangedEventArgs : EventArgs
+    {
+        public string QuestName;
+        public int QuestStepIndex;
+        public QuestStepState QuestStepState;
+        public QuestStepStateChangedEventArgs(string questName, int questStepIndex, QuestStepState questStepState)
+        {
+            QuestName = questName;
+            QuestStepIndex = questStepIndex;
+            QuestStepState = questStepState;
+        }
+    }
+
+    public static Action<QuestStepStateChangedEventArgs> OnQuestStepStateChanged;
+
+    public static void InvokeQuestStepStateChanged(QuestStepStateChangedEventArgs e)
+    {
+        if (OnQuestStepStateChanged != null)
+        {
+            OnQuestStepStateChanged.Invoke(e);
+        }
+        else
+        {
+            Debug.LogWarning($"No listeners for OnQuestStepStateChanged event. Quest name: {e.QuestName}, Step index: {e.QuestStepIndex}");
+        }
+    }
 }

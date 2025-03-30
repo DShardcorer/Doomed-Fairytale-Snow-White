@@ -16,8 +16,6 @@ public class ItemSlotUI : MonoBehaviour, IPointerClickHandler
 
     public void UpdateUI(InventoryItem item)
     {
-        //print the item name
-        Debug.Log("Updating UI for item: " + item.ItemData.itemName);
         _item = item;
         _icon.sprite = item.ItemData.icon;
         if (_item.stackSize > 1)

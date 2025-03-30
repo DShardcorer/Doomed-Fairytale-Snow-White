@@ -40,7 +40,7 @@ public class InventorySystem
         miscellaneousItems = new List<InventoryItem>();
         miscellaneousItemDictionary = new Dictionary<ItemData, InventoryItem>();
     }
-    
+
     public virtual void Initialize(Entity entity)
     {
         _entity = entity;
@@ -87,6 +87,52 @@ public class InventorySystem
         _currentWeight -= weight;
         OnWeightChanged(_currentWeight, _capacity);
     }
+    public virtual void AddItem(InventoryItem inventoryItem)
+    {
+        AddItem(inventoryItem.ItemData, inventoryItem.stackSize);
+    }
+    public virtual void AddItem(ItemData itemData, int amount)
+    {
+        InventoryItem item;
+        bool isNewItem = !itemDictionary.TryGetValue(itemData, out item);
+
+        if (isNewItem)
+        {
+            item = InventoryItemFactory.CreateItem(itemData);
+            items.Add(item);
+            itemDictionary[itemData] = item;
+        }
+
+        item.AddToStack(amount);
+
+        switch (itemData.itemType)
+        {
+            case ItemType.Material:
+                if (isNewItem) materialItems.Add(item);
+                materialItemDictionary[itemData] = item;
+                OnMaterialItemListChanged(materialItems);
+                break;
+            case ItemType.Consumable:
+                if (isNewItem) consumableItems.Add(item);
+                consumableItemDictionary[itemData] = item;
+                OnConsumableItemListChanged(consumableItems);
+                break;
+            case ItemType.Equipment:
+                if (isNewItem) equipmentItems.Add(item);
+                equipmentItemDictionary[itemData] = item;
+                OnEquipmentItemListChanged(equipmentItems);
+                break;
+            case ItemType.Miscellaneous:
+                if (isNewItem) miscellaneousItems.Add(item);
+                miscellaneousItemDictionary[itemData] = item;
+                OnMiscellaneousItemListChanged(miscellaneousItems);
+                break;
+        }
+
+        OnItemListChanged(items);
+        IncrementCurrentWeight(itemData.weight * amount);
+    }
+
 
     public virtual void AddItem(ItemData itemData)
     {
@@ -128,6 +174,67 @@ public class InventorySystem
 
         OnItemListChanged(items);
         IncrementCurrentWeight(itemData.weight);
+    }
+    public virtual void RemoveItem(InventoryItem inventoryItem)
+    {
+        RemoveItem(inventoryItem.ItemData, inventoryItem.stackSize);
+    }
+    public virtual void RemoveItem(ItemData itemData, int amount)
+    {
+        if (itemDictionary.ContainsKey(itemData))
+        {
+            itemDictionary[itemData].RemoveFromStack(amount);
+            switch (itemData.itemType)
+            {
+                case ItemType.Material:
+                    materialItemDictionary[itemData].RemoveFromStack(amount);
+                    OnMaterialItemListChanged(materialItems);
+                    break;
+                case ItemType.Consumable:
+                    consumableItemDictionary[itemData].RemoveFromStack(amount);
+                    OnConsumableItemListChanged(consumableItems);
+                    break;
+                case ItemType.Equipment:
+                    equipmentItemDictionary[itemData].RemoveFromStack(amount);
+                    OnEquipmentItemListChanged(equipmentItems);
+                    break;
+                case ItemType.Miscellaneous:
+                    miscellaneousItemDictionary[itemData].RemoveFromStack(amount);
+                    OnMiscellaneousItemListChanged(miscellaneousItems);
+                    break;
+            }
+            if (itemDictionary[itemData].stackSize <= 0)
+            {
+                items.Remove(itemDictionary[itemData]);
+                itemDictionary.Remove(itemData);
+                switch (itemData.itemType)
+                {
+                    case ItemType.Material:
+                        materialItems.Remove(materialItemDictionary[itemData]);
+                        materialItemDictionary.Remove(itemData);
+                        OnMaterialItemListChanged(materialItems);
+                        break;
+                    case ItemType.Consumable:
+                        consumableItems.Remove(consumableItemDictionary[itemData]);
+                        consumableItemDictionary.Remove(itemData);
+                        OnConsumableItemListChanged(consumableItems);
+                        break;
+                    case ItemType.Equipment:
+                        equipmentItems.Remove(equipmentItemDictionary[itemData]);
+                        equipmentItemDictionary.Remove(itemData);
+                        OnEquipmentItemListChanged(equipmentItems);
+                        break;
+                    case ItemType.Miscellaneous:
+                        miscellaneousItems.Remove(miscellaneousItemDictionary[itemData]);
+                        miscellaneousItemDictionary.Remove(itemData);
+                        OnMiscellaneousItemListChanged(miscellaneousItems);
+                        break;
+                }
+            }
+            OnItemListChanged(items);
+            DecrementCurrentWeight(itemData.weight * amount);
+        }
+
     }
 
     public virtual void RemoveItem(ItemData itemData)

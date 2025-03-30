@@ -1,8 +1,12 @@
 using UnityEngine;
 
+
 public abstract class QuestStep : MonoBehaviour
-{   private Quest _quest;
+{
+    private Quest _quest;
     public Quest Quest => _quest;
+
+    private int stepIndex;
     private bool isFinished = false;
 
     public bool IsFinished => isFinished;
@@ -10,6 +14,9 @@ public abstract class QuestStep : MonoBehaviour
     public void Initialize(Quest quest)
     {
         _quest = quest;
+        stepIndex = this._quest.CurrentQuestStepIndex;
+        Debug.Log($"Quest: {_quest}");
+
     }
     protected void FinishQuestStep()
     {
@@ -20,4 +27,18 @@ public abstract class QuestStep : MonoBehaviour
             Destroy(gameObject);
         }
     }
+
+    protected void ChangeState(QuestStepState newState)
+    {
+        //Debug log quest
+
+        Debug.Log(newState.state);
+
+
+
+        QuestEventSystem.QuestStepStateChangedEventArgs e =
+        new QuestEventSystem.QuestStepStateChangedEventArgs(_quest.questInfo.QuestName, stepIndex, newState);
+        QuestEventSystem.InvokeQuestStepStateChanged(e);
+    }
+
 }
