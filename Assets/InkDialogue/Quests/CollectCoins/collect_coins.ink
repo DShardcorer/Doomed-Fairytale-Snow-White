@@ -1,8 +1,5 @@
-INCLUDE Quests/CollectCoins/collect_coins_start_npc.ink
-INCLUDE Quests/CollectCoins/collect_coins_finish_npc.ink
+INCLUDE ../../global_variables.ink
+INCLUDE ../../global_methods.ink
+INCLUDE collect_coins_start_npc.ink
+INCLUDE collect_coins_finish_npc.ink
 
-// questId = questId + "Id" for variable name
-VAR CollectCoinsQuestId = "CollectCoinsQuest"
-
-// quest states = questId + "State" for variable name
-VAR CollectCoinsQuestState = "REQUIREMENTS_NOT_MET"

@@ -1,15 +1,18 @@
 using System;
 using System.Collections.Generic;
 using Ink.Runtime;
+using UnityEditor.Overlays;
 using UnityEngine;
 
 public static class DialogueEventSystem
 {
     public class EnterDialogueEventArgs : EventArgs
     {
+        public TextAsset InkDialogueFile;
         public string KnotName;
-        public EnterDialogueEventArgs(string knotName)
+        public EnterDialogueEventArgs(TextAsset inkDialogueFile, string knotName = null)
         {
+            InkDialogueFile = inkDialogueFile;
             KnotName = knotName;
         }
     }
@@ -76,5 +79,40 @@ public static class DialogueEventSystem
         OnUpdateInkDialogueVariable?.Invoke(e);
     }
 
+
+    public class UpdateSpeakerSpriteEventArgs : EventArgs
+    {
+        public string SpeakerSpriteName;
+        public string Layout;
+
+        public UpdateSpeakerSpriteEventArgs(string speakerSpriteName, string layout = "left")
+        {
+            this.SpeakerSpriteName = speakerSpriteName;
+            this.Layout = layout;
+        }
+    }
+
+    public static event Action<UpdateSpeakerSpriteEventArgs> OnUpdateSpeakerSprite;
+
+    public static void InvokeUpdateSpeakerSprite(UpdateSpeakerSpriteEventArgs e)
+    {
+        OnUpdateSpeakerSprite?.Invoke(e);
+    }
+
+    public class UpdateSpeakerNameEventArgs : EventArgs
+    {
+        public string SpeakerName;
+
+        public UpdateSpeakerNameEventArgs(string speakerName)
+        {
+            this.SpeakerName = speakerName;
+        }
+    }
+    public static event Action<UpdateSpeakerNameEventArgs> OnUpdateSpeakerName;
+
+    public static void InvokeUpdateSpeakerName(UpdateSpeakerNameEventArgs e)
+    {
+        OnUpdateSpeakerName?.Invoke(e);
+    }
 
 }

@@ -6,12 +6,12 @@ public class InkDialogueVariables
 {
     private Dictionary<string, Ink.Runtime.Object> variables;
 
-    public InkDialogueVariables(Story story)
+    public InkDialogueVariables(Story inkGlobalsStory)
     {
         variables = new Dictionary<string, Ink.Runtime.Object>();
-        foreach (string name in story.variablesState)
+        foreach (string name in inkGlobalsStory.variablesState)
         {
-            Ink.Runtime.Object value = story.variablesState.GetVariableWithName(name);
+            Ink.Runtime.Object value = inkGlobalsStory.variablesState.GetVariableWithName(name);
             variables.Add(name, value);
 
         }

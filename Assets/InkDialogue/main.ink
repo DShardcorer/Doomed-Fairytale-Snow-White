@@ -1,5 +1,0 @@
-
-
-
-INCLUDE Quests/quests.ink
-

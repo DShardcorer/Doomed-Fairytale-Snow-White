@@ -7077,6 +7077,10 @@ PrefabInstance:
       propertyPath: isFinishPoint
       value: 1
       objectReference: {fileID: 0}
+    - target: {fileID: 1393547260785538342, guid: f0fd81a1b0621fa46b6dc01b41df1a32, type: 3}
+      propertyPath: inkDialogueFile
+      value: 
+      objectReference: {fileID: 4900000, guid: 3b663184ae84c31449e3e322360314d0, type: 3}
     - target: {fileID: 5110535927905919695, guid: f0fd81a1b0621fa46b6dc01b41df1a32, type: 3}
       propertyPath: m_LocalPosition.x
       value: 3.65
@@ -25595,7 +25599,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 87deff97ea921864d89a397b54bc618d, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  inkJsonAsset: {fileID: 4900000, guid: 25d74a783e34f494f91cee16fa495d82, type: 3}
+  InkGlobalVariablesTextAsset: {fileID: 4900000, guid: f25472d0ab526254486b55655c34d470, type: 3}
 --- !u!4 &1611620342
 Transform:
   m_ObjectHideFlags: 0
@@ -28842,6 +28846,10 @@ PrefabInstance:
       propertyPath: isFinishPoint
       value: 0
       objectReference: {fileID: 0}
+    - target: {fileID: 1393547260785538342, guid: f0fd81a1b0621fa46b6dc01b41df1a32, type: 3}
+      propertyPath: inkDialogueFile
+      value: 
+      objectReference: {fileID: 4900000, guid: 3b663184ae84c31449e3e322360314d0, type: 3}
     - target: {fileID: 5110535927905919695, guid: f0fd81a1b0621fa46b6dc01b41df1a32, type: 3}
       propertyPath: m_LocalPosition.x
       value: -0.27

@@ -3,14 +3,15 @@ using UnityEngine;
 
 public class InkExternalFunctions
 {
-    public void Bind(Story story)
+
+    public void StartListening(Story story)
     {
         story.BindExternalFunction("StartQuest", (string questId) => StartQuest(questId));
         story.BindExternalFunction("AdvanceQuest", (string questId) => AdvanceQuest(questId));
         story.BindExternalFunction("FinishQuest", (string questId) => FinishQuest(questId));
     }
 
-    public void Unbind(Story story)
+    public void StopListening(Story story)
     {
         story.UnbindExternalFunction("StartQuest");
         story.UnbindExternalFunction("AdvanceQuest");

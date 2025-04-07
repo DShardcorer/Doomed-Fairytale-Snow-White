@@ -2,10 +2,11 @@ using System;
 using UnityEngine;
 
 [RequireComponent(typeof(CircleCollider2D))]
-public class QuestPoint : MonoBehaviour, IInteractable
+public class QuestPoint : MonoBehaviour, IInteractable, IHasDialogue
 {
     [Header("Dialogue (Optional)")]
     [SerializeField] private string knotName;
+    [SerializeField] private TextAsset inkDialogueFile;
 
     [Header("Quest Info")]
     [SerializeField] private QuestInfoSO questInfoForPoint;
@@ -43,10 +44,9 @@ public class QuestPoint : MonoBehaviour, IInteractable
 
     public void Interact(Player player)
     {
-        if (!knotName.Equals(string.Empty))
+        if (inkDialogueFile != null)
         {
-            Debug.Log($"Starting dialogue: {knotName}");
-            DialogueEventSystem.InvokeEnterDialogue(new DialogueEventSystem.EnterDialogueEventArgs(knotName));
+            DialogueEventSystem.InvokeEnterDialogue(new DialogueEventSystem.EnterDialogueEventArgs(inkDialogueFile, knotName));
         }
         else
         {
@@ -67,5 +67,10 @@ public class QuestPoint : MonoBehaviour, IInteractable
             }
         }
 
+    }
+
+    public TextAsset GetInkDialogueFile()
+    {
+        return inkDialogueFile;
     }
 }
