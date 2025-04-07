@@ -4,13 +4,22 @@ using UnityEngine;
 public class InputManager : MonoBehaviour, ILifecycle<GameManager>
 {
     private GameManager _gameManager;
+    public GameManager GameManager => _gameManager;
+
+    public InputEventContext inputEventContext = InputEventContext.DEFAULT;
 
     private PlayerInputActions _playerInputActions;
     public event EventHandler attackInputted;
     public event EventHandler dashInputted;
     public event EventHandler skill1Inputted;
-    public event EventHandler interactInputted;
+    public event Action<InputEventContext> interactInputted;
     public event EventHandler openMenuInputted;
+
+
+    public event Action<InputEventContext> uiSubmitInputted;
+    public event Action<InputEventContext> uiCancelInputted;
+
+
 
 
     public void Initialize(GameManager gameManager)
@@ -27,19 +36,46 @@ public class InputManager : MonoBehaviour, ILifecycle<GameManager>
         _playerInputActions.Player.Dash.performed += ctx => dashInputted?.Invoke(this, EventArgs.Empty);
         _playerInputActions.Player.Skill1.performed += ctx => skill1Inputted?.Invoke(this, EventArgs.Empty);
         _playerInputActions.Player.OpenMenu.performed += ctx => openMenuInputted?.Invoke(this, EventArgs.Empty);
-        _playerInputActions.Player.Interact.performed += ctx => interactInputted?.Invoke(this, EventArgs.Empty);
+        _playerInputActions.Player.Interact.performed += ctx => interactInputted?.Invoke(inputEventContext);
+        _playerInputActions.UI.Submit.performed += ctx => uiSubmitInputted?.Invoke(inputEventContext);
+        _playerInputActions.UI.Cancel.performed += ctx => uiCancelInputted?.Invoke(inputEventContext);
+        _playerInputActions.UI.Disable();
     }
 
-    public GameManager GetGameManager(){
-        return _gameManager;
+    public void SetInputEventContext(InputEventContext context)
+    {
+        inputEventContext = context;
+        switch (context)
+        {
+            case InputEventContext.DEFAULT:
+                EnablePlayerControls();
+                break;
+            case InputEventContext.DIALOGUE:
+                EnableDialogueControls();
+                break;
+        }
     }
+
+    private void EnablePlayerControls()
+    {
+        _playerInputActions.UI.Disable();
+        _playerInputActions.Player.Enable();
+    }
+
+    private void EnableDialogueControls()
+    {
+        _playerInputActions.Player.Disable();
+        _playerInputActions.UI.Enable();
+    }
+
 
 
     public void Dispose()
     {
         _playerInputActions.Disable();
     }
-    public Vector2 GetMovementVector(){
+    public Vector2 GetMovementVector()
+    {
         Vector2 movement = _playerInputActions.Player.Move.ReadValue<Vector2>();
         return movement;
     }

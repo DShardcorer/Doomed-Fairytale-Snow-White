@@ -29,7 +29,7 @@ public class QuestManager : MonoBehaviour, ILifecycle<GameManager>
         questMap = CreateQuestMap();
         QuestEventSystem.OnQuestStarted += StartQuest;
         QuestEventSystem.OnQuestAdvanced += AdvanceQuest;
-        QuestEventSystem.OnQuestCompleted += FinishQuest;
+        QuestEventSystem.OnQuestFinished += FinishQuest;
         QuestEventSystem.OnQuestStepStateChanged += OnQuestStepStateChanged;
         PlayerLevelEventSystem.OnLevelChanged += OnLevelChanged;
         PlayerLevelEventSystem.OnInitialLevelSet += OnLevelChanged;
@@ -44,9 +44,9 @@ public class QuestManager : MonoBehaviour, ILifecycle<GameManager>
 
     private void OnQuestStepStateChanged(QuestEventSystem.QuestStepStateChangedEventArgs args)
     {
-        Quest quest = GetQuestByQuestName(args.QuestName);
+        Quest quest = GetQuestByQuestName(args.QuestId);
         quest.StoreQuestStepState(args.QuestStepState, args.QuestStepIndex);
-        ChangeQuestState(args.QuestName, quest.questState);
+        ChangeQuestState(args.QuestId, quest.questState);
     }
 
     public void Dispose()
@@ -56,7 +56,7 @@ public class QuestManager : MonoBehaviour, ILifecycle<GameManager>
         questMap = null;
         QuestEventSystem.OnQuestStarted -= StartQuest;
         QuestEventSystem.OnQuestAdvanced -= AdvanceQuest;
-        QuestEventSystem.OnQuestCompleted -= FinishQuest;
+        QuestEventSystem.OnQuestFinished -= FinishQuest;
         QuestEventSystem.OnQuestStepStateChanged -= OnQuestStepStateChanged;
         PlayerLevelEventSystem.OnLevelChanged -= OnLevelChanged;
         PlayerLevelEventSystem.OnInitialLevelSet -= OnLevelChanged;

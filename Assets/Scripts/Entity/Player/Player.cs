@@ -94,9 +94,6 @@ public class Player : Entity, ILifecycle<PlayerManager>, IFixedUpdatable, IUpdat
         if (IsBusy) return;
         _stateMachine.ChangeState(_playerAttackingState);
 
-        //Log every stat in combatstats
-        Debug.Log(_statSystem.CombatStatBoard.ToString());
-
     }
 
     private void OnDashInputted(object sender, EventArgs e)

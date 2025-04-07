@@ -11,6 +11,7 @@ public class GameManager : MonoBehaviour
     [SerializeField] private NativeManager _enemyManager;
     [SerializeField] private CameraManager _cameraManager;
     [SerializeField] private QuestManager _questManager;
+    [SerializeField] private DialogueManager _dialogueManager;
 
     public InputManager InputManager => _inputManager;
     public PoolManager PoolManager => _poolManager;
@@ -20,6 +21,7 @@ public class GameManager : MonoBehaviour
     public FixedUpdateManager FixedUpdateManager => _fixedUpdateManager;
     public CameraManager CameraManager => _cameraManager;
     public QuestManager QuestManager => _questManager;
+    public DialogueManager DialogueManager => _dialogueManager;
 
 
 
@@ -48,6 +50,7 @@ public class GameManager : MonoBehaviour
         _fixedUpdateManager.Initialize(this);
         _enemyManager.Initialize(this);
         _questManager.Initialize(this); 
+        _dialogueManager.Initialize(this);
 
 
     }

@@ -30,12 +30,6 @@ public abstract class QuestStep : MonoBehaviour
 
     protected void ChangeState(QuestStepState newState)
     {
-        //Debug log quest
-
-        Debug.Log(newState.state);
-
-
-
         QuestEventSystem.QuestStepStateChangedEventArgs e =
         new QuestEventSystem.QuestStepStateChangedEventArgs(_quest.questInfo.QuestName, stepIndex, newState);
         QuestEventSystem.InvokeQuestStepStateChanged(e);

@@ -2,13 +2,13 @@ using System;
 using UnityEngine;
 using System.Collections;
 
-public class PlayerInteraction : MonoBehaviour
+public class PlayerInteraction : MonoBehaviour, ILifecycle<Player>
 {
     private Player _player;
     private float interactRadius = 0.5f;
     [SerializeField] private LayerMask interactableLayer;
     public Transform interactPoint;
-    
+
     [SerializeField] private GameObject arrowPrefab;
     private GameObject currentArrow;
     private Vector3 arrowOffset = new Vector3(0, 1f, 0);
@@ -19,6 +19,31 @@ public class PlayerInteraction : MonoBehaviour
     {
         _player = player;
         _player.InputManager.interactInputted += Interact;
+    }
+    public void Dispose()
+    {
+        _player.InputManager.interactInputted -= Interact;
+        if (currentArrow != null)
+        {
+            Destroy(currentArrow);
+        }
+    }
+
+    private void Interact(InputEventContext context)
+    {
+        if (context != InputEventContext.DEFAULT)
+        {
+            return;
+        }
+        IInteractable closestInteractable = GetClosestInteractable();
+        if (closestInteractable != null)
+        {
+            closestInteractable.Interact(_player);
+        }
+        else
+        {
+            Debug.Log("No interactable object in range.");
+        }
     }
 
     private void OnEnable()
@@ -36,18 +61,6 @@ public class PlayerInteraction : MonoBehaviour
         }
     }
 
-    private void Interact(object sender, EventArgs e)
-    {
-        IInteractable closestInteractable = GetClosestInteractable();
-        if (closestInteractable != null)
-        {
-            closestInteractable.Interact(_player);
-        }
-        else
-        {
-            Debug.Log("No interactable object in range.");
-        }
-    }
 
     private IInteractable GetClosestInteractable()
     {
@@ -87,7 +100,7 @@ public class PlayerInteraction : MonoBehaviour
                 if (interactableMB != null)
                 {
                     Transform interactableTransform = interactableMB.transform;
-            
+
                     if (currentArrow == null)
                     {
                         currentArrow = Instantiate(arrowPrefab, interactableTransform.position + arrowOffset, Quaternion.identity);
@@ -124,4 +137,6 @@ public class PlayerInteraction : MonoBehaviour
         Gizmos.color = Color.yellow;
         Gizmos.DrawWireSphere(interactPoint.position, interactRadius);
     }
+
+
 }
