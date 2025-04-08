@@ -19,7 +19,7 @@ Will you please collect 3 coins and bring them to my clone over there ? This is 
 So, what is your answer ? 
 *[No]
 *[...]
--Pretty please ?I'll show you my swimsuit ? #speaker:Hoshiko #sprite:hoshi_school_embarassed1 #layout:left
+-Pretty please ?I'll show you my <b><color=\#FF1493>swimsuit</color></b> ? #speaker:Hoshiko #sprite:hoshi_school_embarassed1 #layout:left
 *[Yes]
     ~StartQuest("CollectCoinsQuest")
     Cool!

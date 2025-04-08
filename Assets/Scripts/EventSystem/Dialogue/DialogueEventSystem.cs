@@ -115,4 +115,18 @@ public static class DialogueEventSystem
         OnUpdateSpeakerName?.Invoke(e);
     }
 
+    public class UpdateCanContinueToNextLineEventArgs : EventArgs
+    {
+        public bool CanContinueToNextLine;
+        public UpdateCanContinueToNextLineEventArgs(bool canContinueToNextLine)
+        {
+            CanContinueToNextLine = canContinueToNextLine;
+        }
+    }
+    public static event Action<UpdateCanContinueToNextLineEventArgs> OnUpdateCanContinueToNextLine;
+    public static void InvokeUpdateCanContinueToNextLine(UpdateCanContinueToNextLineEventArgs e)
+    {
+        OnUpdateCanContinueToNextLine?.Invoke(e);
+    }
+
 }

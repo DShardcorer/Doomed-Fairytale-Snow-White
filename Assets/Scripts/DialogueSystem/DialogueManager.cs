@@ -17,6 +17,7 @@ public class DialogueManager : MonoBehaviour, ILifecycle<GameManager>
     private const string SPEAKER_TAG = "speaker";
     private const string SPRITE_TAG = "sprite";
     private const string LAYOUT_TAG = "layout";
+    private bool canContinueToNextLine = false;
 
     private void Awake()
     {
@@ -37,7 +38,13 @@ public class DialogueManager : MonoBehaviour, ILifecycle<GameManager>
         DialogueEventSystem.OnEnterDialogue += OnEnterDialogue;
         DialogueEventSystem.OnUpdateChoiceIndex += OnUpdateChoiceIndex;
         DialogueEventSystem.OnUpdateInkDialogueVariable += OnUpdateInkDialogueVariable;
+        DialogueEventSystem.OnUpdateCanContinueToNextLine += OnUpdateCanContinueToNextLine;
         QuestEventSystem.OnQuestStateChanged += OnQuestStateChanged;
+
+    }
+    private void OnUpdateCanContinueToNextLine(UpdateCanContinueToNextLineEventArgs args)
+    {
+        canContinueToNextLine = args.CanContinueToNextLine;
     }
 
     private void OnQuestStateChanged(Quest quest)
@@ -59,6 +66,7 @@ public class DialogueManager : MonoBehaviour, ILifecycle<GameManager>
     private void OnUISubmitInputted(InputEventContext context)
     {
         if (context != InputEventContext.DIALOGUE) return;
+        if(!canContinueToNextLine) return;
         if (isDialoguePlaying)
         {
             Debug.Log($"Submit input received in context: {context}");
