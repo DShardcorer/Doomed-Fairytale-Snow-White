@@ -9,6 +9,8 @@ public class FieldItem : MonoBehaviour, IInteractable
 
     public ItemData ItemData { get => itemData; }
 
+    public int Priority => 99;
+
     private void Awake()
     {
         spriteRenderer = GetComponent<SpriteRenderer>();

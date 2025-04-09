@@ -10,7 +10,7 @@ public static class DialogueEventSystem
     {
         public TextAsset InkDialogueFile;
         public string KnotName;
-        public EnterDialogueEventArgs(TextAsset inkDialogueFile, string knotName = null)
+        public EnterDialogueEventArgs(TextAsset inkDialogueFile, string knotName)
         {
             InkDialogueFile = inkDialogueFile;
             KnotName = knotName;

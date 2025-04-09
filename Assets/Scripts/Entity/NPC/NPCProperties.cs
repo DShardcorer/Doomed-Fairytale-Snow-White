@@ -1,13 +1,18 @@
+using System.Collections.Generic;
 using UnityEngine;
 
 public class NPCProperties : EntityProperties
 {
-    private float _chaseRange;
-    public float ChaseRange => _chaseRange;
+    private List<EntityFaction> hostileToFactions;
+    public List<EntityFaction> HostileToFactions => hostileToFactions;
+    private float chaseRange;
+    public float ChaseRange => chaseRange;
 
-    public NPCProperties(EntityFaction entityFaction, float moveSpeed, float chaseRange) : base(entityFaction, moveSpeed)
+
+    public NPCProperties(EntityFaction entityFaction, List<EntityFaction> hostileToFactions,  float moveSpeed, float chaseRange) : base(entityFaction, moveSpeed)
     {
-        _chaseRange = chaseRange;
+        this.chaseRange = chaseRange;
+        this.hostileToFactions = hostileToFactions;
     }
 
 }

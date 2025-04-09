@@ -1,5 +1,6 @@
 public interface IInteractable
 {
+    int Priority { get; }
     /// <summary>
     /// Called when an interactor interacts with this object.
     /// </summary>

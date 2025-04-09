@@ -1,16 +1,10 @@
 using UnityEngine;
 
-public class NPCAttackingState : MonoBehaviour
+public class NPCAttackingState : NPCState
 {
-    // Start is called once before the first execution of Update after the MonoBehaviour is created
-    void Start()
+    public NPCAttackingState(string animationBoolName, EntityStateProperties entityStateProperties) : base(animationBoolName, entityStateProperties)
     {
-        
     }
 
-    // Update is called once per frame
-    void Update()
-    {
-        
-    }
+
 }

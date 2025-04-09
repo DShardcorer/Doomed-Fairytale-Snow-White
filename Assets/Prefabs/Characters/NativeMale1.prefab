@@ -470,6 +470,8 @@ GameObject:
   - component: {fileID: 1669204487774191867}
   - component: {fileID: 4771811002992867852}
   - component: {fileID: 2370579724588794956}
+  - component: {fileID: 933864833126632102}
+  - component: {fileID: 93549128644048336}
   m_Layer: 7
   m_Name: NativeMale1
   m_TagString: Untagged
@@ -488,7 +490,7 @@ Transform:
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
   m_LocalPosition: {x: 0, y: 0, z: 0}
   m_LocalScale: {x: 1, y: 1, z: 1}
-  m_ConstrainProportionsScale: 0
+  m_ConstrainProportionsScale: 1
   m_Children:
   - {fileID: 1900536607685850723}
   - {fileID: 6496285486885672628}
@@ -576,8 +578,31 @@ MonoBehaviour:
   _animator: {fileID: 4545833827162117862}
   _originalMaterial: {fileID: 2100000, guid: a97c105638bdf8b4a8650670310a4cd3, type: 2}
   _flashOnHitMaterial: {fileID: 2100000, guid: e8b163277ebd4d34389958d088bdf66a, type: 2}
-  _attackCheck: {fileID: 1425896304759716220}
-  _attackCheckRadius: 0.75
+--- !u!114 &933864833126632102
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 6419308707183161573}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: a069c5a9d95bcf840b9812c1034b2ad1, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+--- !u!114 &93549128644048336
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 6419308707183161573}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 826f1c1d5b6b64e4791b4e1d73ebe7d2, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  inkDialogue: {fileID: 4900000, guid: 8c585e5f7f03d5f448eed5eca44a63d1, type: 3}
 --- !u!1 &6420058750705316569
 GameObject:
   m_ObjectHideFlags: 0

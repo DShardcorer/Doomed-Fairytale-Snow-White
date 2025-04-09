@@ -2,7 +2,9 @@ using UnityEngine;
 
 public class EntityProperties
 {
-    public EntityFaction entityFaction;
+    private EntityFaction entityFaction;
+    public EntityFaction EntityFaction => entityFaction;
+
     public Vector2 lastMovementVector = Vector2.down;
     public Entity lastAttacker;
     public Entity target;

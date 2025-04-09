@@ -1,6 +1,7 @@
 using System;
 using UnityEngine;
 
+[Serializable]
 public class NPCMovingProperties: EntityStateProperties
 {
     private float moveSpeed = 2.0f;
@@ -8,8 +9,6 @@ public class NPCMovingProperties: EntityStateProperties
 
     private float movingTime = 2.0f;
     public float MovingTime => movingTime;
-
-
 
     public NPCMovingProperties(float moveSpeed = 2.0f, float movingTime = 2.0f)
     {

@@ -14,6 +14,7 @@ public class NPCManager : MonoBehaviour, ILifecycle<GameManager>
         _gameManager = gameManager;
         _poolManager = _gameManager.PoolManager;
     }
+    
 
 
 

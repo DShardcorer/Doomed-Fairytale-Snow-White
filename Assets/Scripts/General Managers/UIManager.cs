@@ -63,19 +63,10 @@ public class UIManager : MonoBehaviour
         _staminaUI.Initialize(this);
         _damagePopupUIManager.Initialize(this);
 
-        InvokeInitialEvents();
+
     }
 
-    private void InvokeInitialEvents()
-    {
-        GameManager.Instance.PlayerManager.GetPlayer().InventorySystem.InvokeInitialEvents();
-        GameManager.Instance.PlayerManager.GetPlayer().HealthSystem.InvokeInitialEvents();
-        GameManager.Instance.PlayerManager.GetPlayer().ManaSystem.InvokeInitialEvents();
-        GameManager.Instance.PlayerManager.GetPlayer().StaminaSystem.InvokeInitialEvents();
-        GameManager.Instance.PlayerManager.GetPlayer().StatSystem.InvokeInitialEvents();
-        GameManager.Instance.PlayerManager.GetPlayer().EquipmentSystem.InvokeInitialEvents();
-        GameManager.Instance.PlayerManager.GetPlayer().LevelSystem.InvokeInitialEvents();
-    }
+
 
 
 

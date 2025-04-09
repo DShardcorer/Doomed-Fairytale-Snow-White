@@ -1,6 +1,6 @@
 using UnityEngine;
 
-public class NativeChasingState : NativeState
+public class NativeChasingState : NPCChasingState
 {
 
     protected NativeChasingProperties _nativeChasingProperties;

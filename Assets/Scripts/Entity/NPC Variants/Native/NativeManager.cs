@@ -5,7 +5,7 @@ public class NativeManager : NPCManager
 {
     [SerializeField] private GameObject _nativePrefab;
     [SerializeField] private AbilityStatboardSO _abilityStatboardSO;
-    private List<Native> _enemies = new List<Native>();
+    private List<NPC> _enemies = new List<NPC>();
 
 
     public void SpawnMeleeNative(Vector3 position)
@@ -39,10 +39,8 @@ public class NativeManager : NPCManager
         EquipmentSystem equipmentSystem = new EquipmentSystem();
 
 
+        NPCProperties npcProperties = new NPCProperties(EntityFaction.Native, new List<EntityFaction> { EntityFaction.Civilized }, 2, 10);
 
-        NativeProperties nativeProperties = new NativeProperties(EntityFaction.Native, 2, 10);
-
-        Debug.Log(nativeProperties.MoveSpeed);
         //LevelSystem creation
         LevelSystem levelSystem = new LevelSystem();
 
@@ -56,21 +54,21 @@ public class NativeManager : NPCManager
         StaminaSystem staminaSystem = new StaminaSystem((int)statSystem.CombatStatBoard.Stamina.ModifiedValue);
         InventorySystem inventory = new InventorySystem();
 
-        Native native = new Native(nativeView, nativeProperties, nativeIdlingState, nativeMovingState, nativeChasingState, nativeAttackingState,
+        NPC npc = new NPC(nativeView, npcProperties, nativeIdlingState, nativeMovingState, nativeChasingState, nativeAttackingState,
          statSystem, equipmentSystem,
           skillSystem, levelSystem, healthSystem, manaSystem, staminaSystem, stateMachine, inventory);
 
-        native.Initialize(this);
+        npc.Initialize(this);
 
-        native.NativeView.transform.position = position;
-        _enemies.Add(native);
+        npc.NPCView.transform.position = position;
+        _enemies.Add(npc);
     }
 
-    public void DespawnMeleeNative(Native native)
+    public void DespawnMeleeNative(NPC npc)
     {
-        _poolManager.ReturnObject(_nativePrefab.name, native.NativeView.gameObject);
-        native.Dispose();
-        _enemies.Remove(native);
+        _poolManager.ReturnObject(_nativePrefab.name, npc.NPCView.gameObject);
+        npc.Dispose();
+        _enemies.Remove(npc);
     }
     public void Update()
     {

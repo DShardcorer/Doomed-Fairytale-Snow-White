@@ -21,7 +21,6 @@ public class NPCMovingState : NPCState
     {
         base.FixedUpdateState();
         _stateTimer -= Time.fixedDeltaTime;
-        Vector2 roundedDirection = new Vector2(Mathf.Round(_properties.lastMovementVector.x), Mathf.Round(_properties.lastMovementVector.y));
         _npc.FOVDetector.SetColliderRotation(_properties.lastMovementVector);
         _npc.AttackHitbox.SetAttackHitBoxRotation(_properties.lastMovementVector);
         _rigidbody.linearVelocity = _properties.lastMovementVector * _npcMovingProperties.MoveSpeed;

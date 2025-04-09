@@ -20,8 +20,8 @@ public class ProximityDetector : MonoBehaviour
         //Check if its an entity
         if (collision.TryGetComponent(out EntityView entityView))
         {
-            //Check if the entity is from a different faction
-            if (entityView.Controller.Properties.entityFaction != _parent.Properties.entityFaction)
+            //Check if the entity in hostile to factions
+            if (_parent.NPCProperties.HostileToFactions.Contains(entityView.Controller.Properties.EntityFaction))
             {
                 //Invoke the event
                 OnEntityFromDifferentFactionSpottedInProximity?.Invoke(this, entityView.Controller);

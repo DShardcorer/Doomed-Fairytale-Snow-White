@@ -15,14 +15,14 @@ public class NativeMeleeAttackingState : NativeAttackingState
     {
 
         //If target is out of attack range, chase the target
-        if (Vector3.Distance(_native.View.transform.position, _properties.target.View.transform.position) >_nativeAttackingProperties.AttackRange)
+        if (Vector3.Distance(_npc.View.transform.position, _properties.target.View.transform.position) >_nativeAttackingProperties.AttackRange)
         {
-            _stateMachine.ChangeState(_native.NativeChasingState);
+            _stateMachine.ChangeState(_npc.NPCChasingState);
         }
 
         if (_properties.target == null)
         {
-            _stateMachine.ChangeState(_native.NativeIdlingState);
+            _stateMachine.ChangeState(_npc.NPCIdlingState);
         }
         base.FixedUpdateState();
     }

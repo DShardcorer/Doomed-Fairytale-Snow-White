@@ -4,7 +4,7 @@ using UnityEngine;
 
 public class FOVDetector : MonoBehaviour
 {
-    private NPC _parent;
+    private NPC npc;
     
     [SerializeField] private PolygonCollider2D _collider;
     public PolygonCollider2D Collider2D => _collider;
@@ -14,7 +14,7 @@ public class FOVDetector : MonoBehaviour
 
     public void Initialize(NPC npc)
     {
-        _parent = npc;
+        this.npc = npc;
         StartCoroutine(DetectionRoutine());
     }
 
@@ -49,10 +49,10 @@ public class FOVDetector : MonoBehaviour
             Collider2D col = results[i];
             if (col.TryGetComponent<EntityView>(out EntityView entityView))
             {
-                // Filter out entities of the same faction.
-                if (entityView.Controller.Properties.entityFaction != _parent.Properties.entityFaction)
+                // Filter out non-hostile entities factions
+                if (npc.NPCProperties.HostileToFactions.Contains(entityView.Controller.Properties.EntityFaction))
                 {
-                    float distance = Vector2.Distance(_parent.View.transform.position, entityView.transform.position);
+                    float distance = Vector2.Distance(npc.View.transform.position, entityView.transform.position);
                     if (distance < minDistance)
                     {
                         minDistance = distance;

@@ -1,6 +1,6 @@
 using UnityEngine;
 
-public class NativeAttackingState : NativeState
+public class NativeAttackingState : NPCAttackingState
 {
     protected NativeAttackingProperties _nativeAttackingProperties;
 
@@ -16,11 +16,11 @@ public class NativeAttackingState : NativeState
         base.FixedUpdateState();
         if (!_isAnimationEnded)
         {
-            _rigidbody.linearVelocity = 0.5f * _native.NativeProperties.lastMovementVector * _native.NativeProperties.MoveSpeed;
+            _rigidbody.linearVelocity = 0.5f * _npc.NPCProperties.lastMovementVector * _npc.NPCProperties.MoveSpeed;
         }
         else
         {
-            _stateMachine.ChangeState(_native.NativeChasingState);
+            _stateMachine.ChangeState(_npc.NPCChasingState);
         }
     }
 

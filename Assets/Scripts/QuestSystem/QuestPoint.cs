@@ -18,6 +18,8 @@ public class QuestPoint : MonoBehaviour, IInteractable, IHasDialogue
     [SerializeField] private bool isStartPoint;
     [SerializeField] private bool isFinishPoint;
 
+    public int Priority => 20;
+
     private void Awake()
     {
         questIcon = GetComponentInChildren<QuestIcon>();

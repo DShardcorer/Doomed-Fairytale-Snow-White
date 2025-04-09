@@ -35,26 +35,32 @@ public class NPC : Entity, ILifecycle<NPCManager>, IUpdatable, IFixedUpdatable
 
     // Chasing
     private NPCChasingState _npcChasingState;
-
-
     public NPCChasingState NPCChasingState => _npcChasingState;
 
     #endregion StateDefinitions
 
-    public NPC(NPCView view, NPCProperties properties, 
-    NPCIdlingState npcIdlingState, NPCMovingState npcMovingState,
+    private NPCInteractSystem _npcInteractSystem;
+    public NPCInteractSystem NPCInteractSystem => _npcInteractSystem;
+
+
+
+    public NPC(NPCView view, NPCProperties properties,
+    NPCIdlingState npcIdlingState, NPCMovingState npcMovingState, NPCChasingState npcChasingState, NPCAttackingState npcAttackingState,
     StatSystem statSystem, EquipmentSystem equipmentSystem, SkillSystem skillSystem, LevelSystem levelSystem, HealthSystem healthSystem, ManaSystem manaSystem, StaminaSystem staminaSystem,
     EntityStateMachine stateMachine, InventorySystem inventory
-    ) : base(view, properties, statSystem, equipmentSystem, skillSystem, levelSystem, healthSystem, manaSystem, staminaSystem , stateMachine, inventory)
+    ) : base(view, properties, statSystem, equipmentSystem, skillSystem, levelSystem, healthSystem, manaSystem, staminaSystem, stateMachine, inventory)
     {
         _npcView = view;
         _npcProperties = properties;
         _npcIdlingState = npcIdlingState;
         _npcMovingState = npcMovingState;
+        _npcChasingState = npcChasingState;
+        _npcAttackingState = npcAttackingState;
     }
 
     public virtual void Initialize(NPCManager parent)
     {
+        Debug.Log("NPC Initialize");
         // Getting references
         _parent = parent;
 
@@ -75,23 +81,30 @@ public class NPC : Entity, ILifecycle<NPCManager>, IUpdatable, IFixedUpdatable
         _fovDetector.OnClosestEntityFromDifferentFactionSpottedInFOV += OnClosestEntityFromDifferentFactionSpottedInFOV;
 
 
+        // NPC Interact System initialization
+        _npcInteractSystem = _view.GetComponent<NPCInteractSystem>();
+        _npcInteractSystem.Initialize(this);
+
+
 
         // State initialization
         _npcIdlingState.Initialize(this);
         _npcMovingState.Initialize(this);
-
+        _npcChasingState.Initialize(this);
+        _npcAttackingState.Initialize(this);
+        _stateMachine.Initialize(_npcIdlingState);
         base.Initialize();
-
     }
+
 
     protected virtual void OnClosestEntityFromDifferentFactionSpottedInFOV(object sender, Entity e)
     {
-        
+        _properties.target = e;
+        _stateMachine.ChangeState(_npcChasingState);
     }
 
     protected virtual void OnEntityFromDifferentFactionSpottedInProximity(object sender, Entity e)
     {
-
         _properties.lastMovementVector = (e.View.transform.position - _view.transform.position).normalized;
     }
 
@@ -126,7 +139,7 @@ public class NPC : Entity, ILifecycle<NPCManager>, IUpdatable, IFixedUpdatable
         _npcIdlingState = null;
         _npcMovingState = null;
         base.Dispose();
-        
+
     }
 
 

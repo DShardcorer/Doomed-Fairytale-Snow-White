@@ -1,10 +1,12 @@
 public class NPCView : EntityView
 {
-    public NPC NPC => _controller as NPC;
+    private NPC _npc;
+    public NPC NPC => _npc;
 
-    public override void Initialize(Entity controller)
+    public void Initialize(NPC npc)
     {
-        base.Initialize(controller);
+        base.Initialize(npc);
         gameObject.SetActive(true);
     }
+
 }
