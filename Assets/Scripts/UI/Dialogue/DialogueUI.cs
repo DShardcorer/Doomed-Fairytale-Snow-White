@@ -23,9 +23,23 @@ public class DialogueUI : MonoBehaviour
     [Header("Speaker Name")]
     [SerializeField] private TextMeshProUGUI speakerNameText;
 
+    [Header("Sound Settings")]
+    [SerializeField] private int textTypingSoundInterval = 2; // Interval for playing typing sound
+
+    [Range(-3,3)]
+    [SerializeField] private float minPitch = 0.5f;
+
+    [Range(-3,3)]
+    [SerializeField] private float maxPitch = 1f;
+
+
     private Coroutine displayLineCoroutine;
     private bool canContinueToNextLine = false;
     private bool skipTyping = false;
+
+    [SerializeField]
+    private AudioClip[] textTypingSounds;
+    private AudioSource audioSource;
 
 
 
@@ -38,6 +52,7 @@ public class DialogueUI : MonoBehaviour
         DialogueEventSystem.OnUpdateSpeakerName += OnUpdateSpeakerName;
         DialogueEventSystem.OnUpdateSpeakerSprite += OnUpdateSpeakerSprite;
         GameManager.Instance.InputManager.uiSubmitInputted += OnUISubmitInputted;
+        audioSource = gameObject.AddComponent<AudioSource>();
         gameObject.SetActive(false);
     }
 
@@ -104,6 +119,7 @@ public class DialogueUI : MonoBehaviour
         dialogueText.text = string.Empty;
         bool isAddingRichTextTag = false;
         string line = args.DialogueText;
+        int currentDisplayedLetterIndex = 0;
         foreach (char letter in line.ToCharArray())
         {
             if (skipTyping)
@@ -122,6 +138,8 @@ public class DialogueUI : MonoBehaviour
             }
             else
             {
+                PlayTextTypingSound(currentDisplayedLetterIndex, letter);
+                currentDisplayedLetterIndex++;
                 dialogueText.text += letter;
                 yield return new WaitForSeconds(textSpeed);
             }
@@ -134,6 +152,21 @@ public class DialogueUI : MonoBehaviour
         DisplayChoiceButtons(args);
 
     }
+
+    private void PlayTextTypingSound(int currentDisplayedLetterIndex, char currentCharacter)
+    {
+        if (currentDisplayedLetterIndex % textTypingSoundInterval == 0)
+        {
+            int audioClipIndex = currentCharacter.GetHashCode() % textTypingSounds.Length;
+            int maxPitchInt = Mathf.FloorToInt(maxPitch * 100);
+            int minPitchInt = Mathf.FloorToInt(minPitch * 100);
+            int predictablePitchInt = (audioClipIndex % (maxPitchInt - minPitchInt)) + minPitchInt;
+            float pitch = (float)predictablePitchInt / 100f;
+            audioSource.pitch = pitch;
+            audioSource.PlayOneShot(textTypingSounds[audioClipIndex]);
+        }
+    }
+
 
     private void DisplayChoiceButtons(DialogueEventSystem.DialogueContinueEventArgs args)
     {

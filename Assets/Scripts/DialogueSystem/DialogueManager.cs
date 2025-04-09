@@ -7,7 +7,8 @@ public class DialogueManager : MonoBehaviour, ILifecycle<GameManager>
 {
     private GameManager gameManager;
     private Story story;
-    public TextAsset InkGlobalVariablesTextAsset;
+    [SerializeField]
+    private TextAsset inkGlobalVariablesTextAsset;
     private Story inkGlobalVariablesStory;
     private InkExternalFunctions inkExternalFunctions;
     private InkDialogueVariables inkDialogueVariables;
@@ -19,9 +20,10 @@ public class DialogueManager : MonoBehaviour, ILifecycle<GameManager>
     private const string LAYOUT_TAG = "layout";
     private bool canContinueToNextLine = false;
 
+
     private void Awake()
     {
-        inkGlobalVariablesStory = new Story(InkGlobalVariablesTextAsset.text);
+        inkGlobalVariablesStory = new Story(inkGlobalVariablesTextAsset.text);
         inkDialogueVariables = new InkDialogueVariables(inkGlobalVariablesStory);
         inkExternalFunctions = new InkExternalFunctions();
     }

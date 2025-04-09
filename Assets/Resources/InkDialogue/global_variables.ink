@@ -1,3 +1,4 @@
+
 // questId = questId + "Id" for variable name
 VAR CollectCoinsQuestId = "CollectCoinsQuest"
 

@@ -25716,7 +25716,7 @@ RectTransform:
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
   m_LocalPosition: {x: 0, y: 0, z: 0}
   m_LocalScale: {x: 1, y: 1, z: 1}
-  m_ConstrainProportionsScale: 0
+  m_ConstrainProportionsScale: 1
   m_Children:
   - {fileID: 1213143789}
   - {fileID: 1305913005}
@@ -25742,7 +25742,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: e61d2cd9df02ba943bece7384cf6e9b0, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  textSpeed: 0.05
+  textSpeed: 0.04
   dialogueText: {fileID: 1087142053}
   canContinueIcon: {fileID: 1514683858}
   choiceButtons:
@@ -25756,6 +25756,12 @@ MonoBehaviour:
   leftSpriteImageAnimator: {fileID: 1213143790}
   rightSpriteImageAnimator: {fileID: 1305913006}
   speakerNameText: {fileID: 269660629}
+  textTypingSoundInterval: 2
+  minPitch: 0.5
+  maxPitch: 1
+  textTypingSounds:
+  - {fileID: 8300000, guid: 42c157d2151fc734eada3bbf5a6401a7, type: 3}
+  - {fileID: 8300000, guid: fddff7c8ea1fcd64580c6b11a9d14cd0, type: 3}
 --- !u!1 &1592625042
 GameObject:
   m_ObjectHideFlags: 0
@@ -26086,7 +26092,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 87deff97ea921864d89a397b54bc618d, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  InkGlobalVariablesTextAsset: {fileID: 4900000, guid: f25472d0ab526254486b55655c34d470, type: 3}
+  inkGlobalVariablesTextAsset: {fileID: 4900000, guid: 265c67c10e1dfb6468cab6183677f50d, type: 3}
 --- !u!4 &1611620342
 Transform:
   m_ObjectHideFlags: 0
