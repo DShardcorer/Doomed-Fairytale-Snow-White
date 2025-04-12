@@ -1,28 +1,31 @@
-using UnityEngine;
+using Entity.NPC.Attack;
 
-public class NativeAttackingState : NPCAttackingState
+namespace Entity.NPC_Variants.Native.Attack
 {
-    protected NativeAttackingProperties _nativeAttackingProperties;
-
-    public NativeAttackingState(string animationBoolName, NativeAttackingProperties entityStateProperties) : base(animationBoolName, entityStateProperties)
+    public class NativeAttackingState : NPCAttackingState
     {
-        _nativeAttackingProperties = entityStateProperties;
-    }
+        protected NativeAttackingProperties _nativeAttackingProperties;
 
-    public NativeAttackingProperties NativeAttackingProperties => _nativeAttackingProperties;
-
-    public override void FixedUpdateState()
-    {
-        base.FixedUpdateState();
-        if (!_isAnimationEnded)
+        public NativeAttackingState(string animationBoolName, NativeAttackingProperties entityStateProperties) : base(animationBoolName, entityStateProperties)
         {
-            _rigidbody.linearVelocity = 0.5f * _npc.NPCProperties.lastMovementVector * _npc.NPCProperties.MoveSpeed;
+            _nativeAttackingProperties = entityStateProperties;
         }
-        else
+
+        public NativeAttackingProperties NativeAttackingProperties => _nativeAttackingProperties;
+
+        public override void FixedUpdateState()
         {
-            _stateMachine.ChangeState(_npc.NPCChasingState);
+            base.FixedUpdateState();
+            if (!_isAnimationEnded)
+            {
+                _rigidbody.linearVelocity = 0.5f * _npc.NPCProperties.lastMovementVector * _npc.NPCProperties.MoveSpeed;
+            }
+            else
+            {
+                _stateMachine.ChangeState(_npc.NPCChasingState);
+            }
         }
+
+
     }
-
-
 }

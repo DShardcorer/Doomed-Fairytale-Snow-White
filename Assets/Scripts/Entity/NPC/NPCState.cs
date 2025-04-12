@@ -1,18 +1,19 @@
-using UnityEngine;
-
-public class NPCState : EntityState
+namespace Entity.NPC
 {
-    public NPCState(string animationBoolName, EntityStateProperties entityStateProperties) : base(animationBoolName, entityStateProperties)
+    public class NPCState : EntityState
     {
-    }
+        public NPCState(string animationBoolName, EntityStateProperties entityStateProperties) : base(animationBoolName, entityStateProperties)
+        {
+        }
 
-    protected NPC _npc;
-    public NPC NPC => _npc;
+        protected NPC _npc;
+        public NPC NPC => _npc;
 
-    public virtual void Initialize(NPC controller)
-    {
-        _npc = controller;
-        base.Initialize(controller);
+        public virtual void Initialize(NPC controller)
+        {
+            _npc = controller;
+            base.Initialize(controller);
+        }
     }
 }
 

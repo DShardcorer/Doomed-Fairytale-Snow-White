@@ -1,12 +1,15 @@
-public class NPCView : EntityView
+namespace Entity.NPC
 {
-    private NPC _npc;
-    public NPC NPC => _npc;
-
-    public void Initialize(NPC npc)
+    public class NPCView : EntityView
     {
-        base.Initialize(npc);
-        gameObject.SetActive(true);
-    }
+        private NPC _npc;
+        public NPC NPC => _npc;
 
+        public void Initialize(NPC npc)
+        {
+            base.Initialize(npc);
+            gameObject.SetActive(true);
+        }
+
+    }
 }

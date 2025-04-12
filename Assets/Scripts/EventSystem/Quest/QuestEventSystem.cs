@@ -1,48 +1,51 @@
 using System;
-using UnityEngine;
+using QuestSystem;
 
-public static class QuestEventSystem
+namespace EventSystem.Quest
 {
-    public static event Action<string> OnQuestStarted;
-    public static void InvokeQuestStarted(string questId)
+    public static class QuestEventSystem
     {
-        OnQuestStarted?.Invoke(questId);
-    }
-
-    public static event Action<string> OnQuestAdvanced;
-    public static void InvokeQuestAdvanced(string questId)
-    {
-        OnQuestAdvanced?.Invoke(questId);
-    }
-
-    public static event Action<string> OnQuestFinished;
-    public static void InvokeQuestFinished(string questId)
-    {
-        OnQuestFinished?.Invoke(questId);
-    }
-
-    public static event Action<Quest> OnQuestStateChanged;
-    public static void InvokeQuestStateChanged(Quest quest)
-    {
-        OnQuestStateChanged?.Invoke(quest);
-    }
-
-    public class QuestStepStateChangedEventArgs : EventArgs
-    {
-        public string QuestId;
-        public int QuestStepIndex;
-        public QuestStepState QuestStepState;
-        public QuestStepStateChangedEventArgs(string questId, int questStepIndex, QuestStepState questStepState)
+        public static event Action<string> OnQuestStarted;
+        public static void InvokeQuestStarted(string questId)
         {
-            QuestId = questId;
-            QuestStepIndex = questStepIndex;
-            QuestStepState = questStepState;
+            OnQuestStarted?.Invoke(questId);
         }
-    }
 
-    public static event Action<QuestStepStateChangedEventArgs> OnQuestStepStateChanged;
-    public static void InvokeQuestStepStateChanged(QuestStepStateChangedEventArgs e)
-    {
-        OnQuestStepStateChanged?.Invoke(e);
+        public static event Action<string> OnQuestAdvanced;
+        public static void InvokeQuestAdvanced(string questId)
+        {
+            OnQuestAdvanced?.Invoke(questId);
+        }
+
+        public static event Action<string> OnQuestFinished;
+        public static void InvokeQuestFinished(string questId)
+        {
+            OnQuestFinished?.Invoke(questId);
+        }
+
+        public static event Action<QuestSystem.Quest> OnQuestStateChanged;
+        public static void InvokeQuestStateChanged(QuestSystem.Quest quest)
+        {
+            OnQuestStateChanged?.Invoke(quest);
+        }
+
+        public class QuestStepStateChangedEventArgs : EventArgs
+        {
+            public string QuestId;
+            public int QuestStepIndex;
+            public QuestStepState QuestStepState;
+            public QuestStepStateChangedEventArgs(string questId, int questStepIndex, QuestStepState questStepState)
+            {
+                QuestId = questId;
+                QuestStepIndex = questStepIndex;
+                QuestStepState = questStepState;
+            }
+        }
+
+        public static event Action<QuestStepStateChangedEventArgs> OnQuestStepStateChanged;
+        public static void InvokeQuestStepStateChanged(QuestStepStateChangedEventArgs e)
+        {
+            OnQuestStepStateChanged?.Invoke(e);
+        }
     }
 }

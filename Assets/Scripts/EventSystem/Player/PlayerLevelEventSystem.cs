@@ -1,7 +1,6 @@
 using System;
-using UnityEngine;
 
-namespace Events.Player
+namespace EventSystem.Player
 {
     public class OnExperienceChangedEventArgs : EventArgs
     {

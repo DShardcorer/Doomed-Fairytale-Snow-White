@@ -1,3 +1,4 @@
+using GeneralManagers;
 using UnityEngine;
 
 public class Bootstrapper : MonoBehaviour

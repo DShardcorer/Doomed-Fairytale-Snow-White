@@ -1,28 +1,29 @@
 ﻿using System.Collections.Generic;
 using System.Text;
+using Ink.InkLibs.InkRuntime;
 
-namespace Ink.Parsed
+namespace Ink.InkLibs.InkCompiler.ParsedHierarchy
 {
-    public class ContentList : Parsed.Object
+    public class ContentList : Object
     {
         public bool dontFlatten { get; set; }
 
-        public Runtime.Container runtimeContainer {
+        public Container runtimeContainer {
             get {
-                return (Runtime.Container) this.runtimeObject;
+                return (Container) this.runtimeObject;
             }
         }
 
-        public ContentList (List<Parsed.Object> objects)
+        public ContentList (List<Object> objects)
         {
             if( objects != null )
                 AddContent (objects);
         }
 
-        public ContentList (params Parsed.Object[] objects)
+        public ContentList (params Object[] objects)
         {
             if (objects != null) {
-                var objList = new List<Parsed.Object> (objects);
+                var objList = new List<Object> (objects);
                 AddContent (objList);
             }
         }
@@ -46,9 +47,9 @@ namespace Ink.Parsed
             }
         }
 
-        public override Runtime.Object GenerateRuntimeObject ()
+        public override InkRuntime.Object GenerateRuntimeObject ()
         {
-            var container = new Runtime.Container ();
+            var container = new Container ();
             if (content != null) {
                 foreach (var obj in content) {
                     var contentObjRuntime = obj.runtimeObject;

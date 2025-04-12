@@ -1,13 +1,14 @@
-using UnityEngine;
-
-public class PlayerView : EntityView
+namespace Entity.Player
 {
-    private Player _player;
-    public Player Player => _player;
-    public void Initialize(Player controller)
+    public class PlayerView : EntityView
     {
-        base.Initialize(controller);
-        _player = controller;
-    }
+        private Player _player;
+        public Player Player => _player;
+        public void Initialize(Player controller)
+        {
+            base.Initialize(controller);
+            _player = controller;
+        }
 
+    }
 }

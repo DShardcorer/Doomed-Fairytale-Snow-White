@@ -1,27 +1,30 @@
 using System;
-using UnityEngine;
+using Entity;
 
-public class PlayerAttackingProperties: EntityStateProperties
+namespace EntitySystems.Skill.Player_Skills.Attack
 {
-    private float _attackDamage = 10f;
-    public float AttackDamage => _attackDamage;
-
-    private float _attackRange = 1f;
-    public float AttackRange => _attackRange;
-
-    private float _attackVelocity = 5f;
-    public float AttackVelocity => _attackVelocity;
-
-    public PlayerAttackingProperties(float attackDamage = 10f, float attackRange = 1f, float attackVelocity = 5f)
+    public class PlayerAttackingProperties: EntityStateProperties
     {
-        _attackDamage = attackDamage;
-        _attackRange = attackRange;
-        _attackVelocity = attackVelocity;
-    }
+        private float _attackDamage = 10f;
+        public float AttackDamage => _attackDamage;
+
+        private float _attackRange = 1f;
+        public float AttackRange => _attackRange;
+
+        private float _attackVelocity = 5f;
+        public float AttackVelocity => _attackVelocity;
+
+        public PlayerAttackingProperties(float attackDamage = 10f, float attackRange = 1f, float attackVelocity = 5f)
+        {
+            _attackDamage = attackDamage;
+            _attackRange = attackRange;
+            _attackVelocity = attackVelocity;
+        }
 
 
-    protected override void UpdateDerivedProperties(object sender, EventArgs e)
-    {
-        _attackDamage = CombatStatBoard.PhysicalAttack.ModifiedValue;
+        protected override void UpdateDerivedProperties(object sender, EventArgs e)
+        {
+            _attackDamage = CombatStatBoard.PhysicalAttack.ModifiedValue;
+        }
     }
 }

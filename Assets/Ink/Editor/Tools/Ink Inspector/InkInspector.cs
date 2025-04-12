@@ -1,13 +1,19 @@
-using UnityEngine;
-using UnityEditor;
 using System;
+using System.Collections.Generic;
 using System.IO;
 using System.Linq;
-using System.Collections.Generic;
+using Ink.Editor.Core;
+using Ink.Editor.Core.Compiler;
+using Ink.Editor.Core.Ink_Library;
+using Ink.Editor.Core.Ink_Settings;
+using Ink.Editor.Tools.File_Icons;
+using Ink.Editor.Tools.Player_Window;
+using UnityEditor;
 using UnityEditorInternal;
+using UnityEngine;
 using Object = UnityEngine.Object;
 
-namespace Ink.UnityIntegration {
+namespace Ink.Editor.Tools.Ink_Inspector {
 	public class InkInspector : DefaultAssetInspector {
 
 		private InkFile inkFile;

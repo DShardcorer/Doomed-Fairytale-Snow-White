@@ -1,8 +1,8 @@
-﻿using System.Collections.Generic;
+﻿using Ink.InkLibs.InkRuntime;
 
-namespace Ink.Parsed
+namespace Ink.InkLibs.InkCompiler.ParsedHierarchy
 {
-    public class TunnelOnwards : Parsed.Object
+    public class TunnelOnwards : Object
     {
         public Divert divertAfter {
             get {
@@ -15,18 +15,18 @@ namespace Ink.Parsed
         }
         Divert _divertAfter;
 
-        public override Runtime.Object GenerateRuntimeObject ()
+        public override InkRuntime.Object GenerateRuntimeObject ()
         {
-            var container = new Runtime.Container ();
+            var container = new Container ();
 
             // Set override path for tunnel onwards (or nothing)
-            container.AddContent (Runtime.ControlCommand.EvalStart ());
+            container.AddContent (ControlCommand.EvalStart ());
 
             if (divertAfter) {
 
                 // Generate runtime object's generated code and steal the arguments runtime code
                 var returnRuntimeObj = divertAfter.GenerateRuntimeObject ();
-                var returnRuntimeContainer = returnRuntimeObj as Runtime.Container;
+                var returnRuntimeContainer = returnRuntimeObj as Container;
                 if (returnRuntimeContainer) {
 
                     // Steal all code for generating arguments from the divert
@@ -37,11 +37,11 @@ namespace Ink.Parsed
                         int evalStart = -1;
                         int evalEnd = -1;
                         for (int i = 0; i < returnRuntimeContainer.content.Count; i++) {
-                            var cmd = returnRuntimeContainer.content [i] as Runtime.ControlCommand;
+                            var cmd = returnRuntimeContainer.content [i] as ControlCommand;
                             if (cmd) {
-                                if (evalStart == -1 && cmd.commandType == Runtime.ControlCommand.CommandType.EvalStart)
+                                if (evalStart == -1 && cmd.commandType == ControlCommand.CommandType.EvalStart)
                                     evalStart = i;
-                                else if (cmd.commandType == Runtime.ControlCommand.CommandType.EvalEnd)
+                                else if (cmd.commandType == ControlCommand.CommandType.EvalEnd)
                                     evalEnd = i;
                             }
                         }
@@ -55,12 +55,12 @@ namespace Ink.Parsed
                 }
                 
                 // Supply the divert target for the tunnel onwards target, either variable or more commonly, the explicit name
-                var returnDivertObj = returnRuntimeObj as Runtime.Divert;
+                var returnDivertObj = returnRuntimeObj as InkRuntime.Divert;
                 if( returnDivertObj != null && returnDivertObj.hasVariableTarget ) {
-                    var runtimeVarRef = new Runtime.VariableReference (returnDivertObj.variableDivertName);
+                    var runtimeVarRef = new InkRuntime.VariableReference (returnDivertObj.variableDivertName);
                     container.AddContent(runtimeVarRef);
                 } else {
-                    _overrideDivertTarget = new Runtime.DivertTargetValue ();
+                    _overrideDivertTarget = new DivertTargetValue ();
                     container.AddContent (_overrideDivertTarget);
                 }
 
@@ -68,12 +68,12 @@ namespace Ink.Parsed
 
             // No divert after tunnel onwards
             else {
-                container.AddContent (new Runtime.Void ());
+                container.AddContent (new Void ());
             }
 
-            container.AddContent (Runtime.ControlCommand.EvalEnd ());
+            container.AddContent (ControlCommand.EvalEnd ());
 
-            container.AddContent (Runtime.ControlCommand.PopTunnel ());
+            container.AddContent (ControlCommand.PopTunnel ());
 
             return container;
         }
@@ -86,7 +86,7 @@ namespace Ink.Parsed
                 _overrideDivertTarget.targetPath = divertAfter.targetContent.runtimePath;
         }
 
-        Runtime.DivertTargetValue _overrideDivertTarget;
+        DivertTargetValue _overrideDivertTarget;
     }
 }
 

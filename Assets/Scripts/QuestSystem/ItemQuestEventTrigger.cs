@@ -1,6 +1,9 @@
 using UnityEngine;
 
-public abstract class ItemQuestEventTrigger : MonoBehaviour
+namespace QuestSystem
 {
-    public abstract void TriggerEvent();
+    public abstract class ItemQuestEventTrigger : MonoBehaviour
+    {
+        public abstract void TriggerEvent();
+    }
 }

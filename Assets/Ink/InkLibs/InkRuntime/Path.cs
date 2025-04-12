@@ -1,10 +1,9 @@
 ﻿using System;
 using System.Collections.Generic;
-using System.Linq;
 using System.Diagnostics;
-using Ink.Runtime;
+using System.Linq;
 
-namespace Ink.Runtime
+namespace Ink.InkLibs.InkRuntime
 {
     public class Path : IEquatable<Path>
 	{

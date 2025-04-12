@@ -1,78 +1,85 @@
-using System;
+using DialogueSystem;
+using Entity.Player;
+using EventSystem.Dialogue;
+using EventSystem.Quest;
+using InteractInterface;
 using UnityEngine;
 
-[RequireComponent(typeof(CircleCollider2D))]
-public class QuestPoint : MonoBehaviour, IInteractable, IHasDialogue
+namespace QuestSystem
 {
-    [Header("Dialogue (Optional)")]
-    [SerializeField] private string knotName;
-    [SerializeField] private TextAsset inkDialogueFile;
-
-    [Header("Quest Info")]
-    [SerializeField] private QuestInfoSO questInfoForPoint;
-
-    private QuestState currentQuestState;
-    private QuestIcon questIcon;
-
-    [Header("Config")]
-    [SerializeField] private bool isStartPoint;
-    [SerializeField] private bool isFinishPoint;
-
-    public int Priority => 20;
-
-    private void Awake()
+    [RequireComponent(typeof(CircleCollider2D))]
+    public class QuestPoint : MonoBehaviour, IInteractable, IHasDialogue
     {
-        questIcon = GetComponentInChildren<QuestIcon>();
-    }
+        [Header("Dialogue (Optional)")]
+        [SerializeField] private string knotName;
+        [SerializeField] private TextAsset inkDialogueFile;
 
-    private void OnEnable()
-    {
-        QuestEventSystem.OnQuestStateChanged += OnQuestStateChanged;
-    }
-    private void OnDisable()
-    {
-        QuestEventSystem.OnQuestStateChanged -= OnQuestStateChanged;
-    }
+        [Header("Quest Info")]
+        [SerializeField] private QuestInfoSO questInfoForPoint;
 
-    private void OnQuestStateChanged(Quest quest)
-    {
-        if (quest.questInfo.QuestName == questInfoForPoint.QuestName)
+        private QuestState currentQuestState;
+        private QuestIcon questIcon;
+
+        [Header("Config")]
+        [SerializeField] private bool isStartPoint;
+        [SerializeField] private bool isFinishPoint;
+
+        public int Priority => 20;
+
+        private void Awake()
         {
-            currentQuestState = quest.questState;
-            questIcon.SetState(currentQuestState, isStartPoint, isFinishPoint);
+            questIcon = GetComponentInChildren<QuestIcon>();
         }
-    }
 
-
-    public void Interact(Player player)
-    {
-        if (inkDialogueFile != null)
+        private void OnEnable()
         {
-            DialogueEventSystem.InvokeEnterDialogue(new DialogueEventSystem.EnterDialogueEventArgs(inkDialogueFile, knotName));
+            QuestEventSystem.OnQuestStateChanged += OnQuestStateChanged;
         }
-        else
+        private void OnDisable()
         {
+            QuestEventSystem.OnQuestStateChanged -= OnQuestStateChanged;
+        }
 
-            if (currentQuestState == QuestState.CAN_START && isStartPoint)
+        private void OnQuestStateChanged(Quest quest)
+        {
+            if (quest.questInfo.QuestName == questInfoForPoint.QuestName)
             {
-                Debug.Log($"Starting quest: {questInfoForPoint.QuestName}");
-                QuestEventSystem.InvokeQuestStarted(questInfoForPoint.QuestName);
+                currentQuestState = quest.questState;
+                questIcon.SetState(currentQuestState, isStartPoint, isFinishPoint);
             }
-            else if (currentQuestState == QuestState.CAN_FINISH && isFinishPoint)
+        }
+
+
+        public void Interact(Player player)
+        {
+            if (inkDialogueFile != null)
             {
-                Debug.Log($"Finishing quest: {questInfoForPoint.QuestName}");
-                QuestEventSystem.InvokeQuestFinished(questInfoForPoint.QuestName);
+                DialogueEventSystem.InvokeEnterDialogue(new DialogueEventSystem.EnterDialogueEventArgs(inkDialogueFile, knotName));
             }
             else
             {
-                Debug.Log($"Cannot interact with quest point: {questInfoForPoint.QuestName}. Current state: {currentQuestState}");
+
+                if (currentQuestState == QuestState.CAN_START && isStartPoint)
+                {
+                    Debug.Log($"Starting quest: {questInfoForPoint.QuestName}");
+                    QuestEventSystem.InvokeQuestStarted(questInfoForPoint.QuestName);
+                }
+                else if (currentQuestState == QuestState.CAN_FINISH && isFinishPoint)
+                {
+                    Debug.Log($"Finishing quest: {questInfoForPoint.QuestName}");
+                    QuestEventSystem.InvokeQuestFinished(questInfoForPoint.QuestName);
+                }
+                else
+                {
+                    Debug.Log($"Cannot interact with quest point: {questInfoForPoint.QuestName}. Current state: {currentQuestState}");
+                }
             }
+
         }
 
-    }
-
-    public TextAsset GetInkDialogueFile()
-    {
-        return inkDialogueFile;
+        public TextAsset GetInkDialogueFile()
+        {
+            return inkDialogueFile;
+        }
     }
 }

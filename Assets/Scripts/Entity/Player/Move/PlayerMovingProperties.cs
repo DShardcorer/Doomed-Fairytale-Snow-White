@@ -1,19 +1,21 @@
 using System;
-using UnityEngine;
 
-public class PlayerMovingProperties: EntityStateProperties
+namespace Entity.Player.Move
 {
-    private float _moveSpeed = 5f;
-    public float MoveSpeed => _moveSpeed;
-
-
-
-    public PlayerMovingProperties(float moveSpeed = 5f)
+    public class PlayerMovingProperties: EntityStateProperties
     {
-        _moveSpeed = moveSpeed;
-    }
+        private float _moveSpeed = 5f;
+        public float MoveSpeed => _moveSpeed;
 
-    protected override void UpdateDerivedProperties(object sender, EventArgs e)
-    {
+
+
+        public PlayerMovingProperties(float moveSpeed = 5f)
+        {
+            _moveSpeed = moveSpeed;
+        }
+
+        protected override void UpdateDerivedProperties(object sender, EventArgs e)
+        {
+        }
     }
 }

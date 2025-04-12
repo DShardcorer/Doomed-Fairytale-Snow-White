@@ -1,6 +1,6 @@
-﻿namespace Ink.Runtime
+﻿namespace Ink.InkLibs.InkRuntime
 {
-    public class Void : Runtime.Object
+    public class Void : Object
     {
         public Void ()
         {

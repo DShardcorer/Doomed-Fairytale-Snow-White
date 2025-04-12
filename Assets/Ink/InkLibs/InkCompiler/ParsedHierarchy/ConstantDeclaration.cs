@@ -1,8 +1,8 @@
 ﻿//using System.Collections.Generic;
 
-namespace Ink.Parsed
+namespace Ink.InkLibs.InkCompiler.ParsedHierarchy
 {
-    public class ConstantDeclaration : Parsed.Object
+    public class ConstantDeclaration : Object
     {
         public string constantName
         {
@@ -20,7 +20,7 @@ namespace Ink.Parsed
                 this.expression = AddContent(assignedExpression);
         }
 
-        public override Runtime.Object GenerateRuntimeObject ()
+        public override InkRuntime.Object GenerateRuntimeObject ()
         {
             // Global declarations don't generate actual procedural
             // runtime objects, but instead add a global variable to the story itself.

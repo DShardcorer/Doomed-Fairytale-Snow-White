@@ -1,10 +1,10 @@
-using UnityEngine;
 using UnityEditor;
+using UnityEngine;
 
-namespace Ink.UnityIntegration {
+namespace Ink.Editor.Tools.Ink_Inspector {
 	public abstract class DefaultAssetInspector {
 		// Reference to the actual editor we draw to
-		public Editor editor;
+		public UnityEditor.Editor editor;
 		// Shortcut to the target object
 		public Object target;
 		// Shortcut to the serializedObject

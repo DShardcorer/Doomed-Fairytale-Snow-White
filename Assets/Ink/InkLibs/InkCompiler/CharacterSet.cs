@@ -1,6 +1,6 @@
 ﻿using System.Collections.Generic;
 
-namespace Ink
+namespace Ink.InkLibs.InkCompiler
 {
 
 	public class CharacterSet : HashSet<char>

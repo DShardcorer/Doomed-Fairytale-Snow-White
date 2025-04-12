@@ -1,7 +1,6 @@
 using System.Collections.Generic;
-using System.Linq;
 
-namespace Ink
+namespace Ink.InkLibs.InkCompiler
 {
     /// <summary>
     /// A class representing a character range. Allows for lazy-loading a corresponding <see cref="CharacterSet">character set</see>.

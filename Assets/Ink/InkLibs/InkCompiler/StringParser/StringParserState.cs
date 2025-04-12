@@ -1,5 +1,5 @@
 
-namespace Ink
+namespace Ink.InkLibs.InkCompiler.StringParser
 {
 	public class StringParserState
 	{

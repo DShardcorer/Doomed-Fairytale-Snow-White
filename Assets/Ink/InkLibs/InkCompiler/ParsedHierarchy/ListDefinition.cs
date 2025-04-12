@@ -1,17 +1,16 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
+﻿using System.Collections.Generic;
+using Ink.InkLibs.InkRuntime;
 
-namespace Ink.Parsed
+namespace Ink.InkLibs.InkCompiler.ParsedHierarchy
 {
-    public class ListDefinition : Parsed.Object
+    public class ListDefinition : Object
     {
         public Identifier identifier;
         public List<ListElementDefinition> itemDefinitions;
 
         public VariableAssignment variableAssignment;
 
-        public Runtime.ListDefinition runtimeListDefinition {
+        public InkRuntime.ListDefinition runtimeListDefinition {
             get {
                 var allItems = new Dictionary<string, int> ();
                 foreach (var e in itemDefinitions) {
@@ -21,7 +20,7 @@ namespace Ink.Parsed
                         Error("List '"+identifier+"' contains dupicate items called '"+e.name+"'");
                 }
 
-                return new Runtime.ListDefinition (identifier?.name, allItems);
+                return new InkRuntime.ListDefinition (identifier?.name, allItems);
             }
         }
 
@@ -58,12 +57,12 @@ namespace Ink.Parsed
             AddContent (elements);
         }
 
-        public override Runtime.Object GenerateRuntimeObject ()
+        public override InkRuntime.Object GenerateRuntimeObject ()
         {
-            var initialValues = new Runtime.InkList ();
+            var initialValues = new InkList ();
             foreach (var itemDef in itemDefinitions) {
                 if (itemDef.inInitialList) {
-                    var item = new Runtime.InkListItem (this.identifier?.name, itemDef.name);
+                    var item = new InkListItem (this.identifier?.name, itemDef.name);
                     initialValues [item] = itemDef.seriesValue;
                 }
             }
@@ -71,7 +70,7 @@ namespace Ink.Parsed
             // Set origin name, so
             initialValues.SetInitialOriginName (identifier?.name);
 
-            return new Runtime.ListValue (initialValues);
+            return new ListValue (initialValues);
         }
 
         public override void ResolveReferences (Story context)
@@ -90,7 +89,7 @@ namespace Ink.Parsed
         Dictionary<string, ListElementDefinition> _elementsByName;
     }
 
-    public class ListElementDefinition : Parsed.Object
+    public class ListElementDefinition : Object
     {
         public string name
         {
@@ -118,7 +117,7 @@ namespace Ink.Parsed
             this.explicitValue = explicitValue;
         }
 
-        public override Runtime.Object GenerateRuntimeObject ()
+        public override InkRuntime.Object GenerateRuntimeObject ()
         {
             throw new System.NotImplementedException ();
         }

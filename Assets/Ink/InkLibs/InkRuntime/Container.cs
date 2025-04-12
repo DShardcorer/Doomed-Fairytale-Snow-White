@@ -1,17 +1,15 @@
 using System;
-using System.Diagnostics;
 using System.Collections.Generic;
-using System.Linq;
+using System.Diagnostics;
 using System.Text;
-using System.ComponentModel;
 
-namespace Ink.Runtime
+namespace Ink.InkLibs.InkRuntime
 {
-	public class Container : Runtime.Object, INamedContent
+	public class Container : Object, INamedContent
 	{
 		public string name { get; set; }
 
-        public List<Runtime.Object> content { 
+        public List<Object> content { 
             get {
                 return _content;
             }
@@ -19,15 +17,15 @@ namespace Ink.Runtime
                 AddContent (value);
             }
         }
-        List<Runtime.Object> _content;
+        List<Object> _content;
 
 		public Dictionary<string, INamedContent> namedContent { get; set; }
 
-        public Dictionary<string, Runtime.Object> namedOnlyContent { 
+        public Dictionary<string, Object> namedOnlyContent { 
             get {
-                var namedOnlyContentDict = new Dictionary<string, Runtime.Object>();
+                var namedOnlyContentDict = new Dictionary<string, Object>();
                 foreach (var kvPair in namedContent) {
-                    namedOnlyContentDict [kvPair.Key] = (Runtime.Object)kvPair.Value;
+                    namedOnlyContentDict [kvPair.Key] = (Object)kvPair.Value;
                 }
 
                 foreach (var c in content) {
@@ -133,11 +131,11 @@ namespace Ink.Runtime
 
 		public Container ()
 		{
-            _content = new List<Runtime.Object> ();
+            _content = new List<Object> ();
 			namedContent = new Dictionary<string, INamedContent> ();
 		}
 
-		public void AddContent(Runtime.Object contentObj)
+		public void AddContent(Object contentObj)
 		{
 			content.Add (contentObj);
 
@@ -150,14 +148,14 @@ namespace Ink.Runtime
 			TryAddNamedContent (contentObj);
 		}
 
-        public void AddContent(IList<Runtime.Object> contentList)
+        public void AddContent(IList<Object> contentList)
         {
             foreach (var c in contentList) {
                 AddContent (c);
             }
         }
 
-        public void InsertContent(Runtime.Object contentObj, int index)
+        public void InsertContent(Object contentObj, int index)
         {
             content.Insert (index, contentObj);
 
@@ -170,7 +168,7 @@ namespace Ink.Runtime
             TryAddNamedContent (contentObj);
         }
             
-		public void TryAddNamedContent(Runtime.Object contentObj)
+		public void TryAddNamedContent(Object contentObj)
 		{
 			var namedContentObj = contentObj as INamedContent;
 			if (namedContentObj != null && namedContentObj.hasValidName) {
@@ -180,8 +178,8 @@ namespace Ink.Runtime
 
 		public void AddToNamedContentOnly(INamedContent namedContentObj)
 		{
-			Debug.Assert (namedContentObj is Runtime.Object, "Can only add Runtime.Objects to a Runtime.Container");
-			var runtimeObj = (Runtime.Object)namedContentObj;
+			Debug.Assert (namedContentObj is Object, "Can only add Runtime.Objects to a Runtime.Container");
+			var runtimeObj = (Object)namedContentObj;
 			runtimeObj.parent = this;
 
 			namedContent [namedContentObj.name] = namedContentObj;
@@ -196,7 +194,7 @@ namespace Ink.Runtime
             }
         }
 
-		protected Runtime.Object ContentWithPathComponent(Path.Component component)
+		protected Object ContentWithPathComponent(Path.Component component)
 		{
             if (component.isIndex) {
 
@@ -219,7 +217,7 @@ namespace Ink.Runtime
             else {
                 INamedContent foundContent = null;
                 if (namedContent.TryGetValue (component.name, out foundContent)) {
-                    return (Runtime.Object)foundContent;
+                    return (Object)foundContent;
                 } else {
                     return null;
                 }
@@ -235,7 +233,7 @@ namespace Ink.Runtime
             result.approximate = false;
 
             Container currentContainer = this;
-            Runtime.Object currentObj = this;
+            Object currentObj = this;
 
             for (int i = partialPathStart; i < partialPathLength; ++i) {
 				var comp = path.GetComponent(i);
@@ -263,7 +261,7 @@ namespace Ink.Runtime
             return result;
 		}
          
-        public void BuildStringOfHierarchy(StringBuilder sb, int indentation, Runtime.Object pointedObj)
+        public void BuildStringOfHierarchy(StringBuilder sb, int indentation, Object pointedObj)
         {
             Action appendIndentation = () => { 
                 const int spacesPerIndent = 4;
@@ -323,7 +321,7 @@ namespace Ink.Runtime
             var onlyNamed = new Dictionary<string, INamedContent> ();
 
             foreach (var objKV in namedContent) {
-                if (content.Contains ((Runtime.Object)objKV.Value)) {
+                if (content.Contains ((Object)objKV.Value)) {
                     continue;
                 } else {
                     onlyNamed.Add (objKV.Key, objKV.Value);

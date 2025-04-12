@@ -1,6 +1,9 @@
 using UnityEngine;
 
-public class Item : MonoBehaviour
+namespace Item
 {
-    public ItemData itemData;
+    public class Item : MonoBehaviour
+    {
+        public ItemData itemData;
+    }
 }

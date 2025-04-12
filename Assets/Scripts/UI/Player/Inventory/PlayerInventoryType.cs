@@ -1,9 +1,12 @@
 
-public enum PlayerInventoryType
+namespace UI.Player.Inventory
 {
-    All,
-    Equipment,
-    Consumable,
-    Material,
-    Miscellaneous
+    public enum PlayerInventoryType
+    {
+        All,
+        Equipment,
+        Consumable,
+        Material,
+        Miscellaneous
+    }
 }

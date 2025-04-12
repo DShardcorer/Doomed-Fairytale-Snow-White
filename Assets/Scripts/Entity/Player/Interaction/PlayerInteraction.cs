@@ -1,142 +1,165 @@
-using System;
-using UnityEngine;
 using System.Collections;
+using Entity.NPC;
+using EventSystem.Dialogue;
+using EventSystem.Player;
+using GeneralManagers;
+using Input;
+using InteractInterface;
+using UnityEngine;
 
-public class PlayerInteraction : MonoBehaviour, ILifecycle<Player>
+namespace Entity.Player.Interaction
 {
-    private Player _player;
-    private float interactRadius = 0.5f;
-    [SerializeField] private LayerMask interactableLayer;
-    public Transform interactPoint;
-
-    [SerializeField] private GameObject arrowPrefab;
-    private GameObject currentArrow;
-    private Vector3 arrowOffset = new Vector3(0, 1f, 0);
-
-    private Coroutine arrowCoroutine;
-
-    public void Initialize(Player player)
+    public class PlayerInteraction : MonoBehaviour, ILifecycle<Player>
     {
-        _player = player;
-        _player.InputManager.interactInputted += Interact;
-    }
-    public void Dispose()
-    {
-        _player.InputManager.interactInputted -= Interact;
-        if (currentArrow != null)
-        {
-            Destroy(currentArrow);
-        }
-    }
+        private Player player;
+        private float interactRadius = 0.5f;
+        [SerializeField] private LayerMask interactableLayer;
+        public Transform interactPoint;
 
-    private void Interact(InputEventContext context)
-    {
-        if (context != InputEventContext.DEFAULT)
-        {
-            return;
-        }
-        IInteractable closestInteractable = GetClosestInteractable();
-        if (closestInteractable != null)
-        {
-            closestInteractable.Interact(_player);
-        }
-        else
-        {
-            Debug.Log("No interactable object in range.");
-        }
-    }
+        [SerializeField] private GameObject arrowPrefab;
+        private GameObject currentArrow;
+        private Vector3 arrowOffset = new Vector3(0, 1f, 0);
 
-    private void OnEnable()
-    {
-        // Start the coroutine when the script is enabled
-        arrowCoroutine = StartCoroutine(UpdateFloatingArrowRoutine());
-    }
+        private Coroutine arrowCoroutine;
+        private IInteractable currentInteractable;
+        private InteractionHandler currentInteractionHandler;
 
-    private void OnDisable()
-    {
-        // Stop the coroutine if the script is disabled
-        if (arrowCoroutine != null)
+        public IInteractable CurrentInteractable => currentInteractable;
+
+        public void Initialize(Player player)
         {
-            StopCoroutine(arrowCoroutine);
+            this.player = player;
+            this.player.InputManager.interactInputted += Interact;
+            DialogueEventSystem.OnExitDialogue += OnExitDialogue;
         }
-    }
 
-
-    private IInteractable GetClosestInteractable()
-    {
-        Collider2D[] colliders = Physics2D.OverlapCircleAll(interactPoint.position, interactRadius, interactableLayer);
-        if (colliders.Length == 0)
+        private void OnExitDialogue()
         {
-            return null;
+            PlayerInteractEventSystem.InvokeExitInteraction(
+                new PlayerInteractEventSystem.ExitInteractionEventArgs(currentInteractable, player));
         }
-        IInteractable closestInteractable = null;
-        float closestDistance = Mathf.Infinity;
-        foreach (Collider2D collider in colliders)
+
+        public void Dispose()
         {
-            IInteractable interactable = collider.GetComponent<IInteractable>();
-            if (interactable != null)
+            player.InputManager.interactInputted -= Interact;
+            DialogueEventSystem.OnExitDialogue -= OnExitDialogue;
+
+            if (currentArrow != null)
             {
-                float distance = Vector2.Distance(transform.position, collider.transform.position);
-                if (distance < closestDistance)
-                {
-                    closestDistance = distance;
-                    closestInteractable = interactable;
-                }
+                Destroy(currentArrow);
             }
         }
-        return closestInteractable;
-    }
 
-    // Coroutine that updates the floating arrow every 0.2 seconds
-    private IEnumerator UpdateFloatingArrowRoutine()
-    {
-        while (true)
+        private void Interact(InputEventContext context)
         {
-            IInteractable closestInteractable = GetClosestInteractable();
+            if (context != InputEventContext.DEFAULT)
+                return;
 
+            var (closestInteractable, _) = GetClosestInteractableWithHandler();
             if (closestInteractable != null)
             {
-                MonoBehaviour interactableMB = closestInteractable as MonoBehaviour;
-                if (interactableMB != null)
-                {
-                    Transform interactableTransform = interactableMB.transform;
-
-                    if (currentArrow == null)
-                    {
-                        currentArrow = Instantiate(arrowPrefab, interactableTransform.position + arrowOffset, Quaternion.identity);
-                    }
-                    else
-                    {
-                        // Smoothly update the position (optional, for a nice effect)
-                        currentArrow.transform.position = Vector3.Lerp(currentArrow.transform.position,
-                                                                       interactableTransform.position + arrowOffset,
-                                                                       0.2f * 10f);
-                    }
-                }
+                currentInteractable = closestInteractable;
+                closestInteractable.Interact(player);
+                PlayerInteractEventSystem.InvokeEnterInteraction(
+                    new PlayerInteractEventSystem.EnterInteractionEventArgs(currentInteractable, player));
             }
             else
             {
-                // If no interactable is found, remove the arrow
-                if (currentArrow != null)
+                Debug.Log("No interactable object in range.");
+            }
+        }
+
+        private void OnEnable()
+        {
+            arrowCoroutine = StartCoroutine(UpdateFloatingArrowRoutine());
+        }
+
+        private void OnDisable()
+        {
+            if (arrowCoroutine != null)
+            {
+                StopCoroutine(arrowCoroutine);
+            }
+        }
+
+        private (IInteractable, InteractionHandler) GetClosestInteractableWithHandler()
+        {
+            Collider2D[] colliders = Physics2D.OverlapCircleAll(interactPoint.position, interactRadius, interactableLayer);
+            if (colliders.Length == 0)
+            {
+                return (null, null);
+            }
+
+            IInteractable closestInteractable = null;
+            InteractionHandler closestHandler = null;
+            float closestDistance = Mathf.Infinity;
+
+            foreach (Collider2D collider in colliders)
+            {
+                var handler = collider.GetComponent<InteractionHandler>();
+                if (handler == null) continue;
+
+                IInteractable interactable = handler.GetHighestPriorityInteractable();
+                if (interactable != null)
                 {
-                    Destroy(currentArrow);
+                    float distance = Vector2.Distance(transform.position, collider.transform.position);
+                    if (distance < closestDistance)
+                    {
+                        closestDistance = distance;
+                        closestInteractable = interactable;
+                        closestHandler = handler;
+                    }
                 }
             }
 
-            yield return new WaitForSeconds(0.2f);
+            return (closestInteractable, closestHandler);
+        }
+
+        private IEnumerator UpdateFloatingArrowRoutine()
+        {
+            while (true)
+            {
+                var (closestInteractable, handler) = GetClosestInteractableWithHandler();
+
+                if (handler != null)
+                {
+                    Transform handlerTransform = handler.transform;
+
+                    if (currentArrow == null)
+                    {
+                        currentArrow = Instantiate(arrowPrefab, handlerTransform.position + arrowOffset, Quaternion.identity);
+                    }
+                    else
+                    {
+                        currentArrow.transform.position = Vector3.Lerp(currentArrow.transform.position,
+                            handlerTransform.position + arrowOffset,
+                            0.2f * 10f);
+                    }
+
+                    currentInteractionHandler = handler;
+                }
+                else
+                {
+                    if (currentArrow != null)
+                    {
+                        Destroy(currentArrow);
+                        currentInteractionHandler = null;
+                    }
+                }
+
+                yield return new WaitForSeconds(0.2f);
+            }
+        }
+
+        public void SetInteractRotation(Vector2 direction)
+        {
+            transform.localRotation = Quaternion.Euler(0, 0, Vector2.SignedAngle(Vector2.down, direction));
+        }
+
+        private void OnDrawGizmosSelected()
+        {
+            Gizmos.color = Color.yellow;
+            Gizmos.DrawWireSphere(interactPoint.position, interactRadius);
         }
     }
-
-    public void SetInteractRotation(Vector2 direction)
-    {
-        transform.localRotation = Quaternion.Euler(0, 0, Vector2.SignedAngle(Vector2.down, direction));
-    }
-
-    private void OnDrawGizmosSelected()
-    {
-        Gizmos.color = Color.yellow;
-        Gizmos.DrawWireSphere(interactPoint.position, interactRadius);
-    }
-
-
 }

@@ -1,6 +1,7 @@
-using UnityEngine;
-
-public class ItemData_Weapon : ItemData_Equipment
+namespace Item
 {
+    public class ItemData_Weapon : ItemData_Equipment
+    {
 
+    }
 }

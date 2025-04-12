@@ -1,6 +1,6 @@
 using System;
-using UnityEngine;
-namespace Events.Misc
+
+namespace EventSystem.Misc
 {
     public static class MiscEventSystem
     {

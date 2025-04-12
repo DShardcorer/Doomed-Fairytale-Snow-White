@@ -1,21 +1,24 @@
 using System;
 using UnityEngine;
 
-public static class AudioEventSystem
+namespace EventSystem.Audio
 {
-    public class PlayAudioClipEventArgs :EventArgs
+    public static class AudioEventSystem
     {
-        public AudioClip AudioClip;
-        public PlayAudioClipEventArgs(AudioClip audioClip)
+        public class PlayAudioClipEventArgs :EventArgs
         {
-            AudioClip = audioClip;
+            public AudioClip AudioClip;
+            public PlayAudioClipEventArgs(AudioClip audioClip)
+            {
+                AudioClip = audioClip;
+            }
         }
-    }
 
-    public static Action<PlayAudioClipEventArgs> OnPlayAudioClip;
+        public static Action<PlayAudioClipEventArgs> OnPlayAudioClip;
 
-    public static void InvokePlayAudioClip(PlayAudioClipEventArgs args)
-    {
-        OnPlayAudioClip?.Invoke(args);
+        public static void InvokePlayAudioClip(PlayAudioClipEventArgs args)
+        {
+            OnPlayAudioClip?.Invoke(args);
+        }
     }
 }

@@ -1,38 +1,41 @@
+using EventSystem.Quest;
 using UnityEngine;
 
-
-public abstract class QuestStep : MonoBehaviour
+namespace QuestSystem
 {
-    private Quest _quest;
-    public Quest Quest => _quest;
-
-    private int stepIndex;
-    private bool isFinished = false;
-
-    public bool IsFinished => isFinished;
-
-    public void Initialize(Quest quest)
+    public abstract class QuestStep : MonoBehaviour
     {
-        _quest = quest;
-        stepIndex = this._quest.CurrentQuestStepIndex;
-        Debug.Log($"Quest: {_quest}");
+        private Quest _quest;
+        public Quest Quest => _quest;
 
-    }
-    protected void FinishQuestStep()
-    {
-        if (!isFinished)
+        private int stepIndex;
+        private bool isFinished = false;
+
+        public bool IsFinished => isFinished;
+
+        public void Initialize(Quest quest)
         {
-            isFinished = true;
-            QuestEventSystem.InvokeQuestAdvanced(_quest.questInfo.QuestName);
-            Destroy(gameObject);
+            _quest = quest;
+            stepIndex = this._quest.CurrentQuestStepIndex;
+            Debug.Log($"Quest: {_quest}");
+
         }
-    }
+        protected void FinishQuestStep()
+        {
+            if (!isFinished)
+            {
+                isFinished = true;
+                QuestEventSystem.InvokeQuestAdvanced(_quest.questInfo.QuestName);
+                Destroy(gameObject);
+            }
+        }
 
-    protected void ChangeState(QuestStepState newState)
-    {
-        QuestEventSystem.QuestStepStateChangedEventArgs e =
-        new QuestEventSystem.QuestStepStateChangedEventArgs(_quest.questInfo.QuestName, stepIndex, newState);
-        QuestEventSystem.InvokeQuestStepStateChanged(e);
-    }
+        protected void ChangeState(QuestStepState newState)
+        {
+            QuestEventSystem.QuestStepStateChangedEventArgs e =
+                new QuestEventSystem.QuestStepStateChangedEventArgs(_quest.questInfo.QuestName, stepIndex, newState);
+            QuestEventSystem.InvokeQuestStepStateChanged(e);
+        }
 
+    }
 }

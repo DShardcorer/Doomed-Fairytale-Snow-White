@@ -1,7 +1,7 @@
 ﻿
-namespace Ink.Parsed
+namespace Ink.InkLibs.InkCompiler.ParsedHierarchy
 {
-    public class AuthorWarning : Parsed.Object
+    public class AuthorWarning : Object
     {
         public string warningMessage;
 
@@ -10,7 +10,7 @@ namespace Ink.Parsed
             warningMessage = message;
         }
 
-        public override Runtime.Object GenerateRuntimeObject ()
+        public override InkRuntime.Object GenerateRuntimeObject ()
         {
             Warning (warningMessage);
             return null;

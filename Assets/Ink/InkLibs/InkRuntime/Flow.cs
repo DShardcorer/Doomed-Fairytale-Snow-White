@@ -1,11 +1,11 @@
 using System.Collections.Generic;
 
-namespace Ink.Runtime
+namespace Ink.InkLibs.InkRuntime
 {
     public class Flow {
         public string name;
         public CallStack callStack;
-        public List<Runtime.Object> outputStream;
+        public List<Object> outputStream;
         public List<Choice> currentChoices;
 
         public Flow(string name, Story story) {

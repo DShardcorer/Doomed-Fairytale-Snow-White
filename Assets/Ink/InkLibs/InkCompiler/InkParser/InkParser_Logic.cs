@@ -1,13 +1,12 @@
 ﻿using System.Collections.Generic;
-using System.Linq;
-using Ink.Parsed;
+using Ink.InkLibs.InkCompiler.ParsedHierarchy;
 
-namespace Ink
+namespace Ink.InkLibs.InkCompiler.InkParser
 {
     public partial class InkParser
     {
 
-        protected Parsed.Object LogicLine()
+        protected Object LogicLine()
         {
             Whitespace ();
 
@@ -27,7 +26,7 @@ namespace Ink
             // to have a return value, or to be used in compound expressions.
             ParseRule afterTilda = () => OneOf (ReturnStatement, TempDeclarationOrAssignment, Expression);
 
-            var result = Expect(afterTilda, "expression after '~'", recoveryRule: SkipToNextLine) as Parsed.Object;
+            var result = Expect(afterTilda, "expression after '~'", recoveryRule: SkipToNextLine) as Object;
 
             // Prevent further errors, already reported expected expression and have skipped to next line.
             if (result == null) return new ContentList();
@@ -66,15 +65,15 @@ namespace Ink
             // Multiple newlines on the output will be removed, so there will be no "leak" for
             // long running calculations. It's disappointingly messy though :-/
             if (result.Find<FunctionCall>() != null ) {
-                result = new ContentList (result, new Parsed.Text ("\n"));
+                result = new ContentList (result, new Text ("\n"));
             }
 
             Expect(EndOfLine, "end of line", recoveryRule: SkipToNextLine);
 
-            return result as Parsed.Object;
+            return result as Object;
         }
 
-        protected Parsed.Object VariableDeclaration()
+        protected Object VariableDeclaration()
         {
             Whitespace ();
 
@@ -94,7 +93,7 @@ namespace Ink
 
             var definition = Expect (Expression, "initial value for ");
 
-            var expr = definition as Parsed.Expression;
+            var expr = definition as Expression;
 
             if (expr) {
                 if (!(expr is Number || expr is StringExpression || expr is DivertTarget || expr is VariableReference || expr is List)) {
@@ -119,7 +118,7 @@ namespace Ink
             return null;
         }
 
-        protected Parsed.VariableAssignment ListDeclaration ()
+        protected VariableAssignment ListDeclaration ()
         {
             Whitespace ();
 
@@ -149,7 +148,7 @@ namespace Ink
             return null;
         }
 
-        protected Parsed.ListDefinition ListDefinition ()
+        protected ListDefinition ListDefinition ()
         {
             AnyWhitespace ();
 
@@ -171,7 +170,7 @@ namespace Ink
             return ",";
         }
 
-        protected Parsed.ListElementDefinition ListElementDefinition ()
+        protected ListElementDefinition ListElementDefinition ()
         {
             var inInitialList = ParseString ("(") != null;
             var needsToCloseParen = inInitialList;
@@ -215,7 +214,7 @@ namespace Ink
             return new ListElementDefinition (name, inInitialList, elementValue);
         }
 
-        protected Parsed.Object ConstDeclaration()
+        protected Object ConstDeclaration()
         {
             Whitespace ();
 
@@ -233,7 +232,7 @@ namespace Ink
 
             Whitespace ();
 
-            var expr = Expect (Expression, "initial value for ") as Parsed.Expression;
+            var expr = Expect (Expression, "initial value for ") as Expression;
             if (!(expr is Number || expr is DivertTarget || expr is StringExpression)) {
                 Error ("initial value for a constant must be a number or divert target");
             }
@@ -250,24 +249,24 @@ namespace Ink
             return result;
         }
 
-        protected Parsed.Object InlineLogicOrGlueOrStartTag()
+        protected Object InlineLogicOrGlueOrStartTag()
         {
-            return (Parsed.Object) OneOf (InlineLogic, Glue, StartTag);
+            return (Object) OneOf (InlineLogic, Glue, StartTag);
         }
 
-        protected Parsed.Glue Glue()
+        protected Glue Glue()
         {
             // Don't want to parse whitespace, since it might be important
             // surrounding the glue.
             var glueStr = ParseString("<>");
             if (glueStr != null) {
-                return new Parsed.Glue (new Runtime.Glue ());
+                return new Glue (new InkRuntime.Glue ());
             } else {
                 return null;
             }
         }
 
-        protected Parsed.Object InlineLogic()
+        protected Object InlineLogic()
         {
             if ( ParseString ("{") == null) {
                 return null;
@@ -278,7 +277,7 @@ namespace Ink
 
             Whitespace ();
 
-            var logic = (Parsed.Object) Expect(InnerLogic, "some kind of logic, conditional or sequence within braces: { ... }");
+            var logic = (Object) Expect(InnerLogic, "some kind of logic, conditional or sequence within braces: { ... }");
             if (logic == null) {
                 parsingStringExpression = wasParsingString;
                 return null;
@@ -311,7 +310,7 @@ namespace Ink
             return contentList;
         }
 
-        protected Parsed.Object InnerLogic()
+        protected Object InnerLogic()
         {
             Whitespace ();
 
@@ -359,7 +358,7 @@ namespace Ink
             foreach (ParseRule rule in rules) {
                 int ruleId = BeginRule ();
 
-                Parsed.Object result = ParseObject(rule) as Parsed.Object;
+                Object result = ParseObject(rule) as Object;
                 if (result) {
 
                     // Not yet at end?
@@ -368,7 +367,7 @@ namespace Ink
 
                     // Full parse of content within braces
                     else {
-                        return (Parsed.Object) SucceedRule (ruleId, result);
+                        return (Object) SucceedRule (ruleId, result);
                     }
 
                 } else {
@@ -379,7 +378,7 @@ namespace Ink
             return null;
         }
 
-        protected Parsed.Object InnerExpression()
+        protected Object InnerExpression()
         {
             var expr = Parse(Expression);
             if (expr) {

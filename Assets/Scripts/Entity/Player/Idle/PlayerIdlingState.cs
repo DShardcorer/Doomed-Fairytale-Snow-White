@@ -1,18 +1,22 @@
+using Entity.Player.State;
 using UnityEngine;
 
-public class PlayerIdlingState : PlayerState
+namespace Entity.Player.Idle
 {
-    public PlayerIdlingState(string animationBoolName, EntityStateProperties entityStateProperties) : base(animationBoolName, entityStateProperties)
+    public class PlayerIdlingState : PlayerState
     {
-    }
-
-    public override void FixedUpdateState()
-    {
-        if(_inputManager.GetMovementVector() != Vector2.zero)
+        public PlayerIdlingState(string animationBoolName, EntityStateProperties entityStateProperties) : base(animationBoolName, entityStateProperties)
         {
-            _stateMachine.ChangeState(_player.PlayerMovingState);
         }
-        base.FixedUpdateState();
-    }
 
+        public override void FixedUpdateState()
+        {
+            if(_inputManager.GetMovementVector() != Vector2.zero)
+            {
+                _stateMachine.ChangeState(_player.PlayerMovingState);
+            }
+            base.FixedUpdateState();
+        }
+
+    }
 }

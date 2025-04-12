@@ -2,9 +2,12 @@
 
 using UnityEngine;
 
-public static class HelperLayer
+namespace Helpers
 {
-    public static LayerMask InteractableLayerMask => LayerMask.GetMask("Interactable");
+    public static class HelperLayer
+    {
+        public static LayerMask InteractableLayerMask => LayerMask.GetMask("Interactable");
 
-    public static LayerMask EntityLayerMask => LayerMask.GetMask("Entity");
+        public static LayerMask EntityLayerMask => LayerMask.GetMask("Entity");
+    }
 }

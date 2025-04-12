@@ -1,7 +1,7 @@
-﻿using Ink.Parsed;
-using System.Diagnostics;
+﻿using System.Diagnostics;
+using Ink.InkLibs.InkCompiler.ParsedHierarchy;
 
-namespace Ink
+namespace Ink.InkLibs.InkCompiler.InkParser
 {
 	public partial class InkParser
 	{

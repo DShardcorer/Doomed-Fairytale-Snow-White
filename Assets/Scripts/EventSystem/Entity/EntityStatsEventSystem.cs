@@ -1,24 +1,27 @@
 using System;
-using UnityEngine;
+using EntitySystems.Stats;
 
-public static class EntityStatsEventSystem
+namespace EventSystem.Entity
 {
-    public static event Action<Entity, AbilityStatBoard> AbilityStatsChanged;
-    public static event Action<Entity, CombatStatBoard> CombatStatsChanged;
-
-    public static void InvokeAbilityStatsChanged(Entity entity, AbilityStatBoard abilityStats)
+    public static class EntityStatsEventSystem
     {
-        AbilityStatsChanged?.Invoke(entity, abilityStats);
-    }
+        public static event Action<global::Entity.Entity, AbilityStatBoard> AbilityStatsChanged;
+        public static event Action<global::Entity.Entity, CombatStatBoard> CombatStatsChanged;
 
-    public static void InvokeCombatStatsChanged(Entity entity, CombatStatBoard combatStats)
-    {
-        CombatStatsChanged?.Invoke(entity, combatStats);
-    }
+        public static void InvokeAbilityStatsChanged(global::Entity.Entity entity, AbilityStatBoard abilityStats)
+        {
+            AbilityStatsChanged?.Invoke(entity, abilityStats);
+        }
 
-    public static void InvokeStatsChanged(Entity entity, AbilityStatBoard abilityStats, CombatStatBoard combatStats)
-    {
-        AbilityStatsChanged?.Invoke(entity, abilityStats);
-        CombatStatsChanged?.Invoke(entity, combatStats);
+        public static void InvokeCombatStatsChanged(global::Entity.Entity entity, CombatStatBoard combatStats)
+        {
+            CombatStatsChanged?.Invoke(entity, combatStats);
+        }
+
+        public static void InvokeStatsChanged(global::Entity.Entity entity, AbilityStatBoard abilityStats, CombatStatBoard combatStats)
+        {
+            AbilityStatsChanged?.Invoke(entity, abilityStats);
+            CombatStatsChanged?.Invoke(entity, combatStats);
+        }
     }
 }

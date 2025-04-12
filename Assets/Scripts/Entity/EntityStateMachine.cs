@@ -1,52 +1,55 @@
 using UnityEngine;
 
-public class EntityStateMachine
+namespace Entity
 {
-    private EntityState _currentState;
-    public EntityState CurrentState => _currentState;
-
-    public EntityStateMachine()
+    public class EntityStateMachine
     {
-    }
+        private EntityState _currentState;
+        public EntityState CurrentState => _currentState;
 
-    public void Initialize(EntityState initialState)
-    {
-        _currentState = initialState;
-        _currentState.EnterState();
-    }
-
-    public void ChangeState(EntityState newState)
-    {
-        if(newState == null)
+        public EntityStateMachine()
         {
-            Debug.LogError("New state is null");
-            return;
         }
-        _currentState.ExitState();
-        _currentState = newState;
-        _currentState.EnterState();
-    }
+
+        public void Initialize(EntityState initialState)
+        {
+            _currentState = initialState;
+            _currentState.EnterState();
+        }
+
+        public void ChangeState(EntityState newState)
+        {
+            if(newState == null)
+            {
+                Debug.LogError("New state is null");
+                return;
+            }
+            _currentState.ExitState();
+            _currentState = newState;
+            _currentState.EnterState();
+        }
 
 
 
-    public void UpdateLogic()
-    {
-        _currentState.UpdateState();
-    }
+        public void UpdateLogic()
+        {
+            _currentState.UpdateState();
+        }
 
-    public void FixedUpdateLogic()
-    {
-        _currentState.FixedUpdateState();
-    }
+        public void FixedUpdateLogic()
+        {
+            _currentState.FixedUpdateState();
+        }
 
 
-    public void OnAnimationEnd()
-    {
-        _currentState.OnAnimationEnd();
-    }
+        public void OnAnimationEnd()
+        {
+            _currentState.OnAnimationEnd();
+        }
 
-    public bool IsAnimationEnded()
-    {
-        return _currentState.IsAnimationEnded();
+        public bool IsAnimationEnded()
+        {
+            return _currentState.IsAnimationEnded();
+        }
     }
 }

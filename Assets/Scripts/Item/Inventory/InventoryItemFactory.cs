@@ -1,16 +1,17 @@
-using UnityEngine;
-
-public static class InventoryItemFactory
+namespace Item.Inventory
 {
-    public static InventoryItem CreateItem(ItemData itemData)
+    public static class InventoryItemFactory
     {
-        if(itemData is ItemData_Equipment)
+        public static InventoryItem CreateItem(ItemData itemData)
         {
-            return new EquipmentInventoryItem(itemData as ItemData_Equipment);
-        }
-        else
-        {
-            return new InventoryItem(itemData);
+            if(itemData is ItemData_Equipment)
+            {
+                return new EquipmentInventoryItem(itemData as ItemData_Equipment);
+            }
+            else
+            {
+                return new InventoryItem(itemData);
+            }
         }
     }
 }

@@ -1,26 +1,28 @@
-
 using System;
 
-public enum ModifierType { Flat, Percentage }
-
-[Serializable]
-public class StatModifier
+namespace EntitySystems.Stats
 {
-    public StatType StatType;
-    public ModifierType ModifierType;
-    public float Value;
+    public enum ModifierType { Flat, Percentage }
 
-    public StatModifier(StatType statType, ModifierType modifierType, float value)
+    [Serializable]
+    public class StatModifier
     {
-        StatType = statType;
-        ModifierType = modifierType;
-        Value = value;
-    }
+        public StatType StatType;
+        public ModifierType ModifierType;
+        public float Value;
 
-    public string GetStatString()
-    {
-        string modifierTypeString = ModifierType == ModifierType.Flat ? "" : "%";
-        return $"{StatType}+{Value}{modifierTypeString}";
-    }
+        public StatModifier(StatType statType, ModifierType modifierType, float value)
+        {
+            StatType = statType;
+            ModifierType = modifierType;
+            Value = value;
+        }
 
+        public string GetStatString()
+        {
+            string modifierTypeString = ModifierType == ModifierType.Flat ? "" : "%";
+            return $"{StatType}+{Value}{modifierTypeString}";
+        }
+
+    }
 }

@@ -1,12 +1,14 @@
 ﻿// Automatically creates JSON files from an ink placed within the Assets/Ink folder.
-using UnityEngine;
-using UnityEditor;
-using System.IO;
-using Debug = UnityEngine.Debug;
-using System.Collections.Generic;
-using System.Linq;
 
-namespace Ink.UnityIntegration {
+using System.Collections.Generic;
+using System.IO;
+using System.Linq;
+using Ink.Editor.Core.Ink_Library;
+using Ink.Editor.Core.Ink_Settings;
+using UnityEditor;
+using Debug = UnityEngine.Debug;
+
+namespace Ink.Editor.Core.Compiler.Auto_Compiler {
 	
 	public class InkPostProcessor : AssetPostprocessor {
 		// Several assets moved at the same time can cause unity to call OnPostprocessAllAssets several times as a result of moving additional files, or simply due to minor time differences.

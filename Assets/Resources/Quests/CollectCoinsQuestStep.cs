@@ -1,36 +1,39 @@
-using UnityEngine;
-using Events.Misc;
-using System;
-public class CollectCoinsQuestStep : QuestStep
+using EventSystem.Misc;
+using QuestSystem;
+
+namespace Resources.Quests
 {
-    private int coinsCollected = 0;
-
-    private int coinsToCollect = 3;
-
-
-    private void OnEnable()
+    public class CollectCoinsQuestStep : QuestStep
     {
-        MiscEventSystem.CoinCollected += OnCoinCollected;
-    }
+        private int coinsCollected = 0;
 
-    private void OnCoinCollected()
-    {
-        coinsCollected++;
-        UpdateState();
-        if (coinsCollected >= coinsToCollect)
+        private int coinsToCollect = 3;
+
+
+        private void OnEnable()
         {
-            FinishQuestStep();
+            MiscEventSystem.CoinCollected += OnCoinCollected;
         }
-    }
-    private void OnDisable()
-    {
-        MiscEventSystem.CoinCollected -= OnCoinCollected;
-    }
 
-    private void UpdateState()
-    {
-        string state = coinsCollected.ToString();
-        QuestStepState questStepState = new QuestStepState(state);
-        ChangeState(questStepState);
+        private void OnCoinCollected()
+        {
+            coinsCollected++;
+            UpdateState();
+            if (coinsCollected >= coinsToCollect)
+            {
+                FinishQuestStep();
+            }
+        }
+        private void OnDisable()
+        {
+            MiscEventSystem.CoinCollected -= OnCoinCollected;
+        }
+
+        private void UpdateState()
+        {
+            string state = coinsCollected.ToString();
+            QuestStepState questStepState = new QuestStepState(state);
+            ChangeState(questStepState);
+        }
     }
 }

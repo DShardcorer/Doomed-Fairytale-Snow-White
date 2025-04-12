@@ -1,12 +1,13 @@
-using UnityEngine;
-
-public enum IngameMenuType
+namespace UI.Player
 {
-    Status,
-    Equipment,
-    Inventory,
-    Skills,
-    Relationship,
-    Settings
+    public enum IngameMenuType
+    {
+        Status,
+        Equipment,
+        Inventory,
+        Skills,
+        Relationship,
+        Settings
 
+    }
 }

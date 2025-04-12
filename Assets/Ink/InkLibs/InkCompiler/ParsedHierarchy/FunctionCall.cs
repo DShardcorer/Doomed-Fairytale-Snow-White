@@ -1,13 +1,14 @@
 ﻿using System.Collections.Generic;
+using Ink.InkLibs.InkRuntime;
 
-namespace Ink.Parsed
+namespace Ink.InkLibs.InkCompiler.ParsedHierarchy
 {
     public class FunctionCall : Expression
     {
         public string name { get { return _proxyDivert.target.firstComponent; } }
         public Divert proxyDivert { get { return _proxyDivert; } }
         public List<Expression> arguments { get { return _proxyDivert.arguments; } }
-        public Runtime.Divert runtimeDivert { get { return _proxyDivert.runtimeDivert; } }
+        public InkRuntime.Divert runtimeDivert { get { return _proxyDivert.runtimeDivert; } }
         public bool isChoiceCount { get { return name == "CHOICE_COUNT"; } }
         public bool isTurns { get { return name == "TURNS"; } }
         public bool isTurnsSince { get { return name == "TURNS_SINCE"; } }
@@ -21,12 +22,12 @@ namespace Ink.Parsed
 
         public FunctionCall (Identifier functionName, List<Expression> arguments)
         {
-            _proxyDivert = new Parsed.Divert(new Path(functionName), arguments);
+            _proxyDivert = new Divert(new Path(functionName), arguments);
             _proxyDivert.isFunctionCall = true;
             AddContent (_proxyDivert);
         }
 
-        public override void GenerateIntoContainer (Runtime.Container container)
+        public override void GenerateIntoContainer (Container container)
         {
             var foundList = story.ResolveList (name);
 
@@ -37,14 +38,14 @@ namespace Ink.Parsed
                 if (arguments.Count > 0)
                     Error ("The CHOICE_COUNT() function shouldn't take any arguments");
 
-                container.AddContent (Runtime.ControlCommand.ChoiceCount ());
+                container.AddContent (ControlCommand.ChoiceCount ());
 
             } else if (isTurns) {
 
                 if (arguments.Count > 0)
                     Error ("The TURNS() function shouldn't take any arguments");
 
-                container.AddContent (Runtime.ControlCommand.Turns ());
+                container.AddContent (ControlCommand.Turns ());
 
             } else if (isTurnsSince || isReadCount) {
 
@@ -69,9 +70,9 @@ namespace Ink.Parsed
                 }
 
                 if (isTurnsSince)
-                    container.AddContent (Runtime.ControlCommand.TurnsSince ());
+                    container.AddContent (ControlCommand.TurnsSince ());
                 else
-                    container.AddContent (Runtime.ControlCommand.ReadCount ());
+                    container.AddContent (ControlCommand.ReadCount ());
 
             } else if (isRandom) {
                 if (arguments.Count != 2)
@@ -90,7 +91,7 @@ namespace Ink.Parsed
                     arguments [arg].GenerateIntoContainer (container);
                 }
 
-                container.AddContent (Runtime.ControlCommand.Random ());
+                container.AddContent (ControlCommand.Random ());
 
             } else if (isSeedRandom) {
                 if (arguments.Count != 1)
@@ -103,7 +104,7 @@ namespace Ink.Parsed
 
                 arguments [0].GenerateIntoContainer (container);
 
-                container.AddContent (Runtime.ControlCommand.SeedRandom ());
+                container.AddContent (ControlCommand.SeedRandom ());
 
             } else if (isListRange) {
                 if (arguments.Count != 3)
@@ -112,7 +113,7 @@ namespace Ink.Parsed
                 for (int arg = 0; arg < arguments.Count; arg++)
                     arguments [arg].GenerateIntoContainer (container);
 
-                container.AddContent (Runtime.ControlCommand.ListRange ());
+                container.AddContent (ControlCommand.ListRange ());
 
             } else if( isListRandom ) {
                 if (arguments.Count != 1)
@@ -120,11 +121,11 @@ namespace Ink.Parsed
 
                 arguments [0].GenerateIntoContainer (container);
 
-                container.AddContent (Runtime.ControlCommand.ListRandom ());
+                container.AddContent (ControlCommand.ListRandom ());
 
-            } else if (Runtime.NativeFunctionCall.CallExistsWithName (name)) {
+            } else if (NativeFunctionCall.CallExistsWithName (name)) {
 
-                var nativeCall = Runtime.NativeFunctionCall.CallWithName (name);
+                var nativeCall = NativeFunctionCall.CallWithName (name);
 
                 if (nativeCall.numberOfParameters != arguments.Count) {
                     var msg = name + " should take " + nativeCall.numberOfParameters + " parameter";
@@ -136,23 +137,23 @@ namespace Ink.Parsed
                 for (int arg = 0; arg < arguments.Count; arg++)
                     arguments [arg].GenerateIntoContainer (container);
 
-                container.AddContent (Runtime.NativeFunctionCall.CallWithName (name));
+                container.AddContent (NativeFunctionCall.CallWithName (name));
             } else if (foundList != null) {
                 if (arguments.Count > 1)
                     Error ("Can currently only construct a list from one integer (or an empty list from a given list definition)");
 
                 // List item from given int
                 if (arguments.Count == 1) {
-                    container.AddContent (new Runtime.StringValue (name));
+                    container.AddContent (new StringValue (name));
                     arguments [0].GenerateIntoContainer (container);
-                    container.AddContent (Runtime.ControlCommand.ListFromInt ());
+                    container.AddContent (ControlCommand.ListFromInt ());
                 }
 
                 // Empty list with given origin.
                 else {
-                    var list = new Runtime.InkList ();
+                    var list = new InkList ();
                     list.SetInitialOriginName (name);
-                    container.AddContent (new Runtime.ListValue (list));
+                    container.AddContent (new ListValue (list));
                 }
             }
 
@@ -170,7 +171,7 @@ namespace Ink.Parsed
             // Should tidy up any returned value from the evaluation stack,
             // since it's unused.
             if (shouldPopReturnedValue)
-                container.AddContent (Runtime.ControlCommand.PopEvaluatedValue ());
+                container.AddContent (ControlCommand.PopEvaluatedValue ());
         }
 
         public override void ResolveReferences (Story context)
@@ -215,7 +216,7 @@ namespace Ink.Parsed
 
         public static bool IsBuiltIn(string name)
         {
-            if (Runtime.NativeFunctionCall.CallExistsWithName (name))
+            if (NativeFunctionCall.CallExistsWithName (name))
                 return true;
 
             return name == "CHOICE_COUNT"
@@ -234,9 +235,9 @@ namespace Ink.Parsed
             return string.Format ("{0}({1})", name, strArgs);
         }
 
-        Parsed.Divert _proxyDivert;
-        Parsed.DivertTarget _divertTargetToCount;
-        Parsed.VariableReference _variableReferenceToCount;
+        Divert _proxyDivert;
+        DivertTarget _divertTargetToCount;
+        VariableReference _variableReferenceToCount;
     }
 }
 

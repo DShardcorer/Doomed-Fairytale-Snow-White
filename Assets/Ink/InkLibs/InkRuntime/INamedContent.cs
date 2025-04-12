@@ -1,5 +1,5 @@
 ﻿
-namespace Ink.Runtime
+namespace Ink.InkLibs.InkRuntime
 {
 	public interface INamedContent
 	{

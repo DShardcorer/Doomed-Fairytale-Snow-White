@@ -1,8 +1,11 @@
-using UnityEngine;
+using Entity.NPC.Move;
 
-public class NativeMovingState : NPCMovingState
+namespace Entity.NPC_Variants.Native.Move
 {
-    public NativeMovingState(NPCMovingProperties npcMovingProperties, string animationBoolName) : base(npcMovingProperties, animationBoolName)
+    public class NativeMovingState : NPCMovingState
     {
+        public NativeMovingState(NPCMovingProperties npcMovingProperties, string animationBoolName) : base(npcMovingProperties, animationBoolName)
+        {
+        }
     }
 }

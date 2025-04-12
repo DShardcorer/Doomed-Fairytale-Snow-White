@@ -1,8 +1,7 @@
 ﻿using System.Collections.Generic;
-using System.Linq;
 using System.Diagnostics;
 
-namespace Ink.Runtime
+namespace Ink.InkLibs.InkRuntime
 {
     public class CallStack
     {
@@ -11,7 +10,7 @@ namespace Ink.Runtime
             public Pointer currentPointer;
 
             public bool inExpressionEvaluation;
-            public Dictionary<string, Runtime.Object> temporaryVariables;
+            public Dictionary<string, Object> temporaryVariables;
             public PushPopType type;
 
             // When this callstack element is actually a function evaluation called from the game,
@@ -340,12 +339,12 @@ namespace Ink.Runtime
         }
 
         // Get variable value, dereferencing a variable pointer if necessary
-        public Runtime.Object GetTemporaryVariableWithName(string name, int contextIndex = -1)
+        public Object GetTemporaryVariableWithName(string name, int contextIndex = -1)
         {
             if (contextIndex == -1)
                 contextIndex = currentElementIndex+1;
             
-            Runtime.Object varValue = null;
+            Object varValue = null;
 
             var contextElement = callStack [contextIndex-1];
 
@@ -356,7 +355,7 @@ namespace Ink.Runtime
             }
         }
             
-        public void SetTemporaryVariable(string name, Runtime.Object value, bool declareNew, int contextIndex = -1)
+        public void SetTemporaryVariable(string name, Object value, bool declareNew, int contextIndex = -1)
         {
             if (contextIndex == -1)
                 contextIndex = currentElementIndex+1;
@@ -367,7 +366,7 @@ namespace Ink.Runtime
                 throw new System.Exception ("Could not find temporary variable to set: " + name);
             }
 
-            Runtime.Object oldValue;
+            Object oldValue;
             if( contextElement.temporaryVariables.TryGetValue(name, out oldValue) )
                 ListValue.RetainListOriginsForAssignment (oldValue, value);
 

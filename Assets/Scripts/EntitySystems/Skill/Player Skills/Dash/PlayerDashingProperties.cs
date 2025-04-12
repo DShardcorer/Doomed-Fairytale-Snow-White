@@ -1,18 +1,21 @@
 using System;
-using UnityEngine;
+using Entity;
 
-public class PlayerDashingProperties: EntityStateProperties
+namespace EntitySystems.Skill.Player_Skills.Dash
 {
-    private float _dashSpeed = 10f;
-
-    public float DashSpeed => _dashSpeed;
-
-    public PlayerDashingProperties(float dashSpeed = 10f)
+    public class PlayerDashingProperties: EntityStateProperties
     {
-        _dashSpeed = dashSpeed;
-    }
+        private float _dashSpeed = 10f;
 
-    protected override void UpdateDerivedProperties(object sender, EventArgs e)
-    {
+        public float DashSpeed => _dashSpeed;
+
+        public PlayerDashingProperties(float dashSpeed = 10f)
+        {
+            _dashSpeed = dashSpeed;
+        }
+
+        protected override void UpdateDerivedProperties(object sender, EventArgs e)
+        {
+        }
     }
 }

@@ -2,8 +2,10 @@
 using System.Collections.Generic;
 using System.IO;
 using System.Reflection;
+using Ink.InkLibs.InkCompiler.ParsedHierarchy;
+using Path = System.IO.Path;
 
-namespace Ink
+namespace Ink.InkLibs.InkCompiler.Plugins
 {
     public class PluginManager
     {
@@ -38,7 +40,7 @@ namespace Ink
 			return (string)args[0];
 		}
 
-        public Parsed.Story PostParse(Parsed.Story parsedStory)
+        public Story PostParse(Story parsedStory)
         {
             object[] args = new object[] { parsedStory };
 
@@ -47,10 +49,10 @@ namespace Ink
                 typeof(IPlugin).InvokeMember("PostParse", BindingFlags.InvokeMethod, null, plugin, args);
             }
 
-			return (Parsed.Story)args[0];
+			return (Story)args[0];
         }
 
-        public Runtime.Story PostExport(Parsed.Story parsedStory, Runtime.Story runtimeStory)
+        public InkRuntime.Story PostExport(Story parsedStory, InkRuntime.Story runtimeStory)
         {
             object[] args = new object[] { parsedStory, runtimeStory };
 
@@ -59,7 +61,7 @@ namespace Ink
                 typeof(IPlugin).InvokeMember("PostExport", BindingFlags.InvokeMethod, null, plugin, args);
             }
 
-			return (Runtime.Story)args[1];
+			return (InkRuntime.Story)args[1];
         }
 
         List<IPlugin> _plugins;

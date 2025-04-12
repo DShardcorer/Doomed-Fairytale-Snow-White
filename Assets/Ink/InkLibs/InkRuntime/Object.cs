@@ -2,7 +2,7 @@ using System;
 using System.Collections.Generic;
 using System.Diagnostics;
 
-namespace Ink.Runtime
+namespace Ink.InkLibs.InkRuntime
 {
     /// <summary>
     /// Base class for all ink runtime content.
@@ -14,9 +14,9 @@ namespace Ink.Runtime
         /// Usually parents are Container objects. (TODO: Always?)
         /// </summary>
         /// <value>The parent.</value>
-		public Runtime.Object parent { get; set; }
+		public Object parent { get; set; }
 
-        public Runtime.DebugMetadata debugMetadata { 
+        public DebugMetadata debugMetadata { 
             get {
                 if (_debugMetadata == null) {
                     if (parent) {
@@ -32,7 +32,7 @@ namespace Ink.Runtime
             }
         }
 
-        public Runtime.DebugMetadata ownDebugMetadata {
+        public DebugMetadata ownDebugMetadata {
             get {
                 return _debugMetadata;
             }
@@ -51,7 +51,7 @@ namespace Ink.Runtime
             // Try to get a line number from debug metadata
             var root = this.rootContentContainer;
             if (root) {
-                Runtime.Object targetContent = root.ContentAtPath (path).obj;
+                Object targetContent = root.ContentAtPath (path).obj;
                 if (targetContent) {
                     var dm = targetContent.debugMetadata;
                     if (dm != null) {
@@ -186,7 +186,7 @@ namespace Ink.Runtime
         {
             get 
             {
-                Runtime.Object ancestor = this;
+                Object ancestor = this;
                 while (ancestor.parent) {
                     ancestor = ancestor.parent;
                 }
@@ -203,7 +203,7 @@ namespace Ink.Runtime
             throw new System.NotImplementedException (GetType ().Name + " doesn't support copying");
         }
 
-        public void SetChild<T>(ref T obj, T value) where T : Runtime.Object
+        public void SetChild<T>(ref T obj, T value) where T : Object
         {
             if (obj)
                 obj.parent = null;

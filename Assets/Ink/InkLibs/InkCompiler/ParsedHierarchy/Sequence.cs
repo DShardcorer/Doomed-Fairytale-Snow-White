@@ -1,6 +1,7 @@
 ﻿using System.Collections.Generic;
+using Ink.InkLibs.InkRuntime;
 
-namespace Ink.Parsed
+namespace Ink.InkLibs.InkCompiler.ParsedHierarchy
 {
     [System.Flags]
     public enum SequenceType
@@ -11,22 +12,22 @@ namespace Ink.Parsed
         Once = 8
     }
 
-    public class Sequence : Parsed.Object
+    public class Sequence : Object
     {
 
-        public List<Parsed.Object> sequenceElements;
+        public List<Object> sequenceElements;
         public SequenceType sequenceType;
 
         public Sequence (List<ContentList> elementContentLists, SequenceType sequenceType)
         {
             this.sequenceType = sequenceType;
-            this.sequenceElements = new List<Parsed.Object> ();
+            this.sequenceElements = new List<Object> ();
 
             foreach (var elementContentList in elementContentLists) {
 
                 var contentObjs = elementContentList.content;
 
-                Parsed.Object seqElObject = null;
+                Object seqElObject = null;
 
                 // Don't attempt to create a weave for the sequence element 
                 // if the content list is empty. Weaves don't like it!
@@ -58,17 +59,17 @@ namespace Ink.Parsed
         //
         //    no-op
         //
-        public override Runtime.Object GenerateRuntimeObject ()
+        public override InkRuntime.Object GenerateRuntimeObject ()
         {
-            var container = new Runtime.Container ();
+            var container = new Container ();
             container.visitsShouldBeCounted = true;
             container.countingAtStartOnly = true;
 
             _sequenceDivertsToResove = new List<SequenceDivertToResolve> ();
 
             // Get sequence read count
-            container.AddContent (Runtime.ControlCommand.EvalStart ());
-            container.AddContent (Runtime.ControlCommand.VisitIndex ());
+            container.AddContent (ControlCommand.EvalStart ());
+            container.AddContent (ControlCommand.VisitIndex ());
 
             bool once = (sequenceType & SequenceType.Once) > 0;
             bool cycle = (sequenceType & SequenceType.Cycle) > 0;
@@ -84,32 +85,32 @@ namespace Ink.Parsed
             //    (the last one being empty)
             if (stopping || once) {
                 //var limit = stopping ? seqBranchCount-1 : seqBranchCount;
-                container.AddContent (new Runtime.IntValue (seqBranchCount-1));
-                container.AddContent (Runtime.NativeFunctionCall.CallWithName ("MIN"));
+                container.AddContent (new IntValue (seqBranchCount-1));
+                container.AddContent (NativeFunctionCall.CallWithName ("MIN"));
             } 
 
             // - Cycle: take (read count % num elements)
             else if (cycle) {
-                container.AddContent (new Runtime.IntValue (sequenceElements.Count));
-                container.AddContent (Runtime.NativeFunctionCall.CallWithName ("%"));
+                container.AddContent (new IntValue (sequenceElements.Count));
+                container.AddContent (NativeFunctionCall.CallWithName ("%"));
             }
 
             // Shuffle
             if (shuffle) {
 
                 // Create point to return to when sequence is complete
-                var postShuffleNoOp = Runtime.ControlCommand.NoOp();
+                var postShuffleNoOp = ControlCommand.NoOp();
 
                 // When visitIndex == lastIdx, we skip the shuffle
                 if ( once || stopping )
                 {
                     // if( visitIndex == lastIdx ) -> skipShuffle
                     int lastIdx = stopping ? sequenceElements.Count - 1 : sequenceElements.Count;
-                    container.AddContent(Runtime.ControlCommand.Duplicate());
-                    container.AddContent(new Runtime.IntValue(lastIdx));
-                    container.AddContent(Runtime.NativeFunctionCall.CallWithName("=="));
+                    container.AddContent(ControlCommand.Duplicate());
+                    container.AddContent(new IntValue(lastIdx));
+                    container.AddContent(NativeFunctionCall.CallWithName("=="));
 
-                    var skipShuffleDivert = new Runtime.Divert();
+                    var skipShuffleDivert = new InkRuntime.Divert();
                     skipShuffleDivert.isConditional = true;
                     container.AddContent(skipShuffleDivert);
 
@@ -119,15 +120,15 @@ namespace Ink.Parsed
                 // This one's a bit more complex! Choose the index at runtime.
                 var elementCountToShuffle = sequenceElements.Count;
                 if (stopping) elementCountToShuffle--;
-                container.AddContent (new Runtime.IntValue (elementCountToShuffle));
-                container.AddContent (Runtime.ControlCommand.SequenceShuffleIndex ());
+                container.AddContent (new IntValue (elementCountToShuffle));
+                container.AddContent (ControlCommand.SequenceShuffleIndex ());
                 if (once || stopping) container.AddContent(postShuffleNoOp);
             }
 
-            container.AddContent (Runtime.ControlCommand.EvalEnd ());
+            container.AddContent (ControlCommand.EvalEnd ());
 
             // Create point to return to when sequence is complete
-            var postSequenceNoOp = Runtime.ControlCommand.NoOp();
+            var postSequenceNoOp = ControlCommand.NoOp();
 
             // Each of the main sequence branches, and one extra empty branch if 
             // we have a "once" sequence.
@@ -136,35 +137,35 @@ namespace Ink.Parsed
                 // This sequence element:
                 //  if( chosenIndex == this index ) divert to this sequence element
                 // duplicate chosen sequence index, since it'll be consumed by "=="
-                container.AddContent (Runtime.ControlCommand.EvalStart ());
-                container.AddContent (Runtime.ControlCommand.Duplicate ()); 
-                container.AddContent (new Runtime.IntValue (elIndex));
-                container.AddContent (Runtime.NativeFunctionCall.CallWithName ("=="));
-                container.AddContent (Runtime.ControlCommand.EvalEnd ());
+                container.AddContent (ControlCommand.EvalStart ());
+                container.AddContent (ControlCommand.Duplicate ()); 
+                container.AddContent (new IntValue (elIndex));
+                container.AddContent (NativeFunctionCall.CallWithName ("=="));
+                container.AddContent (ControlCommand.EvalEnd ());
 
                 // Divert branch for this sequence element
-                var sequenceDivert = new Runtime.Divert ();
+                var sequenceDivert = new InkRuntime.Divert ();
                 sequenceDivert.isConditional = true;
                 container.AddContent (sequenceDivert);
 
-                Runtime.Container contentContainerForSequenceBranch;
+                Container contentContainerForSequenceBranch;
 
                 // Generate content for this sequence element
                 if ( elIndex < sequenceElements.Count ) {
                     var el = sequenceElements[elIndex];
-                    contentContainerForSequenceBranch = (Runtime.Container)el.runtimeObject;
+                    contentContainerForSequenceBranch = (Container)el.runtimeObject;
                 } 
 
                 // Final empty branch for "once" sequences
                 else {
-                    contentContainerForSequenceBranch = new Runtime.Container();
+                    contentContainerForSequenceBranch = new Container();
                 }
 
                 contentContainerForSequenceBranch.name = "s" + elIndex;
-                contentContainerForSequenceBranch.InsertContent(Runtime.ControlCommand.PopEvaluatedValue(), 0);
+                contentContainerForSequenceBranch.InsertContent(ControlCommand.PopEvaluatedValue(), 0);
 
                 // When sequence element is complete, divert back to end of sequence
-                var seqBranchCompleteDivert = new Runtime.Divert ();
+                var seqBranchCompleteDivert = new InkRuntime.Divert ();
                 contentContainerForSequenceBranch.AddContent (seqBranchCompleteDivert);
                 container.AddToNamedContentOnly (contentContainerForSequenceBranch);
 
@@ -178,7 +179,7 @@ namespace Ink.Parsed
             return container;
         }
 
-        void AddDivertToResolve(Runtime.Divert divert, Runtime.Object targetContent)
+        void AddDivertToResolve(InkRuntime.Divert divert, InkRuntime.Object targetContent)
         {
             _sequenceDivertsToResove.Add( new SequenceDivertToResolve() { 
                 divert = divert, 
@@ -197,8 +198,8 @@ namespace Ink.Parsed
 
         class SequenceDivertToResolve
         {
-            public Runtime.Divert divert;
-            public Runtime.Object targetContent;
+            public InkRuntime.Divert divert;
+            public InkRuntime.Object targetContent;
         }
         List<SequenceDivertToResolve> _sequenceDivertsToResove;
     }

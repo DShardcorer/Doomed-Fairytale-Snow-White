@@ -1,10 +1,13 @@
-using Events.Misc;
-using UnityEngine;
+using EventSystem.Misc;
+using QuestSystem;
 
-public class ItemCollectCoinsQuestEventTrigger : ItemQuestEventTrigger
+namespace Resources.Quests
 {
-    public override void TriggerEvent()
+    public class ItemCollectCoinsQuestEventTrigger : ItemQuestEventTrigger
     {
-        MiscEventSystem.InvokeCoinCollected();
+        public override void TriggerEvent()
+        {
+            MiscEventSystem.InvokeCoinCollected();
+        }
     }
 }

@@ -1,9 +1,9 @@
 ﻿using System;
 using System.Collections.Generic;
 
-namespace Ink.Runtime
+namespace Ink.InkLibs.InkRuntime
 {
-    public class NativeFunctionCall : Runtime.Object
+    public class NativeFunctionCall : Object
     {
         public const string Add      = "+";
         public const string Subtract = "-";
@@ -83,7 +83,7 @@ namespace Ink.Runtime
 
         int _numberOfParameters;
 
-        public Runtime.Object Call(List<Runtime.Object> parameters)
+        public Object Call(List<Object> parameters)
         {
             if (_prototype) {
                 return _prototype.Call(parameters);
@@ -169,7 +169,7 @@ namespace Ink.Runtime
             }
         }
 
-        Value CallBinaryListOperation (List<Runtime.Object> parameters)
+        Value CallBinaryListOperation (List<Object> parameters)
         {
             // List-Int addition/subtraction returns a List (e.g. "alpha" + 1 = "beta")
             if ((name == "+" || name == "-") && parameters [0] is ListValue && parameters [1] is IntValue)
@@ -192,7 +192,7 @@ namespace Ink.Runtime
             throw new StoryException ("Can not call use '" + name + "' operation on " + v1.valueType + " and " + v2.valueType);
         }
 
-        Value CallListIncrementOperation (List<Runtime.Object> listIntParams)
+        Value CallListIncrementOperation (List<Object> listIntParams)
         {
             var listVal = (ListValue)listIntParams [0];
             var intVal = (IntValue)listIntParams [1];
@@ -228,7 +228,7 @@ namespace Ink.Runtime
             return new ListValue (resultRawList);
         }
 
-        List<Value> CoerceValuesToSingleType(List<Runtime.Object> parametersIn)
+        List<Value> CoerceValuesToSingleType(List<Object> parametersIn)
         {
             ValueType valType = ValueType.Int;
 

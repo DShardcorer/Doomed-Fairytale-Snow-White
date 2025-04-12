@@ -1,4 +1,4 @@
-﻿namespace Ink.Runtime
+﻿namespace Ink.InkLibs.InkRuntime
 {
     /// <summary>
     /// Exception that represents an error when running a Story at runtime.

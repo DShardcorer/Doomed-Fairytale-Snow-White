@@ -1,28 +1,32 @@
 using System;
 using System.Collections.Generic;
-using UnityEngine;
+using EntitySystems.Equipment;
+using Item.Inventory;
 
-public static class PlayerEquipmentEventSystem
+namespace EventSystem.Player
 {
-    public static event EventHandler<IReadOnlyDictionary<EquipmentSlotType, EquipmentInventoryItem>> OnEquipmentChanged;
-
-    public static event EventHandler<EquipmentInventoryItem> OnEquipmentEquipped;
-    public static event EventHandler<EquipmentInventoryItem> OnEquipmentUnequippedUnequipped;
-
-    public static void InvokePlayerEquipmentSystem_EquipmentChanged(IReadOnlyDictionary<EquipmentSlotType, EquipmentInventoryItem> e)
+    public static class PlayerEquipmentEventSystem
     {
-        OnEquipmentChanged?.Invoke(null, e);
+        public static event EventHandler<IReadOnlyDictionary<EquipmentSlotType, EquipmentInventoryItem>> OnEquipmentChanged;
+
+        public static event EventHandler<EquipmentInventoryItem> OnEquipmentEquipped;
+        public static event EventHandler<EquipmentInventoryItem> OnEquipmentUnequippedUnequipped;
+
+        public static void InvokePlayerEquipmentSystem_EquipmentChanged(IReadOnlyDictionary<EquipmentSlotType, EquipmentInventoryItem> e)
+        {
+            OnEquipmentChanged?.Invoke(null, e);
+        }
+
+        public static void InvokeEquipmentInventoryUI_ItemEquipped(EquipmentInventoryItem e)
+        {
+            OnEquipmentEquipped?.Invoke(null, e);
+        }
+        public static void InvokePlayerEquipmentUI_ItemUnequipped(EquipmentInventoryItem e)
+        {
+            OnEquipmentUnequippedUnequipped?.Invoke(null, e);
+        }
+
+
+
     }
-
-    public static void InvokeEquipmentInventoryUI_ItemEquipped(EquipmentInventoryItem e)
-    {
-        OnEquipmentEquipped?.Invoke(null, e);
-    }
-    public static void InvokePlayerEquipmentUI_ItemUnequipped(EquipmentInventoryItem e)
-    {
-        OnEquipmentUnequippedUnequipped?.Invoke(null, e);
-    }
-
-
-
 }

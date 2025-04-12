@@ -1,10 +1,11 @@
-using UnityEngine;
-
-public class NPCAttackingState : NPCState
+namespace Entity.NPC.Attack
 {
-    public NPCAttackingState(string animationBoolName, EntityStateProperties entityStateProperties) : base(animationBoolName, entityStateProperties)
+    public class NPCAttackingState : NPCState
     {
+        public NPCAttackingState(string animationBoolName, EntityStateProperties entityStateProperties) : base(animationBoolName, entityStateProperties)
+        {
+        }
+
+
     }
-
-
 }

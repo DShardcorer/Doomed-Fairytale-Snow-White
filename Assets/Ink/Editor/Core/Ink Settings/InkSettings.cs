@@ -1,6 +1,7 @@
-using UnityEngine;
-using UnityEditor;
 using System.Collections.Generic;
+using Ink.Editor.Core.Ink_Library;
+using UnityEditor;
+using UnityEngine;
 using Debug = UnityEngine.Debug;
 
 /// <summary>
@@ -8,7 +9,7 @@ using Debug = UnityEngine.Debug;
 /// Provides helper functions to easily obtain these files.
 /// ScriptableSingleton doesn't reload when the backing file changes, which means if you pull changes via source control you need to make unity recompile before it'll load the change.
 /// </summary>
-namespace Ink.UnityIntegration {
+namespace Ink.Editor.Core.Ink_Settings {
     // #if UNITY_2020_1_OR_NEWER
     // [FilePath("ProjectSettings/InkSettings.asset", FilePathAttribute.Location.ProjectFolder)]
 	// public class InkSettings : ScriptableSingleton<InkSettings> {

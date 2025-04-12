@@ -1,18 +1,21 @@
 using UnityEngine;
 
-public class ParallaxLayer : MonoBehaviour
+namespace Visual_Managers.Parallax
 {
-    public float parallaxFactor = 1f; // Adjust this per layer
-    private Vector3 initialPosition;
-
-    private void Start()
+    public class ParallaxLayer : MonoBehaviour
     {
-        initialPosition = transform.position;
-    }
+        public float parallaxFactor = 1f; // Adjust this per layer
+        private Vector3 initialPosition;
 
-    public void Move(Vector2 deltaMovement)
-    {
-        Debug.Log(deltaMovement);
-        transform.position = initialPosition + new Vector3(deltaMovement.x * parallaxFactor, deltaMovement.y * parallaxFactor, 0);
+        private void Start()
+        {
+            initialPosition = transform.position;
+        }
+
+        public void Move(Vector2 deltaMovement)
+        {
+            Debug.Log(deltaMovement);
+            transform.position = initialPosition + new Vector3(deltaMovement.x * parallaxFactor, deltaMovement.y * parallaxFactor, 0);
+        }
     }
 }

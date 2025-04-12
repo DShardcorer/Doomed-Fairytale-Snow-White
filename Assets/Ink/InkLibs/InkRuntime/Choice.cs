@@ -1,5 +1,6 @@
 ﻿using System.Collections.Generic;
-namespace Ink.Runtime
+
+namespace Ink.InkLibs.InkRuntime
 {
     /// <summary>
     /// A generated Choice from the story.
@@ -7,7 +8,7 @@ namespace Ink.Runtime
     /// different Choices dynamically dependent on state, so they're
     /// separated.
     /// </summary>
-	public class Choice : Runtime.Object
+	public class Choice : Object
 	{
         /// <summary>
         /// The main text to presented to the player for this Choice.

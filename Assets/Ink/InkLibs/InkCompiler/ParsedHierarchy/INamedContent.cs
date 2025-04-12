@@ -1,5 +1,5 @@
 ﻿
-namespace Ink.Parsed
+namespace Ink.InkLibs.InkCompiler.ParsedHierarchy
 {
     public interface INamedContent
     {

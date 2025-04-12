@@ -1,49 +1,53 @@
-
+using Item;
+using Item.Inventory;
 using TMPro;
 using UnityEngine;
 using UnityEngine.EventSystems;
 using UnityEngine.UI;
 
-public class ItemSlotUI : MonoBehaviour, IPointerClickHandler
+namespace UI.Player.Inventory
 {
-    [SerializeField] private Image _icon;
-    [SerializeField] private TextMeshProUGUI _stackSizeText;
-    private float _lastClickTime;
-    private const float DoubleClickThreshold = 0.3f; // Time in seconds
-
-
-    public InventoryItem _item;
-
-    public void UpdateUI(InventoryItem item)
+    public class ItemSlotUI : MonoBehaviour, IPointerClickHandler
     {
-        _item = item;
-        _icon.sprite = item.ItemData.icon;
-        if (_item.stackSize > 1)
+        [SerializeField] private Image _icon;
+        [SerializeField] private TextMeshProUGUI _stackSizeText;
+        private float _lastClickTime;
+        private const float DoubleClickThreshold = 0.3f; // Time in seconds
+
+
+        public InventoryItem _item;
+
+        public void UpdateUI(InventoryItem item)
         {
-            _stackSizeText.text = _item.stackSize.ToString();
+            _item = item;
+            _icon.sprite = item.ItemData.icon;
+            if (_item.stackSize > 1)
+            {
+                _stackSizeText.text = _item.stackSize.ToString();
+            }
+            else
+            {
+                _stackSizeText.text = "";
+            }
         }
-        else
+
+        public void OnPointerClick(PointerEventData eventData)
         {
-            _stackSizeText.text = "";
+            if (Time.time - _lastClickTime < DoubleClickThreshold)
+            {
+                OnDoubleClick();
+            }
+            _lastClickTime = Time.time;
         }
-    }
 
-    public void OnPointerClick(PointerEventData eventData)
-    {
-        if (Time.time - _lastClickTime < DoubleClickThreshold)
+        private void OnDoubleClick()
         {
-            OnDoubleClick();
+            if(_item.ItemData.itemType == ItemType.Equipment){
+                Debug.Log("Equipping item: " + _item.ItemData.itemName);
+            }
         }
-        _lastClickTime = Time.time;
+
+
+
     }
-
-    private void OnDoubleClick()
-    {
-        if(_item.ItemData.itemType == ItemType.Equipment){
-            Debug.Log("Equipping item: " + _item.ItemData.itemName);
-        }
-    }
-
-
-
 }

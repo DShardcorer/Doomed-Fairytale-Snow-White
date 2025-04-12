@@ -1,10 +1,10 @@
 ﻿using System.Collections.Generic;
 
-namespace Ink.Runtime
+namespace Ink.InkLibs.InkRuntime
 {
     public class StatePatch
     {
-        public Dictionary<string, Runtime.Object> globals { get { return _globals;  } }
+        public Dictionary<string, Object> globals { get { return _globals;  } }
         public HashSet<string> changedVariables { get { return _changedVariables;  } }
         public Dictionary<Container, int> visitCounts { get { return _visitCounts;  } }
         public Dictionary<Container, int> turnIndices { get { return _turnIndices;  } }
@@ -24,12 +24,12 @@ namespace Ink.Runtime
             }
         }
 
-        public bool TryGetGlobal(string name, out Runtime.Object value)
+        public bool TryGetGlobal(string name, out Object value)
         {
             return _globals.TryGetValue(name, out value);
         }
 
-        public void SetGlobal(string name, Runtime.Object value){
+        public void SetGlobal(string name, Object value){
             _globals[name] = value;
         }
 
@@ -58,7 +58,7 @@ namespace Ink.Runtime
             return _turnIndices.TryGetValue(container, out index);
         }
 
-        Dictionary<string, Runtime.Object> _globals;
+        Dictionary<string, Object> _globals;
         HashSet<string> _changedVariables = new HashSet<string>();
         Dictionary<Container, int> _visitCounts = new Dictionary<Container, int>();
         Dictionary<Container, int> _turnIndices = new Dictionary<Container, int>();

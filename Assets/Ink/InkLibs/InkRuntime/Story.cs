@@ -1,17 +1,17 @@
 using System;
 using System.Collections.Generic;
+using System.Diagnostics;
+using System.IO;
 using System.Linq;
 using System.Text;
-using System.IO;
-using System.Diagnostics;
 
-namespace Ink.Runtime
+namespace Ink.InkLibs.InkRuntime
 {
     /// <summary>
     /// A Story is the core class that represents a complete Ink narrative, and
     /// manages the evaluation and state of it.
     /// </summary>
-	public class Story : Runtime.Object
+	public class Story : Object
 	{
         /// <summary>
         /// The current version of the ink story file format.
@@ -149,7 +149,7 @@ namespace Ink.Runtime
         /// It's strongly recommended that you assign an error handler to your
         /// story instance to avoid getting exceptions for ink errors.
         /// </summary>
-        public event Ink.ErrorHandler onError;
+        public event ErrorHandler onError;
         
         /// <summary>
         /// Callback for when ContinueInternal is complete
@@ -194,7 +194,7 @@ namespace Ink.Runtime
         // Warning: When creating a Story using this constructor, you need to
         // call ResetState on it before use. Intended for compiler use only.
         // For normal use, use the constructor that takes a json string.
-        public Story (Container contentContainer, List<Runtime.ListDefinition> lists = null)
+        public Story (Container contentContainer, List<ListDefinition> lists = null)
 		{
 			_mainContentContainer = contentContainer;
 
@@ -730,7 +730,7 @@ namespace Ink.Runtime
             return mainContentContainer.ContentAtPath (path);
         }
 
-        public Runtime.Container KnotContainerWithName (string name)
+        public Container KnotContainerWithName (string name)
         {
             INamedContent namedContainer;
             if (mainContentContainer.namedContent.TryGetValue (name, out namedContainer))
@@ -994,7 +994,7 @@ namespace Ink.Runtime
 
             // If the new object is a container itself, it will be visited automatically at the next actual
             // content step. However, we need to walk up the new ancestry to see if there are more new containers
-            Runtime.Object currentChildOfContainer = pointer.Resolve();
+            Object currentChildOfContainer = pointer.Resolve();
 
             // Invalid pointer? May happen if attemptingto 
             if (currentChildOfContainer == null) return;
@@ -1099,7 +1099,7 @@ namespace Ink.Runtime
 
         // Does the expression result represented by this object evaluate to true?
         // e.g. is it a Number that's not equal to 1?
-        bool IsTruthy(Runtime.Object obj)
+        bool IsTruthy(Object obj)
         {
             bool truthy = false;
             if (obj is Value) {
@@ -1122,7 +1122,7 @@ namespace Ink.Runtime
         /// </summary>
         /// <returns><c>true</c> if object was logic or flow control, <c>false</c> if it's normal content.</returns>
         /// <param name="contentObj">Content object.</param>
-        bool PerformLogicAndFlowControl(Runtime.Object contentObj)
+        bool PerformLogicAndFlowControl(Object contentObj)
         {
             if( contentObj == null ) {
                 return false;
@@ -1331,7 +1331,7 @@ namespace Ink.Runtime
                     // as the string for the choice content.
                     if( state.inStringEvaluation ) {
                     
-                        var contentStackForTag = new Stack<Runtime.Object> ();
+                        var contentStackForTag = new Stack<Object> ();
                         int outputCountConsumed = 0;
 
                         for (int i = state.outputStream.Count - 1; i >= 0; --i) {
@@ -1384,8 +1384,8 @@ namespace Ink.Runtime
                     // Since we're iterating backward through the content,
                     // build a stack so that when we build the string,
                     // it's in the right order
-                    var contentStackForString = new Stack<Runtime.Object> ();
-                    var contentToRetain = new Stack<Runtime.Object>();
+                    var contentStackForString = new Stack<Object> ();
+                    var contentToRetain = new Stack<Object>();
 
                     int outputCountConsumed = 0;
                     for (int i = state.outputStream.Count - 1; i >= 0; --i) {
@@ -1429,7 +1429,7 @@ namespace Ink.Runtime
 
                 case ControlCommand.CommandType.ChoiceCount:
 					var choiceCount = state.generatedChoices.Count;
-                    state.PushEvaluationStack (new Runtime.IntValue (choiceCount));
+                    state.PushEvaluationStack (new IntValue (choiceCount));
                     break;
 
                 case ControlCommand.CommandType.Turns:
@@ -1512,7 +1512,7 @@ namespace Ink.Runtime
                     state.previousRandom = 0;
 
                     // SEED_RANDOM returns nothing.
-                    state.PushEvaluationStack (new Runtime.Void ());
+                    state.PushEvaluationStack (new Void ());
                     break;
 
                 case ControlCommand.CommandType.VisitIndex:
@@ -1661,7 +1661,7 @@ namespace Ink.Runtime
             // Variable reference
             else if( contentObj is VariableReference ) {
                 var varRef = (VariableReference)contentObj;
-                Runtime.Object foundValue = null;
+                Object foundValue = null;
 
 
                 // Explicit read count value
@@ -1847,7 +1847,7 @@ namespace Ink.Runtime
                 throw new System.Exception ("Function doesn't exist: '" + functionName + "'");
 
             // Snapshot the output stream
-            var outputStreamBefore = new List<Runtime.Object>(state.outputStream);
+            var outputStreamBefore = new List<Object>(state.outputStream);
             _state.ResetOutput ();
 
             // State will temporarily replace the callstack in order to evaluate
@@ -1872,7 +1872,7 @@ namespace Ink.Runtime
 
         // Evaluate a "hot compiled" piece of ink content, as used by the REPL-like
         // CommandLinePlayer.
-        public Runtime.Object EvaluateExpression(Runtime.Container exprContainer)
+        public Object EvaluateExpression(Container exprContainer)
         {
             int startCallStackHeight = state.callStack.elements.Count;
 
@@ -1973,12 +1973,12 @@ namespace Ink.Runtime
             object funcResult = funcDef.function (arguments.ToArray());
 
             // Convert return value (if any) to the a type that the ink engine can use
-            Runtime.Object returnObj = null;
+            Object returnObj = null;
             if (funcResult != null) {
                 returnObj = Value.Create (funcResult);
                 Assert (returnObj != null, "Could not create ink value from returned object of type " + funcResult.GetType());
             } else {
-                returnObj = new Runtime.Void ();
+                returnObj = new Void ();
             }
                 
             state.PushEvaluationStack (returnObj);
@@ -2373,11 +2373,11 @@ namespace Ink.Runtime
 					ValidateExternalBindings (innerContent, missingExternals);
             }
             foreach (var innerKeyValue in c.namedContent) {
-				ValidateExternalBindings (innerKeyValue.Value as Runtime.Object, missingExternals);
+				ValidateExternalBindings (innerKeyValue.Value as Object, missingExternals);
             }
         }
 
-		void ValidateExternalBindings(Runtime.Object o, HashSet<string> missingExternals)
+		void ValidateExternalBindings(Object o, HashSet<string> missingExternals)
         {
             var container = o as Container;
             if (container) {
@@ -2493,7 +2493,7 @@ namespace Ink.Runtime
             }
         }
 
-        void VariableStateDidChangeEvent(string variableName, Runtime.Object newValueObj)
+        void VariableStateDidChangeEvent(string variableName, Object newValueObj)
         {
             if (_variableObservers == null)
                 return;
@@ -2533,7 +2533,7 @@ namespace Ink.Runtime
 
         List<string> TagsAtStartOfFlowContainerWithPathString (string pathString)
         {
-            var path = new Runtime.Path (pathString);
+            var path = new Path (pathString);
 
             // Expected to be global story, knot or stitch
             var flowContainer = ContentAtPath (path).container;
@@ -2549,17 +2549,17 @@ namespace Ink.Runtime
             List<string> tags = null;
             foreach (var c in flowContainer.content) {
 
-                var command = c as Runtime.ControlCommand;
+                var command = c as ControlCommand;
                 if( command != null ) {
-                    if( command.commandType == Runtime.ControlCommand.CommandType.BeginTag ) {
+                    if( command.commandType == ControlCommand.CommandType.BeginTag ) {
                         inTag = true;
-                    } else if( command.commandType == Runtime.ControlCommand.CommandType.EndTag ) {
+                    } else if( command.commandType == ControlCommand.CommandType.EndTag ) {
                         inTag = false;
                     }
                 }
 
                 else if( inTag ) {
-                    var str = c as Runtime.StringValue;
+                    var str = c as StringValue;
                     if( str != null ) {
                         if( tags == null ) tags = new List<string>();
                         tags.Add(str.value);
@@ -2644,7 +2644,7 @@ namespace Ink.Runtime
                     // This pop was due to dropping off the end of a function that didn't return anything,
                     // so in this case, we make sure that the evaluator has something to chomp on if it needs it
                     if (state.inExpressionEvaluation) {
-                        state.PushEvaluationStack (new Runtime.Void ());
+                        state.PushEvaluationStack (new Void ());
                     }
 
                     didPop = true;

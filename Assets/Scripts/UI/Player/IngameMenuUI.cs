@@ -1,83 +1,88 @@
 using System.Collections.Generic;
+using GeneralManagers;
+using UI.Player.Equipment;
 using UnityEngine;
 
-public class IngameMenuUI : MonoBehaviour, ILifecycle<UIManager>
+namespace UI.Player
 {
-    private UIManager _uiManager;
-    public UIManager UIManager => _uiManager;
-
-    [SerializeField]
-    private List<IngameMenuTabUI> _menuTabs = new List<IngameMenuTabUI>();
-
-    [SerializeField]
-    private List<IngameMenuPageUI> _menuPages = new List<IngameMenuPageUI>();
-
-
-    public void Initialize(UIManager uIManager)
+    public class IngameMenuUI : MonoBehaviour, ILifecycle<UIManager>
     {
-        _uiManager = uIManager;
-        foreach (IngameMenuTabUI menuTab in _menuTabs)
+        private UIManager _uiManager;
+        public UIManager UIManager => _uiManager;
+
+        [SerializeField]
+        private List<IngameMenuTabUI> _menuTabs = new List<IngameMenuTabUI>();
+
+        [SerializeField]
+        private List<IngameMenuPageUI> _menuPages = new List<IngameMenuPageUI>();
+
+
+        public void Initialize(UIManager uIManager)
         {
-            menuTab.Initialize(this);
+            _uiManager = uIManager;
+            foreach (IngameMenuTabUI menuTab in _menuTabs)
+            {
+                menuTab.Initialize(this);
+            }
+
+            foreach (IngameMenuPageUI menuPage in _menuPages)
+            {
+                menuPage.Initialize(this);
+            }
+
+            SwitchToMenuType(IngameMenuType.Status);
         }
 
-        foreach (IngameMenuPageUI menuPage in _menuPages)
+        public void SwitchToMenuType(IngameMenuType menuType)
         {
-            menuPage.Initialize(this);
-        }
-
-        SwitchToMenuType(IngameMenuType.Status);
-    }
-
-    public void SwitchToMenuType(IngameMenuType menuType)
-    {
-        foreach (IngameMenuPageUI page in _menuPages)
-        {
-            if (page.ingameMenuType != menuType)
+            foreach (IngameMenuPageUI page in _menuPages)
             {
-                page.gameObject.SetActive(false);
-            }else
+                if (page.ingameMenuType != menuType)
+                {
+                    page.gameObject.SetActive(false);
+                }else
+                {
+                    page.gameObject.SetActive(true);
+                }
+            }
+
+            foreach (IngameMenuTabUI menuTab in _menuTabs)
             {
-                page.gameObject.SetActive(true);
+                if (menuTab.ingameMenuType == menuType)
+                {
+                    menuTab.SelectTab();
+                }
+                else
+                {
+                    menuTab.DeselectTab();
+                }
             }
         }
 
-        foreach (IngameMenuTabUI menuTab in _menuTabs)
+        public void Dispose()
         {
-            if (menuTab.ingameMenuType == menuType)
+            _uiManager = null;
+            foreach (IngameMenuTabUI menuTab in _menuTabs)
             {
-                menuTab.SelectTab();
+                menuTab.Dispose();
             }
-            else
+            foreach (IngameMenuPageUI menuPage in _menuPages)
             {
-                menuTab.DeselectTab();
-            }
-        }
-    }
-
-    public void Dispose()
-    {
-        _uiManager = null;
-        foreach (IngameMenuTabUI menuTab in _menuTabs)
-        {
-            menuTab.Dispose();
-        }
-        foreach (IngameMenuPageUI menuPage in _menuPages)
-        {
-            menuPage.Dispose();
-        }
-    }
-
-    public PlayerEquipmentUI GetPlayerEquipmentUI()
-    {
-        foreach (IngameMenuPageUI page in _menuPages)
-        {
-            if (page is PlayerEquipmentUI)
-            {
-                return page as PlayerEquipmentUI;
+                menuPage.Dispose();
             }
         }
-        return null;
-    }
 
+        public PlayerEquipmentUI GetPlayerEquipmentUI()
+        {
+            foreach (IngameMenuPageUI page in _menuPages)
+            {
+                if (page is PlayerEquipmentUI)
+                {
+                    return page as PlayerEquipmentUI;
+                }
+            }
+            return null;
+        }
+
+    }
 }

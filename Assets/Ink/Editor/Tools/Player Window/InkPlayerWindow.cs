@@ -1,15 +1,17 @@
-﻿using UnityEngine;
-using UnityEditorInternal;
-using UnityEditor;
-using System;
+﻿using System;
 using System.Collections.Generic;
 using System.IO;
-using System.Text;
 using System.Linq;
-using Ink.Runtime;
-using Ink.UnityIntegration.Debugging;
+using System.Text;
+using Ink.Editor.Core;
+using Ink.InkLibs.InkRuntime;
+using UnityEditor;
+using UnityEditorInternal;
+using UnityEngine;
+using Object = Ink.InkLibs.InkRuntime.Object;
+using Path = Ink.InkLibs.InkRuntime.Path;
 
-namespace Ink.UnityIntegration {
+namespace Ink.Editor.Tools.Player_Window {
 
 	/// <summary>
 	/// Ink player window. Tests stories in an editor window.
@@ -54,7 +56,7 @@ namespace Ink.UnityIntegration {
 		}
 
 		public static InkPlayerWindow GetWindow (bool focus) {
-			Type windowType = typeof(Editor).Assembly.GetType("UnityEditor.InspectorWindow");
+			Type windowType = typeof(UnityEditor.Editor).Assembly.GetType("UnityEditor.InspectorWindow");
 			return GetWindow<InkPlayerWindow>(windowTitle, focus, windowType);
 		}
 		
@@ -523,7 +525,7 @@ namespace Ink.UnityIntegration {
 						inkListVariableValue = null;
 						try {
 							if(!string.IsNullOrWhiteSpace(inkListVariablePath)) 
-								inkListVariableValue = Ink.Runtime.InkList.FromString(inkListVariablePath, story);
+								inkListVariableValue = InkList.FromString(inkListVariablePath, story);
 						} catch {}
 					}
 
@@ -1964,7 +1966,7 @@ namespace Ink.UnityIntegration {
                     indent--;
                     if(lastTotalHeight != totalHeight) totalHeight += indentChangeVerticalSpacing;
                 }
-                void AddContent (string currentPath, KeyValuePair<string, Runtime.Object> contentKVP, int indent = 0) {
+                void AddContent (string currentPath, KeyValuePair<string, Object> contentKVP, int indent = 0) {
                     if(SearchStringMatch(currentPath, InkPlayerWindowState.Instance.namedContentPanelState.searchString)) {
                         var itemHeight = EditorGUIUtility.singleLineHeight;
                         itemHeight += contentMarginY * 2;
@@ -2387,8 +2389,8 @@ namespace Ink.UnityIntegration {
 				EditorGUI.EndDisabledGroup();
 			} else if(variableValue is InkList) {
 				anythingChanged = EditorGUILayoutInkListField(guiContent, (InkList)variableValue, variableName+expandedIDModifier);
-			} else if(variableValue is Ink.Runtime.Path) {
-				var c = new GUIContent(((Ink.Runtime.Path)variableValue).ToString()+" (Ink.Runtime.Path)");
+			} else if(variableValue is Path) {
+				var c = new GUIContent(((Path)variableValue).ToString()+" (Ink.Runtime.Path)");
 				EditorGUILayout.LabelField(guiContent, c);
 			} else if(variableValue == null) {
 				EditorGUILayout.LabelField(guiContent, new GUIContent("InkPlayerError: Variable is null"));
@@ -2422,8 +2424,8 @@ namespace Ink.UnityIntegration {
 					c.text += " Empty";
 				}
 				EditorGUI.LabelField(rect, c);
-			} else if(variableValue is Ink.Runtime.Path) {
-				var c = new GUIContent(((Ink.Runtime.Path)variableValue).ToString()+" (Ink.Runtime.Path)");
+			} else if(variableValue is Path) {
+				var c = new GUIContent(((Path)variableValue).ToString()+" (Ink.Runtime.Path)");
 				EditorGUI.LabelField(rect, c);
 			} else if(variableValue == null) {
 				EditorGUI.LabelField(rect, variable, new GUIContent("InkPlayerError: Variable is null"));
@@ -2502,8 +2504,8 @@ namespace Ink.UnityIntegration {
 			}
 		}
 		static ProfileNode _profilerResultRootNode;
-		static Ink.Runtime.Profiler _currentStoryProfiler;
-		static Ink.Runtime.Profiler _previousStoryProfiler;
+		static Profiler _currentStoryProfiler;
+		static Profiler _previousStoryProfiler;
 		
 		void DrawProfilerData() {
 

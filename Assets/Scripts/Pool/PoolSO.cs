@@ -1,10 +1,13 @@
 
 using UnityEngine;
 
-[CreateAssetMenu(fileName = "Pool", menuName = "Pool")]
-public class PoolSO : ScriptableObject
+namespace Pool
 {
-    public string key;
-    public GameObject prefab;
-    public int size;
+    [CreateAssetMenu(fileName = "Pool", menuName = "Pool")]
+    public class PoolSO : ScriptableObject
+    {
+        public string key;
+        public GameObject prefab;
+        public int size;
+    }
 }

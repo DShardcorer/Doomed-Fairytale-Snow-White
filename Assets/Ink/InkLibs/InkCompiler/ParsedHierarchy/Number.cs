@@ -1,7 +1,9 @@
 ﻿
-namespace Ink.Parsed
+using Ink.InkLibs.InkRuntime;
+
+namespace Ink.InkLibs.InkCompiler.ParsedHierarchy
 {
-	public class Number : Parsed.Expression
+	public class Number : Expression
 	{
 		public object value;
 		
@@ -14,14 +16,14 @@ namespace Ink.Parsed
             }
 		}
 
-        public override void GenerateIntoContainer (Runtime.Container container)
+        public override void GenerateIntoContainer (Container container)
 		{
             if (value is int) {
-                container.AddContent (new Runtime.IntValue ((int)value));
+                container.AddContent (new IntValue ((int)value));
             } else if (value is float) {
-                container.AddContent (new Runtime.FloatValue ((float)value));
+                container.AddContent (new FloatValue ((float)value));
             } else if(value is bool) {
-                container.AddContent (new Runtime.BoolValue ((bool)value));
+                container.AddContent (new BoolValue ((bool)value));
             }
 		}
 

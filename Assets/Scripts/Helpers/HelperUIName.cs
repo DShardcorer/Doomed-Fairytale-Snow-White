@@ -1,10 +1,11 @@
-using UnityEngine;
-
-public static class HelperUIName
+namespace Helpers
 {
-    public static string InventorySlotUI = "InventorySlotUI";
+    public static class HelperUIName
+    {
+        public static string InventorySlotUI = "InventorySlotUI";
 
-    public static string EquipmentInventorySlotUI = "EquipmentInventorySlotUI";
+        public static string EquipmentInventorySlotUI = "EquipmentInventorySlotUI";
 
-    public static string DamagePopupUI = "DamagePopupUI";
+        public static string DamagePopupUI = "DamagePopupUI";
+    }
 }

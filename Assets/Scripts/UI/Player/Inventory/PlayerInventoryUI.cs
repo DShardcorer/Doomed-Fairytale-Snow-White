@@ -1,123 +1,126 @@
-using System;
 using System.Collections.Generic;
+using EventSystem.Player;
+using Item.Inventory;
 using TMPro;
-using UnityEngine;
 
-public class PlayerInventoryUI : IngameMenuPageUI
+namespace UI.Player.Inventory
 {
-    public List<PlayerInventoryTabUI> playerInventoryTabs;
-    public List<PlayerInventoryPageUI> playerInventoryPages;
-    public TextMeshProUGUI weightText;
-
-    public override void Initialize(IngameMenuUI ingameMenuUI)
+    public class PlayerInventoryUI : IngameMenuPageUI
     {
-        base.Initialize(ingameMenuUI);
+        public List<PlayerInventoryTabUI> playerInventoryTabs;
+        public List<PlayerInventoryPageUI> playerInventoryPages;
+        public TextMeshProUGUI weightText;
 
-        // Subscribe to PlayerInventoryEventSystem
-        PlayerInventoryEventSystem.OnItemListChanged += Inventory_OnItemListChanged;
-        PlayerInventoryEventSystem.OnMaterialItemListChanged += Inventory_OnMaterialItemListChanged;
-        PlayerInventoryEventSystem.OnConsumableItemListChanged += Inventory_OnConsumableItemListChanged;
-        PlayerInventoryEventSystem.OnEquipmentItemListChanged += Inventory_OnEquipmentItemListChanged;
-        PlayerInventoryEventSystem.OnMiscellaneousItemListChanged += Inventory_OnMiscellaneousItemListChanged;
-        PlayerInventoryEventSystem.OnWeightChanged += Inventory_OnWeightChanged;
-
-        foreach (PlayerInventoryPageUI page in playerInventoryPages)
+        public override void Initialize(IngameMenuUI ingameMenuUI)
         {
-            page.Initialize(this);
+            base.Initialize(ingameMenuUI);
+
+            // Subscribe to PlayerInventoryEventSystem
+            PlayerInventoryEventSystem.OnItemListChanged += Inventory_OnItemListChanged;
+            PlayerInventoryEventSystem.OnMaterialItemListChanged += Inventory_OnMaterialItemListChanged;
+            PlayerInventoryEventSystem.OnConsumableItemListChanged += Inventory_OnConsumableItemListChanged;
+            PlayerInventoryEventSystem.OnEquipmentItemListChanged += Inventory_OnEquipmentItemListChanged;
+            PlayerInventoryEventSystem.OnMiscellaneousItemListChanged += Inventory_OnMiscellaneousItemListChanged;
+            PlayerInventoryEventSystem.OnWeightChanged += Inventory_OnWeightChanged;
+
+            foreach (PlayerInventoryPageUI page in playerInventoryPages)
+            {
+                page.Initialize(this);
+            }
+
+            foreach (PlayerInventoryTabUI tab in playerInventoryTabs)
+            {
+                tab.Initialize(this);
+                tab.DeselectTab();
+            }
+
+            // Select the first tab and show the first page
+            playerInventoryTabs[0].SelectTab();
+            foreach (PlayerInventoryPageUI page in playerInventoryPages)
+            {
+                page.gameObject.SetActive(false);
+            }
+            playerInventoryPages[0].gameObject.SetActive(true);
         }
 
-        foreach (PlayerInventoryTabUI tab in playerInventoryTabs)
+        private void OnDestroy()
         {
-            tab.Initialize(this);
-            tab.DeselectTab();
+            // Unsubscribe to prevent memory leaks
+            PlayerInventoryEventSystem.OnItemListChanged -= Inventory_OnItemListChanged;
+            PlayerInventoryEventSystem.OnMaterialItemListChanged -= Inventory_OnMaterialItemListChanged;
+            PlayerInventoryEventSystem.OnConsumableItemListChanged -= Inventory_OnConsumableItemListChanged;
+            PlayerInventoryEventSystem.OnEquipmentItemListChanged -= Inventory_OnEquipmentItemListChanged;
+            PlayerInventoryEventSystem.OnMiscellaneousItemListChanged -= Inventory_OnMiscellaneousItemListChanged;
+            PlayerInventoryEventSystem.OnWeightChanged -= Inventory_OnWeightChanged;
         }
 
-        // Select the first tab and show the first page
-        playerInventoryTabs[0].SelectTab();
-        foreach (PlayerInventoryPageUI page in playerInventoryPages)
+        private void Inventory_OnWeightChanged(object sender, WeightEventArgs e)
         {
-            page.gameObject.SetActive(false);
+            weightText.text = $"{e.currentWeight} / {e.weightCapacity}";
         }
-        playerInventoryPages[0].gameObject.SetActive(true);
-    }
 
-    private void OnDestroy()
-    {
-        // Unsubscribe to prevent memory leaks
-        PlayerInventoryEventSystem.OnItemListChanged -= Inventory_OnItemListChanged;
-        PlayerInventoryEventSystem.OnMaterialItemListChanged -= Inventory_OnMaterialItemListChanged;
-        PlayerInventoryEventSystem.OnConsumableItemListChanged -= Inventory_OnConsumableItemListChanged;
-        PlayerInventoryEventSystem.OnEquipmentItemListChanged -= Inventory_OnEquipmentItemListChanged;
-        PlayerInventoryEventSystem.OnMiscellaneousItemListChanged -= Inventory_OnMiscellaneousItemListChanged;
-        PlayerInventoryEventSystem.OnWeightChanged -= Inventory_OnWeightChanged;
-    }
-
-    private void Inventory_OnWeightChanged(object sender, WeightEventArgs e)
-    {
-        weightText.text = $"{e.currentWeight} / {e.weightCapacity}";
-    }
-
-    private void Inventory_OnMiscellaneousItemListChanged(object sender, List<InventoryItem> e)
-    {
-        UpdateInventoryUI(PlayerInventoryType.Miscellaneous, e);
-    }
-
-    private void Inventory_OnEquipmentItemListChanged(object sender, List<InventoryItem> e)
-    {
-        UpdateInventoryUI(PlayerInventoryType.Equipment, e);
-    }
-
-    private void Inventory_OnConsumableItemListChanged(object sender, List<InventoryItem> e)
-    {
-        UpdateInventoryUI(PlayerInventoryType.Consumable, e);
-    }
-
-    private void Inventory_OnMaterialItemListChanged(object sender, List<InventoryItem> e)
-    {
-        UpdateInventoryUI(PlayerInventoryType.Material, e);
-    }
-
-    private void Inventory_OnItemListChanged(object sender, List<InventoryItem> e)
-    {
-        UpdateInventoryUI(PlayerInventoryType.All, e);
-    }
-
-    public void UpdateAllUI(List<InventoryItem> items)
-    {
-        foreach (PlayerInventoryPageUI page in playerInventoryPages)
+        private void Inventory_OnMiscellaneousItemListChanged(object sender, List<InventoryItem> e)
         {
-            page.UpdateUI(items);
+            UpdateInventoryUI(PlayerInventoryType.Miscellaneous, e);
         }
-    }
 
-    public void UpdateInventoryUI(PlayerInventoryType playerInventoryType, List<InventoryItem> items)
-    {
-        foreach (PlayerInventoryPageUI page in playerInventoryPages)
+        private void Inventory_OnEquipmentItemListChanged(object sender, List<InventoryItem> e)
         {
-            if (page.playerInventoryType == playerInventoryType)
+            UpdateInventoryUI(PlayerInventoryType.Equipment, e);
+        }
+
+        private void Inventory_OnConsumableItemListChanged(object sender, List<InventoryItem> e)
+        {
+            UpdateInventoryUI(PlayerInventoryType.Consumable, e);
+        }
+
+        private void Inventory_OnMaterialItemListChanged(object sender, List<InventoryItem> e)
+        {
+            UpdateInventoryUI(PlayerInventoryType.Material, e);
+        }
+
+        private void Inventory_OnItemListChanged(object sender, List<InventoryItem> e)
+        {
+            UpdateInventoryUI(PlayerInventoryType.All, e);
+        }
+
+        public void UpdateAllUI(List<InventoryItem> items)
+        {
+            foreach (PlayerInventoryPageUI page in playerInventoryPages)
             {
                 page.UpdateUI(items);
             }
         }
-    }
 
-    public void SwitchToInventoryType(PlayerInventoryType playerInventoryType)
-    {
-        foreach (PlayerInventoryTabUI tab in playerInventoryTabs)
+        public void UpdateInventoryUI(PlayerInventoryType playerInventoryType, List<InventoryItem> items)
         {
-            if (tab.playerInventoryType == playerInventoryType)
+            foreach (PlayerInventoryPageUI page in playerInventoryPages)
             {
-                tab.SelectTab();
-            }
-            else
-            {
-                tab.DeselectTab();
+                if (page.playerInventoryType == playerInventoryType)
+                {
+                    page.UpdateUI(items);
+                }
             }
         }
 
-        foreach (PlayerInventoryPageUI page in playerInventoryPages)
+        public void SwitchToInventoryType(PlayerInventoryType playerInventoryType)
         {
-            page.gameObject.SetActive(page.playerInventoryType == playerInventoryType);
+            foreach (PlayerInventoryTabUI tab in playerInventoryTabs)
+            {
+                if (tab.playerInventoryType == playerInventoryType)
+                {
+                    tab.SelectTab();
+                }
+                else
+                {
+                    tab.DeselectTab();
+                }
+            }
+
+            foreach (PlayerInventoryPageUI page in playerInventoryPages)
+            {
+                page.gameObject.SetActive(page.playerInventoryType == playerInventoryType);
+            }
         }
     }
 }

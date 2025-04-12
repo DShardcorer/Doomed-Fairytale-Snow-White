@@ -1,11 +1,13 @@
 using System;
-using UnityEngine;
 
-public class PlayerIdlingProperties : EntityStateProperties
+namespace Entity.Player.Idle
 {
-    protected override void UpdateDerivedProperties(object sender, EventArgs e)
+    public class PlayerIdlingProperties : EntityStateProperties
     {
+        protected override void UpdateDerivedProperties(object sender, EventArgs e)
+        {
+        }
+
+
     }
-
-
 }

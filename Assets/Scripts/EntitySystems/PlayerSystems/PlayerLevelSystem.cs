@@ -1,26 +1,29 @@
-using UnityEngine;
-using Events.Player;
+using EntitySystems.Level;
+using EventSystem.Player;
 
-public class PlayerLevelSystem : LevelSystem
+namespace EntitySystems.PlayerSystems
 {
-    public PlayerLevelSystem(int level = 1) : base(level) { }
-
-    public override void InvokeInitialEvents()
+    public class PlayerLevelSystem : LevelSystem
     {
-        base.InvokeInitialEvents();
-        PlayerLevelEventSystem.InvokeInitialExperienceSet(_experience, _experienceToNextLevel);
-        PlayerLevelEventSystem.InvokeInitialLevelSet(_level);
-    }
+        public PlayerLevelSystem(int level = 1) : base(level) { }
 
-    public override void AddExperience(int amount)
-    {
-        base.AddExperience(amount);
-        PlayerLevelEventSystem.InvokeExperienceChanged(_experience, _experienceToNextLevel);
-    }
+        public override void InvokeInitialEvents()
+        {
+            base.InvokeInitialEvents();
+            PlayerLevelEventSystem.InvokeInitialExperienceSet(_experience, _experienceToNextLevel);
+            PlayerLevelEventSystem.InvokeInitialLevelSet(_level);
+        }
 
-    protected override void OnLevelUp()
-    {
-        base.OnLevelUp();
-        PlayerLevelEventSystem.InvokeLevelChanged(_level);
+        public override void AddExperience(int amount)
+        {
+            base.AddExperience(amount);
+            PlayerLevelEventSystem.InvokeExperienceChanged(_experience, _experienceToNextLevel);
+        }
+
+        protected override void OnLevelUp()
+        {
+            base.OnLevelUp();
+            PlayerLevelEventSystem.InvokeLevelChanged(_level);
+        }
     }
 }

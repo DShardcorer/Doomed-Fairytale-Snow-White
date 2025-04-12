@@ -1,7 +1,4 @@
-using System;
-using System.Collections.Generic;
-
-namespace Ink.Runtime
+namespace Ink.InkLibs.InkRuntime
 {
     public enum PushPopType 
     {

@@ -1,12 +1,11 @@
-using UnityEngine;
-using UnityEditor;
 using System;
-using System.Collections.Generic;
 using System.Reflection;
+using UnityEditor;
+using UnityEngine;
 
-namespace Ink.UnityIntegration {
+namespace Ink.Editor.Tools.Ink_Inspector {
 	[CustomEditor(typeof(DefaultAsset), true)]
-	public class DefaultAssetEditor : Editor {
+	public class DefaultAssetEditor : UnityEditor.Editor {
 
 		private DefaultAssetInspector inspector;
 

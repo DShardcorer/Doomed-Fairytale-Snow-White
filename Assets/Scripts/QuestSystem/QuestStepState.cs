@@ -1,19 +1,20 @@
 using System;
-using UnityEngine;
 
-
-[Serializable]
-public class QuestStepState
+namespace QuestSystem
 {
-    public string state;
-
-    public QuestStepState(string state)
+    [Serializable]
+    public class QuestStepState
     {
-        this.state = state;
-    }
+        public string state;
 
-    public QuestStepState()
-    {
-        state = "";
+        public QuestStepState(string state)
+        {
+            this.state = state;
+        }
+
+        public QuestStepState()
+        {
+            state = "";
+        }
     }
 }

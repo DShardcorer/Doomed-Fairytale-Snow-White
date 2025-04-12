@@ -1,8 +1,7 @@
-﻿using System;
-using System.Collections.Generic;
+﻿using System.Collections.Generic;
 using System.Text;
 
-namespace Ink.Runtime
+namespace Ink.InkLibs.InkRuntime
 {
     public static class StringExt
     {

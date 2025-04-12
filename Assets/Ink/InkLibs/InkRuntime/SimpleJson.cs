@@ -1,9 +1,9 @@
 ﻿using System;
-using System.Text;
 using System.Collections.Generic;
 using System.IO;
+using System.Text;
 
-namespace Ink.Runtime
+namespace Ink.InkLibs.InkRuntime
 {
     /// <summary>
     /// Simple custom JSON serialisation implementation that takes JSON-able System.Collections that

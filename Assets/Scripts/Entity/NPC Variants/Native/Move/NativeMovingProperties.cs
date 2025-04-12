@@ -1,10 +1,13 @@
-using UnityEngine;
+using Entity.NPC.Move;
 
-public class NativeMovingProperties: NPCMovingProperties
+namespace Entity.NPC_Variants.Native.Move
 {
-    public NativeMovingProperties(float moveSpeed = 2.0f, float movingTime = 2.0f) : base(moveSpeed, movingTime)
+    public class NativeMovingProperties: NPCMovingProperties
     {
-    }
+        public NativeMovingProperties(float moveSpeed = 2.0f, float movingTime = 2.0f) : base(moveSpeed, movingTime)
+        {
+        }
     
 
+    }
 }

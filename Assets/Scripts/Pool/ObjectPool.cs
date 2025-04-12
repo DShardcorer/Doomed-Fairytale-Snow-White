@@ -1,54 +1,57 @@
 using System.Collections.Generic;
 using UnityEngine;
 
-public class ObjectPool : MonoBehaviour
+namespace Pool
 {
-    private GameObject objectPrefab;
-    private int poolSize;
-
-
-    protected Stack<GameObject> objectStack = new Stack<GameObject>();
-
-    public void Initialize(GameObject prefab, int size)
+    public class ObjectPool : MonoBehaviour
     {
-        objectPrefab = prefab;
-        poolSize = size;
-        FillPool();
-    }
+        private GameObject objectPrefab;
+        private int poolSize;
 
 
-    protected virtual void FillPool()
-    {
-        for (int i = 0; i < poolSize; i++)
+        protected Stack<GameObject> objectStack = new Stack<GameObject>();
+
+        public void Initialize(GameObject prefab, int size)
         {
-            GameObject obj = Instantiate(objectPrefab, transform);
-            obj.SetActive(false);
+            objectPrefab = prefab;
+            poolSize = size;
+            FillPool();
+        }
+
+
+        protected virtual void FillPool()
+        {
+            for (int i = 0; i < poolSize; i++)
+            {
+                GameObject obj = Instantiate(objectPrefab, transform);
+                obj.SetActive(false);
+                objectStack.Push(obj);
+            }
+        }
+
+        public GameObject GetObject()
+        {
+            if (objectStack.Count == 0)
+            {
+                GameObject obj = Instantiate(objectPrefab, transform);
+                objectStack.Push(obj);
+            }
+            GameObject objectToReturn = objectStack.Pop();
+            objectToReturn.SetActive(true);
+            return objectToReturn;
+        }
+
+        public void ReturnObject(GameObject obj)
+        {
+            obj.gameObject.SetActive(false);
             objectStack.Push(obj);
         }
-    }
 
-    public GameObject GetObject()
-    {
-        if (objectStack.Count == 0)
+        public GameObject GetPrefab()
         {
-            GameObject obj = Instantiate(objectPrefab, transform);
-            objectStack.Push(obj);
+            return objectPrefab;
         }
-        GameObject objectToReturn = objectStack.Pop();
-        objectToReturn.SetActive(true);
-        return objectToReturn;
+
+
     }
-
-    public void ReturnObject(GameObject obj)
-    {
-        obj.gameObject.SetActive(false);
-        objectStack.Push(obj);
-    }
-
-    public GameObject GetPrefab()
-    {
-        return objectPrefab;
-    }
-
-
 }

@@ -1,31 +1,35 @@
 
 
+using Input;
 using UnityEngine;
 
-public abstract class PlayerState : EntityState
+namespace Entity.Player.State
 {
-    protected Player _player;
-
-    protected InputManager _inputManager;
-
-    protected PlayerState(string animationBoolName, EntityStateProperties entityStateProperties) : base(animationBoolName, entityStateProperties)
+    public abstract class PlayerState : EntityState
     {
-    }
+        protected Player _player;
 
-    public virtual void Initialize(Player controller)
-    {
-        _player = controller;
-        _inputManager = _player.InputManager;
-        if (_player == null)
+        protected InputManager _inputManager;
+
+        protected PlayerState(string animationBoolName, EntityStateProperties entityStateProperties) : base(animationBoolName, entityStateProperties)
         {
-            Debug.LogError("Player is null");
         }
-        if (_inputManager == null)
+
+        public virtual void Initialize(Player controller)
         {
-            Debug.LogError("InputManager is null");
+            _player = controller;
+            _inputManager = _player.InputManager;
+            if (_player == null)
+            {
+                Debug.LogError("Player is null");
+            }
+            if (_inputManager == null)
+            {
+                Debug.LogError("InputManager is null");
+            }
+            base.Initialize(controller);
         }
-        base.Initialize(controller);
+
+
     }
-
-
 }

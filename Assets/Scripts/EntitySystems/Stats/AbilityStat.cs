@@ -1,16 +1,19 @@
-public class AbilityStat
+namespace EntitySystems.Stats
 {
-    public float BaseValue { get; set; }
-    public float ModifiedValue { get; set; }
-
-    public AbilityStat(float baseValue)
+    public class AbilityStat
     {
-        BaseValue = baseValue;
-        ModifiedValue = baseValue;
-    }
+        public float BaseValue { get; set; }
+        public float ModifiedValue { get; set; }
 
-    public override string ToString()
-    {
-        return $"{ModifiedValue} (+{ModifiedValue - BaseValue})";
+        public AbilityStat(float baseValue)
+        {
+            BaseValue = baseValue;
+            ModifiedValue = baseValue;
+        }
+
+        public override string ToString()
+        {
+            return $"{ModifiedValue} (+{ModifiedValue - BaseValue})";
+        }
     }
 }

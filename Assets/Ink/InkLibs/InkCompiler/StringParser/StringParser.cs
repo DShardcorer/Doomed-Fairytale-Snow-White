@@ -1,10 +1,9 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Reflection;
+﻿using System.Collections.Generic;
 using System.Diagnostics;
 using System.Text;
+using Object = Ink.InkLibs.InkCompiler.ParsedHierarchy.Object;
 
-namespace Ink
+namespace Ink.InkLibs.InkCompiler.StringParser
 {
 	public class StringParser
 	{
@@ -135,7 +134,7 @@ namespace Ink
             ErrorOnLine (message, lineIndex + 1, isWarning);
 		}
 
-        protected void ErrorWithParsedObject(string message, Parsed.Object result, bool isWarning = false)
+        protected void ErrorWithParsedObject(string message, Object result, bool isWarning = false)
         {
             ErrorOnLine (message, result.debugMetadata.startLineNumber, isWarning);
         }

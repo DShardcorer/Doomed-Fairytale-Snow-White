@@ -1,14 +1,17 @@
-public enum EquipmentItemType
+namespace EntitySystems.Equipment
 {
-    Sword,
-    Spear,
-    Bow,
-    Shield,
-    Helmet,
-    Chestplate,
-    Leggings,
-    Boots,
-    Gloves,
-    Ring,
-    Necklace
+    public enum EquipmentItemType
+    {
+        Sword,
+        Spear,
+        Bow,
+        Shield,
+        Helmet,
+        Chestplate,
+        Leggings,
+        Boots,
+        Gloves,
+        Ring,
+        Necklace
+    }
 }

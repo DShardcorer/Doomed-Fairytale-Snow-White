@@ -1,22 +1,27 @@
 using System.Collections.Generic;
+using EntitySystems.Equipment;
+using EntitySystems.Stats;
 using UnityEngine;
 
-[CreateAssetMenu(fileName = "New Equipment Item", menuName = "Equipment ItemData")]
-public class ItemData_Equipment : ItemData
+namespace Item
 {
-
-    public EquipmentSlotType equipmentSlotType;
-    public EquipmentItemType equipmentItemType;
-    public List<StatModifier> StatModifiers;
-
-    public string GetStatsString()
+    [CreateAssetMenu(fileName = "New Equipment Item", menuName = "Equipment ItemData")]
+    public class ItemData_Equipment : ItemData
     {
-        string statsString = "";
-        foreach (StatModifier statModifier in StatModifiers)
+
+        public EquipmentSlotType equipmentSlotType;
+        public EquipmentItemType equipmentItemType;
+        public List<StatModifier> StatModifiers;
+
+        public string GetStatsString()
         {
-            statsString += statModifier.GetStatString() + "\n";
+            string statsString = "";
+            foreach (StatModifier statModifier in StatModifiers)
+            {
+                statsString += statModifier.GetStatString() + "\n";
+            }
+            return statsString;
         }
-        return statsString;
-    }
     
+    }
 }

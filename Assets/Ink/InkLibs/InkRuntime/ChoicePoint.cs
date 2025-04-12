@@ -1,13 +1,11 @@
-﻿using System.ComponentModel;
-
-namespace Ink.Runtime
+﻿namespace Ink.InkLibs.InkRuntime
 {
     /// <summary>
     /// The ChoicePoint represents the point within the Story where
     /// a Choice instance gets generated. The distinction is made
     /// because the text of the Choice can be dynamically generated.
     /// </summary>
-	public class ChoicePoint : Runtime.Object
+	public class ChoicePoint : Object
 	{
         public Path pathOnChoice {
             get {

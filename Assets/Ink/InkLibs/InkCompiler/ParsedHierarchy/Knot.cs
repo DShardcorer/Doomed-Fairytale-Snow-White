@@ -1,12 +1,12 @@
 ﻿using System.Collections.Generic;
 
-namespace Ink.Parsed
+namespace Ink.InkLibs.InkCompiler.ParsedHierarchy
 {
 	public class Knot : FlowBase
 	{
         public override FlowLevel flowLevel { get { return FlowLevel.Knot; } }
 
-        public Knot (Identifier name, List<Parsed.Object> topLevelObjects, List<Argument> arguments, bool isFunction) : base(name, topLevelObjects, arguments, isFunction)
+        public Knot (Identifier name, List<Object> topLevelObjects, List<Argument> arguments, bool isFunction) : base(name, topLevelObjects, arguments, isFunction)
 		{
 		}
 

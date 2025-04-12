@@ -1,6 +1,7 @@
-using UnityEngine;
-
-public static class HelperQuestName
+namespace Helpers
 {
-    public static string CollectCoinsQuest = "CollectCoinsQuest";
+    public static class HelperQuestName
+    {
+        public static string CollectCoinsQuest = "CollectCoinsQuest";
+    }
 }

@@ -1,6 +1,7 @@
-using UnityEngine;
-
-public class NPCChasingProperties
+namespace Entity.NPC.Chase
 {
+    public class NPCChasingProperties
+    {
 
+    }
 }

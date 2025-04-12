@@ -1,8 +1,7 @@
-using System;
-using System.Collections.Generic;
-using UnityEngine;
-
-public static class EquipmentEventSystem
+namespace EventSystem.Entity
 {
-    // public static event EventHandler<IReadOnlyDictionary<EquipmentSlotType, ItemData_Equipment>> OnEquipmentChanged;
+    public static class EquipmentEventSystem
+    {
+        // public static event EventHandler<IReadOnlyDictionary<EquipmentSlotType, ItemData_Equipment>> OnEquipmentChanged;
+    }
 }

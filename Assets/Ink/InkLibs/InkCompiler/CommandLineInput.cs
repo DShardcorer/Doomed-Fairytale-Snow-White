@@ -1,4 +1,4 @@
-﻿namespace Ink
+﻿namespace Ink.InkLibs.InkCompiler
 {
     public class CommandLineInput
     {

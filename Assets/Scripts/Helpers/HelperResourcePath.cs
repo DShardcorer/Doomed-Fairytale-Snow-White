@@ -1,6 +1,7 @@
-using UnityEngine;
-
-public static class HelperResourcePath
+namespace Helpers
 {
-    public static string Quests = "Quests/";
+    public static class HelperResourcePath
+    {
+        public static string Quests = "Quests/";
+    }
 }

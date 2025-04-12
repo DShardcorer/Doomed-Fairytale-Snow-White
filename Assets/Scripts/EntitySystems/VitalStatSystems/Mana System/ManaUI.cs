@@ -1,33 +1,38 @@
+using EventSystem.Player;
+using GeneralManagers;
 using UnityEngine;
 using UnityEngine.UI;
 
-public class ManaUI : MonoBehaviour, ILifecycle<UIManager>
+namespace EntitySystems.VitalStatSystems.Mana_System
 {
-    private UIManager _parent;
-    public UIManager Parent => _parent;
-    [SerializeField] private int maxManaForReference = 500;
-
-    [SerializeField] private GameObject manaBar;
-
-    [SerializeField] private Image manaFill;
-
-    public void Initialize(UIManager parent)
+    public class ManaUI : MonoBehaviour, ILifecycle<UIManager>
     {
-        _parent = parent;
-        manaFill.fillAmount = 1;
-        PlayerVitalStatsEventSystem.OnManaChanged += ManaSystem_OnManaChanged;
-    }
+        private UIManager _parent;
+        public UIManager Parent => _parent;
+        [SerializeField] private int maxManaForReference = 500;
 
-    private void ManaSystem_OnManaChanged(object sender, ManaChangedEventArgs e)
-    {
-        //Increase mana bar size according to max mana and max mana for reference
-        manaBar.transform.localScale = new Vector3((float)e.MaxMana / maxManaForReference, 1, 1);
+        [SerializeField] private GameObject manaBar;
 
-        manaFill.fillAmount = (float)e.CurrentMana / e.MaxMana;
-    }
+        [SerializeField] private Image manaFill;
 
-    public void Dispose()
-    {
-        _parent = null;
+        public void Initialize(UIManager parent)
+        {
+            _parent = parent;
+            manaFill.fillAmount = 1;
+            PlayerVitalStatsEventSystem.OnManaChanged += ManaSystem_OnManaChanged;
+        }
+
+        private void ManaSystem_OnManaChanged(object sender, ManaChangedEventArgs e)
+        {
+            //Increase mana bar size according to max mana and max mana for reference
+            manaBar.transform.localScale = new Vector3((float)e.MaxMana / maxManaForReference, 1, 1);
+
+            manaFill.fillAmount = (float)e.CurrentMana / e.MaxMana;
+        }
+
+        public void Dispose()
+        {
+            _parent = null;
+        }
     }
 }

@@ -1,21 +1,24 @@
 using System;
-using UnityEngine;
+using Entity.AttackCheck;
 
-public class NativeAttackingProperties: EntityStateProperties
+namespace Entity.NPC_Variants.Native.Attack
 {
-    public AttackType AttackType { get; private set; }
-    public float AttackRange { get; private set; }
-    public float AttackDamage { get; private set; }
-
-    public NativeAttackingProperties(AttackType attackType = AttackType.OverlapCircle, float attackRange = 1f, float attackDamage = 10f)
+    public class NativeAttackingProperties: EntityStateProperties
     {
-        AttackType = attackType;
-        AttackRange = attackRange;
-        AttackDamage = attackDamage;
-    }
+        public AttackType AttackType { get; private set; }
+        public float AttackRange { get; private set; }
+        public float AttackDamage { get; private set; }
 
-    protected override void UpdateDerivedProperties(object sender, EventArgs e)
-    {
-        AttackDamage = CombatStatBoard.PhysicalAttack.ModifiedValue;
+        public NativeAttackingProperties(AttackType attackType = AttackType.OverlapCircle, float attackRange = 1f, float attackDamage = 10f)
+        {
+            AttackType = attackType;
+            AttackRange = attackRange;
+            AttackDamage = attackDamage;
+        }
+
+        protected override void UpdateDerivedProperties(object sender, EventArgs e)
+        {
+            AttackDamage = CombatStatBoard.PhysicalAttack.ModifiedValue;
+        }
     }
 }

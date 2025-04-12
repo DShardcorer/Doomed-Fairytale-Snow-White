@@ -1,8 +1,8 @@
 ﻿using System.Collections.Generic;
 using System.Linq;
-using Ink.Parsed;
+using Ink.InkLibs.InkCompiler.ParsedHierarchy;
 
-namespace Ink
+namespace Ink.InkLibs.InkCompiler.InkParser
 {
     public partial class InkParser
     {
@@ -171,7 +171,7 @@ namespace Ink
                 // Real content
                 else {
 
-                    var content = contentOrPipe as List<Parsed.Object>;
+                    var content = contentOrPipe as List<Object>;
                     if (content == null) {
                         Error ("Expected content, but got " + contentOrPipe + " (this is an ink compiler bug!)");
                     } else {
@@ -214,14 +214,14 @@ namespace Ink
             Whitespace ();
 
 
-            List<Parsed.Object> content = StatementsAtLevel (StatementLevel.InnerBlock);
+            List<Object> content = StatementsAtLevel (StatementLevel.InnerBlock);
 
             if (content == null)
                 MultilineWhitespace ();
 
             // Add newline at the start of each branch
             else {
-                content.Insert (0, new Parsed.Text ("\n"));
+                content.Insert (0, new Text ("\n"));
             }
 
             return new ContentList (content);

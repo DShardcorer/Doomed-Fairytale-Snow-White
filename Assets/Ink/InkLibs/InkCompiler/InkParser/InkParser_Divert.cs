@@ -1,16 +1,15 @@
 ﻿using System.Collections.Generic;
-using Ink.Parsed;
+using Ink.InkLibs.InkCompiler.ParsedHierarchy;
 
-
-namespace Ink
+namespace Ink.InkLibs.InkCompiler.InkParser
 {
     public partial class InkParser
     {
-        protected List<Parsed.Object> MultiDivert()
+        protected List<Object> MultiDivert()
         {
             Whitespace ();
 
-            List<Parsed.Object> diverts = null;
+            List<Object> diverts = null;
 
             // Try single thread first
             var threadDivert = Parse(StartThread);
@@ -28,7 +27,7 @@ namespace Ink
             if (arrowsAndDiverts == null)
                 return null;
 
-            diverts = new List<Parsed.Object> ();
+            diverts = new List<Object> ();
 
             EndTagIfNecessary(diverts);
 
@@ -60,7 +59,7 @@ namespace Ink
 
                         var tunnelOnwards = new TunnelOnwards ();
                         if (i < arrowsAndDiverts.Count - 1) {
-                            var tunnelOnwardDivert = arrowsAndDiverts [i+1] as Parsed.Divert;
+                            var tunnelOnwardDivert = arrowsAndDiverts [i+1] as Divert;
                             tunnelOnwards.divertAfter = tunnelOnwardDivert;
                         }
 
@@ -89,7 +88,7 @@ namespace Ink
 
             // Single -> (used for default choices)
             if (diverts.Count == 0 && arrowsAndDiverts.Count == 1) {
-                var gatherDivert = new Divert ((Parsed.Object)null);
+                var gatherDivert = new Divert ((Object)null);
                 gatherDivert.isEmpty = true;
                 diverts.Add (gatherDivert);
 

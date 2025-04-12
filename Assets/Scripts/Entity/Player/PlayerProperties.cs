@@ -1,8 +1,11 @@
-using UnityEngine;
+using Entity.Faction;
 
-public class PlayerProperties : EntityProperties
+namespace Entity.Player
 {
-    public PlayerProperties(EntityFaction entityFaction, float maxHealth) : base(entityFaction, maxHealth)
+    public class PlayerProperties : EntityProperties
     {
+        public PlayerProperties(EntityFaction entityFaction, float maxHealth) : base(entityFaction, maxHealth)
+        {
+        }
     }
 }

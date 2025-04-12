@@ -1,7 +1,4 @@
-﻿using System.ComponentModel;
-using System.Collections.Generic;
-
-namespace Ink.Runtime
+﻿namespace Ink.InkLibs.InkRuntime
 {
     // Order is significant for type coersion.
     // If types aren't directly compatible for an operation,
@@ -25,7 +22,7 @@ namespace Ink.Runtime
         VariablePointer
     }
 
-    public abstract class Value : Runtime.Object
+    public abstract class Value : Object
     {
         public abstract ValueType valueType { get; }
         public abstract bool isTruthy { get; }
@@ -390,7 +387,7 @@ namespace Ink.Runtime
             };
         }
 
-        public static void RetainListOriginsForAssignment (Runtime.Object oldValue, Runtime.Object newValue)
+        public static void RetainListOriginsForAssignment (Object oldValue, Object newValue)
         {
             var oldList = oldValue as ListValue;
             var newList = newValue as ListValue;

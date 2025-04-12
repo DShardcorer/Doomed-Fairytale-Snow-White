@@ -1,33 +1,37 @@
+using GeneralManagers;
 using UnityEngine;
 using UnityEngine.EventSystems;
 
-public class IngameMenuTabUI : MonoBehaviour, IPointerDownHandler, ILifecycle<IngameMenuUI>
+namespace UI.Player
 {
-    private IngameMenuUI _ingameMenuUI;
-    public IngameMenuUI IngameMenuUI => _ingameMenuUI;
-    public IngameMenuType ingameMenuType;
-    public void Initialize(IngameMenuUI parent)
+    public class IngameMenuTabUI : MonoBehaviour, IPointerDownHandler, ILifecycle<IngameMenuUI>
     {
-        _ingameMenuUI = parent;
-    }
+        private IngameMenuUI _ingameMenuUI;
+        public IngameMenuUI IngameMenuUI => _ingameMenuUI;
+        public IngameMenuType ingameMenuType;
+        public void Initialize(IngameMenuUI parent)
+        {
+            _ingameMenuUI = parent;
+        }
 
-    public void Dispose()
-    {
-        _ingameMenuUI = null;
-    }
+        public void Dispose()
+        {
+            _ingameMenuUI = null;
+        }
 
-    public void OnPointerDown(PointerEventData eventData)
-    {
-        _ingameMenuUI.SwitchToMenuType(ingameMenuType);
-    }
+        public void OnPointerDown(PointerEventData eventData)
+        {
+            _ingameMenuUI.SwitchToMenuType(ingameMenuType);
+        }
 
-    public void SelectTab()
-    {
-        gameObject.GetComponent<CanvasGroup>().alpha = 1f;
-    }
+        public void SelectTab()
+        {
+            gameObject.GetComponent<CanvasGroup>().alpha = 1f;
+        }
 
-    public void DeselectTab()
-    {
-        gameObject.GetComponent<CanvasGroup>().alpha = 0.5f;
+        public void DeselectTab()
+        {
+            gameObject.GetComponent<CanvasGroup>().alpha = 0.5f;
+        }
     }
 }

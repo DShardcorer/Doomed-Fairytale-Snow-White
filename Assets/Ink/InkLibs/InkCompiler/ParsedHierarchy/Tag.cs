@@ -1,18 +1,20 @@
 
-namespace Ink.Parsed
+using Ink.InkLibs.InkRuntime;
+
+namespace Ink.InkLibs.InkCompiler.ParsedHierarchy
 {
-    public class Tag : Parsed.Object
+    public class Tag : Object
     {
 
         public bool isStart;
         public bool inChoice;
         
-        public override Runtime.Object GenerateRuntimeObject ()
+        public override InkRuntime.Object GenerateRuntimeObject ()
         {
             if( isStart )
-                return Runtime.ControlCommand.BeginTag();
+                return ControlCommand.BeginTag();
             else
-                return Runtime.ControlCommand.EndTag();
+                return ControlCommand.EndTag();
         }
 
         public override string ToString ()

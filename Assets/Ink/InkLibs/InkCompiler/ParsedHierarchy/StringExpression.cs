@@ -1,10 +1,10 @@
-﻿using System;
-using System.Collections.Generic;
+﻿using System.Collections.Generic;
 using System.Text;
+using Ink.InkLibs.InkRuntime;
 
-namespace Ink.Parsed
+namespace Ink.InkLibs.InkCompiler.ParsedHierarchy
 {
-    public class StringExpression : Parsed.Expression
+    public class StringExpression : Expression
     {
         public bool isSingleString {
             get {
@@ -19,20 +19,20 @@ namespace Ink.Parsed
             }
         }
 
-        public StringExpression (List<Parsed.Object> content)
+        public StringExpression (List<Object> content)
         {
             AddContent (content);
         }
 
-        public override void GenerateIntoContainer (Runtime.Container container)
+        public override void GenerateIntoContainer (Container container)
         {
-            container.AddContent (Runtime.ControlCommand.BeginString());
+            container.AddContent (ControlCommand.BeginString());
 
             foreach (var c in content) {
                 container.AddContent (c.runtimeObject);
             }
                 
-            container.AddContent (Runtime.ControlCommand.EndString());
+            container.AddContent (ControlCommand.EndString());
         }
 
         public override string ToString ()

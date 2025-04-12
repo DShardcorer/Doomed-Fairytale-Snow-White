@@ -1,5 +1,5 @@
 
-namespace Ink
+namespace Ink.InkLibs.InkCompiler.InkParser
 {
     public partial class InkParser
     {

@@ -1,23 +1,25 @@
 using System;
-using UnityEngine;
 
-[Serializable]
-public class NPCMovingProperties: EntityStateProperties
+namespace Entity.NPC.Move
 {
-    private float moveSpeed = 2.0f;
-    public float MoveSpeed => moveSpeed;
-
-    private float movingTime = 2.0f;
-    public float MovingTime => movingTime;
-
-    public NPCMovingProperties(float moveSpeed = 2.0f, float movingTime = 2.0f)
+    [Serializable]
+    public class NPCMovingProperties: EntityStateProperties
     {
-        this.moveSpeed = moveSpeed;
-        this.movingTime = movingTime;
-    }
+        private float moveSpeed = 2.0f;
+        public float MoveSpeed => moveSpeed;
 
-    protected override void UpdateDerivedProperties(object sender, EventArgs e)
-    {
+        private float movingTime = 2.0f;
+        public float MovingTime => movingTime;
+
+        public NPCMovingProperties(float moveSpeed = 2.0f, float movingTime = 2.0f)
+        {
+            this.moveSpeed = moveSpeed;
+            this.movingTime = movingTime;
+        }
+
+        protected override void UpdateDerivedProperties(object sender, EventArgs e)
+        {
         
+        }
     }
 }

@@ -1,8 +1,8 @@
-﻿using System.Collections.Generic;
+﻿using Ink.InkLibs.InkRuntime;
 
-namespace Ink.Parsed
+namespace Ink.InkLibs.InkCompiler.ParsedHierarchy
 {
-    public class VariableAssignment : Parsed.Object
+    public class VariableAssignment : Object
     {
         public string variableName
         {
@@ -43,7 +43,7 @@ namespace Ink.Parsed
             isGlobalDeclaration = true;
         }
 
-        public override Runtime.Object GenerateRuntimeObject ()
+        public override InkRuntime.Object GenerateRuntimeObject ()
         {
             FlowBase newDeclScope = null;
             if (isGlobalDeclaration) {
@@ -61,7 +61,7 @@ namespace Ink.Parsed
             if( isGlobalDeclaration )
                 return null;
 
-            var container = new Runtime.Container ();
+            var container = new Container ();
 
             // The expression's runtimeObject is actually another nested container
             if( expression != null )
@@ -69,7 +69,7 @@ namespace Ink.Parsed
             else if( listDefinition != null )
                 container.AddContent (listDefinition.runtimeObject);
 
-            _runtimeAssignment = new Runtime.VariableAssignment(variableName, isNewTemporaryDeclaration);
+            _runtimeAssignment = new InkRuntime.VariableAssignment(variableName, isNewTemporaryDeclaration);
             container.AddContent (_runtimeAssignment);
 
             return container;
@@ -117,7 +117,7 @@ namespace Ink.Parsed
             }
         }
 
-        Runtime.VariableAssignment _runtimeAssignment;
+        InkRuntime.VariableAssignment _runtimeAssignment;
     }
 }
 

@@ -1,11 +1,12 @@
 ﻿using System.Collections.Generic;
 using System.Text;
+using Ink.InkLibs.InkRuntime;
 
-namespace Ink.Parsed
+namespace Ink.InkLibs.InkCompiler.ParsedHierarchy
 {
 	public abstract class Object
 	{
-        public Runtime.DebugMetadata debugMetadata {
+        public DebugMetadata debugMetadata {
             get {
                 if (_debugMetadata == null) {
                     if (parent) {
@@ -20,7 +21,7 @@ namespace Ink.Parsed
                 _debugMetadata = value;
             }
         }
-        private Runtime.DebugMetadata _debugMetadata;
+        private DebugMetadata _debugMetadata;
 
         public bool hasOwnDebugMetadata {
             get {
@@ -34,21 +35,21 @@ namespace Ink.Parsed
             }
         }
 
-		public Parsed.Object parent { get; set; }
-        public List<Parsed.Object> content { get; protected set; }
+		public Object parent { get; set; }
+        public List<Object> content { get; protected set; }
 
-        public Parsed.Story story {
+        public Story story {
             get {
-                Parsed.Object ancestor = this;
+                Object ancestor = this;
                 while (ancestor.parent) {
                     ancestor = ancestor.parent;
                 }
-                return ancestor as Parsed.Story;
+                return ancestor as Story;
             }
         }
 
-		private Runtime.Object _runtimeObject;
-		public Runtime.Object runtimeObject
+		private InkRuntime.Object _runtimeObject;
+		public InkRuntime.Object runtimeObject
 		{
 			get {
 				if (_runtimeObject == null) {
@@ -68,7 +69,7 @@ namespace Ink.Parsed
         // path than just the path to the main runtimeObject.
         // e.g. a Choice returns a path to its content rather than
         // its outer container.
-        public virtual Runtime.Path runtimePath
+        public virtual InkRuntime.Path runtimePath
         {
             get {
                 return runtimeObject.path;
@@ -79,19 +80,19 @@ namespace Ink.Parsed
         // types may have different containers that needs to be counted.
         // For most it'll just be the object's main runtime object,
         // but for e.g. choices, it'll be the target container.
-        public virtual Runtime.Container containerForCounting
+        public virtual Container containerForCounting
         {
             get {
-                return this.runtimeObject as Runtime.Container;
+                return this.runtimeObject as Container;
             }
         }
 
-        public Parsed.Path PathRelativeTo(Parsed.Object otherObj)
+        public Path PathRelativeTo(Object otherObj)
         {
             var ownAncestry = ancestry;
             var otherAncestry = otherObj.ancestry;
 
-            Parsed.Object highestCommonAncestor = null;
+            Object highestCommonAncestor = null;
             int minLength = System.Math.Min (ownAncestry.Count, otherAncestry.Count);
             for (int i = 0; i < minLength; ++i) {
                 var a1 = ancestry [i];
@@ -144,10 +145,10 @@ namespace Ink.Parsed
             return null;
         }
 
-        public List<Parsed.Object> ancestry
+        public List<Object> ancestry
         {
             get {
-                var result = new List<Parsed.Object> ();
+                var result = new List<Object> ();
 
                 var ancestor = this.parent;
                 while(ancestor) {
@@ -166,7 +167,7 @@ namespace Ink.Parsed
             get {
                 var locationNames = new List<string> ();
 
-                Parsed.Object ancestor = this;
+                Object ancestor = this;
                 while (ancestor) {
                     var ancestorFlow = ancestor as FlowBase;
                     if (ancestorFlow && ancestorFlow.identifier != null) {
@@ -189,10 +190,10 @@ namespace Ink.Parsed
         }
 
         // Return the object so that method can be chained easily
-        public T AddContent<T>(T subContent) where T : Parsed.Object
+        public T AddContent<T>(T subContent) where T : Object
         {
             if (content == null) {
-                content = new List<Parsed.Object> ();
+                content = new List<Object> ();
             }
 
             // Make resilient to content not existing, which can happen
@@ -207,17 +208,17 @@ namespace Ink.Parsed
             return subContent;
         }
 
-        public void AddContent<T>(List<T> listContent) where T : Parsed.Object
+        public void AddContent<T>(List<T> listContent) where T : Object
         {
             foreach (var obj in listContent) {
                 AddContent (obj);
             }
         }
 
-        public T InsertContent<T>(int index, T subContent) where T : Parsed.Object
+        public T InsertContent<T>(int index, T subContent) where T : Object
         {
             if (content == null) {
-                content = new List<Parsed.Object> ();
+                content = new List<Object> ();
             }
 
             subContent.parent = this;
@@ -271,7 +272,7 @@ namespace Ink.Parsed
             }
         }
 
-		public abstract Runtime.Object GenerateRuntimeObject ();
+		public abstract InkRuntime.Object GenerateRuntimeObject ();
 
         public virtual void ResolveReferences(Story context)
 		{
@@ -295,7 +296,7 @@ namespace Ink.Parsed
             return null;
         }
 
-        public virtual void Error(string message, Parsed.Object source = null, bool isWarning = false)
+        public virtual void Error(string message, Object source = null, bool isWarning = false)
 		{
 			if (source == null) {
 				source = this;
@@ -323,7 +324,7 @@ namespace Ink.Parsed
 
 		}
 
-        public void Warning(string message, Parsed.Object source = null)
+        public void Warning(string message, Object source = null)
         {
             Error (message, source, isWarning: true);
         }

@@ -1,10 +1,10 @@
 ﻿using System;
 using System.Collections.Generic;
-using System.Text;
 using System.Diagnostics;
 using System.IO;
+using System.Text;
 
-namespace Ink.Runtime
+namespace Ink.InkLibs.InkRuntime
 {
     /// <summary>
     /// All story state information is included in the StoryState class,
@@ -169,7 +169,7 @@ namespace Ink.Runtime
         // When adding state, update the Copy method, and serialisation.
         // REMEMBER! REMEMBER! REMEMBER!
 
-        public List<Runtime.Object> outputStream { 
+        public List<Object> outputStream { 
             get { 
                 return _currentFlow.outputStream; 
             } 
@@ -208,7 +208,7 @@ namespace Ink.Runtime
             // } 
         }
 
-        public List<Runtime.Object> evaluationStack { get; private set; }
+        public List<Object> evaluationStack { get; private set; }
         public Pointer divertedPointer { get; set; }
 
         public int currentTurnIndex { get; private set; }
@@ -231,7 +231,7 @@ namespace Ink.Runtime
             }
         }
 
-        public Runtime.Pointer currentPointer {
+        public Pointer currentPointer {
             get {
                 return callStack.currentElement.currentPointer;
             }
@@ -454,7 +454,7 @@ namespace Ink.Runtime
 			OutputStreamDirty();
             _aliveFlowNamesDirty = true;
 
-            evaluationStack = new List<Runtime.Object> ();
+            evaluationStack = new List<Object> ();
 
             variablesState = new VariablesState (callStack, story.listDefinitions);
 
@@ -773,7 +773,7 @@ namespace Ink.Runtime
             currentWarnings = null;
         }
             
-        public void ResetOutput(List<Runtime.Object> objs = null)
+        public void ResetOutput(List<Object> objs = null)
         {
             outputStream.Clear ();
             if( objs != null ) outputStream.AddRange (objs);
@@ -782,7 +782,7 @@ namespace Ink.Runtime
 
         // Push to output stream, but split out newlines in text for consistency
         // in dealing with them later.
-        public void PushToOutputStream(Runtime.Object obj)
+        public void PushToOutputStream(Object obj)
         {
             var text = obj as StringValue;
             if (text) {
@@ -819,7 +819,7 @@ namespace Ink.Runtime
         //
         //  - If no splitting is necessary, null is returned.
         //  - A newline on its own is returned in a list for consistency.
-        List<Runtime.StringValue> TrySplittingHeadTailWhitespace(Runtime.StringValue single)
+        List<StringValue> TrySplittingHeadTailWhitespace(StringValue single)
         {
             string str = single.value;
 
@@ -857,7 +857,7 @@ namespace Ink.Runtime
             if (headFirstNewlineIdx == -1 && tailLastNewlineIdx == -1)
                 return null;
                 
-            var listTexts = new List<Runtime.StringValue> ();
+            var listTexts = new List<StringValue> ();
             int innerStrStart = 0;
             int innerStrEnd = str.Length;
 
@@ -891,10 +891,10 @@ namespace Ink.Runtime
             return listTexts;
         }
 
-        void PushToOutputStreamIndividual(Runtime.Object obj)
+        void PushToOutputStreamIndividual(Object obj)
         {
-            var glue = obj as Runtime.Glue;
-            var text = obj as Runtime.StringValue;
+            var glue = obj as Glue;
+            var text = obj as StringValue;
 
             bool includeInOutput = true;
 
@@ -1098,7 +1098,7 @@ namespace Ink.Runtime
             }
         }
 
-        public void PushEvaluationStack(Runtime.Object obj)
+        public void PushEvaluationStack(Object obj)
         {
             // Include metadata about the origin List for list values when
             // they're used, so that lower level functions can make use
@@ -1125,19 +1125,19 @@ namespace Ink.Runtime
             evaluationStack.Add(obj);
         }
 
-        public Runtime.Object PopEvaluationStack()
+        public Object PopEvaluationStack()
         {
             var obj = evaluationStack [evaluationStack.Count - 1];
             evaluationStack.RemoveAt (evaluationStack.Count - 1);
             return obj;
         }
 
-        public Runtime.Object PeekEvaluationStack()
+        public Object PeekEvaluationStack()
         {
             return evaluationStack [evaluationStack.Count - 1];
         }
 
-        public List<Runtime.Object> PopEvaluationStack(int numberOfObjects)
+        public List<Object> PopEvaluationStack(int numberOfObjects)
         {
             if(numberOfObjects > evaluationStack.Count) {
                 throw new System.Exception ("trying to pop too many objects");
@@ -1243,7 +1243,7 @@ namespace Ink.Runtime
                         throw new System.ArgumentException ("ink arguments when calling EvaluateFunction / ChoosePathStringWithParameters must be int, float, string, bool or InkList. Argument was "+(arguments [i] == null ? "null" : arguments [i].GetType().Name));
                     }
 
-                    PushEvaluationStack (Runtime.Value.Create (arguments [i]));
+                    PushEvaluationStack (Value.Create (arguments [i]));
                 }
             }
         }
@@ -1271,7 +1271,7 @@ namespace Ink.Runtime
             // Potentially pop multiple values off the stack, in case we need
             // to clean up after ourselves (e.g. caller of EvaluateFunction may 
             // have passed too many arguments, and we currently have no way to check for that)
-            Runtime.Object returnedObj = null;
+            Object returnedObj = null;
             while (evaluationStack.Count > originalEvaluationStackHeight) {
                 var poppedObj = PopEvaluationStack ();
                 if (returnedObj == null)
@@ -1283,11 +1283,11 @@ namespace Ink.Runtime
 
             // What did we get back?
             if (returnedObj) {
-                if (returnedObj is Runtime.Void)
+                if (returnedObj is Void)
                     return null;
 
                 // Some kind of value, if not void
-                var returnVal = returnedObj as Runtime.Value;
+                var returnVal = returnedObj as Value;
 
                 // DivertTargets get returned as the string of components
                 // (rather than a Path, which isn't public)

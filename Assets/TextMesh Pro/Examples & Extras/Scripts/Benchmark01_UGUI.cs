@@ -1,9 +1,9 @@
-using UnityEngine;
 using System.Collections;
+using TMPro;
+using UnityEngine;
 using UnityEngine.UI;
 
-
-namespace TMPro.Examples
+namespace TextMesh_Pro.Examples___Extras.Scripts
 {
     
     public class Benchmark01_UGUI : MonoBehaviour
@@ -66,7 +66,7 @@ namespace TMPro.Examples
                 //m_textMeshPro.fontColor = new Color32(255, 255, 255, 255);
 
                 m_material01 = m_textMeshPro.font.material;
-                m_material02 = Resources.Load<Material>("Fonts & Materials/LiberationSans SDF - BEVEL"); // Make sure the LiberationSans SDF exists before calling this...  
+                m_material02 = UnityEngine.Resources.Load<Material>("Fonts & Materials/LiberationSans SDF - BEVEL"); // Make sure the LiberationSans SDF exists before calling this...  
 
 
             }

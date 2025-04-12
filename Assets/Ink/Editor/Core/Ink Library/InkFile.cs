@@ -3,10 +3,11 @@ using System.Collections.Generic;
 using System.IO;
 using System.Text;
 using System.Text.RegularExpressions;
+using Ink.Editor.Core.Ink_Settings;
 using UnityEditor;
 using UnityEngine;
 
-namespace Ink.UnityIntegration {
+namespace Ink.Editor.Core.Ink_Library {
 	// Helper class for ink files that maintains INCLUDE connections between ink files
 	[Serializable]
 	public class InkFile {

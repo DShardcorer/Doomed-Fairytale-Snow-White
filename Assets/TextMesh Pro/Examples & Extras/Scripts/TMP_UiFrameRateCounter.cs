@@ -1,8 +1,7 @@
-﻿using UnityEngine;
-using System.Collections;
+﻿using TMPro;
+using UnityEngine;
 
-
-namespace TMPro.Examples
+namespace TextMesh_Pro.Examples___Extras.Scripts
 {
 
     public class TMP_UiFrameRateCounter : MonoBehaviour
@@ -36,8 +35,8 @@ namespace TMPro.Examples
             m_frameCounter_transform.SetParent(this.transform, false);
 
             m_TextMeshPro = frameCounter.AddComponent<TextMeshProUGUI>();
-            m_TextMeshPro.font = Resources.Load<TMP_FontAsset>("Fonts & Materials/LiberationSans SDF");
-            m_TextMeshPro.fontSharedMaterial = Resources.Load<Material>("Fonts & Materials/LiberationSans SDF - Overlay");
+            m_TextMeshPro.font = UnityEngine.Resources.Load<TMP_FontAsset>("Fonts & Materials/LiberationSans SDF");
+            m_TextMeshPro.fontSharedMaterial = UnityEngine.Resources.Load<Material>("Fonts & Materials/LiberationSans SDF - Overlay");
 
             m_TextMeshPro.textWrappingMode = TextWrappingModes.NoWrap;
             m_TextMeshPro.fontSize = 36;

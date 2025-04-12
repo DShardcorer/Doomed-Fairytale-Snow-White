@@ -1,16 +1,18 @@
-using UnityEngine;
-using UnityEditor;
 using System.Collections;
 using System.Collections.Generic;
 using System.IO;
 using System.Linq;
+using Ink.Editor.Core.Compiler.Auto_Compiler;
+using Ink.Editor.Core.Ink_Settings;
+using UnityEditor;
+using UnityEngine;
 using Debug = UnityEngine.Debug;
 
 /// <summary>
 /// Holds a reference to an InkFile object for every .ink file detected in the Assets folder.
 /// Provides helper functions to easily obtain these files.
 /// </summary>
-namespace Ink.UnityIntegration {
+namespace Ink.Editor.Core.Ink_Library {
     #if UNITY_2020_1_OR_NEWER
     [FilePath("Library/asset", FilePathAttribute.Location.ProjectFolder)]
 	public class InkLibrary : ScriptableSingleton<InkLibrary>, IEnumerable<InkFile> {

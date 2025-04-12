@@ -1,10 +1,9 @@
-﻿using System;
+﻿using System.Collections.Generic;
 using System.Diagnostics;
-using System.Collections.Generic;
-using System.Text;
 using System.Linq;
+using System.Text;
 
-namespace Ink.Runtime
+namespace Ink.InkLibs.InkRuntime
 {
 	/// <summary>
 	/// Simple ink profiler that logs every instruction in the story and counts frequency and timing.
@@ -228,7 +227,7 @@ namespace Ink.Runtime
 
 		struct StepDetails {
 			public string type;
-			public Runtime.Object obj;
+			public Object obj;
 			public double time;
 		}
 		List<StepDetails> _stepDetails = new List<StepDetails>();

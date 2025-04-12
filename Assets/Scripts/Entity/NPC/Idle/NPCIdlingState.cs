@@ -1,28 +1,30 @@
 using UnityEngine;
 
-public class NPCIdlingState : NPCState
+namespace Entity.NPC.Idle
 {
-    private NPCIdlingProperties _npcIdlingProperties;
-
-    public NPCIdlingState(string animationBoolName, NPCIdlingProperties entityStateProperties) : base(animationBoolName, entityStateProperties)
+    public class NPCIdlingState : NPCState
     {
-        _npcIdlingProperties = entityStateProperties;
-    }
+        private NPCIdlingProperties _npcIdlingProperties;
 
-    public override void EnterState()
-    {
-        base.EnterState();
-        _stateTimer = _npcIdlingProperties.IdleTime;
-    }
-
-    public override void FixedUpdateState()
-    {
-        base.FixedUpdateState();
-        _stateTimer -= Time.fixedDeltaTime;
-        if (_stateTimer <= 0)
+        public NPCIdlingState(string animationBoolName, NPCIdlingProperties entityStateProperties) : base(animationBoolName, entityStateProperties)
         {
-            _stateMachine.ChangeState(_npc.NPCMovingState);
+            _npcIdlingProperties = entityStateProperties;
         }
-        base.FixedUpdateState();
+
+        public override void EnterState()
+        {
+            base.EnterState();
+            _stateTimer = _npcIdlingProperties.IdleTime;
+        }
+
+        public override void FixedUpdateState()
+        {
+            base.FixedUpdateState();
+            _stateTimer -= Time.fixedDeltaTime;
+            if (_stateTimer <= 0)
+            {
+                _stateMachine.ChangeState(_npc.NPCMovingState);
+            }
+        }
     }
 }

@@ -1,35 +1,38 @@
-
+using GeneralManagers;
 using UnityEngine;
 using UnityEngine.EventSystems;
 
-public class PlayerInventoryTabUI : MonoBehaviour, IPointerDownHandler, ILifecycle<PlayerInventoryUI>
+namespace UI.Player.Inventory
 {
-    private PlayerInventoryUI _playerInventoryUI;
-    public PlayerInventoryUI PlayerInventoryUI => _playerInventoryUI;
-    public PlayerInventoryType playerInventoryType;
-    public void Initialize(PlayerInventoryUI parent)
+    public class PlayerInventoryTabUI : MonoBehaviour, IPointerDownHandler, ILifecycle<PlayerInventoryUI>
     {
-        _playerInventoryUI = parent;
-    }
+        private PlayerInventoryUI _playerInventoryUI;
+        public PlayerInventoryUI PlayerInventoryUI => _playerInventoryUI;
+        public PlayerInventoryType playerInventoryType;
+        public void Initialize(PlayerInventoryUI parent)
+        {
+            _playerInventoryUI = parent;
+        }
 
-    public void Dispose()
-    {
-        _playerInventoryUI = null;
-    }
+        public void Dispose()
+        {
+            _playerInventoryUI = null;
+        }
 
-    public void OnPointerDown(PointerEventData eventData)
-    {
-        _playerInventoryUI.SwitchToInventoryType(playerInventoryType);
-    }
+        public void OnPointerDown(PointerEventData eventData)
+        {
+            _playerInventoryUI.SwitchToInventoryType(playerInventoryType);
+        }
 
-    public void SelectTab()
-    {
-        gameObject.GetComponent<CanvasGroup>().alpha = 1f;
-    }
+        public void SelectTab()
+        {
+            gameObject.GetComponent<CanvasGroup>().alpha = 1f;
+        }
 
-    public void DeselectTab()
-    {
-        gameObject.GetComponent<CanvasGroup>().alpha = 0.5f;
+        public void DeselectTab()
+        {
+            gameObject.GetComponent<CanvasGroup>().alpha = 0.5f;
+        }
     }
 }
 

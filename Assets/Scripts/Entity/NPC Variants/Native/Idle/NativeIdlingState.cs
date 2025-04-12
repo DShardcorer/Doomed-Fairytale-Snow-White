@@ -1,8 +1,11 @@
-using UnityEngine;
+using Entity.NPC.Idle;
 
-public class NativeIdlingState : NPCIdlingState
+namespace Entity.NPC_Variants.Native.Idle
 {
-    public NativeIdlingState(string animationBoolName, NativeIdlingProperties entityStateProperties) : base(animationBoolName, entityStateProperties)
+    public class NativeIdlingState : NPCIdlingState
     {
+        public NativeIdlingState(string animationBoolName, NativeIdlingProperties entityStateProperties) : base(animationBoolName, entityStateProperties)
+        {
+        }
     }
 }

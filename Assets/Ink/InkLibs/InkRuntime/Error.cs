@@ -1,4 +1,4 @@
-﻿namespace Ink
+﻿namespace Ink.InkLibs.InkRuntime
 {
     /// <summary>
     /// Callback for errors throughout both the ink runtime and compiler.

@@ -1,6 +1,8 @@
-﻿namespace Ink.Parsed
+﻿using Ink.InkLibs.InkRuntime;
+
+namespace Ink.InkLibs.InkCompiler.ParsedHierarchy
 {
-    public class Return : Parsed.Object
+    public class Return : Object
     {
         public Expression returnedExpression { get; protected set; }
 
@@ -11,9 +13,9 @@
             }
         }
 
-        public override Runtime.Object GenerateRuntimeObject ()
+        public override InkRuntime.Object GenerateRuntimeObject ()
         {
-            var container = new Runtime.Container ();
+            var container = new Container ();
 
             // Evaluate expression
             if (returnedExpression) {
@@ -23,14 +25,14 @@
             // Return Runtime.Void when there's no expression to evaluate
             // (This evaluation will just add the Void object to the evaluation stack)
             else {
-                container.AddContent (Runtime.ControlCommand.EvalStart ());
-                container.AddContent (new Runtime.Void());
-                container.AddContent (Runtime.ControlCommand.EvalEnd ());
+                container.AddContent (ControlCommand.EvalStart ());
+                container.AddContent (new Void());
+                container.AddContent (ControlCommand.EvalEnd ());
             }
 
             // Then pop the call stack
             // (the evaluated expression will leave the return value on the evaluation stack)
-            container.AddContent (Runtime.ControlCommand.PopFunction());
+            container.AddContent (ControlCommand.PopFunction());
 
             return container;
         }

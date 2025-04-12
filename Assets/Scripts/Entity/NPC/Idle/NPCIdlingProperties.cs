@@ -1,17 +1,19 @@
 using System;
-using UnityEngine;
 
-public class NPCIdlingProperties: EntityStateProperties
+namespace Entity.NPC.Idle
 {
-    private float idleTime = 2.0f;
-    public float IdleTime => idleTime;
-
-    public NPCIdlingProperties(float idleTime)
+    public class NPCIdlingProperties: EntityStateProperties
     {
-        this.idleTime = idleTime;
-    }
+        private float idleTime = 2.0f;
+        public float IdleTime => idleTime;
 
-    protected override void UpdateDerivedProperties(object sender, EventArgs e)
-    {
+        public NPCIdlingProperties(float idleTime)
+        {
+            this.idleTime = idleTime;
+        }
+
+        protected override void UpdateDerivedProperties(object sender, EventArgs e)
+        {
+        }
     }
 }

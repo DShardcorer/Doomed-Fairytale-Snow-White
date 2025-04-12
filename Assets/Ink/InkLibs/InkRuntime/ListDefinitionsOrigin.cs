@@ -1,12 +1,12 @@
 ﻿using System.Collections.Generic;
 
-namespace Ink.Runtime
+namespace Ink.InkLibs.InkRuntime
 {
     public class ListDefinitionsOrigin
     {
-        public List<Runtime.ListDefinition> lists {
+        public List<ListDefinition> lists {
             get {
-                var listOfLists = new List<Runtime.ListDefinition> ();
+                var listOfLists = new List<ListDefinition> ();
                 foreach (var namedList in _lists) {
                     listOfLists.Add (namedList.Value);
                 }
@@ -14,7 +14,7 @@ namespace Ink.Runtime
             }
         }
 
-        public ListDefinitionsOrigin (List<Runtime.ListDefinition> lists)
+        public ListDefinitionsOrigin (List<ListDefinition> lists)
         {
             _lists = new Dictionary<string, ListDefinition> ();
 			_allUnambiguousListValueCache = new Dictionary<string, ListValue>();
@@ -47,7 +47,7 @@ namespace Ink.Runtime
 			return val;
         }
 
-        Dictionary<string, Runtime.ListDefinition> _lists;
+        Dictionary<string, ListDefinition> _lists;
 		Dictionary<string, ListValue> _allUnambiguousListValueCache;
     }
 }

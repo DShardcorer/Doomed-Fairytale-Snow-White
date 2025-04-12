@@ -1,12 +1,11 @@
-﻿using System;
-using System.Collections.Generic;
+﻿using System.Collections.Generic;
 using System.Linq;
 
-namespace Ink.Runtime
+namespace Ink.InkLibs.InkRuntime
 {
     public static class Json
     {
-        public static List<T> JArrayToRuntimeObjList<T>(List<object> jArray, bool skipLast=false) where T : Runtime.Object
+        public static List<T> JArrayToRuntimeObjList<T>(List<object> jArray, bool skipLast=false) where T : Object
         {
             int count = jArray.Count;
             if (skipLast)
@@ -23,12 +22,12 @@ namespace Ink.Runtime
             return list;
         }
 
-        public static List<Runtime.Object> JArrayToRuntimeObjList(List<object> jArray, bool skipLast=false)
+        public static List<Object> JArrayToRuntimeObjList(List<object> jArray, bool skipLast=false)
         {
-            return JArrayToRuntimeObjList<Runtime.Object> (jArray, skipLast);
+            return JArrayToRuntimeObjList<Object> (jArray, skipLast);
         }
 
-        public static void WriteDictionaryRuntimeObjs(SimpleJson.Writer writer, Dictionary<string, Runtime.Object> dictionary) 
+        public static void WriteDictionaryRuntimeObjs(SimpleJson.Writer writer, Dictionary<string, Object> dictionary) 
         {
             writer.WriteObjectStart();
             foreach(var keyVal in dictionary) {
@@ -40,7 +39,7 @@ namespace Ink.Runtime
         }
 
 
-        public static void WriteListRuntimeObjs(SimpleJson.Writer writer, List<Runtime.Object> list)
+        public static void WriteListRuntimeObjs(SimpleJson.Writer writer, List<Object> list)
         {
             writer.WriteArrayStart();
             foreach (var val in list)
@@ -58,7 +57,7 @@ namespace Ink.Runtime
             writer.WriteObjectEnd();
         }
 
-        public static void WriteRuntimeObject(SimpleJson.Writer writer, Runtime.Object obj)
+        public static void WriteRuntimeObject(SimpleJson.Writer writer, Object obj)
         {
             var container = obj as Container;
             if (container) {
@@ -171,7 +170,7 @@ namespace Ink.Runtime
                 return;
             }
 
-            var glue = obj as Runtime.Glue;
+            var glue = obj as Glue;
             if (glue) {
                 writer.Write("<>");
                 return;
@@ -184,7 +183,7 @@ namespace Ink.Runtime
                 return;
             }
 
-            var nativeFunc = obj as Runtime.NativeFunctionCall;
+            var nativeFunc = obj as NativeFunctionCall;
             if (nativeFunc)
             {
                 var name = nativeFunc.name;
@@ -262,9 +261,9 @@ namespace Ink.Runtime
             throw new System.Exception("Failed to write runtime object to JSON: " + obj);
         }
 
-        public static Dictionary<string, Runtime.Object> JObjectToDictionaryRuntimeObjs(Dictionary<string, object> jObject)
+        public static Dictionary<string, Object> JObjectToDictionaryRuntimeObjs(Dictionary<string, object> jObject)
         {
-            var dict = new Dictionary<string, Runtime.Object> (jObject.Count);
+            var dict = new Dictionary<string, Object> (jObject.Count);
 
             foreach (var keyVal in jObject) {
                 dict [keyVal.Key] = JTokenToRuntimeObject(keyVal.Value);
@@ -328,7 +327,7 @@ namespace Ink.Runtime
         //                 there's not likely to be many of them.
         // 
         // Tag:            {"#": "the tag text"}
-        public static Runtime.Object JTokenToRuntimeObject(object token)
+        public static Object JTokenToRuntimeObject(object token)
         {
             if (token is int || token is float || token is bool) {
                 return Value.Create (token);
@@ -345,13 +344,13 @@ namespace Ink.Runtime
                     return new StringValue ("\n");
 
                 // Glue
-                if (str == "<>") return new Runtime.Glue ();
+                if (str == "<>") return new Glue ();
 
                 // Control commands (would looking up in a hash set be faster?)
                 for (int i = 0; i < _controlCommandNames.Length; ++i) {
                     string cmdName = _controlCommandNames [i];
                     if (str == cmdName) {
-                        return new Runtime.ControlCommand ((ControlCommand.CommandType)i);
+                        return new ControlCommand ((ControlCommand.CommandType)i);
                     }
                 }
 
@@ -365,13 +364,13 @@ namespace Ink.Runtime
 
                 // Pop
                 if (str == "->->")
-                    return Runtime.ControlCommand.PopTunnel ();
+                    return ControlCommand.PopTunnel ();
                 else if (str == "~ret")
-                    return Runtime.ControlCommand.PopFunction ();
+                    return ControlCommand.PopFunction ();
 
                 // Void
                 if (str == "void")
-                    return new Runtime.Void ();
+                    return new Void ();
             }
 
             if (token is Dictionary<string, object>) {
@@ -478,7 +477,7 @@ namespace Ink.Runtime
 
                 // Legacy Tag with text
                 if (obj.TryGetValue ("#", out propValue)) {
-                    return new Runtime.Tag((string)propValue);
+                    return new Tag((string)propValue);
                 }
 
                 // List value
@@ -570,7 +569,7 @@ namespace Ink.Runtime
             var terminatingObj = jArray [jArray.Count - 1] as Dictionary<string, object>;
             if (terminatingObj != null) {
 
-                var namedOnlyContent = new Dictionary<string, Runtime.Object> (terminatingObj.Count);
+                var namedOnlyContent = new Dictionary<string, Object> (terminatingObj.Count);
 
                 foreach (var keyVal in terminatingObj) {
                     if (keyVal.Key == "#f") {

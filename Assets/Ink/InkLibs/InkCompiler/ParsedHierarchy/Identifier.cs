@@ -1,7 +1,9 @@
-namespace Ink.Parsed {
+using Ink.InkLibs.InkRuntime;
+
+namespace Ink.InkLibs.InkCompiler.ParsedHierarchy {
     public class Identifier {
         public string name;
-        public Runtime.DebugMetadata debugMetadata;
+        public DebugMetadata debugMetadata;
 
         public override string ToString()
         {

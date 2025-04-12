@@ -1,15 +1,19 @@
-﻿using UnityEngine;
-using UnityEditor;
-using System;
+﻿using System;
 using System.IO;
-using System.Text;
 using System.Linq;
-using Ink.Runtime;
-using UnityEditor.ProjectWindowCallback;
+using System.Text;
+using Ink.Editor.Core.Compiler;
+using Ink.Editor.Core.Ink_Library;
+using Ink.Editor.Core.Ink_Settings;
+using Ink.Editor.Tools.File_Icons;
+using Ink.InkLibs.InkRuntime;
+using UnityEditor;
 using UnityEditor.Callbacks;
+using UnityEditor.ProjectWindowCallback;
+using UnityEngine;
 using Path = System.IO.Path;
 
-namespace Ink.UnityIntegration {
+namespace Ink.Editor.Core {
 	[InitializeOnLoad]
 	public static class InkEditorUtils {
 		class CreateInkAssetAction : EndNameEditAction {
@@ -142,7 +146,7 @@ namespace Ink.UnityIntegration {
 			Application.OpenURL("https://www.patreon.com/inkle");
 		}
 
-		[PostProcessBuildAttribute(-1)]
+		[PostProcessBuild(-1)]
 		public static void OnPostprocessBuild(BuildTarget target, string pathToBuiltProject) {
 			if(!Debug.isDebugBuild) {
 				var color = EditorGUIUtility.isProSkin ? "#3498db" : "blue";

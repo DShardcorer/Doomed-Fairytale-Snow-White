@@ -1,9 +1,9 @@
 ﻿using System;
 using System.Collections.Generic;
-using Ink.Runtime;
+using Ink.InkLibs.InkRuntime;
 using UnityEngine;
 
-namespace Ink.UnityIntegration.Debugging {
+namespace Ink.Editor.Tools.Player_Window {
     [System.Serializable]
     public class InkHistoryContentItem {
         public enum ContentType {

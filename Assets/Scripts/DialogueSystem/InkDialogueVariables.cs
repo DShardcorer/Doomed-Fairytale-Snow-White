@@ -1,54 +1,58 @@
 using System.Collections.Generic;
-using Ink.Runtime;
+using Ink.InkLibs.InkRuntime;
 using UnityEngine;
+using Object = Ink.InkLibs.InkRuntime.Object;
 
-public class InkDialogueVariables
+namespace DialogueSystem
 {
-    private Dictionary<string, Ink.Runtime.Object> variables;
-
-    public InkDialogueVariables(Story inkGlobalsStory)
+    public class InkDialogueVariables
     {
-        variables = new Dictionary<string, Ink.Runtime.Object>();
-        foreach (string name in inkGlobalsStory.variablesState)
+        private Dictionary<string, Object> variables;
+
+        public InkDialogueVariables(Story inkGlobalsStory)
         {
-            Ink.Runtime.Object value = inkGlobalsStory.variablesState.GetVariableWithName(name);
-            variables.Add(name, value);
+            variables = new Dictionary<string, Object>();
+            foreach (string name in inkGlobalsStory.variablesState)
+            {
+                Object value = inkGlobalsStory.variablesState.GetVariableWithName(name);
+                variables.Add(name, value);
+
+            }
+        }
+        public void SyncVariablesAndStartListening(Story story)
+        {
+            SyncVariablesToStory(story);
+            story.variablesState.variableChangedEvent += UpdateVariablesState;
 
         }
-    }
-    public void SyncVariablesAndStartListening(Story story)
-    {
-        SyncVariablesToStory(story);
-        story.variablesState.variableChangedEvent += UpdateVariablesState;
-
-    }
-    public void StopListening(Story story)
-    {
-        story.variablesState.variableChangedEvent -= UpdateVariablesState;
-    }
-    public void UpdateVariablesState(string name, Ink.Runtime.Object value)
-    {
-        //only maintain the variables initialized from the ink file
-        if (!variables.ContainsKey(name))
+        public void StopListening(Story story)
         {
-            return;
+            story.variablesState.variableChangedEvent -= UpdateVariablesState;
+        }
+        public void UpdateVariablesState(string name, Object value)
+        {
+            //only maintain the variables initialized from the ink file
+            if (!variables.ContainsKey(name))
+            {
+                return;
+            }
+
+            variables[name] = value;
+            Debug.Log($"Updated dialogue variable: {name} to {value}");
+
         }
 
-        variables[name] = value;
-        Debug.Log($"Updated dialogue variable: {name} to {value}");
-
-    }
-
-    public void SyncVariablesToStory(Story story)
-    {
-        foreach (KeyValuePair<string, Ink.Runtime.Object> kvp in variables)
+        public void SyncVariablesToStory(Story story)
         {
-            story.variablesState.SetGlobal(kvp.Key, kvp.Value);
+            foreach (KeyValuePair<string, Object> kvp in variables)
+            {
+                story.variablesState.SetGlobal(kvp.Key, kvp.Value);
+            }
         }
+
+
+
+
+
     }
-
-
-
-
-
 }

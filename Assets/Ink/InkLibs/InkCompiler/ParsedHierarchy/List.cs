@@ -1,8 +1,9 @@
 ﻿using System.Collections.Generic;
+using Ink.InkLibs.InkRuntime;
 
-namespace Ink.Parsed
+namespace Ink.InkLibs.InkCompiler.ParsedHierarchy
 {
-    public class List : Parsed.Expression
+    public class List : Expression
     {
         public List<Identifier> itemIdentifierList;
 
@@ -11,9 +12,9 @@ namespace Ink.Parsed
             this.itemIdentifierList = itemIdentifierList;
         }
 
-        public override void GenerateIntoContainer (Runtime.Container container)
+        public override void GenerateIntoContainer (Container container)
         {
-            var runtimeRawList = new Runtime.InkList ();
+            var runtimeRawList = new InkList ();
 
             if (itemIdentifierList != null) {
                 foreach (var itemIdentifier in itemIdentifierList) {
@@ -37,7 +38,7 @@ namespace Ink.Parsed
                     } else {
                         if (listName == null)
                             listName = ((ListDefinition)listItem.parent).identifier?.name;
-                        var item = new Runtime.InkListItem (listName, listItem.name);
+                        var item = new InkListItem (listName, listItem.name);
 
                         if (runtimeRawList.ContainsKey (item))
                             Warning ("Duplicate of item '"+itemIdentifier+"' in list.");
@@ -47,7 +48,7 @@ namespace Ink.Parsed
                 }
             }
 
-            container.AddContent(new Runtime.ListValue (runtimeRawList));
+            container.AddContent(new ListValue (runtimeRawList));
         }
     }
 }

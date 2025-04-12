@@ -1,13 +1,17 @@
-﻿using UnityEngine;
-using UnityEditor;
-using System;
+﻿using System;
 using System.Collections.Generic;
 using System.IO;
 using System.Text;
 using System.Threading;
+using Ink.Editor.Core.Ink_Library;
+using Ink.Editor.Core.Ink_Settings;
+using Ink.InkLibs.InkRuntime;
+using UnityEditor;
+using UnityEngine;
 using Debug = UnityEngine.Debug;
+using Path = System.IO.Path;
 
-namespace Ink.UnityIntegration {
+namespace Ink.Editor.Core.Compiler {
 	// Ink Compiler handles the compilation of Ink Files, storing and logging todos, warnings and errors.
 	// It manages a queue of items, ensuring that each file is completed in sequence.
 	
@@ -557,7 +561,7 @@ namespace Ink.UnityIntegration {
 			if(item.state != CompilationStackItemState.Compiling) Debug.LogError("File passed to CompileInkThreaded is not in Compiling state.");
 
 			var inputString = File.ReadAllText(item.inkAbsoluteFilePath);
-			var compiler = new Compiler(inputString, new Compiler.Options
+			var compiler = new InkLibs.InkCompiler.Compiler(inputString, new InkLibs.InkCompiler.Compiler.Options
 			{
 				countAllVisits = true,
 				fileHandler = new UnityInkFileHandler(Path.GetDirectoryName(item.inkAbsoluteFilePath)),

@@ -1,16 +1,18 @@
 using System;
-using UnityEngine;
 
-[Serializable]
-public class QuestData
+namespace QuestSystem
 {
-    public QuestState questState;
-    public int currentQuestStepIndex;
-    public QuestStepState[] questStepStates;
-    public QuestData(QuestState questState, int currentQuestStepIndex, QuestStepState[] questStepStates)
+    [Serializable]
+    public class QuestData
     {
-        this.questState = questState;
-        this.currentQuestStepIndex = currentQuestStepIndex;
-        this.questStepStates = questStepStates;
+        public QuestState questState;
+        public int currentQuestStepIndex;
+        public QuestStepState[] questStepStates;
+        public QuestData(QuestState questState, int currentQuestStepIndex, QuestStepState[] questStepStates)
+        {
+            this.questState = questState;
+            this.currentQuestStepIndex = currentQuestStepIndex;
+            this.questStepStates = questStepStates;
+        }
     }
 }

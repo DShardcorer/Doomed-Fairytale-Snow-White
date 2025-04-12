@@ -1,7 +1,8 @@
 ﻿using System.Collections.Generic;
 using System.Linq;
+using Ink.InkLibs.InkRuntime;
 
-namespace Ink.Parsed
+namespace Ink.InkLibs.InkCompiler.ParsedHierarchy
 {
     public class VariableReference : Expression
     {
@@ -38,7 +39,7 @@ namespace Ink.Parsed
         public bool isConstantReference;
         public bool isListItemReference;
 
-        public Runtime.VariableReference runtimeVarRef { get { return _runtimeVarRef; } }
+        public InkRuntime.VariableReference runtimeVarRef { get { return _runtimeVarRef; } }
 
         public VariableReference (List<Identifier> pathIdentifiers)
         {
@@ -47,7 +48,7 @@ namespace Ink.Parsed
             this.name = string.Join (".", pathIdentifiers);
         }
 
-        public override void GenerateIntoContainer (Runtime.Container container)
+        public override void GenerateIntoContainer (Container container)
         {
             Expression constantValue = null;
 
@@ -61,7 +62,7 @@ namespace Ink.Parsed
                 return;
             }
 
-            _runtimeVarRef = new Runtime.VariableReference (name);
+            _runtimeVarRef = new InkRuntime.VariableReference (name);
 
             // List item reference?
             // Path might be to a list (listName.listItemName or just listItemName)
@@ -95,7 +96,7 @@ namespace Ink.Parsed
 
             // Is it a read count?
             var parsedPath = new Path (pathIdentifiers);
-            Parsed.Object targetForCount = parsedPath.ResolveFromContext (this);
+            Object targetForCount = parsedPath.ResolveFromContext (this);
             if (targetForCount) {
 
                 targetForCount.containerForCounting.visitsShouldBeCounted = true;
@@ -146,7 +147,7 @@ namespace Ink.Parsed
             return string.Join(".", path.ToArray());
         }
 
-        Runtime.VariableReference _runtimeVarRef;
+        InkRuntime.VariableReference _runtimeVarRef;
     }
 }
 

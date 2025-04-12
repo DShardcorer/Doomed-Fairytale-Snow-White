@@ -1,14 +1,16 @@
 ﻿using System.Collections.Generic;
-using Ink.Parsed;
 using System.Linq;
+using Ink.InkLibs.InkCompiler.ParsedHierarchy;
+using Ink.InkLibs.InkRuntime;
+using Object = Ink.InkLibs.InkCompiler.ParsedHierarchy.Object;
 
-namespace Ink
+namespace Ink.InkLibs.InkCompiler.InkParser
 {
 	public partial class InkParser
 	{
         protected class NameWithMetadata {
             public string name;
-            public Runtime.DebugMetadata metadata;
+            public DebugMetadata metadata;
         }
 
         protected class FlowDecl
@@ -28,7 +30,7 @@ namespace Ink
 
 			ParseRule innerKnotStatements = () => StatementsAtLevel (StatementLevel.Knot);
 
-            var content = Expect (innerKnotStatements, "at least one line within the knot", recoveryRule: KnotStitchNoContentRecoveryRule) as List<Parsed.Object>;
+            var content = Expect (innerKnotStatements, "at least one line within the knot", recoveryRule: KnotStitchNoContentRecoveryRule) as List<Object>;
 
             return new Knot (knotDecl.name, content, knotDecl.arguments, knotDecl.isFunction);
 		}
@@ -92,7 +94,7 @@ namespace Ink
 
 			ParseRule innerStitchStatements = () => StatementsAtLevel (StatementLevel.Stitch);
 
-            var content = Expect(innerStitchStatements, "at least one line within the stitch", recoveryRule: KnotStitchNoContentRecoveryRule) as List<Parsed.Object>;
+            var content = Expect(innerStitchStatements, "at least one line within the stitch", recoveryRule: KnotStitchNoContentRecoveryRule) as List<Object>;
 
             return new Stitch (decl.name, content, decl.arguments, decl.isFunction );
 		}
@@ -136,8 +138,8 @@ namespace Ink
             // Jump ahead to the next knot or the end of the file
             ParseUntil (KnotDeclaration, new CharacterSet ("="), null);
 
-            var recoveredFlowContent = new List<Parsed.Object>();
-			recoveredFlowContent.Add( new Parsed.Text("<ERROR IN FLOW>" ) );
+            var recoveredFlowContent = new List<Object>();
+			recoveredFlowContent.Add( new Text("<ERROR IN FLOW>" ) );
 			return recoveredFlowContent;
 		}
 

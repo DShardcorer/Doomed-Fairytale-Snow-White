@@ -1,4 +1,6 @@
-﻿using System.IO;
+﻿using Ink.Editor.Core;
+using Ink.Editor.Core.Ink_Library;
+using Ink.Editor.Core.Ink_Settings;
 using UnityEditor;
 using UnityEngine;
 
@@ -7,7 +9,7 @@ using UnityEngine;
 * Recommended icon sizes - small: 16x16 px, large: 64x64 px;
 */
 
-namespace Ink.UnityIntegration {
+namespace Ink.Editor.Tools.File_Icons {
 	[InitializeOnLoad]
 	public class InkBrowserIcons {
 		private static bool isRetina {

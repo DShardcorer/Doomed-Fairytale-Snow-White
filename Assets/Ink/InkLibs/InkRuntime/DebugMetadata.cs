@@ -1,6 +1,6 @@
 ﻿using System;
 
-namespace Ink.Runtime
+namespace Ink.InkLibs.InkRuntime
 {
     public class DebugMetadata
     {

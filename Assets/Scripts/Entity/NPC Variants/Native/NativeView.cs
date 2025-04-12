@@ -1,8 +1,11 @@
-using UnityEngine;
+using Entity.NPC;
 
-public class NativeView : NPCView
+namespace Entity.NPC_Variants.Native
 {
+    public class NativeView : NPCView
+    {
 
 
 
+    }
 }

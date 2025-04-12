@@ -1,35 +1,38 @@
 using System;
 using UnityEngine;
 
-public class NativeMeleeAttackingState : NativeAttackingState
+namespace Entity.NPC_Variants.Native.Attack
 {
-    public NativeMeleeAttackingState(string animationBoolName, NativeAttackingProperties entityStateProperties) : base(animationBoolName, entityStateProperties)
+    public class NativeMeleeAttackingState : NativeAttackingState
     {
-    }
-
-    public override void EnterState()
-    {
-        base.EnterState();
-    }
-    public override void FixedUpdateState()
-    {
-
-        //If target is out of attack range, chase the target
-        if (Vector3.Distance(_npc.View.transform.position, _properties.target.View.transform.position) >_nativeAttackingProperties.AttackRange)
+        public NativeMeleeAttackingState(string animationBoolName, NativeAttackingProperties entityStateProperties) : base(animationBoolName, entityStateProperties)
         {
-            _stateMachine.ChangeState(_npc.NPCChasingState);
         }
 
-        if (_properties.target == null)
+        public override void EnterState()
         {
-            _stateMachine.ChangeState(_npc.NPCIdlingState);
+            base.EnterState();
         }
-        base.FixedUpdateState();
-    }
+        public override void FixedUpdateState()
+        {
 
-    protected override void OnTakingEffect(object sender, EventArgs e)
-    {
-        _entity.AttackHitbox.PerformAttack( _nativeAttackingProperties.AttackType, _nativeAttackingProperties.AttackDamage);
-    }
+            //If target is out of attack range, chase the target
+            if (Vector3.Distance(_npc.View.transform.position, _properties.target.View.transform.position) >_nativeAttackingProperties.AttackRange)
+            {
+                _stateMachine.ChangeState(_npc.NPCChasingState);
+            }
 
+            if (_properties.target == null)
+            {
+                _stateMachine.ChangeState(_npc.NPCIdlingState);
+            }
+            base.FixedUpdateState();
+        }
+
+        protected override void OnTakingEffect(object sender, EventArgs e)
+        {
+            _entity.AttackHitbox.PerformAttack( _nativeAttackingProperties.AttackType, _nativeAttackingProperties.AttackDamage);
+        }
+
+    }
 }

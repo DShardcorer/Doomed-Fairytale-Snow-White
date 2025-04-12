@@ -1,11 +1,14 @@
-public class CombatStat
+namespace EntitySystems.Stats
 {
-    public float BaseValue { get; set; }
-    public float ModifiedValue { get; set; }
-
-    public CombatStat(float baseValue = 10)
+    public class CombatStat
     {
-        BaseValue = baseValue;
-        ModifiedValue = baseValue;
+        public float BaseValue { get; set; }
+        public float ModifiedValue { get; set; }
+
+        public CombatStat(float baseValue = 10)
+        {
+            BaseValue = baseValue;
+            ModifiedValue = baseValue;
+        }
     }
 }

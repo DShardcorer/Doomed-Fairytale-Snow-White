@@ -1,9 +1,10 @@
 ﻿using System.Collections.Generic;
+using Ink.InkLibs.InkRuntime;
 
-namespace Ink.Parsed
+namespace Ink.InkLibs.InkCompiler.ParsedHierarchy
 {
 	// Base class for Knots and Stitches
-    public abstract class FlowBase : Parsed.Object, INamedContent
+    public abstract class FlowBase : Object, INamedContent
 	{
         public class Argument
         {
@@ -24,12 +25,12 @@ namespace Ink.Parsed
         public abstract FlowLevel flowLevel { get; }
         public bool isFunction { get; protected set; }
 
-        public FlowBase (Identifier name = null, List<Parsed.Object> topLevelObjects = null, List<Argument> arguments = null, bool isFunction = false, bool isIncludedStory = false)
+        public FlowBase (Identifier name = null, List<Object> topLevelObjects = null, List<Argument> arguments = null, bool isFunction = false, bool isIncludedStory = false)
 		{
 			this.identifier = name;
 
 			if (topLevelObjects == null) {
-				topLevelObjects = new List<Parsed.Object> ();
+				topLevelObjects = new List<Object> ();
 			}
 
             // Used by story to add includes
@@ -44,10 +45,10 @@ namespace Ink.Parsed
             this.variableDeclarations = new Dictionary<string, VariableAssignment> ();
 		}
 
-        List<Parsed.Object> SplitWeaveAndSubFlowContent(List<Parsed.Object> contentObjs, bool isRootStory)
+        List<Object> SplitWeaveAndSubFlowContent(List<Object> contentObjs, bool isRootStory)
         {
-            var weaveObjs = new List<Parsed.Object> ();
-            var subFlowObjs = new List<Parsed.Object> ();
+            var weaveObjs = new List<Object> ();
+            var subFlowObjs = new List<Object> ();
 
             _subFlowsByName = new Dictionary<string, FlowBase> ();
 
@@ -71,7 +72,7 @@ namespace Ink.Parsed
             	weaveObjs.Add (new Divert (new Path (Identifier.Done)));
             }
 
-            var finalContent = new List<Parsed.Object> ();
+            var finalContent = new List<Object> ();
 
             if (weaveObjs.Count > 0) {
                 _rootWeave = new Weave (weaveObjs, 0);
@@ -85,7 +86,7 @@ namespace Ink.Parsed
             return finalContent;
         }
 
-        protected virtual void PreProcessTopLevelObjects(List<Parsed.Object> topLevelObjects)
+        protected virtual void PreProcessTopLevelObjects(List<Object> topLevelObjects)
         {
             // empty by default, used by Story to process included file references
         }
@@ -99,7 +100,7 @@ namespace Ink.Parsed
             public FlowBase ownerFlow;
         }
 
-        public VariableResolveResult ResolveVariableWithName(string varName, Parsed.Object fromNode)
+        public VariableResolveResult ResolveVariableWithName(string varName, Object fromNode)
         {
             var result = new VariableResolveResult ();
 
@@ -171,7 +172,7 @@ namespace Ink.Parsed
             }
         }
 
-        public override Runtime.Object GenerateRuntimeObject ()
+        public override InkRuntime.Object GenerateRuntimeObject ()
         {
             Return foundReturn = null;
             if (isFunction) {
@@ -186,7 +187,7 @@ namespace Ink.Parsed
                 }
             }
 
-            var container = new Runtime.Container ();
+            var container = new Container ();
             container.name = identifier?.name;
 
             if( this.story.countAllVisits ) {
@@ -207,7 +208,7 @@ namespace Ink.Parsed
             int contentIdx = 0;
             while (content != null && contentIdx < content.Count) {
 
-                Parsed.Object obj = content [contentIdx];
+                Object obj = content [contentIdx];
 
                 // Inner knots and stitches
                 if (obj is FlowBase) {
@@ -220,19 +221,19 @@ namespace Ink.Parsed
                     // 20/09/2016 - let's not auto step into knots
                     if (contentIdx == 0 && !childFlow.hasParameters
                         && this.flowLevel == FlowLevel.Knot) {
-                        _startingSubFlowDivert = new Runtime.Divert ();
+                        _startingSubFlowDivert = new InkRuntime.Divert ();
                         container.AddContent(_startingSubFlowDivert);
                         _startingSubFlowRuntime = childFlowRuntime;
                     }
 
                     // Check for duplicate knots/stitches with same name
-                    var namedChild = (Runtime.INamedContent)childFlowRuntime;
-                    Runtime.INamedContent existingChild = null;
+                    var namedChild = (InkRuntime.INamedContent)childFlowRuntime;
+                    InkRuntime.INamedContent existingChild = null;
                     if (container.namedContent.TryGetValue(namedChild.name, out existingChild) ) {
                         var errorMsg = string.Format ("{0} already contains flow named '{1}' (at {2})",
                             this.GetType().Name,
                             namedChild.name,
-                            (existingChild as Runtime.Object).debugMetadata);
+                            (existingChild as InkRuntime.Object).debugMetadata);
 
                         Error (errorMsg, childFlow);
                     }
@@ -264,7 +265,7 @@ namespace Ink.Parsed
             return container;
         }
 
-        void GenerateArgumentVariableAssignments(Runtime.Container container)
+        void GenerateArgumentVariableAssignments(Container container)
         {
             if (this.arguments == null || this.arguments.Count == 0) {
                 return;
@@ -276,12 +277,12 @@ namespace Ink.Parsed
             for (int i = arguments.Count - 1; i >= 0; --i) {
                 var paramName = arguments [i].identifier?.name;
 
-                var assign = new Runtime.VariableAssignment (paramName, isNewDeclaration:true);
+                var assign = new InkRuntime.VariableAssignment (paramName, isNewDeclaration:true);
                 container.AddContent (assign);
             }
         }
 
-        public Parsed.Object ContentWithNameAtLevel(string name, FlowLevel? level = null, bool deepSearch = false)
+        public Object ContentWithNameAtLevel(string name, FlowLevel? level = null, bool deepSearch = false)
         {
             // Referencing self?
             if (level == this.flowLevel || level == null) {
@@ -292,10 +293,10 @@ namespace Ink.Parsed
 
             if ( level == FlowLevel.WeavePoint || level == null ) {
 
-                Parsed.Object weavePointResult = null;
+                Object weavePointResult = null;
 
                 if (_rootWeave) {
-                    weavePointResult = (Parsed.Object)_rootWeave.WeavePointNamed (name);
+                    weavePointResult = (Object)_rootWeave.WeavePointNamed (name);
                     if (weavePointResult)
                         return weavePointResult;
                 }
@@ -320,7 +321,7 @@ namespace Ink.Parsed
             return deepSearch ? DeepSearchForAnyLevelContent(name) : null;
         }
 
-        Parsed.Object DeepSearchForAnyLevelContent(string name)
+        Object DeepSearchForAnyLevelContent(string name)
         {
             var weaveResultSelf = ContentWithNameAtLevel (name, level:FlowLevel.WeavePoint, deepSearch: false);
             if (weaveResultSelf) {
@@ -395,7 +396,7 @@ namespace Ink.Parsed
             }
         }
 
-        void WarningInTermination(Parsed.Object terminatingObject)
+        void WarningInTermination(Object terminatingObject)
         {
             string message = "Apparent loose end exists where the flow runs out. Do you need a '-> DONE' statement, choice or divert?";
             if (terminatingObject.parent == _rootWeave && _firstChildFlow) {
@@ -430,8 +431,8 @@ namespace Ink.Parsed
 
         Weave _rootWeave;
         Dictionary<string, FlowBase> _subFlowsByName;
-        Runtime.Divert _startingSubFlowDivert;
-        Runtime.Object _startingSubFlowRuntime;
+        InkRuntime.Divert _startingSubFlowDivert;
+        InkRuntime.Object _startingSubFlowRuntime;
         FlowBase _firstChildFlow;
 
 	}

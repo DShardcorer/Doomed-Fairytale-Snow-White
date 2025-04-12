@@ -1,27 +1,30 @@
 using UnityEngine;
 
-public class ParallaxManager : MonoBehaviour
+namespace Visual_Managers.Parallax
 {
-    public Transform cameraTransform;
-    private Vector3 lastCameraPosition;
-    public ParallaxLayer[] parallaxLayers;
-
-    private void Start()
+    public class ParallaxManager : MonoBehaviour
     {
-        if (cameraTransform == null)
-            cameraTransform = Camera.main.transform;
+        public Transform cameraTransform;
+        private Vector3 lastCameraPosition;
+        public ParallaxLayer[] parallaxLayers;
 
-        lastCameraPosition = cameraTransform.position;
-    }
-
-    private void FixedUpdate() {
-        Vector2 deltaMovement = (Vector2)cameraTransform.position - (Vector2)lastCameraPosition;
-
-        foreach (var layer in parallaxLayers)
+        private void Start()
         {
-            layer.Move(deltaMovement);
+            if (cameraTransform == null)
+                cameraTransform = Camera.main.transform;
+
+            lastCameraPosition = cameraTransform.position;
         }
 
-        lastCameraPosition = cameraTransform.position;
+        private void FixedUpdate() {
+            Vector2 deltaMovement = (Vector2)cameraTransform.position - (Vector2)lastCameraPosition;
+
+            foreach (var layer in parallaxLayers)
+            {
+                layer.Move(deltaMovement);
+            }
+
+            lastCameraPosition = cameraTransform.position;
+        }
     }
 }

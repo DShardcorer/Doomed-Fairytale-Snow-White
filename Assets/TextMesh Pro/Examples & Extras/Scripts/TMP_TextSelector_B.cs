@@ -1,13 +1,10 @@
-﻿using UnityEngine;
-using UnityEngine.Events;
+﻿using TMPro;
+using UnityEngine;
 using UnityEngine.EventSystems;
-using System.Collections;
-using System.Collections.Generic;
-
 
 #pragma warning disable 0618 // Disabled warning due to SetVertices being deprecated until new release with SetMesh() is available.
 
-namespace TMPro.Examples
+namespace TextMesh_Pro.Examples___Extras.Scripts
 {
 
     public class TMP_TextSelector_B : MonoBehaviour, IPointerEnterHandler, IPointerExitHandler, IPointerClickHandler, IPointerUpHandler
@@ -84,7 +81,7 @@ namespace TMPro.Examples
             {
                 // Check if Mouse Intersects any of the characters. If so, assign a random color.
                 #region Handle Character Selection
-                int charIndex = TMP_TextUtilities.FindIntersectingCharacter(m_TextMeshPro, Input.mousePosition, m_Camera, true);
+                int charIndex = TMP_TextUtilities.FindIntersectingCharacter(m_TextMeshPro, UnityEngine.Input.mousePosition, m_Camera, true);
 
                 // Undo Swap and Vertex Attribute changes.
                 if (charIndex == -1 || charIndex != m_lastIndex)
@@ -93,7 +90,7 @@ namespace TMPro.Examples
                     m_lastIndex = -1;
                 }
 
-                if (charIndex != -1 && charIndex != m_lastIndex && (Input.GetKey(KeyCode.LeftShift) || Input.GetKey(KeyCode.RightShift)))
+                if (charIndex != -1 && charIndex != m_lastIndex && (UnityEngine.Input.GetKey(KeyCode.LeftShift) || UnityEngine.Input.GetKey(KeyCode.RightShift)))
                 {
                     m_lastIndex = charIndex;
 
@@ -166,7 +163,7 @@ namespace TMPro.Examples
 
                 #region Word Selection Handling
                 //Check if Mouse intersects any words and if so assign a random color to that word.
-                int wordIndex = TMP_TextUtilities.FindIntersectingWord(m_TextMeshPro, Input.mousePosition, m_Camera);
+                int wordIndex = TMP_TextUtilities.FindIntersectingWord(m_TextMeshPro, UnityEngine.Input.mousePosition, m_Camera);
 
                 // Clear previous word selection.
                 if (m_TextPopup_RectTransform != null && m_selectedWord != -1 && (wordIndex == -1 || wordIndex != m_selectedWord))
@@ -203,7 +200,7 @@ namespace TMPro.Examples
 
 
                 // Word Selection Handling
-                if (wordIndex != -1 && wordIndex != m_selectedWord && !(Input.GetKey(KeyCode.LeftShift) || Input.GetKey(KeyCode.RightShift)))
+                if (wordIndex != -1 && wordIndex != m_selectedWord && !(UnityEngine.Input.GetKey(KeyCode.LeftShift) || UnityEngine.Input.GetKey(KeyCode.RightShift)))
                 {
                     m_selectedWord = wordIndex;
 
@@ -239,7 +236,7 @@ namespace TMPro.Examples
 
                 #region Example of Link Handling
                 // Check if mouse intersects with any links.
-                int linkIndex = TMP_TextUtilities.FindIntersectingLink(m_TextMeshPro, Input.mousePosition, m_Camera);
+                int linkIndex = TMP_TextUtilities.FindIntersectingLink(m_TextMeshPro, UnityEngine.Input.mousePosition, m_Camera);
 
                 // Clear previous link selection if one existed.
                 if ((linkIndex == -1 && m_selectedLink != -1) || linkIndex != m_selectedLink)
@@ -258,7 +255,7 @@ namespace TMPro.Examples
                     // Debug.Log("Link ID: \"" + linkInfo.GetLinkID() + "\"   Link Text: \"" + linkInfo.GetLinkText() + "\""); // Example of how to retrieve the Link ID and Link Text.
 
                     Vector3 worldPointInRectangle;
-                    RectTransformUtility.ScreenPointToWorldPointInRectangle(m_TextMeshPro.rectTransform, Input.mousePosition, m_Camera, out worldPointInRectangle);
+                    RectTransformUtility.ScreenPointToWorldPointInRectangle(m_TextMeshPro.rectTransform, UnityEngine.Input.mousePosition, m_Camera, out worldPointInRectangle);
 
                     switch (linkInfo.GetLinkID())
                     {

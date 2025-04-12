@@ -1,9 +1,8 @@
-﻿using System;
-using System.Collections.Generic;
+﻿using System.Collections.Generic;
 
-namespace Ink.Parsed
+namespace Ink.InkLibs.InkCompiler.ParsedHierarchy
 {
-    public class ExternalDeclaration : Parsed.Object, INamedContent
+    public class ExternalDeclaration : Object, INamedContent
     {
         public string name
         {
@@ -18,7 +17,7 @@ namespace Ink.Parsed
             this.argumentNames = argumentNames;
         }
 
-        public override Ink.Runtime.Object GenerateRuntimeObject ()
+        public override InkRuntime.Object GenerateRuntimeObject ()
         {
             story.AddExternal (this);
 

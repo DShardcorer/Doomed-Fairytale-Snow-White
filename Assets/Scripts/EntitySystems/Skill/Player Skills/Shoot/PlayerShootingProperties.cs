@@ -1,25 +1,28 @@
 using System;
-using UnityEngine;
+using Entity;
 
-public class PlayerShootingProperties: EntityStateProperties
+namespace EntitySystems.Skill.Player_Skills.Shoot
 {
-    private float _shootDamage = 20;
-    private float _shootRange = 100;
-    private float _shootKnockbackForce =3;
-
-    public float ShootDamage => _shootDamage;
-    public float ShootRange => _shootRange;
-    public float ShootKnockbackForce => _shootKnockbackForce;
-
-    public PlayerShootingProperties(float shootDamage = 20, float shootRange = 100, float shootKnockbackForce = 3)
+    public class PlayerShootingProperties: EntityStateProperties
     {
-        _shootDamage = shootDamage;
-        _shootRange = shootRange;
-        _shootKnockbackForce = shootKnockbackForce;
-    }
+        private float _shootDamage = 20;
+        private float _shootRange = 100;
+        private float _shootKnockbackForce =3;
 
-    protected override void UpdateDerivedProperties(object sender, EventArgs e)
-    {
-        _shootDamage = CombatStatBoard.PhysicalAttack.ModifiedValue;
+        public float ShootDamage => _shootDamage;
+        public float ShootRange => _shootRange;
+        public float ShootKnockbackForce => _shootKnockbackForce;
+
+        public PlayerShootingProperties(float shootDamage = 20, float shootRange = 100, float shootKnockbackForce = 3)
+        {
+            _shootDamage = shootDamage;
+            _shootRange = shootRange;
+            _shootKnockbackForce = shootKnockbackForce;
+        }
+
+        protected override void UpdateDerivedProperties(object sender, EventArgs e)
+        {
+            _shootDamage = CombatStatBoard.PhysicalAttack.ModifiedValue;
+        }
     }
 }

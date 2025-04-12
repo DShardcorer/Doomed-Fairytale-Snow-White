@@ -1,12 +1,11 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Text;
+﻿using System.Collections.Generic;
 using System.Runtime.CompilerServices;
-using System.Diagnostics;
+using System.Text;
+using Ink.InkLibs.InkRuntime;
 
 [assembly: InternalsVisibleTo("tests")]
 
-namespace Ink.Parsed
+namespace Ink.InkLibs.InkCompiler.ParsedHierarchy
 {
 	public class Story : FlowBase
     {
@@ -33,7 +32,7 @@ namespace Ink.Parsed
         // larger safe file, with a lot of potentially redundant counts.
         public bool countAllVisits = false;
 
-        public Story (List<Parsed.Object> toplevelObjects, bool isInclude = false) : base(null, toplevelObjects, isIncludedStory:isInclude)
+        public Story (List<Object> toplevelObjects, bool isInclude = false) : base(null, toplevelObjects, isIncludedStory:isInclude)
 		{
             // Don't do anything much on construction, leave it lightweight until
             // the ExportRuntime method is called.
@@ -50,7 +49,7 @@ namespace Ink.Parsed
         // knots/stiches and any other content. Insert the normal content wherever
         // the include statement was, and append the knots/stitches to the very
         // end of the main story.
-        protected override void PreProcessTopLevelObjects(List<Parsed.Object> topLevelContent)
+        protected override void PreProcessTopLevelObjects(List<Object> topLevelContent)
         {
             var flowsFromOtherFiles = new List<FlowBase> ();
 
@@ -69,7 +68,7 @@ namespace Ink.Parsed
                     // line itself is still valid, so we have to handle it here
                     if (file.includedStory) {
 
-                        var nonFlowContent = new List<Parsed.Object> ();
+                        var nonFlowContent = new List<Object> ();
 
                         var subStory = file.includedStory;
 
@@ -85,7 +84,7 @@ namespace Ink.Parsed
                             }
 
                             // Add newline on the end of the include
-                            nonFlowContent.Add (new Parsed.Text ("\n"));
+                            nonFlowContent.Add (new Text ("\n"));
 
                             // Add contents of the file in its place
                             topLevelContent.InsertRange (i, nonFlowContent);
@@ -115,7 +114,7 @@ namespace Ink.Parsed
 
         }
 
-        public Runtime.Story ExportRuntime(ErrorHandler errorHandler = null)
+        public InkRuntime.Story ExportRuntime(ErrorHandler errorHandler = null)
 		{
             _errorHandler = errorHandler;
 
@@ -125,7 +124,7 @@ namespace Ink.Parsed
             foreach (var constDecl in FindAll<ConstantDeclaration> ()) {
 
                 // Check for duplicate definitions
-                Parsed.Expression existingDefinition = null;
+                Expression existingDefinition = null;
                 if (constants.TryGetValue (constDecl.constantName, out existingDefinition)) {
                     if (!existingDefinition.Equals (constDecl.expression)) {
                         var errorMsg = string.Format ("CONST '{0}' has been redefined with a different value. Multiple definitions of the same CONST are valid so long as they contain the same value. Initial definition was on {1}.", constDecl.constantName, existingDefinition.debugMetadata);
@@ -152,15 +151,15 @@ namespace Ink.Parsed
             ResolveWeavePointNaming ();
 
             // Get default implementation of runtimeObject, which calls ContainerBase's generation method
-            var rootContainer = runtimeObject as Runtime.Container;
+            var rootContainer = runtimeObject as Container;
 
             // Export initialisation of global variables
             // TODO: We *could* add this as a declarative block to the story itself...
-            var variableInitialisation = new Runtime.Container ();
-            variableInitialisation.AddContent (Runtime.ControlCommand.EvalStart ());
+            var variableInitialisation = new Container ();
+            variableInitialisation.AddContent (ControlCommand.EvalStart ());
 
             // Global variables are those that are local to the story and marked as global
-            var runtimeLists = new List<Runtime.ListDefinition> ();
+            var runtimeLists = new List<InkRuntime.ListDefinition> ();
             foreach (var nameDeclPair in variableDeclarations) {
                 var varName = nameDeclPair.Key;
                 var varDecl = nameDeclPair.Value;
@@ -174,14 +173,14 @@ namespace Ink.Parsed
                         varDecl.expression.GenerateIntoContainer (variableInitialisation);
                     }
 
-                    var runtimeVarAss = new Runtime.VariableAssignment (varName, isNewDeclaration:true);
+                    var runtimeVarAss = new InkRuntime.VariableAssignment (varName, isNewDeclaration:true);
                     runtimeVarAss.isGlobal = true;
                     variableInitialisation.AddContent (runtimeVarAss);
                 }
             }
 
-            variableInitialisation.AddContent (Runtime.ControlCommand.EvalEnd ());
-            variableInitialisation.AddContent (Runtime.ControlCommand.End ());
+            variableInitialisation.AddContent (ControlCommand.EvalEnd ());
+            variableInitialisation.AddContent (ControlCommand.End ());
 
             if (variableDeclarations.Count > 0) {
                 variableInitialisation.name = "global decl";
@@ -190,10 +189,10 @@ namespace Ink.Parsed
 
             // Signal that it's safe to exit without error, even if there are no choices generated
             // (this only happens at the end of top level content that isn't in any particular knot)
-            rootContainer.AddContent (Runtime.ControlCommand.Done ());
+            rootContainer.AddContent (ControlCommand.Done ());
 
 			// Replace runtimeObject with Story object instead of the Runtime.Container generated by Parsed.ContainerBase
-            var runtimeStory = new Runtime.Story (rootContainer, runtimeLists);
+            var runtimeStory = new InkRuntime.Story (rootContainer, runtimeLists);
 
 			runtimeObject = runtimeStory;
 
@@ -229,7 +228,7 @@ namespace Ink.Parsed
             return list;
         }
 
-        public ListElementDefinition ResolveListItem (string listName, string itemName, Parsed.Object source = null)
+        public ListElementDefinition ResolveListItem (string listName, string itemName, Object source = null)
         {
             ListDefinition listDef = null;
 
@@ -264,14 +263,14 @@ namespace Ink.Parsed
             }
         }
 
-        void FlattenContainersIn (Runtime.Container container)
+        void FlattenContainersIn (Container container)
         {
             // Need to create a collection to hold the inner containers
             // because otherwise we'd end up modifying during iteration
-            var innerContainers = new HashSet<Runtime.Container> ();
+            var innerContainers = new HashSet<Container> ();
 
             foreach (var c in container.content) {
-                var innerContainer = c as Runtime.Container;
+                var innerContainer = c as Container;
                 if (innerContainer)
                     innerContainers.Add (innerContainer);
             }
@@ -280,7 +279,7 @@ namespace Ink.Parsed
             // iterate through their children
             if (container.namedContent != null) {
                 foreach (var keyValue in container.namedContent) {
-                    var namedInnerContainer = keyValue.Value as Runtime.Container;
+                    var namedInnerContainer = keyValue.Value as Container;
                     if (namedInnerContainer)
                         innerContainers.Add (namedInnerContainer);
                 }
@@ -292,13 +291,13 @@ namespace Ink.Parsed
             }
         }
 
-        void TryFlattenContainer (Runtime.Container container)
+        void TryFlattenContainer (Container container)
         {
             if (container.namedContent.Count > 0 || container.hasValidName || _dontFlattenContainers.Contains(container))
                 return;
 
             // Inline all the content in container into the parent
-            var parentContainer = container.parent as Runtime.Container;
+            var parentContainer = container.parent as Container;
             if (parentContainer) {
 
                 var contentIdx = parentContainer.content.IndexOf (container);
@@ -316,7 +315,7 @@ namespace Ink.Parsed
             }
         }
 
-        public override void Error(string message, Parsed.Object source, bool isWarning)
+        public override void Error(string message, Object source, bool isWarning)
 		{
             ErrorType errorType = isWarning ? ErrorType.Warning : ErrorType.Error;
 
@@ -372,14 +371,14 @@ namespace Ink.Parsed
             }
         }
 
-        public void DontFlattenContainer (Runtime.Container container)
+        public void DontFlattenContainer (Container container)
         {
             _dontFlattenContainers.Add (container);
         }
 
 
 
-        void NameConflictError (Parsed.Object obj, string name, Parsed.Object existingObj, string typeNameToPrint)
+        void NameConflictError (Object obj, string name, Object existingObj, string typeNameToPrint)
         {
             obj.Error (typeNameToPrint+" '" + name + "': name has already been used for a " + existingObj.typeName.ToLower() + " on " +existingObj.debugMetadata);
         }
@@ -416,7 +415,7 @@ namespace Ink.Parsed
 
         // Check given symbol type against everything that's of a higher priority in the ordered SymbolType enum (above).
         // When the given symbol type level is reached, we early-out / return.
-        public void CheckForNamingCollisions (Parsed.Object obj, Identifier identifier, SymbolType symbolType, string typeNameOverride = null)
+        public void CheckForNamingCollisions (Object obj, Identifier identifier, SymbolType symbolType, string typeNameOverride = null)
         {
             string typeNameToPrint = typeNameOverride ?? obj.typeName;
             if (IsReservedKeyword (identifier?.name)) {
@@ -500,9 +499,9 @@ namespace Ink.Parsed
         bool _hadError;
         bool _hadWarning;
 
-        HashSet<Runtime.Container> _dontFlattenContainers = new HashSet<Runtime.Container>();
+        HashSet<Container> _dontFlattenContainers = new HashSet<Container>();
 
-        Dictionary<string, Parsed.ListDefinition> _listDefs;
+        Dictionary<string, ListDefinition> _listDefs;
 	}
 }
 

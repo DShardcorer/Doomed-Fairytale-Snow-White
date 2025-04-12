@@ -1,39 +1,42 @@
 
 
-using UnityEngine;
+using Entity.Player.State;
 
-public class PlayerDashingState : PlayerState
+namespace EntitySystems.Skill.Player_Skills.Dash
 {
-    protected PlayerDashingProperties _playerDashingProperties;
-
-    public PlayerDashingState(string animationBoolName, PlayerDashingProperties entityStateProperties) : base(animationBoolName, entityStateProperties)
+    public class PlayerDashingState : PlayerState
     {
-        _playerDashingProperties = entityStateProperties;
-    }
+        protected PlayerDashingProperties _playerDashingProperties;
 
-    public override void EnterState()
-    {
-        base.EnterState();
-        _player.IsBusy = true;
-    }
-
-    public override void FixedUpdateState()
-    {
-        base.FixedUpdateState();
-        if(!_isAnimationEnded)
+        public PlayerDashingState(string animationBoolName, PlayerDashingProperties entityStateProperties) : base(animationBoolName, entityStateProperties)
         {
-            _rigidbody.linearVelocity =  _player.PlayerProperties.lastMovementVector * _playerDashingProperties.DashSpeed;
+            _playerDashingProperties = entityStateProperties;
         }
-        else
+
+        public override void EnterState()
         {
-            _stateMachine.ChangeState(_player.PlayerIdlingState);
+            base.EnterState();
+            _player.IsBusy = true;
         }
-    }
 
-    public override void ExitState()
-    {
-        _player.IsBusy = false;
-        base.ExitState();
-    }
+        public override void FixedUpdateState()
+        {
+            base.FixedUpdateState();
+            if(!_isAnimationEnded)
+            {
+                _rigidbody.linearVelocity =  _player.PlayerProperties.lastMovementVector * _playerDashingProperties.DashSpeed;
+            }
+            else
+            {
+                _stateMachine.ChangeState(_player.PlayerIdlingState);
+            }
+        }
 
+        public override void ExitState()
+        {
+            _player.IsBusy = false;
+            base.ExitState();
+        }
+
+    }
 }

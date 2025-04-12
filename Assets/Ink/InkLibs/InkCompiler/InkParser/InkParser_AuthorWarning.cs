@@ -1,6 +1,6 @@
-﻿using Ink.Parsed;
+﻿using Ink.InkLibs.InkCompiler.ParsedHierarchy;
 
-namespace Ink
+namespace Ink.InkLibs.InkCompiler.InkParser
 {
     public partial class InkParser
     {

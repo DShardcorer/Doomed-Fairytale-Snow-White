@@ -1,8 +1,6 @@
-﻿using System;
-
-namespace Ink.Runtime
+﻿namespace Ink.InkLibs.InkRuntime
 {
-    public class ControlCommand : Runtime.Object
+    public class ControlCommand : Object
     {
         public enum CommandType
         {

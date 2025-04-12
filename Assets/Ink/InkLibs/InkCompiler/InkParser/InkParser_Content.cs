@@ -1,13 +1,12 @@
-﻿using Ink.Parsed;
+﻿using System.Collections.Generic;
 using System.Text;
-using System.Collections.Generic;
-using System.Linq;
+using Ink.InkLibs.InkCompiler.ParsedHierarchy;
 
-namespace Ink
+namespace Ink.InkLibs.InkCompiler.InkParser
 {
     public partial class InkParser
     {
-        void TrimEndWhitespace(List<Parsed.Object> mixedTextAndLogicResults, bool terminateWithSpace)
+        void TrimEndWhitespace(List<Object> mixedTextAndLogicResults, bool terminateWithSpace)
         {
             // Trim whitespace from end
             if (mixedTextAndLogicResults.Count > 0) {
@@ -31,7 +30,7 @@ namespace Ink
             }
         }
 
-        protected List<Parsed.Object> LineOfMixedTextAndLogic()
+        protected List<Object> LineOfMixedTextAndLogic()
         {
             // Consume any whitespace at the start of the line
             // (Except for escaped whitespace)
@@ -62,7 +61,7 @@ namespace Ink
             // but is in fact entirely a tag, then let's not append
             // a newline, since we want the tag (or tags) to be associated
             // with the line below rather than being completely independent.
-            bool lineIsPureTag = result.Count > 0 && result[0] is Parsed.Tag && ((Parsed.Tag)result[0]).isStart;
+            bool lineIsPureTag = result.Count > 0 && result[0] is Tag && ((Tag)result[0]).isStart;
             if( !lineIsPureTag )
                 result.Add (new Text ("\n"));
 
@@ -71,7 +70,7 @@ namespace Ink
             return result;
         }
 
-        protected List<Parsed.Object> MixedTextAndLogic()
+        protected List<Object> MixedTextAndLogic()
         {
             // Check for disallowed "~" within this context
             var disallowedTilda = ParseObject(Spaced(String("~")));
@@ -79,7 +78,7 @@ namespace Ink
                 Error ("You shouldn't use a '~' here - tildas are for logic that's on its own line. To do inline logic, use { curly braces } instead");
 
             // Either, or both interleaved
-            var results = Interleave<Parsed.Object>(Optional (ContentText), Optional (InlineLogicOrGlueOrStartTag));
+            var results = Interleave<Object>(Optional (ContentText), Optional (InlineLogicOrGlueOrStartTag));
 
             // Terminating divert?
             // (When parsing content for the text of a choice, diverts aren't allowed.
@@ -91,7 +90,7 @@ namespace Ink
 
                     // May not have had any results at all if there's *only* a divert!
                     if (results == null)
-                        results = new List<Parsed.Object> ();
+                        results = new List<Object> ();
 
                     // End previously active tag if necessary
                     EndTagIfNecessary(results);
@@ -109,12 +108,12 @@ namespace Ink
             return results;
         }
 
-        protected Parsed.Text ContentText()
+        protected Text ContentText()
         {
             return ContentTextAllowingEcapeChar ();
         }
 
-        protected Parsed.Text ContentTextAllowingEcapeChar()
+        protected Text ContentTextAllowingEcapeChar()
         {
             StringBuilder sb = null;
 
@@ -143,7 +142,7 @@ namespace Ink
             } while(true);
 
             if (sb != null ) {
-                return new Parsed.Text (sb.ToString ());
+                return new Text (sb.ToString ());
 
             } else {
                 return null;

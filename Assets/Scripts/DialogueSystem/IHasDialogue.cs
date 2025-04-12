@@ -1,6 +1,9 @@
 using UnityEngine;
 
-public interface IHasDialogue
+namespace DialogueSystem
 {
-    public TextAsset GetInkDialogueFile();
+    public interface IHasDialogue
+    {
+        public TextAsset GetInkDialogueFile();
+    }
 }

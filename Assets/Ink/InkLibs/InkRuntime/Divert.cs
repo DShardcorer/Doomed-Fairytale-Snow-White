@@ -1,8 +1,8 @@
 ﻿using System.Text;
 
-namespace Ink.Runtime
+namespace Ink.InkLibs.InkRuntime
 {
-	public class Divert : Runtime.Object
+	public class Divert : Object
 	{
         public Path targetPath { 
             get { 

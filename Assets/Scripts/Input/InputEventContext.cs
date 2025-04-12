@@ -1,8 +1,9 @@
-using UnityEngine;
-
-public enum InputEventContext
+namespace Input
 {
-    DEFAULT,
-    DIALOGUE
+    public enum InputEventContext
+    {
+        DEFAULT,
+        DIALOGUE
 
+    }
 }

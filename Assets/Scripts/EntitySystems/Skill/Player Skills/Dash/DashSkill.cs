@@ -1,38 +1,42 @@
+using Entity.Player;
 using UnityEngine;
 
-public class DashSkill : Skill
+namespace EntitySystems.Skill.Player_Skills.Dash
 {
-    private PlayerDashingState _dashingState;
-    public DashSkill(string skillName, float cooldown, float healthCost, float manaCost, float staminaCost,
-    PlayerDashingState playerDashingState) 
-    : base(skillName, cooldown, healthCost ,manaCost, staminaCost)
+    public class DashSkill : Skill
     {
-        _dashingState = playerDashingState;
-    }
-    public override void Initialize(SkillSystem parent)
-    {
-        base.Initialize(parent);
-        if (_parent.Parent is Player player)
+        private PlayerDashingState _dashingState;
+        public DashSkill(string skillName, float cooldown, float healthCost, float manaCost, float staminaCost,
+            PlayerDashingState playerDashingState) 
+            : base(skillName, cooldown, healthCost ,manaCost, staminaCost)
         {
-            _dashingState.Initialize(player);
+            _dashingState = playerDashingState;
         }
-        else
+        public override void Initialize(SkillSystem parent)
         {
-            Debug.LogError($"DashSkill initialized with a non-Player entity: {_parent.Parent}");
+            base.Initialize(parent);
+            if (_parent.Parent is Player player)
+            {
+                _dashingState.Initialize(player);
+            }
+            else
+            {
+                Debug.LogError($"DashSkill initialized with a non-Player entity: {_parent.Parent}");
+            }
+
         }
 
+
+        public override void UpdateLogic()
+        {
+            base.UpdateLogic();
+        }
+        protected override void UseSkill()
+        {
+            base.UseSkill();
+            _parent.StateMachine.ChangeState(_dashingState);
+        }
+
+
     }
-
-
-    public override void UpdateLogic()
-    {
-        base.UpdateLogic();
-    }
-    protected override void UseSkill()
-    {
-        base.UseSkill();
-        _parent.StateMachine.ChangeState(_dashingState);
-    }
-
-
 }

@@ -1,8 +1,11 @@
-using UnityEngine;
+using Entity.NPC.Idle;
 
-public class NativeIdlingProperties : NPCIdlingProperties
+namespace Entity.NPC_Variants.Native.Idle
 {
-    public NativeIdlingProperties(float idleTime) : base(idleTime)
+    public class NativeIdlingProperties : NPCIdlingProperties
     {
+        public NativeIdlingProperties(float idleTime) : base(idleTime)
+        {
+        }
     }
 }

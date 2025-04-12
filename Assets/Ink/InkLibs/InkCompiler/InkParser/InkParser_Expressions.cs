@@ -1,8 +1,9 @@
 ﻿using System;
-using Ink.Parsed;
 using System.Collections.Generic;
+using Ink.InkLibs.InkCompiler.ParsedHierarchy;
+using Object = Ink.InkLibs.InkCompiler.ParsedHierarchy.Object;
 
-namespace Ink
+namespace Ink.InkLibs.InkCompiler.InkParser
 {
 	public partial class InkParser
 	{
@@ -24,7 +25,7 @@ namespace Ink
 			}
 		}
 
-        protected Parsed.Object TempDeclarationOrAssignment()
+        protected Object TempDeclarationOrAssignment()
         {
             Whitespace ();
 
@@ -68,9 +69,9 @@ namespace Ink
             }
         }
 
-        protected void DisallowIncrement (Parsed.Object expr)
+        protected void DisallowIncrement (Object expr)
         {
-        	if (expr is Parsed.IncDecExpression)
+        	if (expr is IncDecExpression)
         		Error ("Can't use increment/decrement here. It can only be used on a ~ line");
         }
 
@@ -87,7 +88,7 @@ namespace Ink
             }
         }
 
-        protected Parsed.Return ReturnStatement()
+        protected Return ReturnStatement()
         {
             Whitespace ();
 
@@ -150,7 +151,7 @@ namespace Ink
                         return null;
                     }
 
-                    expr = SucceedRule(ruleId, multiaryExpr) as Parsed.Expression;
+                    expr = SucceedRule(ruleId, multiaryExpr) as Expression;
 
 					continue;
 				}
@@ -284,15 +285,15 @@ namespace Ink
             // it knows to treat the quote character (") as an end character
             parsingStringExpression = true;
 
-            List<Parsed.Object> textAndLogic = Parse (MixedTextAndLogic);
+            List<Object> textAndLogic = Parse (MixedTextAndLogic);
 
             Expect (String ("\""), "close quote for string expression");
 
             parsingStringExpression = false;
 
             if (textAndLogic == null) {
-                textAndLogic = new List<Ink.Parsed.Object> ();
-                textAndLogic.Add (new Parsed.Text (""));
+                textAndLogic = new List<Object> ();
+                textAndLogic.Add (new Text (""));
             }
 
             else if (textAndLogic.Exists (c => c is Divert))
@@ -374,7 +375,7 @@ namespace Ink
             return innerExpr;
 		}
 
-		protected Expression ExpressionInfixRight(Parsed.Expression left, InfixOperator op)
+		protected Expression ExpressionInfixRight(Expression left, InfixOperator op)
 		{
 			Whitespace ();
 
@@ -415,7 +416,7 @@ namespace Ink
             return null;
 		}
 
-        protected Parsed.List ExpressionList ()
+        protected List ExpressionList ()
         {
             Whitespace ();
 

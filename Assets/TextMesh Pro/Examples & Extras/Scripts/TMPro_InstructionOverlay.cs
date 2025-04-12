@@ -1,8 +1,7 @@
-﻿using UnityEngine;
-using System.Collections;
+﻿using TMPro;
+using UnityEngine;
 
-
-namespace TMPro.Examples
+namespace TextMesh_Pro.Examples___Extras.Scripts
 {
     
     public class TMPro_InstructionOverlay : MonoBehaviour
@@ -35,8 +34,8 @@ namespace TMPro.Examples
 
 
             m_TextMeshPro = frameCounter.AddComponent<TextMeshPro>();
-            m_TextMeshPro.font = Resources.Load<TMP_FontAsset>("Fonts & Materials/LiberationSans SDF");
-            m_TextMeshPro.fontSharedMaterial = Resources.Load<Material>("Fonts & Materials/LiberationSans SDF - Overlay");
+            m_TextMeshPro.font = UnityEngine.Resources.Load<TMP_FontAsset>("Fonts & Materials/LiberationSans SDF");
+            m_TextMeshPro.fontSharedMaterial = UnityEngine.Resources.Load<Material>("Fonts & Materials/LiberationSans SDF - Overlay");
 
             m_TextMeshPro.fontSize = 30;
 

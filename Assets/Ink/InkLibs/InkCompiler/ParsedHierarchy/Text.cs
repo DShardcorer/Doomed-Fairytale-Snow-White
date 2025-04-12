@@ -1,7 +1,9 @@
 ﻿
-namespace Ink.Parsed
+using Ink.InkLibs.InkRuntime;
+
+namespace Ink.InkLibs.InkCompiler.ParsedHierarchy
 {
-	public class Text : Parsed.Object
+	public class Text : Object
 	{
 		public string text { get; set; }
 
@@ -10,9 +12,9 @@ namespace Ink.Parsed
 			text = str;
 		}
 
-		public override Runtime.Object GenerateRuntimeObject ()
+		public override InkRuntime.Object GenerateRuntimeObject ()
 		{
-			return new Runtime.StringValue(this.text);
+			return new StringValue(this.text);
 		}
 
         public override string ToString ()

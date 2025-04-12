@@ -1,10 +1,13 @@
 ﻿using System;
 using System.IO;
 using System.Text.RegularExpressions;
+using Ink.Editor.Core;
+using Ink.Editor.Core.Ink_Library;
+using Ink.Editor.Core.Ink_Settings;
 using UnityEditor;
 using UnityEngine;
 
-namespace Ink.UnityIntegration {
+namespace Ink.Editor.Tools.Startup_Window {
 	[InitializeOnLoad]
 	public class InkUnityIntegrationStartupWindow : EditorWindow {
 		const string editorPrefsKeyForVersionSeen = "Ink Unity Integration Startup Window Version Confirmed";

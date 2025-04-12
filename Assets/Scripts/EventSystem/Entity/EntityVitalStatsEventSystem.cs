@@ -1,16 +1,20 @@
 using System;
+using EventSystem.Player;
 using UnityEngine;
 
-public class EntityVitalStatsEventSystem : MonoBehaviour
+namespace EventSystem.Entity
 {
-    public static Action<Entity, HealthChangedEventArgs> HealthChanged { get; internal set; }
-
-    public static void InvokeHealthChanged(Entity sender, HealthChangedEventArgs e)
+    public class EntityVitalStatsEventSystem : MonoBehaviour
     {
-        HealthChanged?.Invoke(sender, e);
-    }
+        public static Action<global::Entity.Entity, HealthChangedEventArgs> HealthChanged { get; internal set; }
+
+        public static void InvokeHealthChanged(global::Entity.Entity sender, HealthChangedEventArgs e)
+        {
+            HealthChanged?.Invoke(sender, e);
+        }
 
     
 
 
+    }
 }

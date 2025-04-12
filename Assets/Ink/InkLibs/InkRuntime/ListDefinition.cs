@@ -1,6 +1,6 @@
 ﻿using System.Collections.Generic;
 
-namespace Ink.Runtime
+namespace Ink.InkLibs.InkRuntime
 {
     public class ListDefinition
     {

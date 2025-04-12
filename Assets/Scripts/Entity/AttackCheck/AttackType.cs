@@ -1,7 +1,10 @@
-public enum AttackType
+namespace Entity.AttackCheck
 {
-    OverlapCircle,
-    OverlapBox,
-    OverlapCapsule,
-    Raycast
+    public enum AttackType
+    {
+        OverlapCircle,
+        OverlapBox,
+        OverlapCapsule,
+        Raycast
+    }
 }

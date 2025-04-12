@@ -1,6 +1,4 @@
-﻿using Ink.Runtime;
-
-namespace Ink.Runtime
+﻿namespace Ink.InkLibs.InkRuntime
 {
     /// <summary>
     /// Internal structure used to point to a particular / current point in the story.
@@ -21,7 +19,7 @@ namespace Ink.Runtime
             this.index = index;
         }
 
-		public Runtime.Object Resolve ()
+		public Object Resolve ()
 		{
             if (index < 0) return container;
             if (container == null) return null;

@@ -1,36 +1,40 @@
+using EventSystem.Dialogue;
 using TMPro;
 using UnityEngine;
 using UnityEngine.EventSystems;
 using UnityEngine.UI;
 
-public class DialogueChoiceButtonUI : MonoBehaviour, ISelectHandler
+namespace UI.Dialogue
 {
-    [Header("Components")]
-
-    [SerializeField] private Button choiceButton;
-    [SerializeField] private TextMeshProUGUI choiceText;
-    private int choiceIndex = -1;
-    public int ChoiceIndex => choiceIndex;
-
-    public void OnSelect(BaseEventData eventData)
+    public class DialogueChoiceButtonUI : MonoBehaviour, ISelectHandler
     {
-        Debug.Log($"Selected choice button with index: {choiceIndex}");
-        DialogueEventSystem.InvokeUpdateChoiceIndex(new DialogueEventSystem.UpdateChoiceIndexEventArgs(choiceIndex));
-    }
+        [Header("Components")]
 
-    public void SelectButton()
-    {
-        choiceButton.Select();
-    }
+        [SerializeField] private Button choiceButton;
+        [SerializeField] private TextMeshProUGUI choiceText;
+        private int choiceIndex = -1;
+        public int ChoiceIndex => choiceIndex;
 
-    public void SetChoiceText(string text)
-    {
-        choiceText.text = text;
-    }
-    public void SetChoiceIndex(int index)
-    {
-        choiceIndex = index;
-    }
+        public void OnSelect(BaseEventData eventData)
+        {
+            Debug.Log($"Selected choice button with index: {choiceIndex}");
+            DialogueEventSystem.InvokeUpdateChoiceIndex(new DialogueEventSystem.UpdateChoiceIndexEventArgs(choiceIndex));
+        }
+
+        public void SelectButton()
+        {
+            choiceButton.Select();
+        }
+
+        public void SetChoiceText(string text)
+        {
+            choiceText.text = text;
+        }
+        public void SetChoiceIndex(int index)
+        {
+            choiceIndex = index;
+        }
 
 
+    }
 }

@@ -1,51 +1,56 @@
 using System;
+using Entity.AttackCheck;
+using GeneralManagers;
 using UnityEngine;
 
-public class AnimationTriggers : MonoBehaviour, ILifecycle<Entity>
+namespace Entity
 {
-    private Entity _entity;
-    private AttackHitbox _attackHitbox;
-    private EntityStateMachine _stateMachine;
-
-    public event EventHandler OnTakingEffect;
-
-    public void Dispose()
+    public class AnimationTriggers : MonoBehaviour, ILifecycle<Entity>
     {
-        _entity = null;
-    }
+        private Entity _entity;
+        private AttackHitbox _attackHitbox;
+        private EntityStateMachine _stateMachine;
 
-    public void Initialize(Entity parent)
-    {
-        _entity = parent;
-        _attackHitbox = _entity.AttackHitbox;
-        _stateMachine = _entity.StateMachine;
-        //if null, throw error
-        if (_attackHitbox == null)
+        public event EventHandler OnTakingEffect;
+
+        public void Dispose()
         {
-            Debug.LogError("AttackHitbox is not assigned!");
-        }
-        if (_stateMachine == null)
-        {
-            Debug.LogError("StateMachine is not assigned!");
+            _entity = null;
         }
 
+        public void Initialize(Entity parent)
+        {
+            _entity = parent;
+            _attackHitbox = _entity.AttackHitbox;
+            _stateMachine = _entity.StateMachine;
+            //if null, throw error
+            if (_attackHitbox == null)
+            {
+                Debug.LogError("AttackHitbox is not assigned!");
+            }
+            if (_stateMachine == null)
+            {
+                Debug.LogError("StateMachine is not assigned!");
+            }
+
+        }
+
+        public void OnAnimationEnd()
+        {
+            _stateMachine.OnAnimationEnd();
+        }
+
+        public void PerformAttack()
+        {
+            OnTakingEffect?.Invoke(this, EventArgs.Empty);
+
+        }
+
+
+
+
+
+
+
     }
-
-    public void OnAnimationEnd()
-    {
-        _stateMachine.OnAnimationEnd();
-    }
-
-    public void PerformAttack()
-    {
-        OnTakingEffect?.Invoke(this, EventArgs.Empty);
-
-    }
-
-
-
-
-
-
-
 }

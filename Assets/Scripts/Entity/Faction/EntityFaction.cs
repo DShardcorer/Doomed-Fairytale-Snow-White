@@ -1,13 +1,16 @@
 
-public enum EntityFaction
+namespace Entity.Faction
 {
-    Player,
-    Civilized,
-    Dwarfs,
-    Native,
-    Monsters,
-    Animals,
+    public enum EntityFaction
+    {
+        Player,
+        Civilized,
+        Dwarfs,
+        Native,
+        Monsters,
+        Animals,
 
 
 
+    }
 }

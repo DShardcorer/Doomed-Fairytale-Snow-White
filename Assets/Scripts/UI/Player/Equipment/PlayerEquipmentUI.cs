@@ -1,44 +1,49 @@
-using System;
 using System.Collections.Generic;
+using EntitySystems.Equipment;
+using EventSystem.Player;
+using Item.Inventory;
 using UnityEngine;
 
-public class PlayerEquipmentUI : IngameMenuPageUI
+namespace UI.Player.Equipment
 {
-    [SerializeField] private EquipmentSlotUI[] _equipmentSlotUIs;
-    public EquipmentSlotUI[] EquipmentSlotUIs => _equipmentSlotUIs;
-    [SerializeField] private EquipmentInventoryUI _equipmentInventoryUI;
-    public EquipmentInventoryUI EquipmentInventoryUI => _equipmentInventoryUI;
-
-    public override void Initialize(IngameMenuUI parent)
+    public class PlayerEquipmentUI : IngameMenuPageUI
     {
-        base.Initialize(parent);
-        foreach (EquipmentSlotUI equipmentSlotUI in _equipmentSlotUIs)
-        {
-            equipmentSlotUI.Initialize(this);
-        }
-        _equipmentInventoryUI.Initialize(this);
-        PlayerEquipmentEventSystem.OnEquipmentChanged += EquipmentSystem_OnEquipmentChanged;
-    }
+        [SerializeField] private EquipmentSlotUI[] _equipmentSlotUIs;
+        public EquipmentSlotUI[] EquipmentSlotUIs => _equipmentSlotUIs;
+        [SerializeField] private EquipmentInventoryUI _equipmentInventoryUI;
+        public EquipmentInventoryUI EquipmentInventoryUI => _equipmentInventoryUI;
 
-    private void EquipmentSystem_OnEquipmentChanged(object sender, IReadOnlyDictionary<EquipmentSlotType, EquipmentInventoryItem> e)
-    {
-        foreach (EquipmentSlotUI equipmentSlotUI in _equipmentSlotUIs)
+        public override void Initialize(IngameMenuUI parent)
         {
-            if (e.ContainsKey(equipmentSlotUI.SlotType))
+            base.Initialize(parent);
+            foreach (EquipmentSlotUI equipmentSlotUI in _equipmentSlotUIs)
             {
-                equipmentSlotUI.UpdateUI(e[equipmentSlotUI.SlotType]);
+                equipmentSlotUI.Initialize(this);
             }
-            else
-            {
-                equipmentSlotUI.UpdateUI(null);
-            }
+            _equipmentInventoryUI.Initialize(this);
+            PlayerEquipmentEventSystem.OnEquipmentChanged += EquipmentSystem_OnEquipmentChanged;
         }
+
+        private void EquipmentSystem_OnEquipmentChanged(object sender, IReadOnlyDictionary<EquipmentSlotType, EquipmentInventoryItem> e)
+        {
+            foreach (EquipmentSlotUI equipmentSlotUI in _equipmentSlotUIs)
+            {
+                if (e.ContainsKey(equipmentSlotUI.SlotType))
+                {
+                    equipmentSlotUI.UpdateUI(e[equipmentSlotUI.SlotType]);
+                }
+                else
+                {
+                    equipmentSlotUI.UpdateUI(null);
+                }
+            }
         
-    }
+        }
 
-    public void FireUnequipItemEvent(EquipmentInventoryItem item)
-    {
-        PlayerEquipmentEventSystem.InvokePlayerEquipmentUI_ItemUnequipped(item);
-    }
+        public void FireUnequipItemEvent(EquipmentInventoryItem item)
+        {
+            PlayerEquipmentEventSystem.InvokePlayerEquipmentUI_ItemUnequipped(item);
+        }
 
+    }
 }

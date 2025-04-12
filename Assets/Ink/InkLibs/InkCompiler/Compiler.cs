@@ -1,8 +1,14 @@
-﻿using System;
-using System.Collections.Generic;
-using Ink;
+﻿using System.Collections.Generic;
+using Ink.InkLibs.InkCompiler.ParsedHierarchy;
+using Ink.InkLibs.InkCompiler.Plugins;
+using Ink.InkLibs.InkRuntime;
+using Divert = Ink.InkLibs.InkCompiler.ParsedHierarchy.Divert;
+using Object = Ink.InkLibs.InkCompiler.ParsedHierarchy.Object;
+using Path = Ink.InkLibs.InkRuntime.Path;
+using Story = Ink.InkLibs.InkCompiler.ParsedHierarchy.Story;
+using VariableAssignment = Ink.InkLibs.InkCompiler.ParsedHierarchy.VariableAssignment;
 
-namespace Ink
+namespace Ink.InkLibs.InkCompiler
 {
     public class Compiler
     {
@@ -11,11 +17,11 @@ namespace Ink
             public string sourceFilename;
             public List<string> pluginDirectories;
             public bool countAllVisits;
-            public Ink.ErrorHandler errorHandler;
-            public Ink.IFileHandler fileHandler;
+            public ErrorHandler errorHandler;
+            public IFileHandler fileHandler;
         }
 
-        public Parsed.Story parsedStory {
+        public Story parsedStory {
             get {
                 return _parsedStory;
             }
@@ -29,14 +35,14 @@ namespace Ink
                 _pluginManager = new PluginManager (_options.pluginDirectories);
         }
 
-        public Parsed.Story Parse()
+        public Story Parse()
         {
-            _parser = new InkParser(_inputString, _options.sourceFilename, OnParseError, _options.fileHandler);
+            _parser = new InkParser.InkParser(_inputString, _options.sourceFilename, OnParseError, _options.fileHandler);
             _parsedStory = _parser.Parse();
             return _parsedStory;
         }
 
-        public Runtime.Story Compile ()
+        public InkRuntime.Story Compile ()
         {
             if( _pluginManager != null )
                 _inputString = _pluginManager.PreParse(_inputString);
@@ -84,7 +90,7 @@ namespace Ink
             // Request for runtime path lookup (to line number)
             else if (inputResult.debugPathLookup != null) {
                 var pathStr = inputResult.debugPathLookup;
-                var contentResult = _runtimeStory.ContentAtPath (new Runtime.Path (pathStr));
+                var contentResult = _runtimeStory.ContentAtPath (new Path (pathStr));
                 var dm = contentResult.obj.debugMetadata;
                 if( dm != null )
                     result.output = "DebugSource: " + dm.ToString ();
@@ -94,7 +100,7 @@ namespace Ink
 
             // User entered some ink
             else if (inputResult.userImmediateModeStatement != null) {
-                var parsedObj = inputResult.userImmediateModeStatement as Parsed.Object;
+                var parsedObj = inputResult.userImmediateModeStatement as Object;
                 return ExecuteImmediateStatement(parsedObj);
 
             } else {
@@ -104,13 +110,13 @@ namespace Ink
             return result;
         }
 
-        CommandLineInputResult ExecuteImmediateStatement(Parsed.Object parsedObj) {
+        CommandLineInputResult ExecuteImmediateStatement(Object parsedObj) {
             var result = new CommandLineInputResult ();
 
            // Variable assignment: create in Parsed.Story as well as the Runtime.Story
            // so that we don't get an error message during reference resolution
-           if (parsedObj is Parsed.VariableAssignment) {
-               var varAssign = (Parsed.VariableAssignment)parsedObj;
+           if (parsedObj is VariableAssignment) {
+               var varAssign = (VariableAssignment)parsedObj;
                if (varAssign.isNewTemporaryDeclaration) {
                    _parsedStory.TryAddNewVariableDeclaration (varAssign);
                }
@@ -124,14 +130,14 @@ namespace Ink
            if (!_parsedStory.hadError) {
 
                // Divert
-               if (parsedObj is Parsed.Divert) {
-                   var parsedDivert = parsedObj as Parsed.Divert;
+               if (parsedObj is Divert) {
+                   var parsedDivert = parsedObj as Divert;
                    result.divertedPath = parsedDivert.runtimeDivert.targetPath.ToString();
                }
 
                // Expression or variable assignment
-               else if (parsedObj is Parsed.Expression || parsedObj is Parsed.VariableAssignment) {
-                   var evalResult = _runtimeStory.EvaluateExpression ((Runtime.Container)runtimeObj);
+               else if (parsedObj is Expression || parsedObj is VariableAssignment) {
+                   var evalResult = _runtimeStory.EvaluateExpression ((Container)runtimeObj);
                    if (evalResult != null) {
                        result.output = evalResult.ToString ();
                    }
@@ -146,7 +152,7 @@ namespace Ink
         public void RetrieveDebugSourceForLatestContent ()
         {
             foreach (var outputObj in _runtimeStory.state.outputStream) {
-                var textContent = outputObj as Runtime.StringValue;
+                var textContent = outputObj as StringValue;
                 if (textContent != null) {
                     var range = new DebugSourceRange ();
                     range.length = textContent.value.Length;
@@ -157,11 +163,11 @@ namespace Ink
             }
         }
 
-        Runtime.DebugMetadata DebugMetadataForContentAtOffset (int offset)
+        DebugMetadata DebugMetadataForContentAtOffset (int offset)
         {
             int currOffset = 0;
 
-            Runtime.DebugMetadata lastValidMetadata = null;
+            DebugMetadata lastValidMetadata = null;
             foreach (var range in _debugSourceRanges) {
                 if (range.debugMetadata != null)
                     lastValidMetadata = range.debugMetadata;
@@ -178,7 +184,7 @@ namespace Ink
         public struct DebugSourceRange
         {
             public int length;
-            public Runtime.DebugMetadata debugMetadata;
+            public DebugMetadata debugMetadata;
             public string text;
         }
 
@@ -199,9 +205,9 @@ namespace Ink
         Options _options;
 
 
-        InkParser _parser;
-        Parsed.Story _parsedStory;
-        Runtime.Story _runtimeStory;
+        InkParser.InkParser _parser;
+        Story _parsedStory;
+        InkRuntime.Story _runtimeStory;
 
         PluginManager _pluginManager;
 

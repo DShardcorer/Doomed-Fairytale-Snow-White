@@ -1,5 +1,7 @@
 ﻿
-namespace Ink.Parsed
+using Ink.InkLibs.InkRuntime;
+
+namespace Ink.InkLibs.InkCompiler.ParsedHierarchy
 {
     public class DivertTarget : Expression
     {
@@ -10,12 +12,12 @@ namespace Ink.Parsed
             this.divert = AddContent(divert);
         }
 
-        public override void GenerateIntoContainer (Runtime.Container container)
+        public override void GenerateIntoContainer (Container container)
         {
             divert.GenerateRuntimeObject();
 
-            _runtimeDivert = (Runtime.Divert) divert.runtimeDivert;
-            _runtimeDivertTargetValue = new Runtime.DivertTargetValue ();
+            _runtimeDivert = (InkRuntime.Divert) divert.runtimeDivert;
+            _runtimeDivertTargetValue = new DivertTargetValue ();
 
             container.AddContent (_runtimeDivertTargetValue);
         }
@@ -30,7 +32,7 @@ namespace Ink.Parsed
                 return;
             }
 
-            Parsed.Object usageContext = this;
+            Object usageContext = this;
             while (usageContext && usageContext is Expression) {
 
                 bool badUsage = false;
@@ -165,8 +167,8 @@ namespace Ink.Parsed
             return targetStr.GetHashCode ();
         }
 
-        Runtime.DivertTargetValue _runtimeDivertTargetValue;
-        Runtime.Divert _runtimeDivert;
+        DivertTargetValue _runtimeDivertTargetValue;
+        InkRuntime.Divert _runtimeDivert;
     }
 }
 

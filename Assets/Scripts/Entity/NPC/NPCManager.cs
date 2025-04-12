@@ -1,26 +1,30 @@
-using System.Collections.Generic;
+using GeneralManagers;
+using Pool;
 using UnityEngine;
 
-public class NPCManager : MonoBehaviour, ILifecycle<GameManager>
+namespace Entity.NPC
 {
-
-    protected GameManager _gameManager;
-
-    public GameManager GameManager => _gameManager;
-    protected PoolManager _poolManager;
-
-    public void Initialize(GameManager gameManager)
+    public class NPCManager : MonoBehaviour, ILifecycle<GameManager>
     {
-        _gameManager = gameManager;
-        _poolManager = _gameManager.PoolManager;
-    }
+
+        protected GameManager _gameManager;
+
+        public GameManager GameManager => _gameManager;
+        protected PoolManager _poolManager;
+
+        public void Initialize(GameManager gameManager)
+        {
+            _gameManager = gameManager;
+            _poolManager = _gameManager.PoolManager;
+        }
     
 
 
 
-    public virtual void Dispose()
-    {
-        _gameManager = null;
-        _poolManager = null;
+        public virtual void Dispose()
+        {
+            _gameManager = null;
+            _poolManager = null;
+        }
     }
 }

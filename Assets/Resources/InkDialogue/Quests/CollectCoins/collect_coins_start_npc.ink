@@ -9,7 +9,7 @@
 }
 
 = requirementsNotMet
-Uh. I still have standards you know ? Shoo, shoo.
+Uh. I still have standards you know ? Shoo, shoo. #speaker:Hoshiko #sprite:hoshi_school_upset #layout:left
 -> END
 
 

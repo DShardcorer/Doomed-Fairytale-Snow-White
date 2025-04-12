@@ -1,9 +1,7 @@
-﻿using Ink.Parsed;
-using System.Collections.Generic;
-using System.IO;
+﻿using System.Collections.Generic;
+using Ink.InkLibs.InkCompiler.ParsedHierarchy;
 
-
-namespace Ink
+namespace Ink.InkLibs.InkCompiler.InkParser
 {
     public partial class InkParser
     {
@@ -30,7 +28,7 @@ namespace Ink
                 AddOpenFilename (fullFilename);
             }
 
-            Parsed.Story includedStory = null;
+            Story includedStory = null;
             string includedString = null;
             try {
                 includedString = _rootParser._fileHandler.LoadInkFileContents(fullFilename);
