@@ -290,6 +290,7 @@ MonoBehaviour:
   _enemyManager: {fileID: 7546935073355185992}
   _cameraManager: {fileID: 3216621948685685829}
   _questManager: {fileID: 5988266125562999657}
+  _dialogueManager: {fileID: 0}
 --- !u!1 &5244580242282704045
 GameObject:
   m_ObjectHideFlags: 0
@@ -424,6 +425,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 31473d02143e3b940b46494ed93984cf, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  inputEventContext: 0
 --- !u!1 &6561099529258081727
 GameObject:
   m_ObjectHideFlags: 0

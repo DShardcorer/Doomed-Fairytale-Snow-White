@@ -1,3 +1,4 @@
+using System;
 using UnityEngine;
 
 namespace Item
@@ -9,7 +10,8 @@ namespace Item
         Material,
         Miscellaneous
     }
-
+    
+    [Serializable]
     [CreateAssetMenu(fileName = "New Item Data", menuName = "ItemData")]
     public class ItemData: ScriptableObject
     {

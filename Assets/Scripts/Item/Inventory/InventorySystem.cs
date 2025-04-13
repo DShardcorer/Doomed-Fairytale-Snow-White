@@ -7,10 +7,10 @@ namespace Item.Inventory
         protected Entity.Entity _entity;
         public Entity.Entity Entity => _entity;
 
-        protected float _capacity;
-        public float Capacity => _capacity;
-        protected float _currentWeight;
-        public float CurrentWeight => _currentWeight;
+        public float capacity;
+        public float Capacity => capacity;
+        public float currentWeight;
+        public float CurrentWeight => currentWeight;
 
         public List<InventoryItem> items;
         public Dictionary<ItemData, InventoryItem> itemDictionary;
@@ -41,10 +41,24 @@ namespace Item.Inventory
             miscellaneousItemDictionary = new Dictionary<ItemData, InventoryItem>();
         }
 
+        public void ClearAll()
+        {
+            items.Clear();
+            itemDictionary.Clear();
+            materialItems.Clear();
+            materialItemDictionary.Clear();
+            consumableItems.Clear();
+            consumableItemDictionary.Clear();
+            equipmentItems.Clear();
+            equipmentItemDictionary.Clear();
+            miscellaneousItems.Clear();
+            miscellaneousItemDictionary.Clear();
+        }
+
         public virtual void Initialize(Entity.Entity entity)
         {
             _entity = entity;
-            _capacity = entity.StatSystem.AbilityStatBoard.Strength.ModifiedValue * 10;
+            capacity = entity.StatSystem.AbilityStatBoard.Strength.ModifiedValue * 10;
             UpdateCurrentWeight();
         }
 
@@ -59,38 +73,58 @@ namespace Item.Inventory
         }
 
         // Virtual hooks for notifying changes; default implementations do nothing.
-        protected virtual void OnItemListChanged(List<InventoryItem> items) { }
-        protected virtual void OnMaterialItemListChanged(List<InventoryItem> materialItems) { }
-        protected virtual void OnConsumableItemListChanged(List<InventoryItem> consumableItems) { }
-        protected virtual void OnEquipmentItemListChanged(List<InventoryItem> equipmentItems) { }
-        protected virtual void OnMiscellaneousItemListChanged(List<InventoryItem> miscellaneousItems) { }
-        protected virtual void OnWeightChanged(float currentWeight, float capacity) { }
+        protected virtual void OnItemListChanged(List<InventoryItem> items)
+        {
+        }
+
+        protected virtual void OnMaterialItemListChanged(List<InventoryItem> materialItems)
+        {
+        }
+
+        protected virtual void OnConsumableItemListChanged(List<InventoryItem> consumableItems)
+        {
+        }
+
+        protected virtual void OnEquipmentItemListChanged(List<InventoryItem> equipmentItems)
+        {
+        }
+
+        protected virtual void OnMiscellaneousItemListChanged(List<InventoryItem> miscellaneousItems)
+        {
+        }
+
+        protected virtual void OnWeightChanged(float currentWeight, float capacity)
+        {
+        }
 
         public virtual void UpdateCurrentWeight()
         {
-            _currentWeight = 0;
+            currentWeight = 0;
             foreach (InventoryItem item in items)
             {
-                _currentWeight += item.ItemData.weight * item.stackSize;
+                currentWeight += item.ItemData.weight * item.stackSize;
             }
-            OnWeightChanged(_currentWeight, _capacity);
+
+            OnWeightChanged(currentWeight, capacity);
         }
 
         public virtual void IncrementCurrentWeight(float weight)
         {
-            _currentWeight += weight;
-            OnWeightChanged(_currentWeight, _capacity);
+            currentWeight += weight;
+            OnWeightChanged(currentWeight, capacity);
         }
 
         public virtual void DecrementCurrentWeight(float weight)
         {
-            _currentWeight -= weight;
-            OnWeightChanged(_currentWeight, _capacity);
+            currentWeight -= weight;
+            OnWeightChanged(currentWeight, capacity);
         }
+
         public virtual void AddItem(InventoryItem inventoryItem)
         {
             AddItem(inventoryItem.ItemData, inventoryItem.stackSize);
         }
+
         public virtual void AddItem(ItemData itemData, int amount)
         {
             InventoryItem item;
@@ -175,10 +209,12 @@ namespace Item.Inventory
             OnItemListChanged(items);
             IncrementCurrentWeight(itemData.weight);
         }
+
         public virtual void RemoveItem(InventoryItem inventoryItem)
         {
             RemoveItem(inventoryItem.ItemData, inventoryItem.stackSize);
         }
+
         public virtual void RemoveItem(ItemData itemData, int amount)
         {
             if (itemDictionary.ContainsKey(itemData))
@@ -203,6 +239,7 @@ namespace Item.Inventory
                         OnMiscellaneousItemListChanged(miscellaneousItems);
                         break;
                 }
+
                 if (itemDictionary[itemData].stackSize <= 0)
                 {
                     items.Remove(itemDictionary[itemData]);
@@ -231,10 +268,10 @@ namespace Item.Inventory
                             break;
                     }
                 }
+
                 OnItemListChanged(items);
                 DecrementCurrentWeight(itemData.weight * amount);
             }
-
         }
 
         public virtual void RemoveItem(ItemData itemData)
@@ -261,6 +298,7 @@ namespace Item.Inventory
                         OnMiscellaneousItemListChanged(miscellaneousItems);
                         break;
                 }
+
                 if (itemDictionary[itemData].stackSize <= 0)
                 {
                     items.Remove(itemDictionary[itemData]);
@@ -289,6 +327,7 @@ namespace Item.Inventory
                             break;
                     }
                 }
+
                 OnItemListChanged(items);
                 DecrementCurrentWeight(itemData.weight);
             }

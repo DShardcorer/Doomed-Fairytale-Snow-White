@@ -1,11 +1,21 @@
 using System.Collections.Generic;
+using DataPersistence;
+using DataPersistence.Data;
 using EventSystem.Player;
+using Item;
 using Item.Inventory;
 
 namespace EntitySystems.PlayerSystems
 {
-    public class PlayerInventorySystem : InventorySystem
+
+    public class PlayerInventorySystem : InventorySystem, IDataPersistence
     {
+        public override void Initialize(Entity.Entity entity)
+        {
+            base.Initialize(entity);
+            ((IDataPersistence)this).AddDataPersistenceObject();
+        }
+
         public override void InvokeInitialEvents()
         {
             PlayerInventoryEventSystem.InvokeItemListChanged(items);
@@ -13,7 +23,7 @@ namespace EntitySystems.PlayerSystems
             PlayerInventoryEventSystem.InvokeConsumableItemListChanged(consumableItems);
             PlayerInventoryEventSystem.InvokeEquipmentItemListChanged(equipmentItems);
             PlayerInventoryEventSystem.InvokeMiscellaneousItemListChanged(miscellaneousItems);
-            PlayerInventoryEventSystem.InvokeWeightChanged(_currentWeight, _capacity);
+            PlayerInventoryEventSystem.InvokeWeightChanged(currentWeight, capacity);
         }
 
         protected override void OnItemListChanged(List<InventoryItem> items)
@@ -44,6 +54,18 @@ namespace EntitySystems.PlayerSystems
         protected override void OnWeightChanged(float currentWeight, float capacity)
         {
             PlayerInventoryEventSystem.InvokeWeightChanged(currentWeight, capacity);
+        }
+
+        public void LoadData(GameData saveData)
+        {
+            PlayerInventorySaveLoadHelper.LoadFromSaveData(this, saveData.playerInventorySaveData);
+            // Invoke events to update the UI or other systems
+            InvokeInitialEvents();
+        }
+
+        public void SaveData(ref GameData data)
+        {
+            data.playerInventorySaveData = PlayerInventorySaveLoadHelper.CreateSaveData(this);
         }
     }
 }

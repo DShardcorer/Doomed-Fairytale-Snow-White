@@ -1,3 +1,4 @@
+using DataPersistence;
 using GeneralManagers;
 using UnityEngine;
 
@@ -10,8 +11,9 @@ public class Bootstrapper : MonoBehaviour
 
         // Then initialize UIManager or notify UI components.
         UIManager.Instance.Initialize();
-
         InvokeInitialEvents();
+        
+        DataPersistenceManager.Instance.Initialize();
 
     }
     private void InvokeInitialEvents()

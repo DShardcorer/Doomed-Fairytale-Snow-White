@@ -38,7 +38,7 @@ namespace DialogueSystem
             }
 
             variables[name] = value;
-            Debug.Log($"Updated dialogue variable: {name} to {value}");
+            // Debug.Log($"Updated dialogue variable: {name} to {value}");
 
         }
 

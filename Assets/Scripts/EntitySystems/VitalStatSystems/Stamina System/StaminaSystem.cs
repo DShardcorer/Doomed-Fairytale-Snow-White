@@ -5,8 +5,8 @@ namespace EntitySystems.VitalStatSystems.Stamina_System
 {
     public class StaminaSystem : ILifecycle<Entity.Entity>, IUpdatable
     {
-        protected Entity.Entity _entity;
-        public Entity.Entity Entity => _entity;
+        protected Entity.Entity entity;
+        public Entity.Entity Entity => entity;
     
         protected float maxStamina;
         public float MaxStamina => maxStamina;
@@ -22,7 +22,7 @@ namespace EntitySystems.VitalStatSystems.Stamina_System
     
         public virtual void Initialize(Entity.Entity parent)
         {
-            _entity = parent;
+            entity = parent;
             // Register with the update manager
             GameManager.Instance.UpdateManager.AddUpdatable(this);
         }
@@ -37,7 +37,7 @@ namespace EntitySystems.VitalStatSystems.Stamina_System
     
         public virtual void Dispose()
         {
-            _entity = null;
+            entity = null;
             // Remove from update manager
             GameManager.Instance.UpdateManager.RemoveUpdatable(this);
         }
