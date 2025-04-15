@@ -4,7 +4,7 @@ using Entity.Player.Interaction;
 using Entity.Player.Move;
 using EntitySystems.PlayerSystems;
 using EntitySystems.Skill;
-using EntitySystems.Skill.Player_Skills.Attack;
+using EntitySystems.Skill.ActiveSkills.Player.Attack;
 using GeneralManagers;
 using Helpers;
 using Input;
@@ -29,8 +29,8 @@ namespace Entity.Player
         public PlayerInteraction PlayerInteraction => _playerInteraction;
 
 
-
         public bool IsBusy = false;
+
         //Idling
         private PlayerIdlingState _playerIdlingState;
         public PlayerIdlingState PlayerIdlingState => _playerIdlingState;
@@ -40,18 +40,20 @@ namespace Entity.Player
         public PlayerMovingState PlayerMovingState => _playerMovingState;
 
 
-
         //Attacking
         private PlayerAttackingState _playerAttackingState;
         public PlayerAttackingState PlayerAttackingState => _playerAttackingState;
 
         public Player(PlayerView view, PlayerProperties properties,
-            PlayerIdlingState playerIdlingState, PlayerMovingState playerMovingState, PlayerAttackingState playerAttackingState,
+            PlayerIdlingState playerIdlingState, PlayerMovingState playerMovingState,
+            PlayerAttackingState playerAttackingState,
             PlayerStatSystem statSystem, PlayerEquipmentSystem equipmentSystem,
-            SkillSystem skillSystem, PlayerLevelSystem levelSystem, PlayerHealthSystem healthSystem, PlayerManaSystem manaSystem, PlayerStaminaSystem staminaSystem,
+            ActiveSkillSystem activeSkillSystem, PassiveSkillSystem passiveSkillSystem,
+            PlayerLevelSystem levelSystem, PlayerHealthSystem healthSystem,
+            PlayerManaSystem manaSystem, PlayerStaminaSystem staminaSystem,
             EntityStateMachine stateMachine, PlayerInventorySystem inventory)
             : base(view, properties, statSystem, equipmentSystem,
-                skillSystem, levelSystem, healthSystem, manaSystem, staminaSystem, stateMachine, inventory)
+                activeSkillSystem, passiveSkillSystem, levelSystem, healthSystem, manaSystem, staminaSystem, stateMachine, inventory)
         {
             _playerView = view;
             _playerProperties = properties;
@@ -60,6 +62,7 @@ namespace Entity.Player
             _playerAttackingState = playerAttackingState;
             _playerInteraction = view.GetComponentInChildren<PlayerInteraction>();
         }
+
         public void Initialize(PlayerManager parent)
         {
             base.Initialize();
@@ -91,32 +94,27 @@ namespace Entity.Player
             stateMachine.Initialize(_playerIdlingState);
 
 
-
             //SkillSystem initialization
-            skillSystem.Initialize(this);
-
-
+            activeSkillSystem.Initialize(this);
         }
-
 
 
         private void OnAttackInputted(object sender, EventArgs e)
         {
             if (IsBusy) return;
             stateMachine.ChangeState(_playerAttackingState);
-
         }
 
         private void OnDashInputted(object sender, EventArgs e)
         {
             if (IsBusy) return;
-            skillSystem.GetSkill(HelperSkillName.DashSkill).TryUseSkill();
-
+            activeSkillSystem.GetSkill(HelperSkillName.DashSkill).TryUseSkill();
         }
+
         private void OnSkill1Inputted(object sender, EventArgs e)
         {
             if (IsBusy) return;
-            skillSystem.GetSkill(HelperSkillName.ShootSkill).TryUseSkill();
+            activeSkillSystem.GetSkill(HelperSkillName.ShootSkill).TryUseSkill();
         }
 
         public override void FixedUpdateLogic()

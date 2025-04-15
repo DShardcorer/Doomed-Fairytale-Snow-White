@@ -10,7 +10,7 @@ namespace Entity
         protected Entity _entity;
         public Entity Entity => _entity;
         protected EntityStateMachine _stateMachine;
-        protected SkillSystem _skillSystem;
+        protected ActiveSkillSystem ActiveSkillSystem;
         protected EntityProperties _properties;
         protected EntityView _view;
         protected Rigidbody2D _rigidbody;
@@ -28,7 +28,7 @@ namespace Entity
         {
             _entity = controller;
             _stateMachine = _entity.StateMachine;
-            _skillSystem = _entity.SkillSystem;
+            ActiveSkillSystem = _entity.ActiveActiveSkillSystem;
             _properties = _entity.Properties;
             _view = _entity.View;
             _rigidbody = _entity.View.Rigidbody2D;

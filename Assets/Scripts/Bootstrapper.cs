@@ -1,5 +1,6 @@
 using DataPersistence;
 using GeneralManagers;
+using SceneSwitch;
 using UnityEngine;
 
 public class Bootstrapper : MonoBehaviour
@@ -14,6 +15,7 @@ public class Bootstrapper : MonoBehaviour
         InvokeInitialEvents();
         
         DataPersistenceManager.Instance.Initialize();
+        SceneSwitchManager.Instance.Initialize();
 
     }
     private void InvokeInitialEvents()

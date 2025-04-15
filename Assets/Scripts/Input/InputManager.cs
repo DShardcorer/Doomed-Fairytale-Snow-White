@@ -23,8 +23,6 @@ namespace Input
         public event Action<InputEventContext> uiCancelInputted;
 
 
-
-
         public void Initialize(GameManager gameManager)
         {
             _gameManager = gameManager;
@@ -51,38 +49,46 @@ namespace Input
             switch (context)
             {
                 case InputEventContext.DEFAULT:
-                    EnablePlayerControls();
+                    SwitchToPlayerControls();
                     break;
                 case InputEventContext.DIALOGUE:
-                    EnableDialogueControls();
+                    SwitchToDialogueControls();
                     break;
             }
         }
 
-        private void EnablePlayerControls()
+        private void SwitchToPlayerControls()
         {
             _playerInputActions.UI.Disable();
             _playerInputActions.Player.Enable();
         }
 
-        private void EnableDialogueControls()
+        private void SwitchToDialogueControls()
         {
             _playerInputActions.Player.Disable();
             _playerInputActions.UI.Enable();
         }
 
+        public void DisablePlayerControls()
+        {
+            _playerInputActions.Player.Disable();
+        }
+
+        public void EnablePlayerControls()
+        {
+            _playerInputActions.Player.Enable();
+        }
 
 
         public void Dispose()
         {
             _playerInputActions.Disable();
         }
+
         public Vector2 GetMovementVector()
         {
             Vector2 movement = _playerInputActions.Player.Move.ReadValue<Vector2>();
             return movement;
         }
-
-
     }
 }

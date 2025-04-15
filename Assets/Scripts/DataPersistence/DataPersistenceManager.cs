@@ -26,7 +26,7 @@ namespace DataPersistence
                 return;
             }
             Instance = this;
-            DontDestroyOnLoad(gameObject);
+
         }
 
         public void Initialize()

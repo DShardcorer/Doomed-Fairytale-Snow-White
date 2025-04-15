@@ -15,52 +15,57 @@ namespace Entity
         protected EntityStateMachine stateMachine;
         protected EntityView view;
         protected EntityProperties properties;
-        protected SkillSystem skillSystem;
-        public SkillSystem SkillSystem => skillSystem;
+        protected ActiveSkillSystem activeSkillSystem;
+        public ActiveSkillSystem ActiveActiveSkillSystem => activeSkillSystem;
+        protected PassiveSkillSystem passiveSkillSystem;
+        public PassiveSkillSystem PassiveSkillSystem => passiveSkillSystem;
         protected EquipmentSystem equipmentSystem;
         public EquipmentSystem EquipmentSystem => equipmentSystem;
-        protected StatSystem _statSystem;
-        public StatSystem StatSystem => _statSystem;
-        protected InventorySystem _inventorySystem;
-        public InventorySystem InventorySystem => _inventorySystem;
-        private LevelSystem _levelSystem;
-        public LevelSystem LevelSystem => _levelSystem;
-        private HealthSystem _healthSystem;
-        public HealthSystem HealthSystem => _healthSystem;
-        private ManaSystem _manaSystem;
-        public ManaSystem ManaSystem => _manaSystem;
-        private StaminaSystem _staminaSystem;
-        public StaminaSystem StaminaSystem => _staminaSystem;
+        protected StatSystem statSystem;
+        public StatSystem StatSystem => statSystem;
+        protected InventorySystem inventorySystem;
+        public InventorySystem InventorySystem => inventorySystem;
+        private LevelSystem levelSystem;
+        public LevelSystem LevelSystem => levelSystem;
+        private HealthSystem healthSystem;
+        public HealthSystem HealthSystem => healthSystem;
+        private ManaSystem manaSystem;
+        public ManaSystem ManaSystem => manaSystem;
+        private StaminaSystem staminaSystem;
+        public StaminaSystem StaminaSystem => staminaSystem;
 
 
         public EntityStateMachine StateMachine => stateMachine;
         public EntityView View => view;
         public EntityProperties Properties => properties;
-        protected AttackHitbox _attackHitbox;
-        public AttackHitbox AttackHitbox => _attackHitbox;
-        protected AnimationTriggers _animationTriggers;
+        protected AttackHitbox attackHitbox;
+        public AttackHitbox AttackHitbox => attackHitbox;
+        protected AnimationTriggers animationTriggers;
 
-        public AnimationTriggers AnimationTriggers => _animationTriggers;
+        public AnimationTriggers AnimationTriggers => animationTriggers;
 
 
         public Entity(EntityView view, EntityProperties properties, 
-            StatSystem statSystem, EquipmentSystem equipmentSystem, SkillSystem skillSystem, LevelSystem levelSystem,
+            StatSystem statSystem, EquipmentSystem equipmentSystem, 
+            ActiveSkillSystem activeSkillSystem, PassiveSkillSystem passiveSkillSystem,
+            LevelSystem levelSystem,
             HealthSystem healthSystem, ManaSystem manaSystem, StaminaSystem staminaSystem,
             EntityStateMachine stateMachine, InventorySystem inventorySystem)
         {
             this.view = view;
-            _attackHitbox = view.GetComponentInChildren<AttackHitbox>();
-            _animationTriggers = view.GetComponentInChildren<AnimationTriggers>();
+            attackHitbox = view.GetComponentInChildren<AttackHitbox>();
+            animationTriggers = view.GetComponentInChildren<AnimationTriggers>();
             this.properties = properties;
-            _statSystem = statSystem;
+            this.statSystem = statSystem;
             this.equipmentSystem = equipmentSystem;
-            this.skillSystem = skillSystem;
-            _levelSystem = levelSystem;
-            _healthSystem = healthSystem;
-            _manaSystem = manaSystem;
-            _staminaSystem = staminaSystem;
+            this.activeSkillSystem = activeSkillSystem;
+            this.passiveSkillSystem = passiveSkillSystem;
+            this.levelSystem = levelSystem;
+            this.healthSystem = healthSystem;
+            this.manaSystem = manaSystem;
+            this.staminaSystem = staminaSystem;
             this.stateMachine = stateMachine;
-            _inventorySystem = inventorySystem;
+            this.inventorySystem = inventorySystem;
         }
 
 
@@ -71,18 +76,19 @@ namespace Entity
         public virtual void Initialize()
         {
             equipmentSystem.Initialize(this);
-            _inventorySystem.Initialize(this);
-            _attackHitbox.Initialize(this);
-            _animationTriggers.Initialize(this);
-            _statSystem.Initialize(this);
-            _healthSystem.Initialize(this);
-            _manaSystem.Initialize(this);
-            _staminaSystem.Initialize(this);
+            inventorySystem.Initialize(this);
+            attackHitbox.Initialize(this);
+            animationTriggers.Initialize(this);
+            statSystem.Initialize(this);
+            passiveSkillSystem.Initialize(this);
+            healthSystem.Initialize(this);
+            manaSystem.Initialize(this);
+            staminaSystem.Initialize(this);
         }
         public void TakeDamage(float damage)
         {
             view.PlayDamagedAnimation();
-            _healthSystem.TakeDamage((int)damage);
+            healthSystem.TakeDamage((int)damage);
         }
 
         public virtual void Die()
@@ -97,13 +103,13 @@ namespace Entity
         {
             view.Dispose();
             equipmentSystem.Dispose();
-            _inventorySystem.Dispose();
-            _attackHitbox.Dispose();
-            _animationTriggers.Dispose();
-            _statSystem.Dispose();
-            _healthSystem.Dispose();
-            _manaSystem.Dispose();
-            _staminaSystem.Dispose();
+            inventorySystem.Dispose();
+            attackHitbox.Dispose();
+            animationTriggers.Dispose();
+            statSystem.Dispose();
+            healthSystem.Dispose();
+            manaSystem.Dispose();
+            staminaSystem.Dispose();
         }
     }
 }

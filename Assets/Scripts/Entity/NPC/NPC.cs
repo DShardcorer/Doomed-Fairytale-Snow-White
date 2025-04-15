@@ -72,14 +72,21 @@ namespace Entity.NPC
             NPCAttackingState npcAttackingState,
             StatSystem statSystem,
             EquipmentSystem equipmentSystem,
-            SkillSystem skillSystem,
+            ActiveSkillSystem activeSkillSystem,
+            PassiveSkillSystem passiveSkillSystem,
             LevelSystem levelSystem,
             HealthSystem healthSystem,
             ManaSystem manaSystem,
             StaminaSystem staminaSystem,
             EntityStateMachine stateMachine,
             InventorySystem inventory
-        ) : base(view, properties, statSystem, equipmentSystem, skillSystem, levelSystem, healthSystem, manaSystem,
+        ) : base(view,
+            properties,
+            statSystem,
+            equipmentSystem,
+            activeSkillSystem, passiveSkillSystem,
+            levelSystem, healthSystem,
+            manaSystem,
             staminaSystem, stateMachine, inventory)
         {
             _npcView = view;
@@ -115,7 +122,8 @@ namespace Entity.NPC
 
             _proximityDetector.OnEntityFromDifferentFactionSpottedInProximity +=
                 OnEntityFromDifferentFactionSpottedInProximity;
-            _fovDetector.OnClosestEntityFromDifferentFactionSpottedInFOV += OnClosestEntityFromDifferentFactionSpottedInFOV;
+            _fovDetector.OnClosestEntityFromDifferentFactionSpottedInFOV +=
+                OnClosestEntityFromDifferentFactionSpottedInFOV;
 
             // Initialize interact system
             _npcInteractSystem = view.GetComponent<NPCInteractSystem>();
@@ -128,6 +136,8 @@ namespace Entity.NPC
             _npcAttackingState.Initialize(this);
             _npcBeingInteractedWithState.Initialize(this);
             stateMachine.Initialize(_npcIdlingState);
+
+            activeSkillSystem.Initialize(this);
             base.Initialize();
         }
 
@@ -162,7 +172,8 @@ namespace Entity.NPC
 
             _proximityDetector.OnEntityFromDifferentFactionSpottedInProximity -=
                 OnEntityFromDifferentFactionSpottedInProximity;
-            _fovDetector.OnClosestEntityFromDifferentFactionSpottedInFOV -= OnClosestEntityFromDifferentFactionSpottedInFOV;
+            _fovDetector.OnClosestEntityFromDifferentFactionSpottedInFOV -=
+                OnClosestEntityFromDifferentFactionSpottedInFOV;
 
             // Nullify references
             _parent = null;

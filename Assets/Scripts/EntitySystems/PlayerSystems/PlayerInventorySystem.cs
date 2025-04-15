@@ -58,14 +58,14 @@ namespace EntitySystems.PlayerSystems
 
         public void LoadData(GameData saveData)
         {
-            PlayerInventorySaveLoadHelper.LoadFromSaveData(this, saveData.playerInventorySaveData);
+            SaveLoadHelper.LoadFromSaveData(this, saveData.playerInventorySaveData);
             // Invoke events to update the UI or other systems
             InvokeInitialEvents();
         }
 
         public void SaveData(ref GameData data)
         {
-            data.playerInventorySaveData = PlayerInventorySaveLoadHelper.CreateSaveData(this);
+            data.playerInventorySaveData = SaveLoadHelper.CreateSaveData(this);
         }
     }
 }
