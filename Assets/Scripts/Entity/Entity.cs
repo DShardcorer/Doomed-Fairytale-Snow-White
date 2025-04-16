@@ -16,7 +16,7 @@ namespace Entity
         protected EntityView view;
         protected EntityProperties properties;
         protected ActiveSkillSystem activeSkillSystem;
-        public ActiveSkillSystem ActiveActiveSkillSystem => activeSkillSystem;
+        public ActiveSkillSystem ActiveSkillSystem => activeSkillSystem;
         protected PassiveSkillSystem passiveSkillSystem;
         public PassiveSkillSystem PassiveSkillSystem => passiveSkillSystem;
         protected EquipmentSystem equipmentSystem;

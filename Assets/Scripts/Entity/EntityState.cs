@@ -28,7 +28,7 @@ namespace Entity
         {
             _entity = controller;
             _stateMachine = _entity.StateMachine;
-            ActiveSkillSystem = _entity.ActiveActiveSkillSystem;
+            ActiveSkillSystem = _entity.ActiveSkillSystem;
             _properties = _entity.Properties;
             _view = _entity.View;
             _rigidbody = _entity.View.Rigidbody2D;

@@ -1,4 +1,3 @@
-
 using System.Collections.Generic;
 using EntitySystems.Stats;
 using GeneralManagers;
@@ -6,21 +5,29 @@ using UnityEngine;
 
 namespace EntitySystems.Skill
 {
-    public class PassiveSkillSystem: ILifecycle<Entity.Entity>
+    public class PassiveSkillSystem : ILifecycle<Entity.Entity>
     {
         private Entity.Entity _parent;
         public Entity.Entity Parent => _parent;
+
         private StatSystem _statSystem;
-        protected Dictionary<string, PassiveSkill> passiveSkills;
-        
+
+        protected Dictionary<string, PassiveSkill> passiveSkillsDict;
+        protected List<PassiveSkill> passiveSkills;
+
+        public IReadOnlyList<PassiveSkill> PassiveSkills => passiveSkills.AsReadOnly();
+
         public PassiveSkillSystem(List<PassiveSkill> skills)
         {
-            passiveSkills = new Dictionary<string, PassiveSkill>();
+            passiveSkillsDict = new Dictionary<string, PassiveSkill>();
+            passiveSkills = new List<PassiveSkill>();
+
             foreach (var skill in skills)
             {
-                if (!passiveSkills.ContainsKey(skill.SkillInfo.SkillName))
+                if (!passiveSkillsDict.ContainsKey(skill.SkillInfo.SkillName))
                 {
-                    passiveSkills.Add(skill.SkillInfo.SkillName, skill);
+                    passiveSkillsDict.Add(skill.SkillInfo.SkillName, skill);
+                    passiveSkills.Add(skill);
                 }
                 else
                 {
@@ -28,34 +35,41 @@ namespace EntitySystems.Skill
                 }
             }
         }
+
         public virtual void Initialize(Entity.Entity parent)
         {
             _parent = parent;
             _statSystem = parent.StatSystem;
-            foreach ((string skillName, PassiveSkill skill) in passiveSkills)
+
+            foreach (var skill in passiveSkills)
             {
                 skill.Initialize(this);
                 skill.ApplyEffect();
             }
+
             _statSystem.RecalculateStats();
-            
         }
+
         public virtual void Dispose()
         {
             _parent = null;
         }
+
         public virtual void InvokeInitialEvents()
         {
-            
-            //Should be overriden in derived classes
+            // Should be overridden in derived classes
         }
+
         public virtual bool AddSkill(PassiveSkill newPassiveSkill)
         {
-            if (!passiveSkills.ContainsKey(newPassiveSkill.SkillInfo.SkillName))
+            if (!passiveSkillsDict.ContainsKey(newPassiveSkill.SkillInfo.SkillName))
             {
-                passiveSkills.Add(newPassiveSkill.SkillInfo.SkillName, newPassiveSkill);
+                passiveSkillsDict.Add(newPassiveSkill.SkillInfo.SkillName, newPassiveSkill);
+                passiveSkills.Add(newPassiveSkill);
+
                 newPassiveSkill.Initialize(this);
                 newPassiveSkill.ApplyEffect();
+
                 _statSystem.RecalculateStats();
                 return true;
             }
@@ -66,22 +80,22 @@ namespace EntitySystems.Skill
             }
         }
 
-        public virtual bool RemoveSkill(PassiveSkill newPassiveSkill)
+        public virtual bool RemoveSkill(PassiveSkill passiveSkill)
         {
-            if (passiveSkills.ContainsKey(newPassiveSkill.SkillInfo.SkillName))
+            if (passiveSkillsDict.ContainsKey(passiveSkill.SkillInfo.SkillName))
             {
-                newPassiveSkill.UnapplyEffect();
-                passiveSkills.Remove(newPassiveSkill.SkillInfo.SkillName);
+                passiveSkill.UnapplyEffect();
+                passiveSkillsDict.Remove(passiveSkill.SkillInfo.SkillName);
+                passiveSkills.Remove(passiveSkill);
+
                 _statSystem.RecalculateStats();
                 return true;
             }
             else
             {
-                Debug.LogWarning($"Passive skill '{newPassiveSkill.SkillInfo.SkillName}' does not exist.");
+                Debug.LogWarning($"Passive skill '{passiveSkill.SkillInfo.SkillName}' does not exist.");
                 return false;
             }
         }
-
-
     }
 }

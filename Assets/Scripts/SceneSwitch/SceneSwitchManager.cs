@@ -21,7 +21,6 @@ namespace SceneSwitch
             if (Instance == null)
             {
                 Instance = this;
-                DontDestroyOnLoad(gameObject);
             }
             else
             {

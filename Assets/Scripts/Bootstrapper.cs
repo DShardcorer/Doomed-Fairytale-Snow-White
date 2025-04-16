@@ -1,4 +1,5 @@
 using DataPersistence;
+using Entity.Player;
 using GeneralManagers;
 using SceneSwitch;
 using UnityEngine;
@@ -20,12 +21,15 @@ public class Bootstrapper : MonoBehaviour
     }
     private void InvokeInitialEvents()
     {
-        GameManager.Instance.PlayerManager.GetPlayer().InventorySystem.InvokeInitialEvents();
-        GameManager.Instance.PlayerManager.GetPlayer().HealthSystem.InvokeInitialEvents();
-        GameManager.Instance.PlayerManager.GetPlayer().ManaSystem.InvokeInitialEvents();
-        GameManager.Instance.PlayerManager.GetPlayer().StaminaSystem.InvokeInitialEvents();
-        GameManager.Instance.PlayerManager.GetPlayer().StatSystem.InvokeInitialEvents();
-        GameManager.Instance.PlayerManager.GetPlayer().EquipmentSystem.InvokeInitialEvents();
-        GameManager.Instance.PlayerManager.GetPlayer().LevelSystem.InvokeInitialEvents();
+        Player player = GameManager.Instance.PlayerManager.GetPlayer();
+        player.InventorySystem.InvokeInitialEvents();
+        player.HealthSystem.InvokeInitialEvents();
+        player.ManaSystem.InvokeInitialEvents();
+        player.StaminaSystem.InvokeInitialEvents();
+        player.StatSystem.InvokeInitialEvents();
+        player.EquipmentSystem.InvokeInitialEvents();
+        player.LevelSystem.InvokeInitialEvents();
+        player.ActiveSkillSystem.InvokeInitialEvents();
+        player.PassiveSkillSystem.InvokeInitialEvents();
     }
 }

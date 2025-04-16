@@ -9,17 +9,22 @@ namespace EntitySystems.Skill
     {
         private Entity.Entity _parent;
         public Entity.Entity Parent => _parent;
+
         private EntityStateMachine _stateMachine;
         public EntityStateMachine StateMachine => _stateMachine;
-        protected Dictionary<string, ActiveSkill> activeSkills = new Dictionary<string, ActiveSkill>();
+
+        protected Dictionary<string, ActiveSkill> activeSkillsDict = new Dictionary<string, ActiveSkill>();
+        protected List<ActiveSkill> activeSkills = new List<ActiveSkill>();
+        
 
         public ActiveSkillSystem(List<ActiveSkill> skills)
         {
             foreach (var skill in skills)
             {
-                if (!activeSkills.ContainsKey(skill.SkillName))
+                if (!activeSkillsDict.ContainsKey(skill.SkillName))
                 {
-                    activeSkills.Add(skill.SkillName, skill);
+                    activeSkillsDict.Add(skill.SkillName, skill);
+                    activeSkills.Add(skill);
                 }
                 else
                 {
@@ -31,13 +36,16 @@ namespace EntitySystems.Skill
         public virtual void Initialize(Entity.Entity parent)
         {
             _parent = parent;
-            if(parent == null)
+
+            if (parent == null)
             {
                 Debug.LogError("Parent entity is null.");
                 return;
             }
+
             _stateMachine = parent.StateMachine;
-            foreach (var skill in activeSkills.Values)
+
+            foreach (var skill in activeSkills)
             {
                 skill.Initialize(this);
             }
@@ -45,7 +53,7 @@ namespace EntitySystems.Skill
 
         public virtual void InvokeInitialEvents()
         {
-            //Should be overriden in derived classes
+            // Should be overridden in derived classes
         }
 
         public void Dispose()
@@ -55,13 +63,15 @@ namespace EntitySystems.Skill
 
         public ActiveSkill GetSkill(string skillName)
         {
-            if (activeSkills.TryGetValue(skillName, out ActiveSkill skill))
+            if (activeSkillsDict.TryGetValue(skillName, out ActiveSkill skill))
             {
                 return skill;
             }
+
             Debug.LogError($"Skill '{skillName}' not found in SkillSystem.");
             return null;
         }
+
         public virtual bool AddSkill(ActiveSkill newActiveSkill)
         {
             if (newActiveSkill == null)
@@ -70,15 +80,15 @@ namespace EntitySystems.Skill
                 return false;
             }
 
-            if (activeSkills.ContainsKey(newActiveSkill.SkillName))
+            if (activeSkillsDict.ContainsKey(newActiveSkill.SkillName))
             {
                 Debug.LogWarning($"Skill '{newActiveSkill.SkillName}' already exists in the SkillSystem. Use a different skill or update the existing one.");
                 return false;
             }
 
-            activeSkills.Add(newActiveSkill.SkillName, newActiveSkill);
+            activeSkillsDict.Add(newActiveSkill.SkillName, newActiveSkill);
+            activeSkills.Add(newActiveSkill);
 
-            // If the SkillSystem has already been initialized, initialize the new skill immediately.
             if (_parent != null)
             {
                 newActiveSkill.Initialize(this);
@@ -86,12 +96,13 @@ namespace EntitySystems.Skill
 
             return true;
         }
-        
+
         public virtual bool RemoveSkill(string skillName)
         {
-            if (activeSkills.ContainsKey(skillName))
+            if (activeSkillsDict.TryGetValue(skillName, out ActiveSkill skill))
             {
-                activeSkills.Remove(skillName);
+                activeSkillsDict.Remove(skillName);
+                activeSkills.Remove(skill);
                 return true;
             }
             else
@@ -100,7 +111,5 @@ namespace EntitySystems.Skill
                 return false;
             }
         }
-
-
     }
 }

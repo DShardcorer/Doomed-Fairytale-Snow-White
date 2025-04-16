@@ -3,6 +3,7 @@ using Item.Inventory;
 using TMPro;
 using UnityEngine;
 using UnityEngine.EventSystems;
+using UnityEngine.Serialization;
 using UnityEngine.UI;
 
 namespace UI.Player.Inventory
@@ -15,15 +16,15 @@ namespace UI.Player.Inventory
         private const float DoubleClickThreshold = 0.3f; // Time in seconds
 
 
-        public InventoryItem _item;
+        [FormerlySerializedAs("_item")] public InventoryItem item;
 
         public void UpdateUI(InventoryItem item)
         {
-            _item = item;
+            this.item = item;
             _icon.sprite = item.ItemData.icon;
-            if (_item.stackSize > 1)
+            if (this.item.stackSize > 1)
             {
-                _stackSizeText.text = _item.stackSize.ToString();
+                _stackSizeText.text = this.item.stackSize.ToString();
             }
             else
             {
@@ -42,8 +43,8 @@ namespace UI.Player.Inventory
 
         private void OnDoubleClick()
         {
-            if(_item.ItemData.itemType == ItemType.Equipment){
-                Debug.Log("Equipping item: " + _item.ItemData.itemName);
+            if(item.ItemData.itemType == ItemType.Equipment){
+                Debug.Log("Equipping item: " + item.ItemData.itemName);
             }
         }
 

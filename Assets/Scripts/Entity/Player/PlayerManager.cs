@@ -55,16 +55,19 @@ namespace Entity.Player
             ShootActiveSkill shootActiveSkill =
                 new ShootActiveSkill(HelperSkillName.ShootSkill, 2f, 0, 10, 30, playerShootingState);
 
-            ActiveSkillSystem activeSkillSystem =
-                new ActiveSkillSystem(new List<ActiveSkill> { dashActiveSkill, shootActiveSkill });
-
-            SkillInfoSO naturalStrengthSO =
-                UnityEngine.Resources.Load<SkillInfoSO>(HelperResourcePath.PassiveSkillPath + "/NaturalStrength");
+            PlayerActiveSkillSystem activeSkillSystem =
+                new PlayerActiveSkillSystem(new List<ActiveSkill> { dashActiveSkill, shootActiveSkill });
+            
+                
             NaturalStrengthPassiveSkill naturalStrengthPassiveSkill =
-                new NaturalStrengthPassiveSkill(naturalStrengthSO);
+                new NaturalStrengthPassiveSkill(UnityEngine.Resources.Load<SkillInfoSO>(
+                    HelperResourcePath.PassiveSkillPath + "/NaturalStrength"));
+            BodyControlPassiveSkill bodyControlPassiveSkill =
+                new BodyControlPassiveSkill(UnityEngine.Resources.Load<SkillInfoSO>(
+                    HelperResourcePath.PassiveSkillPath + "/BodyControl"));
 
-            List<PassiveSkill> passiveSkills = new List<PassiveSkill> { naturalStrengthPassiveSkill };
-            PassiveSkillSystem passiveSkillSystem = new PassiveSkillSystem(passiveSkills);
+            List<PassiveSkill> passiveSkills = new List<PassiveSkill> { naturalStrengthPassiveSkill, bodyControlPassiveSkill };
+            PlayerPassiveSkillSystem passiveSkillSystem = new PlayerPassiveSkillSystem(passiveSkills);
 
             //States creation
             PlayerIdlingProperties playerIdlingProperties = new PlayerIdlingProperties();
