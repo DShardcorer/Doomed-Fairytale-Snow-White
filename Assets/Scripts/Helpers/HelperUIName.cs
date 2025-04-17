@@ -9,5 +9,6 @@ namespace Helpers
         public static string DamagePopupUI = "DamagePopupUI";
         
         public static string PassiveSkillSlotUI = "PassiveSkillSlotUI";
+        public static string ActiveSkillSlotUI = "ActiveSkillSlotUI";
     }
 }

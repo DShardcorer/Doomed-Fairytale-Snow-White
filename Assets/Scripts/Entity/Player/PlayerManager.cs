@@ -43,30 +43,34 @@ namespace Entity.Player
 
             //ActiveSkillSystem creation
             PlayerDashingProperties playerDashingProperties = new PlayerDashingProperties();
+            ActiveSkillInfoSO dashSkillInfoSO =
+                UnityEngine.Resources.Load<ActiveSkillInfoSO>(HelperResourcePath.ActiveSkillPath + "Dash");
             PlayerDashingState playerDashingState =
                 new PlayerDashingState(HelperAnimationStateName.IS_DASHING, playerDashingProperties);
             DashActiveSkill dashActiveSkill =
-                new DashActiveSkill(HelperSkillName.DashSkill, 2f, 0, 0, 30, playerDashingState);
+                new DashActiveSkill(dashSkillInfoSO, playerDashingState);
 
 
             PlayerShootingProperties playerShootingProperties = new PlayerShootingProperties();
+            ActiveSkillInfoSO shootSkillInfoSO =
+                UnityEngine.Resources.Load<ActiveSkillInfoSO>(HelperResourcePath.ActiveSkillPath + "Shoot");
             PlayerShootingState playerShootingState =
                 new PlayerShootingState(HelperAnimationStateName.IS_SHOOTING, playerShootingProperties);
             ShootActiveSkill shootActiveSkill =
-                new ShootActiveSkill(HelperSkillName.ShootSkill, 2f, 0, 10, 30, playerShootingState);
-
+                new ShootActiveSkill(shootSkillInfoSO, playerShootingState);
             PlayerActiveSkillSystem activeSkillSystem =
                 new PlayerActiveSkillSystem(new List<ActiveSkill> { dashActiveSkill, shootActiveSkill });
-            
-                
+
+
             NaturalStrengthPassiveSkill naturalStrengthPassiveSkill =
                 new NaturalStrengthPassiveSkill(UnityEngine.Resources.Load<SkillInfoSO>(
-                    HelperResourcePath.PassiveSkillPath + "/NaturalStrength"));
+                    HelperResourcePath.PassiveSkillPath + "NaturalStrength"));
             BodyControlPassiveSkill bodyControlPassiveSkill =
                 new BodyControlPassiveSkill(UnityEngine.Resources.Load<SkillInfoSO>(
-                    HelperResourcePath.PassiveSkillPath + "/BodyControl"));
+                    HelperResourcePath.PassiveSkillPath + "BodyControl"));
 
-            List<PassiveSkill> passiveSkills = new List<PassiveSkill> { naturalStrengthPassiveSkill, bodyControlPassiveSkill };
+            List<PassiveSkill> passiveSkills = new List<PassiveSkill>
+                { naturalStrengthPassiveSkill, bodyControlPassiveSkill };
             PlayerPassiveSkillSystem passiveSkillSystem = new PlayerPassiveSkillSystem(passiveSkills);
 
             //States creation

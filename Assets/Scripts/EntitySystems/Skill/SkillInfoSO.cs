@@ -3,7 +3,7 @@ using UnityEngine;
 
 namespace EntitySystems.Skill
 {
-    [CreateAssetMenu(fileName = "SkillInfo", menuName = "SkillInfo")]
+    [CreateAssetMenu(fileName = "SkillInfoSO", menuName = "SkillInfoSO/SkillInfoSO")]
     public class SkillInfoSO:ScriptableObject
     {
         public string SkillName;

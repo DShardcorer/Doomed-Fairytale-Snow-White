@@ -6,12 +6,14 @@ namespace EntitySystems.Skill.ActiveSkills.Player.Dash
     public class DashActiveSkill : ActiveSkill
     {
         private PlayerDashingState _dashingState;
-        public DashActiveSkill(string skillName, float cooldown, float healthCost, float manaCost, float staminaCost,
-            PlayerDashingState playerDashingState) 
-            : base(skillName, cooldown, healthCost ,manaCost, staminaCost)
+
+
+        public DashActiveSkill(ActiveSkillInfoSO activeSkillInfoSO, PlayerDashingState dashingState) : base(
+            activeSkillInfoSO)
         {
-            _dashingState = playerDashingState;
+            _dashingState = dashingState;
         }
+
         public override void Initialize(ActiveSkillSystem parent)
         {
             base.Initialize(parent);
@@ -23,7 +25,6 @@ namespace EntitySystems.Skill.ActiveSkills.Player.Dash
             {
                 Debug.LogError($"DashSkill initialized with a non-Player entity: {base.parent.Parent}");
             }
-
         }
 
 
@@ -31,12 +32,11 @@ namespace EntitySystems.Skill.ActiveSkills.Player.Dash
         {
             base.UpdateLogic();
         }
+
         protected override void UseSkill()
         {
             base.UseSkill();
             parent.StateMachine.ChangeState(_dashingState);
         }
-
-
     }
 }

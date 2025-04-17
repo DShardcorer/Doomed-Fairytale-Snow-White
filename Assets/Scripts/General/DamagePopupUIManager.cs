@@ -14,6 +14,7 @@ namespace General
         private PoolManager _poolManager;
         public PoolManager PoolManager => _poolManager;
         [SerializeField] private Vector2 offset = new Vector2(0, 0.5f);
+
         public void Initialize(UIManager controller)
         {
             _uiManager = controller;
@@ -23,13 +24,19 @@ namespace General
 
         private void OnHealthChanged(object sender, HealthChangedEventArgs e)
         {
-            Debug.Log("Health Changed");
-            DamagePopupUI damagePopup = _poolManager.GetObject(HelperUIName.DamagePopupUI).GetComponent<DamagePopupUI>();
+            if (e.CurrentHealth - e.LastCurrentHealth == 0)
+            {
+                return;
+            }
+
+            DamagePopupUI damagePopup =
+                _poolManager.GetObject(HelperUIName.DamagePopupUI).GetComponent<DamagePopupUI>();
             //Debug if damagePopup is null
             if (damagePopup == null)
             {
                 Debug.Log("Damage Popup is null");
             }
+
             damagePopup.transform.position = ((Entity.Entity)sender).View.transform.position + (Vector3)offset;
             damagePopup.Initialize(this, e.LastCurrentHealth - e.CurrentHealth);
         }

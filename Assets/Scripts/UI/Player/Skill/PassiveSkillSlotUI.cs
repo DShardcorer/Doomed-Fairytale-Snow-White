@@ -1,6 +1,7 @@
 using EntitySystems.Skill;
 using UnityEngine;
 using UnityEngine.UI;
+using TMPro;
 
 namespace UI.Player.Skill
 {
@@ -9,8 +10,8 @@ namespace UI.Player.Skill
         private PassiveSkill _passiveSkill;
         public PassiveSkill PassiveSkill => _passiveSkill;
         [SerializeField] private Image _icon;
-        [SerializeField] private TMPro.TextMeshProUGUI _skillName;
-        [SerializeField] private TMPro.TextMeshProUGUI _descriptionText;
+        [SerializeField] private TextMeshProUGUI _skillName;
+        [SerializeField] private TextMeshProUGUI _descriptionText;
 
         public void UpdateUI(PassiveSkill skill)
         {

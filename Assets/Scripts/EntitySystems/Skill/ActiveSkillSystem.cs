@@ -21,14 +21,14 @@ namespace EntitySystems.Skill
         {
             foreach (var skill in skills)
             {
-                if (!activeSkillsDict.ContainsKey(skill.SkillName))
+                if (!activeSkillsDict.ContainsKey(skill.activeSkillInfo.SkillName))
                 {
-                    activeSkillsDict.Add(skill.SkillName, skill);
+                    activeSkillsDict.Add(skill.activeSkillInfo.SkillName, skill);
                     activeSkills.Add(skill);
                 }
                 else
                 {
-                    Debug.LogWarning($"Duplicate skill name detected: {skill.SkillName}. Skipping duplicate.");
+                    Debug.LogWarning($"Duplicate skill name detected: {skill.activeSkillInfo.SkillName}. Skipping duplicate.");
                 }
             }
         }
@@ -80,13 +80,13 @@ namespace EntitySystems.Skill
                 return false;
             }
 
-            if (activeSkillsDict.ContainsKey(newActiveSkill.SkillName))
+            if (activeSkillsDict.ContainsKey(newActiveSkill.activeSkillInfo.SkillName))
             {
-                Debug.LogWarning($"Skill '{newActiveSkill.SkillName}' already exists in the SkillSystem. Use a different skill or update the existing one.");
+                Debug.LogWarning($"Skill '{newActiveSkill.activeSkillInfo.SkillName}' already exists in the SkillSystem. Use a different skill or update the existing one.");
                 return false;
             }
 
-            activeSkillsDict.Add(newActiveSkill.SkillName, newActiveSkill);
+            activeSkillsDict.Add(newActiveSkill.activeSkillInfo.SkillName, newActiveSkill);
             activeSkills.Add(newActiveSkill);
 
             if (_parent != null)

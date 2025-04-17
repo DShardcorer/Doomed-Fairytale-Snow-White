@@ -6,13 +6,13 @@ namespace EntitySystems.Skill.ActiveSkills.Player.Shoot
     public class ShootActiveSkill : ActiveSkill
     {
         private PlayerShootingState _shootingState;
-        public ShootActiveSkill(string skillName, float cooldown, 
-            float healthCost, float manaCost, float staminaCost,
-            PlayerShootingState playerShootingState) 
-            : base(skillName, cooldown, healthCost ,manaCost, staminaCost)
+
+        public ShootActiveSkill(ActiveSkillInfoSO activeSkillInfoSO, PlayerShootingState shootingState) : base(
+            activeSkillInfoSO)
         {
-            _shootingState = playerShootingState;
+            _shootingState = shootingState;
         }
+
         public override void Initialize(ActiveSkillSystem parent)
         {
             base.Initialize(parent);
@@ -24,7 +24,6 @@ namespace EntitySystems.Skill.ActiveSkills.Player.Shoot
             {
                 Debug.LogError($"ShootSkill initialized with a non-Player entity: {base.parent.Parent}");
             }
-
         }
 
 
@@ -32,14 +31,11 @@ namespace EntitySystems.Skill.ActiveSkills.Player.Shoot
         {
             base.UpdateLogic();
         }
+
         protected override void UseSkill()
         {
             base.UseSkill();
             parent.StateMachine.ChangeState(_shootingState);
         }
-
-
-
-
     }
 }

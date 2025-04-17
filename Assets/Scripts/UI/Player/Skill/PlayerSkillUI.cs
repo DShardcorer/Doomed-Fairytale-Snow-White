@@ -11,6 +11,7 @@ namespace UI.Player.Skill
         {
             base.Initialize(parent);
             passiveSkillUI.Initialize(this);
+            activeSkillUI.Initialize(this);
         }
         
     }

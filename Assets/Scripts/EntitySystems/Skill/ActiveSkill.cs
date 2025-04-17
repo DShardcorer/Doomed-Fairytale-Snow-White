@@ -1,4 +1,3 @@
-
 using EntitySystems.VitalStatSystems.Health_System;
 using EntitySystems.VitalStatSystems.Mana_System;
 using EntitySystems.VitalStatSystems.Stamina_System;
@@ -19,36 +18,19 @@ namespace EntitySystems.Skill
         protected StaminaSystem staminaSystem;
         public StaminaSystem StaminaSystem => staminaSystem;
 
-        protected string skillName;
-        protected float cooldown;
         protected float cooldownTimer;
-        protected bool isMindBound = false;
-        
-        public bool IsMindBound => isMindBound;
-        public string SkillName => skillName;
-        public float Cooldown => cooldown;
-        public float CooldownTimer => cooldownTimer;
 
 
-        protected float _healthCost;
-        public float HealthCost => _healthCost;
-        protected float _manaCost;
-        public float ManaCost => _manaCost;
-        protected float _staminaCost;
-        public float StaminaCost => _staminaCost;
+        public ActiveSkillInfoSO activeSkillInfo;
 
 
-        public ActiveSkill(string skillName, float cooldown, float healthCost = 0, float manaCost = 0, float staminaCost = 30)
+        public ActiveSkill(ActiveSkillInfoSO activeSkillInfoSO)
         {
-            this.skillName = skillName;
-            this.cooldown = cooldown;
-            _healthCost = healthCost;
-            _manaCost = manaCost;
-            _staminaCost = staminaCost;
+            this.activeSkillInfo = activeSkillInfoSO;
         }
+
         public virtual void Initialize(ActiveSkillSystem parent)
         {
-
             this.parent = parent;
             GameManager.Instance.FixedUpdateManager.AddFixedUpdatable(this);
             GameManager.Instance.UpdateManager.AddUpdatable(this);
@@ -56,7 +38,6 @@ namespace EntitySystems.Skill
             healthSystem = this.parent.Parent.HealthSystem;
             manaSystem = this.parent.Parent.ManaSystem;
             staminaSystem = this.parent.Parent.StaminaSystem;
-
         }
 
         public void Dispose()
@@ -65,6 +46,7 @@ namespace EntitySystems.Skill
             GameManager.Instance.FixedUpdateManager.RemoveFixedUpdatable(this);
             GameManager.Instance.UpdateManager.RemoveUpdatable(this);
         }
+
         public virtual void UpdateLogic()
         {
             if (cooldownTimer > 0)
@@ -75,7 +57,6 @@ namespace EntitySystems.Skill
 
         public virtual void FixedUpdateLogic()
         {
-       
         }
 
 
@@ -85,18 +66,22 @@ namespace EntitySystems.Skill
             {
                 return false;
             }
-            if (healthSystem.CurrentHealth < _healthCost)
+
+            if (healthSystem.CurrentHealth < activeSkillInfo.healthCost)
             {
                 return false;
             }
-            if (manaSystem.CurrentMana < _manaCost)
+
+            if (manaSystem.CurrentMana < activeSkillInfo.manaCost)
             {
                 return false;
             }
-            if (staminaSystem.CurrentStamina < _staminaCost)
+
+            if (staminaSystem.CurrentStamina < activeSkillInfo.staminaCost)
             {
                 return false;
             }
+
             return true;
         }
 
@@ -107,20 +92,16 @@ namespace EntitySystems.Skill
                 UseSkill();
                 return true;
             }
+
             return false;
         }
 
         protected virtual void UseSkill()
         {
-            cooldownTimer = cooldown;
-            healthSystem.TakeDamage(_healthCost);
-            manaSystem.TryUseMana(_manaCost);
-            staminaSystem.TryUseStamina(_staminaCost);
+            cooldownTimer = activeSkillInfo.cooldown;
+            healthSystem.TakeDamage(activeSkillInfo.healthCost);
+            manaSystem.TryUseMana(activeSkillInfo.manaCost);
+            staminaSystem.TryUseStamina(activeSkillInfo.staminaCost);
         }
-
-
-
-
-
     }
 }

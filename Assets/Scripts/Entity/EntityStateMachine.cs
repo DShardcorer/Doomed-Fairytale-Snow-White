@@ -33,11 +33,21 @@ namespace Entity
 
         public void UpdateLogic()
         {
+            if (_currentState == null)
+            {
+                Debug.LogError("Current state is null");
+                return;
+            }
             _currentState.UpdateState();
         }
 
         public void FixedUpdateLogic()
         {
+            if (_currentState == null)
+            {
+                Debug.LogError("Current state is null");
+                return;
+            }
             _currentState.FixedUpdateState();
         }
 
