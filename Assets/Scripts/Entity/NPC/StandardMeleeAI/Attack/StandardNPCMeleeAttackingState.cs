@@ -1,3 +1,4 @@
+using System;
 using Entity.NPC.Attack;
 using UnityEngine;
 
@@ -15,26 +16,20 @@ namespace Entity.NPC.StandardAI.Attack
 
         private float attackCooldownTimer;
 
+
         public override void FixedUpdateState()
         {
             base.FixedUpdateState();
-            if (!_isAnimationEnded)
+            if (IsAnimationEnded())
             {
-                _rigidbody.linearVelocity = 0.25f * npc.NPCProperties.lastMovementVector * npc.NPCProperties.MoveSpeed;
+                npcAIController.ChangeState(npcAIController.NPCIdlingState);
             }
-            else
-            {
-                if (Vector3.Distance(npc.View.transform.position, _properties.target.View.transform.position) <=
-                    _standardNPCMeleeAttackingProperties.AttackRange)
-                    //enemy is in range
-                {
-                    _stateMachine.ChangeState(npcAIController.NPCAttackingState);
-                }
-                else //enemy is out of range
-                {
-                    _stateMachine.ChangeState(npcAIController.NPCChasingState);
-                }
-            }
+        }
+
+        protected override void OnTakingEffect(object sender, EventArgs e)
+        {
+            _entity.AttackHitbox.PerformAttack(_standardNPCMeleeAttackingProperties.AttackType,
+                _standardNPCMeleeAttackingProperties.AttackDamage);
         }
     }
 }

@@ -31,31 +31,40 @@ namespace Entity.NPC.StandardAI
             return _npcIdlingState;
         }
 
-        // When something enters the FOV, switch to chase if allowed
-        protected override void OnTargetSpottedInFOV(object sender, Entity e)
+        public override void FixedUpdateLogic()
         {
-            if (_npc.IsBusy || !_config.shouldChaseTargets)
+            base.FixedUpdateLogic();
+            if (npc.NPCProperties.target != null)
+            {
+                npc.NPCProperties.lastMovementVector =
+                    (npc.NPCProperties.target.View.transform.position - npc.View.transform.position).normalized;
+                if (Vector3.Distance(npc.View.transform.position, npc.NPCProperties.target.View.transform.position) <=
+                    _config.attackRange && _stateMachine.CurrentState != _npcAttackingState)
+                    //enemy is in range
+                {
+                    ChangeState(_npcAttackingState);
+                }
+            }
+        }
+
+        // When something enters the FOV, switch to chase if allowed
+        protected override void OnTargetSpottedInFOV(object sender, Entity entity)
+        {
+            if (npc.IsBusy || !_config.shouldChaseTargets)
                 return;
 
-            _npc.NPCProperties.target = e;
-            _stateMachine.ChangeState(_npcChasingState);
+            SetTarget(entity);
+            ChangeState(_npcChasingState);
         }
 
         // When something gets close, optionally attack
         protected override void OnTargetSpottedInProximity(object sender, Entity e)
         {
-            if (_npc.IsBusy)
+            if (npc.IsBusy)
                 return;
 
-            _npc.NPCProperties.lastMovementVector =
-                (e.View.transform.position - _npc.View.transform.position).normalized;
-
-            if (_config.shouldAttackTargets &&
-                Vector3.Distance(_npc.View.transform.position, e.View.transform.position) <= _config.attackRange)
-            {
-                _npc.NPCProperties.target = e;
-                _stateMachine.ChangeState(_npcAttackingState);
-            }
+            npc.NPCProperties.lastMovementVector =
+                (e.View.transform.position - npc.View.transform.position).normalized;
         }
     }
 }

@@ -45,6 +45,7 @@ namespace Entity
 
         public virtual void StartStateAnimation(string stateAnimation)
         {
+            StopStateAnimation(stateAnimation);
             _animator.SetBool(stateAnimation, true);
         }
         public virtual void StopStateAnimation(string stateAnimation)

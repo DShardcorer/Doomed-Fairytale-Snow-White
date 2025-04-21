@@ -26,8 +26,8 @@ namespace Entity.NPC.AI
         
         [Header("Chase Settings")]
         public float chaseSpeed = 3f;
-        public float chasingTime = 2f;
         public float attackCooldown = 2f;
+        public float chaseRange = 5f;
 
         [Header("Attack Settings")] public AttackType attackType = AttackType.OverlapCircle;
         public float attackRange = 1f;

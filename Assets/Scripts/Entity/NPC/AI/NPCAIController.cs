@@ -11,7 +11,7 @@ namespace Entity.NPC.AI
 {
     public abstract class NPCAIController : ILifecycle<NPC>
     {
-        protected NPC _npc;
+        protected NPC npc;
         protected NPCAIConfiguration _config;
         protected EntityStateMachine _stateMachine;
 
@@ -44,20 +44,20 @@ namespace Entity.NPC.AI
 
         public virtual void Initialize(NPC npc)
         {
-            _npc = npc;
+            this.npc = npc;
             _stateMachine = npc.StateMachine;
 
             // Set up event listeners
-            _npc.FOVDetector.OnClosestEntityFromDifferentFactionSpottedInFOV += OnTargetSpottedInFOV;
-            _npc.ProximityDetector.OnEntityFromDifferentFactionSpottedInProximity += OnTargetSpottedInProximity;
+            this.npc.FOVDetector.OnClosestEntityFromDifferentFactionSpottedInFOV += OnTargetSpottedInFOV;
+            this.npc.ProximityDetector.OnEntityFromDifferentFactionSpottedInProximity += OnTargetSpottedInProximity;
 
 
             // Initialize states
-            _npcIdlingState.Initialize(_npc);
-            _npcMovingState.Initialize(_npc);
-            _npcChasingState.Initialize(_npc);
-            _npcAttackingState.Initialize(_npc);
-            _npcBeingInteractedWithState.Initialize(_npc);
+            _npcIdlingState.Initialize(this.npc);
+            _npcMovingState.Initialize(this.npc);
+            _npcChasingState.Initialize(this.npc);
+            _npcAttackingState.Initialize(this.npc);
+            _npcBeingInteractedWithState.Initialize(this.npc);
 
             // Set initial state
             _stateMachine.Initialize(GetInitialState());
@@ -70,35 +70,45 @@ namespace Entity.NPC.AI
 
 
         // Abstract methods that must be implemented by derived classes
-        protected abstract void OnTargetSpottedInFOV(object sender, Entity e);
+        protected abstract void OnTargetSpottedInFOV(object sender, Entity entity);
         protected abstract void OnTargetSpottedInProximity(object sender, Entity e);
 
         protected abstract NPCState GetInitialState();
 
 
-        public void UpdateLogic()
+        public virtual void UpdateLogic()
         {
             _stateMachine.UpdateLogic();
         }
 
-        public void FixedUpdateLogic()
+        public virtual void FixedUpdateLogic()
         {
-            _npc.FOVDetector.SetColliderRotation(_npc.NPCProperties.lastMovementVector);
-            _npc.AttackHitbox.SetAttackHitBoxRotation(_npc.NPCProperties.lastMovementVector);
+            npc.FOVDetector.SetColliderRotation(npc.NPCProperties.lastMovementVector);
+            npc.AttackHitbox.SetAttackHitBoxRotation(npc.NPCProperties.lastMovementVector);
             _stateMachine.FixedUpdateLogic();
         }
 
         public virtual void Dispose()
         {
-            if (_npc != null)
+            if (npc != null)
             {
-                _npc.FOVDetector.OnClosestEntityFromDifferentFactionSpottedInFOV -= OnTargetSpottedInFOV;
-                _npc.ProximityDetector.OnEntityFromDifferentFactionSpottedInProximity -= OnTargetSpottedInProximity;
+                npc.FOVDetector.OnClosestEntityFromDifferentFactionSpottedInFOV -= OnTargetSpottedInFOV;
+                npc.ProximityDetector.OnEntityFromDifferentFactionSpottedInProximity -= OnTargetSpottedInProximity;
             }
 
-            _npc = null;
+            npc = null;
             _config = null;
             _stateMachine = null;
+        }
+
+        public void SetTarget(Entity target)
+        {
+            npc.NPCProperties.target = target;
+        }
+
+        public void UnsetTarget()
+        {
+            npc.NPCProperties.target = null;
         }
     }
 }
