@@ -20,6 +20,7 @@ namespace EntitySystems.VitalStatSystems.Health_System
             _parent = parent;
             healthFill.fillAmount = 1;
             PlayerVitalStatsEventSystem.OnHealthChanged += HealthSystem_OnHealthChanged;
+            //subscribe to the event
         }
 
         private void HealthSystem_OnHealthChanged(object sender, HealthChangedEventArgs e)

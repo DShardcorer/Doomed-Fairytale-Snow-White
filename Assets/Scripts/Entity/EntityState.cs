@@ -15,7 +15,6 @@ namespace Entity
         protected EntityView _view;
         protected Rigidbody2D _rigidbody;
         protected Animator _animator;
-        protected float _stateTimer = 1f;
         protected bool _isAnimationEnded;
         protected string _animationBoolName;
 

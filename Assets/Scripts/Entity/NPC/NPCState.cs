@@ -1,3 +1,5 @@
+using Entity.NPC.AI;
+
 namespace Entity.NPC
 {
     public class NPCState : EntityState
@@ -6,12 +8,14 @@ namespace Entity.NPC
         {
         }
 
-        protected NPC _npc;
-        public NPC NPC => _npc;
+        protected NPC npc;
+        public NPC NPC => npc;
 
+        protected NPCAIController npcAIController;
+        public NPCAIController NPCAIController => npcAIController;
         public virtual void Initialize(NPC controller)
         {
-            _npc = controller;
+            npc = controller;
             base.Initialize(controller);
         }
     }

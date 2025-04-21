@@ -10,20 +10,21 @@ namespace Entity.NPC.Idle
         {
             _npcIdlingProperties = entityStateProperties;
         }
+        private float idleTimer;
 
         public override void EnterState()
         {
             base.EnterState();
-            _stateTimer = _npcIdlingProperties.IdleTime;
+            idleTimer = _npcIdlingProperties.IdleTime;
         }
 
         public override void FixedUpdateState()
         {
             base.FixedUpdateState();
-            _stateTimer -= Time.fixedDeltaTime;
-            if (_stateTimer <= 0)
+            idleTimer -= Time.fixedDeltaTime;
+            if (idleTimer <= 0)
             {
-                _stateMachine.ChangeState(_npc.NPCMovingState);
+                _stateMachine.ChangeState(npcAIController.NPCMovingState);
             }
         }
     }

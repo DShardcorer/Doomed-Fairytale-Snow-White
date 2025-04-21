@@ -21,7 +21,7 @@ namespace UI.Player.Skill
             {
                 icon.sprite = skill.activeSkillInfo.SkillIcon;
                 skillName.text = skill.activeSkillInfo.SkillName;
-                cooldownText.text = "Cooldown:" + skill.activeSkillInfo.cooldown.ToString() + "s";
+                cooldownText.text = "Cooldown: " + skill.activeSkillInfo.cooldown.ToString() + "s";
                 descriptionText.text = skill.activeSkillInfo.SkillDescription;
                 vitalStatsCostText.text = "Consume:";
                 if (skill.activeSkillInfo.healthCost != 0)

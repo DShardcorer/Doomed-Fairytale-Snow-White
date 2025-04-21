@@ -1,4 +1,5 @@
 using System;
+using Entity.NPC.AI;
 
 namespace Entity.NPC.Idle
 {
@@ -7,9 +8,9 @@ namespace Entity.NPC.Idle
         private float idleTime = 2.0f;
         public float IdleTime => idleTime;
 
-        public NPCIdlingProperties(float idleTime)
+        public NPCIdlingProperties(NPCAIConfiguration config)
         {
-            this.idleTime = idleTime;
+            idleTime = config.idleTime;
         }
 
         protected override void UpdateDerivedProperties(object sender, EventArgs e)

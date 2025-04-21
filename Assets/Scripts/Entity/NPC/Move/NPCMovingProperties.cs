@@ -1,4 +1,5 @@
 using System;
+using Entity.NPC.AI;
 
 namespace Entity.NPC.Move
 {
@@ -11,10 +12,10 @@ namespace Entity.NPC.Move
         private float movingTime = 2.0f;
         public float MovingTime => movingTime;
 
-        public NPCMovingProperties(float moveSpeed = 2.0f, float movingTime = 2.0f)
+        public NPCMovingProperties(NPCAIConfiguration config)
         {
-            this.moveSpeed = moveSpeed;
-            this.movingTime = movingTime;
+            this.moveSpeed = config.moveSpeed;
+            this.movingTime = config.movingTime;
         }
 
         protected override void UpdateDerivedProperties(object sender, EventArgs e)

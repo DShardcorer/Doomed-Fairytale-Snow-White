@@ -1,3 +1,5 @@
+using System;
+
 namespace Entity.Player
 {
     public class PlayerView : EntityView
@@ -10,5 +12,9 @@ namespace Entity.Player
             _player = controller;
         }
 
+        private void Start() //Khong the biet khi nao no chay
+        {
+            
+        }
     }
 }

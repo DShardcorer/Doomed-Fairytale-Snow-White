@@ -42,6 +42,7 @@ namespace EventSystem.Player
     public static class PlayerVitalStatsEventSystem
     {
         public static event EventHandler<HealthChangedEventArgs> OnHealthChanged;
+        
         public static event EventHandler<ManaChangedEventArgs> OnManaChanged;
         public static event EventHandler<StaminaChangedEventArgs> OnStaminaChanged;
 

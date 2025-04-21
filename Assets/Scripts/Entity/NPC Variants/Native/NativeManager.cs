@@ -1,10 +1,8 @@
 using System.Collections.Generic;
 using Entity.Faction;
-using Entity.NPC_Variants.Native.Attack;
-using Entity.NPC_Variants.Native.Chase;
-using Entity.NPC_Variants.Native.Idle;
-using Entity.NPC_Variants.Native.Move;
 using Entity.NPC;
+using Entity.NPC.AI;
+using Entity.NPC.StandardAI;
 using EntitySystems.Equipment;
 using EntitySystems.Level;
 using EntitySystems.Skill;
@@ -33,24 +31,6 @@ namespace Entity.NPC_Variants.Native
             ActiveSkillSystem activeSkillSystem = new ActiveSkillSystem(new List<ActiveSkill> { });
             PassiveSkillSystem passiveSkillSystem = new PassiveSkillSystem(new List<PassiveSkill> { });
 
-            //State creation
-            NativeIdlingProperties nativeIdlingProperties = new NativeIdlingProperties(2);
-            NativeIdlingState nativeIdlingState =
-                new NativeIdlingState(HelperAnimationStateName.IS_IDLING, nativeIdlingProperties);
-
-            NativeMovingProperties nativeMovingProperties = new NativeMovingProperties(2);
-            NativeMovingState nativeMovingState =
-                new NativeMovingState(nativeMovingProperties, HelperAnimationStateName.IS_MOVING);
-
-            NativeChasingProperties nativeChasingProperties = new NativeChasingProperties();
-            NativeMeleeChasingState nativeChasingState =
-                new NativeMeleeChasingState(nativeChasingProperties, HelperAnimationStateName.IS_CHASING);
-
-            NativeAttackingProperties nativeAttackingProperties = new NativeAttackingProperties();
-            NativeMeleeAttackingState nativeAttackingState =
-                new NativeMeleeAttackingState(HelperAnimationStateName.IS_ATTACKING, nativeAttackingProperties);
-
-
             EntityStateMachine stateMachine = new EntityStateMachine();
 
             //Stat system creation
@@ -77,14 +57,24 @@ namespace Entity.NPC_Variants.Native
             StaminaSystem staminaSystem = new StaminaSystem((int)statSystem.CombatStatBoard.Stamina.ModifiedValue);
             InventorySystem inventory = new InventorySystem();
 
-            NPC.NPC npc = new NPC.NPC(nativeView, npcProperties, nativeIdlingState, nativeMovingState,
-                nativeChasingState, nativeAttackingState,
-                statSystem, equipmentSystem,
+            //NPCAIController creation
+            NPCAIController aiController =
+                new StandardNPCMeleeAIController(
+                    UnityEngine.Resources.Load<NPCAIConfiguration>(HelperResourcePath.NPCAIConfigPath +
+                                                                   "StandardNPCMeleeAIConfig"));
+
+            NPC.NPC npc = new NPC.NPC(
+                nativeView,
+                npcProperties,
+                statSystem,
+                equipmentSystem,
                 activeSkillSystem, passiveSkillSystem,
-                levelSystem, healthSystem, manaSystem, staminaSystem, stateMachine, inventory);
-
+                levelSystem,
+                healthSystem, manaSystem, staminaSystem,
+                stateMachine,
+                inventory,
+                aiController);
             npc.Initialize(this);
-
             npc.NPCView.transform.position = position;
             _enemies.Add(npc);
         }

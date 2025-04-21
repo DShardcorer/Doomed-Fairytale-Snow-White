@@ -1,19 +1,13 @@
+using System;
 using UnityEngine;
 
 namespace Entity.NPC.Attack
 {
-    public class NPCAttackingProperties : MonoBehaviour
+    public class NPCAttackingProperties: EntityStateProperties
     {
-        // Start is called once before the first execution of Update after the MonoBehaviour is created
-        void Start()
+        protected override void UpdateDerivedProperties(object sender, EventArgs e)
         {
-        
-        }
-
-        // Update is called once per frame
-        void Update()
-        {
-        
+            throw new NotImplementedException();
         }
     }
 }

@@ -17,6 +17,11 @@ namespace Entity.Detectors
 
         public event System.EventHandler<Entity> OnEntityFromDifferentFactionSpottedInProximity;
 
+        public void SetDetectionRadius(float detectionRadius)
+        {
+            _collider.radius = detectionRadius;
+        }
+
         public virtual void OnTriggerEnter2D(Collider2D collision)
         {
             if (((1 << collision.gameObject.layer) & HelperLayer.EntityLayerMask) == 0) return;

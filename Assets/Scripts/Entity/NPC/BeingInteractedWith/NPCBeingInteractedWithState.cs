@@ -9,8 +9,8 @@ namespace Entity.NPC.BeingInteractedWith
         public override void EnterState()
         {
             base.EnterState();
-            _npc.FOVDetector.SetColliderRotation(_properties.lastMovementVector);
-            _npc.AttackHitbox.SetAttackHitBoxRotation(_properties.lastMovementVector);
+            npc.FOVDetector.SetColliderRotation(_properties.lastMovementVector);
+            npc.AttackHitbox.SetAttackHitBoxRotation(_properties.lastMovementVector);
         }
         public override void FixedUpdateState()
         {

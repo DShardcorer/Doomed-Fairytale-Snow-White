@@ -145,6 +145,9 @@ namespace Entity.Player
             _playerInteraction = null;
             _inputManager = null;
             _parent = null;
+            
+            //Garbage collector hoat dong
+            // different flavor of wrong
         }
 
         public override void Die()

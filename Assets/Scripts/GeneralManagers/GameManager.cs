@@ -10,6 +10,7 @@ namespace GeneralManagers
 {
     public class GameManager : MonoBehaviour
     {
+
         public static GameManager Instance { get; private set; }
         [SerializeField] private InputManager _inputManager;
         [SerializeField] private PoolManager _poolManager;

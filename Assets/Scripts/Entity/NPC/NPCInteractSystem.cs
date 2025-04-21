@@ -1,5 +1,6 @@
 using System;
 using Entity.Faction;
+using Entity.NPC.AI;
 using EventSystem.Dialogue;
 using EventSystem.Player;
 using GeneralManagers;
@@ -12,6 +13,7 @@ namespace Entity.NPC
     {
         private NPC npc;
         public NPC NPC => npc;
+        private NPCAIController npcAIController;
 
         public int Priority => 1;
         [SerializeField] private TextAsset inkDialogue;
@@ -20,6 +22,7 @@ namespace Entity.NPC
         public void Initialize(NPC npc)
         {
             this.npc = npc;
+            npcAIController = npc.NPCAIController;
             PlayerInteractEventSystem.EnterInteractionEvent += OnEnterInteraction;
             PlayerInteractEventSystem.ExitInteractionEvent += OnExitInteraction;
         }
@@ -34,7 +37,7 @@ namespace Entity.NPC
 #pragma warning restore CS0252 // Possible unintended reference comparison; left hand side needs cast
             npc.Properties.lastMovementVector = (args.Player.View.transform.position - npc.View.transform.position).normalized;
             Debug.Log("Enter interaction with " + npc);
-            npc.StateMachine.ChangeState(npc.NPCBeingInteractedWithState);
+            npcAIController.ChangeState(npcAIController.NPCBeingInteractedWithState);
 
         }
         private void OnExitInteraction(PlayerInteractEventSystem.ExitInteractionEventArgs args)
@@ -45,7 +48,7 @@ namespace Entity.NPC
                 return;
             }
 #pragma warning restore CS0252 // Possible unintended reference comparison; left hand side needs cast
-            npc.StateMachine.ChangeState(npc.NPCIdlingState);
+            npcAIController.ChangeState(npcAIController.NPCIdlingState);
         }
 
 
