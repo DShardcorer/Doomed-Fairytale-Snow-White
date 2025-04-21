@@ -60,7 +60,7 @@ namespace Entity.NPC.AI
             _npcBeingInteractedWithState.Initialize(_npc);
 
             // Set initial state
-            ChangeState(GetInitialState());
+            _stateMachine.Initialize(GetInitialState());
         }
 
         public void ChangeState(NPCState newState)

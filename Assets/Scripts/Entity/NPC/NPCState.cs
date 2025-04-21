@@ -16,6 +16,7 @@ namespace Entity.NPC
         public virtual void Initialize(NPC controller)
         {
             npc = controller;
+            npcAIController = controller.NPCAIController;
             base.Initialize(controller);
         }
     }

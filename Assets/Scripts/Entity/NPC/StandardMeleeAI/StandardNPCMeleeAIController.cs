@@ -1,4 +1,5 @@
 using Entity.NPC.AI;
+using Entity.NPC.BeingInteractedWith;
 using Entity.NPC.Idle;
 using Entity.NPC.Move;
 using Entity.NPC.StandardAI.Attack;
@@ -20,6 +21,8 @@ namespace Entity.NPC.StandardAI
                 new StandardNPCMeleeChasingProperties(config));
             _npcAttackingState = new StandardNPCMeleeAttackingState(HelperAnimationStateName.IS_ATTACKING,
                 new StandardNPCMeleeAttackingProperties(config));
+            _npcBeingInteractedWithState = new NPCBeingInteractedWithState(HelperAnimationStateName.IS_IDLING,
+                new NPCBeingInteractedWithProperties());
         }
 
         // The AI starts in the Idle state
