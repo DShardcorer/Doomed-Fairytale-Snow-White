@@ -47,7 +47,7 @@ namespace Entity.NPC.StandardAI.Chase
         {
             base.FixedUpdateState();
             
-            if (_properties.target == null || _seeker == null || _astarAI == null)
+            if (_properties.target == null)
                 return;
 
             // Update the destination every frame to follow the target
@@ -56,9 +56,6 @@ namespace Entity.NPC.StandardAI.Chase
             // Store the movement vector for animation purposes
             _properties.lastMovementVector = _astarAI.velocity.normalized;
             
-            // No need to set rigidbody velocity directly - AIPath handles movement
-            // Comment out or remove this line:
-            // _rigidbody.linearVelocity = _properties.MoveSpeed * 1.5f * _properties.lastMovementVector;
             
             // Set the movement speed
             _astarAI.maxSpeed = _properties.MoveSpeed * 1.5f;
