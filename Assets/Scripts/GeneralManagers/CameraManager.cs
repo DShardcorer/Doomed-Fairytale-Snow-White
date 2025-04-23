@@ -3,12 +3,18 @@ using UnityEngine;
 
 namespace GeneralManagers
 {
-    public class CameraManager : MonoBehaviour
+    public class CameraManager : MonoBehaviour, ILifecycle<GameManager>
     {
         private GameManager _gameManager;
         public void Initialize(GameManager gameManager)
         {
             _gameManager = gameManager;
+        }
+
+        public void Dispose()
+        {
+            _gameManager = null;
+            Destroy(gameObject);
         }
 
         [SerializeField] private CinemachineCamera cinemachineCamera;

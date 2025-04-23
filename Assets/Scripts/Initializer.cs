@@ -1,13 +1,18 @@
+
 using UnityEngine;
+using UnityEngine.SceneManagement;
 
 namespace DefaultNamespace
 {
-    public class Initializer
+    public class Initializer : MonoBehaviour
     {
-        [RuntimeInitializeOnLoadMethod(RuntimeInitializeLoadType.BeforeSceneLoad)]
-        public static void Initialize()
+        private void Awake()
         {
-            Object.DontDestroyOnLoad(Object.Instantiate(UnityEngine.Resources.Load("PERSISTOBJECTS")));
+            string sceneName = SceneManager.GetActiveScene().name;
+            if (sceneName != "IntroScene" && sceneName != "MainMenuScene" && GameObject.Find("PERSISTOBJECTS(Clone)") == null)
+            {
+                DontDestroyOnLoad(Instantiate(UnityEngine.Resources.Load("PERSISTOBJECTS")));
+            }
         }
     }
 }

@@ -7,7 +7,7 @@ INCLUDE ../global_methods.ink
 Oh, hello? What do you need? #speaker:Random Man #sprite:hoshi_school_smile #layout:left
 
 * [Nothing]
-    Okay...? #sprite:hoshi_school_surprised
+    <textSpeed=0.1> Okay...? </textSpeed> This is awkward. #sprite:hoshi_school_surprised
 
 * [Just wondering why you are walking around naked?]
     Why are you walking around in clothes? You're really thick-faced, mister. #sprite:hoshi_school_upset

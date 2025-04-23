@@ -1,3 +1,4 @@
+using DateDayNightSystem;
 using DialogueSystem;
 using Entity.NPC_Variants.Native;
 using Entity.Player;
@@ -21,6 +22,8 @@ namespace GeneralManagers
         [SerializeField] private CameraManager _cameraManager;
         [SerializeField] private QuestManager _questManager;
         [SerializeField] private DialogueManager _dialogueManager;
+        [SerializeField] private SkyLightingManager _skyLightingManager;
+        [SerializeField] private GameTimeManager _gameTimeManager;
 
         public InputManager InputManager => _inputManager;
         public PoolManager PoolManager => _poolManager;
@@ -31,6 +34,7 @@ namespace GeneralManagers
         public CameraManager CameraManager => _cameraManager;
         public QuestManager QuestManager => _questManager;
         public DialogueManager DialogueManager => _dialogueManager;
+        public SkyLightingManager SkyLightingManager => _skyLightingManager;
 
 
 
@@ -60,8 +64,27 @@ namespace GeneralManagers
             _enemyManager.Initialize(this);
             _questManager.Initialize(this); 
             _dialogueManager.Initialize(this);
+            _skyLightingManager.Initialize(this);
+        }
 
-
+        public void Dispose()
+        {
+            //Call dispose on all managers
+            _inputManager.Dispose();
+            _cameraManager.Dispose();
+            _poolManager.Dispose();
+            _playerManager.Dispose();
+            _updateManager.Dispose();
+            _fixedUpdateManager.Dispose();
+            _enemyManager.Dispose();
+            _questManager.Dispose();
+            _dialogueManager.Dispose();
+            _skyLightingManager.Dispose();
+            //Set instance to null
+            Instance = null;
+            //Destroy this game object
+            Destroy(gameObject);
+            
         }
 
 

@@ -5,7 +5,7 @@ using UnityEngine;
 
 namespace Pool
 {
-    public class PoolManager : MonoBehaviour
+    public class PoolManager : MonoBehaviour, ILifecycle<GameManager>
     {
         private GameManager _parent;
 
@@ -28,6 +28,21 @@ namespace Pool
             CreatePoolsFromList(uiElementsPoolSOList);
             CreatePoolsFromList(npcPoolSOList);
             CreatePoolsFromList(environmentPoolSOList);
+        }
+
+        public void Dispose()
+        {
+            foreach (var pool in pools)
+            {
+                Destroy(pool.Value.gameObject);
+            }
+            pools.Clear();
+            _parent = null;
+            uiElementsPoolSOList = null;
+            npcPoolSOList = null;
+            environmentPoolSOList = null;
+            Destroy(gameObject);
+            
         }
 
         private void CreatePoolsFromList(List<PoolSO> poolList)

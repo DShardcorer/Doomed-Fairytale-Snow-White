@@ -1,4 +1,5 @@
 using System.Collections;
+using System.Text.RegularExpressions;
 using EventSystem.Dialogue;
 using GeneralManagers;
 using Ink.InkLibs.InkRuntime;
@@ -10,40 +11,40 @@ namespace UI.Dialogue
 {
     public class DialogueUI : MonoBehaviour
     {
-        [Header("Dialogue Box Settings")]
-        [SerializeField] private float textSpeed = 0.05f; // Speed of text display
+        [Header("Dialogue Box Settings")] [SerializeField]
+        private float textSpeed = 0.05f; // Speed of text display
+
+        private float _originalTextSpeed;
         [Header("Dialogue Box UI")]
         // [SerializeField] private GameObject dialogueBoxUI;
-        [SerializeField] private TextMeshProUGUI dialogueText;
+        [SerializeField]
+        private TextMeshProUGUI dialogueText;
+
         [SerializeField] private GameObject canContinueIcon;
         [SerializeField] private DialogueChoiceButtonUI[] choiceButtons;
 
-        [Header("Dialogue Box Sprites")]
-        [SerializeField] private Animator leftSpriteImageAnimator;
+        [Header("Dialogue Box Sprites")] [SerializeField]
+        private Animator leftSpriteImageAnimator;
+
         [SerializeField] private Animator rightSpriteImageAnimator;
 
-        [Header("Speaker Name")]
-        [SerializeField] private TextMeshProUGUI speakerNameText;
+        [Header("Speaker Name")] [SerializeField]
+        private TextMeshProUGUI speakerNameText;
 
-        [Header("Sound Settings")]
-        [SerializeField] private int textTypingSoundInterval = 2; // Interval for playing typing sound
+        [Header("Sound Settings")] [SerializeField]
+        private int textTypingSoundInterval = 2; // Interval for playing typing sound
 
-        [Range(-3,3)]
-        [SerializeField] private float minPitch = 0.5f;
+        [Range(-3, 3)] [SerializeField] private float minPitch = 0.5f;
 
-        [Range(-3,3)]
-        [SerializeField] private float maxPitch = 1f;
+        [Range(-3, 3)] [SerializeField] private float maxPitch = 1f;
 
 
-        private Coroutine displayLineCoroutine;
-        private bool canContinueToNextLine = false;
-        private bool skipTyping = false;
+        private Coroutine _displayLineCoroutine;
+        private bool _canContinueToNextLine;
+        private bool _skipTyping;
 
-        [SerializeField]
-        private AudioClip[] textTypingSounds;
-        private AudioSource audioSource;
-
-
+        [SerializeField] private AudioClip[] textTypingSounds;
+        private AudioSource _audioSource;
 
 
         private void Awake()
@@ -54,13 +55,14 @@ namespace UI.Dialogue
             DialogueEventSystem.OnUpdateSpeakerName += OnUpdateSpeakerName;
             DialogueEventSystem.OnUpdateSpeakerSprite += OnUpdateSpeakerSprite;
             GameManager.Instance.InputManager.uiSubmitInputted += OnUISubmitInputted;
-            audioSource = gameObject.AddComponent<AudioSource>();
+            _audioSource = gameObject.AddComponent<AudioSource>();
+            _originalTextSpeed = textSpeed;
             gameObject.SetActive(false);
         }
 
         private void OnUISubmitInputted(InputEventContext context)
         {
-            skipTyping = true;
+            _skipTyping = true;
         }
 
         private void OnUpdateSpeakerSprite(DialogueEventSystem.UpdateSpeakerSpriteEventArgs args)
@@ -96,6 +98,7 @@ namespace UI.Dialogue
             leftSpriteImageAnimator.gameObject.SetActive(false);
             rightSpriteImageAnimator.gameObject.SetActive(false);
         }
+
         private void OnExitDialogue()
         {
             dialogueText.text = string.Empty;
@@ -105,30 +108,76 @@ namespace UI.Dialogue
 
         private void OnDialogueContinue(DialogueEventSystem.DialogueContinueEventArgs args)
         {
-            if (displayLineCoroutine != null)
+            if (_displayLineCoroutine != null)
             {
-                StopCoroutine(displayLineCoroutine);
+                StopCoroutine(_displayLineCoroutine);
             }
-            canContinueToNextLine = false;
-            DialogueEventSystem.InvokeUpdateCanContinueToNextLine(new DialogueEventSystem.UpdateCanContinueToNextLineEventArgs(canContinueToNextLine));
-            displayLineCoroutine = StartCoroutine(DisplayLine(args));
+
+            _canContinueToNextLine = false;
+            DialogueEventSystem.InvokeUpdateCanContinueToNextLine(
+                new DialogueEventSystem.UpdateCanContinueToNextLineEventArgs(_canContinueToNextLine));
+            _displayLineCoroutine = StartCoroutine(DisplayLine(args));
         }
+
         private IEnumerator DisplayLine(DialogueEventSystem.DialogueContinueEventArgs args)
         {
-            skipTyping = false;
+            _skipTyping = false;
             HideChoiceButtons();
-            canContinueIcon.SetActive(canContinueToNextLine);
+            canContinueIcon.SetActive(_canContinueToNextLine);
             dialogueText.text = string.Empty;
             bool isAddingRichTextTag = false;
+            bool isCollectingTextSpeedTag = false;
+            string textSpeedTagValue = "";
             string line = args.DialogueText;
             int currentDisplayedLetterIndex = 0;
-            foreach (char letter in line.ToCharArray())
+
+            textSpeed = _originalTextSpeed; // Reset to original speed at start of line
+
+            for (int i = 0; i < line.Length; i++)
             {
-                if (skipTyping)
+                char letter = line[i];
+                
+                if (_skipTyping)
                 {
-                    dialogueText.text = line;
+                    dialogueText.text = CleanSelfDefinedRichTextTags(line);
                     break;
                 }
+
+                // Check for text speed tag start
+                if (i + 12 <= line.Length && line.Substring(i, 11) == "<textSpeed=" && !isAddingRichTextTag)
+                {
+                    isCollectingTextSpeedTag = true;
+                    textSpeedTagValue = "";
+                    i += 10; // Skip to the value part
+                    continue;
+                }
+                
+                // Collect the speed value
+                if (isCollectingTextSpeedTag)
+                {
+                    if (letter == '>')
+                    {
+                        isCollectingTextSpeedTag = false;
+                        if (float.TryParse(textSpeedTagValue, out float newSpeed))
+                        {
+                            textSpeed = newSpeed;
+                        }
+                        continue;
+                    }
+                    textSpeedTagValue += letter;
+                    continue;
+                }
+
+                // Check for the text speed tag end
+                if (i + 11 <= line.Length && line.Substring(i, 11) == "</textSpeed>" && !isAddingRichTextTag)
+                {
+                    Debug.Log("Found textSpeed end tag");
+                    textSpeed = _originalTextSpeed; // Reset to original speed
+                    i += 10; // Skip the closing tag
+                    continue;
+                }
+
+                // Handle regular rich text tags (existing code)
                 if (letter == '<' || isAddingRichTextTag)
                 {
                     isAddingRichTextTag = true;
@@ -145,14 +194,21 @@ namespace UI.Dialogue
                     dialogueText.text += letter;
                     yield return new WaitForSeconds(textSpeed);
                 }
-
-
             }
-            canContinueToNextLine = true;
-            DialogueEventSystem.InvokeUpdateCanContinueToNextLine(new DialogueEventSystem.UpdateCanContinueToNextLineEventArgs(canContinueToNextLine));
-            canContinueIcon.SetActive(canContinueToNextLine);
-            DisplayChoiceButtons(args);
 
+            _canContinueToNextLine = true;
+            DialogueEventSystem.InvokeUpdateCanContinueToNextLine(
+                new DialogueEventSystem.UpdateCanContinueToNextLineEventArgs(_canContinueToNextLine));
+            canContinueIcon.SetActive(_canContinueToNextLine);
+            DisplayChoiceButtons(args);
+        }
+        
+
+        private string CleanSelfDefinedRichTextTags(string text)
+        {
+            // Match <textSpeed=X.Y> tags with any numeric value (including decimals)
+            string cleaned = Regex.Replace(text, @"<textSpeed=[\d\.]+>|</textSpeed>", "");
+            return cleaned;
         }
 
         private void PlayTextTypingSound(int currentDisplayedLetterIndex, char currentCharacter)
@@ -164,8 +220,8 @@ namespace UI.Dialogue
                 int minPitchInt = Mathf.FloorToInt(minPitch * 100);
                 int predictablePitchInt = (audioClipIndex % (maxPitchInt - minPitchInt)) + minPitchInt;
                 float pitch = (float)predictablePitchInt / 100f;
-                audioSource.pitch = pitch;
-                audioSource.PlayOneShot(textTypingSounds[audioClipIndex]);
+                _audioSource.pitch = pitch;
+                _audioSource.PlayOneShot(textTypingSounds[audioClipIndex]);
             }
         }
 
@@ -183,11 +239,9 @@ namespace UI.Dialogue
                 if (inkChoiceIndex == 0)
                 {
                     choiceButton.SelectButton();
-                    DialogueEventSystem.InvokeUpdateChoiceIndex(new DialogueEventSystem.UpdateChoiceIndexEventArgs(inkChoiceIndex));
+                    DialogueEventSystem.InvokeUpdateChoiceIndex(
+                        new DialogueEventSystem.UpdateChoiceIndexEventArgs(inkChoiceIndex));
                 }
-
-
-
             }
         }
 

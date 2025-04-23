@@ -27,6 +27,8 @@ namespace DialogueSystem
         private const string SPEAKER_TAG = "speaker";
         private const string SPRITE_TAG = "sprite";
         private const string LAYOUT_TAG = "layout";
+        private const string CG_TAG = "cg";
+        private const string TEXT_SPEED_TAG = "textSpeed";
         private bool canContinueToNextLine = false;
 
 
@@ -175,6 +177,8 @@ namespace DialogueSystem
             string speakerName = string.Empty;
             string speakerSprite = string.Empty;
             string layout = string.Empty;
+            string cg = string.Empty;
+            string textSpeed = string.Empty;
             foreach (string tag in currentTags)
             {
                 string[] tagParts = tag.Split(':');
@@ -196,6 +200,12 @@ namespace DialogueSystem
                     case LAYOUT_TAG:
                         layout = value;
                         break;
+                    case CG_TAG:
+                        cg = value;
+                        break;
+                    case TEXT_SPEED_TAG:
+                        textSpeed = value;
+                        break;
                     default:
                         Debug.LogWarning($"Unknown tag: {key}. Ignoring.");
                         break;
@@ -210,6 +220,16 @@ namespace DialogueSystem
                 DialogueEventSystem.InvokeUpdateSpeakerSprite(new UpdateSpeakerSpriteEventArgs(speakerSprite, layout));
             }else{
                 DialogueEventSystem.InvokeUpdateSpeakerSprite(new UpdateSpeakerSpriteEventArgs(speakerSprite));
+            }
+
+            if (!string.IsNullOrEmpty(cg))
+            {
+                DialogueEventSystem.InvokeUpdateCG(new UpdateCGEventArgs(cg));
+            }
+
+            if (!string.IsNullOrEmpty(textSpeed))
+            {
+                DialogueEventSystem.InvokeUpdateTextSpeed(new UpdateTextSpeedEventArgs(float.Parse(textSpeed)));
             }
 
         }

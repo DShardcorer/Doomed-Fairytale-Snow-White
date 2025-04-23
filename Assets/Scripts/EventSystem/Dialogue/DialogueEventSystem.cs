@@ -12,6 +12,7 @@ namespace EventSystem.Dialogue
         {
             public TextAsset InkDialogueFile;
             public string KnotName;
+
             public EnterDialogueEventArgs(TextAsset inkDialogueFile, string knotName)
             {
                 InkDialogueFile = inkDialogueFile;
@@ -20,6 +21,7 @@ namespace EventSystem.Dialogue
         }
 
         public static event Action<EnterDialogueEventArgs> OnEnterDialogue;
+
         public static void InvokeEnterDialogue(EnterDialogueEventArgs e)
         {
             OnEnterDialogue?.Invoke(e);
@@ -27,6 +29,7 @@ namespace EventSystem.Dialogue
 
 
         public static event Action OnExitDialogue;
+
         public static void InvokeExitDialogue()
         {
             OnExitDialogue?.Invoke();
@@ -36,13 +39,16 @@ namespace EventSystem.Dialogue
         {
             public string DialogueText;
             public List<Choice> Choices;
+
             public DialogueContinueEventArgs(string dialogueText, List<Choice> choices)
             {
                 DialogueText = dialogueText;
                 Choices = choices;
             }
         }
+
         public static event Action<DialogueContinueEventArgs> OnDialogueContinue;
+
         public static void InvokeDialogueContinue(DialogueContinueEventArgs e)
         {
             OnDialogueContinue?.Invoke(e);
@@ -51,11 +57,13 @@ namespace EventSystem.Dialogue
         public class UpdateChoiceIndexEventArgs : EventArgs
         {
             public int ChoiceIndex;
+
             public UpdateChoiceIndexEventArgs(int choiceIndex)
             {
                 ChoiceIndex = choiceIndex;
             }
         }
+
         public static event Action<UpdateChoiceIndexEventArgs> OnUpdateChoiceIndex;
 
 
@@ -68,12 +76,14 @@ namespace EventSystem.Dialogue
         {
             public string VariableName;
             public Object VariableValue;
+
             public UpdateInkDialogueVariableEventArgs(string variableName, Object variableValue)
             {
                 VariableName = variableName;
                 VariableValue = variableValue;
             }
         }
+
         public static event Action<UpdateInkDialogueVariableEventArgs> OnUpdateInkDialogueVariable;
 
         public static void InvokeUpdateInkDialogueVariable(UpdateInkDialogueVariableEventArgs e)
@@ -110,6 +120,7 @@ namespace EventSystem.Dialogue
                 this.SpeakerName = speakerName;
             }
         }
+
         public static event Action<UpdateSpeakerNameEventArgs> OnUpdateSpeakerName;
 
         public static void InvokeUpdateSpeakerName(UpdateSpeakerNameEventArgs e)
@@ -117,19 +128,53 @@ namespace EventSystem.Dialogue
             OnUpdateSpeakerName?.Invoke(e);
         }
 
+        public class UpdateCGEventArgs : EventArgs
+        {
+            public string CGName;
+
+            public UpdateCGEventArgs(string cgName)
+            {
+                this.CGName = cgName;
+            }
+        }
+
+        public static event Action<UpdateCGEventArgs> OnUpdateCG;
+
+        public static void InvokeUpdateCG(UpdateCGEventArgs e)
+        {
+            OnUpdateCG?.Invoke(e);
+        }
+
+        public class UpdateTextSpeedEventArgs : EventArgs
+        {
+            public float TextSpeed;
+            
+            public UpdateTextSpeedEventArgs(float textSpeed)
+            {
+                TextSpeed = textSpeed;
+            }
+        }
+        public static event Action<UpdateTextSpeedEventArgs> OnUpdateTextSpeed;
+        public static void InvokeUpdateTextSpeed(UpdateTextSpeedEventArgs e)
+        {
+            OnUpdateTextSpeed?.Invoke(e);
+        }
+
         public class UpdateCanContinueToNextLineEventArgs : EventArgs
         {
             public bool CanContinueToNextLine;
+
             public UpdateCanContinueToNextLineEventArgs(bool canContinueToNextLine)
             {
                 CanContinueToNextLine = canContinueToNextLine;
             }
         }
+
         public static event Action<UpdateCanContinueToNextLineEventArgs> OnUpdateCanContinueToNextLine;
+
         public static void InvokeUpdateCanContinueToNextLine(UpdateCanContinueToNextLineEventArgs e)
         {
             OnUpdateCanContinueToNextLine?.Invoke(e);
         }
-
     }
 }

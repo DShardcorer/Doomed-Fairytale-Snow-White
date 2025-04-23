@@ -14,7 +14,7 @@ Uh. I still have standards you know ? Shoo, shoo. #speaker:Hoshiko #sprite:hoshi
 
 
 = canStart
-Oh, Hello ? #speaker:Hoshiko #sprite:hoshi_school_smile #layout:left
+<textSpeed=0.1>Oh, Hello ?</textSpeed> #speaker:Hoshiko #sprite:hoshi_school_smile #layout:left
 Will you please collect 3 coins and bring them to my clone over there ? This is for experimentation, don't ask why i make such a dumb request.
 So, what is your answer ? 
 *[No]
