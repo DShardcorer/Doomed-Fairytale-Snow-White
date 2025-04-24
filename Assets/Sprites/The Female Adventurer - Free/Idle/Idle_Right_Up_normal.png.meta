@@ -1,37 +1,37 @@
 fileFormatVersion: 2
-guid: 7bd86b31a40d0b34094e562212a84584
+guid: 5dcad727b6b63aa47876484fcd25fd8d
 TextureImporter:
   internalIDToNameTable:
   - first:
-      213: 7535151586480617386
-    second: walk_Right_Down_0
+      213: 2867077704458043456
+    second: Idle_Right_Up_0
   - first:
-      213: -9051726405367061342
-    second: walk_Right_Down_1
+      213: 3302685577986200126
+    second: Idle_Right_Up_1
   - first:
-      213: -8310721085657762374
-    second: walk_Right_Down_2
+      213: -3811960106535639533
+    second: Idle_Right_Up_2
   - first:
-      213: 4594614074382245903
-    second: walk_Right_Down_3
+      213: -2118363416580774787
+    second: Idle_Right_Up_3
   - first:
-      213: -5460110034755399196
-    second: walk_Right_Down_4
+      213: -4350570065351521807
+    second: Idle_Right_Up_4
   - first:
-      213: 941465716155036439
-    second: walk_Right_Down_5
+      213: -5874161584510293992
+    second: Idle_Right_Up_5
   - first:
-      213: -1871557342448839773
-    second: walk_Right_Down_6
+      213: 1413157080645108394
+    second: Idle_Right_Up_6
   - first:
-      213: -4392221856737119970
-    second: walk_Right_Down_7
+      213: 8723446376121959304
+    second: Idle_Right_Up_7
   externalObjects: {}
   serializedVersion: 13
   mipmaps:
     mipMapMode: 0
-    enableMipMap: 0
-    sRGBTexture: 1
+    enableMipMap: 1
+    sRGBTexture: 0
     linearTexture: 0
     fadeOut: 0
     borderMipMap: 0
@@ -40,10 +40,10 @@ TextureImporter:
     mipMapFadeDistanceStart: 1
     mipMapFadeDistanceEnd: 3
   bumpmap:
-    convertToNormalMap: 0
+    convertToNormalMap: 1
     externalNormalMap: 0
-    heightScale: 0.25
-    normalMapFilter: 0
+    heightScale: 0.158
+    normalMapFilter: 1
     flipGreenChannel: 0
   isReadable: 0
   streamingMipmaps: 0
@@ -76,9 +76,9 @@ TextureImporter:
   spriteBorder: {x: 0, y: 0, z: 0, w: 0}
   spriteGenerateFallbackPhysicsShape: 1
   alphaUsage: 1
-  alphaIsTransparency: 1
+  alphaIsTransparency: 0
   spriteTessellationDetail: -1
-  textureType: 8
+  textureType: 1
   textureShape: 1
   singleChannelComponent: 0
   flipbookRows: 1
@@ -108,7 +108,7 @@ TextureImporter:
     buildTarget: Standalone
     maxTextureSize: 2048
     resizeAlgorithm: 0
-    textureFormat: -1
+    textureFormat: 12
     textureCompression: 1
     compressionQuality: 50
     crunchedCompression: 0
@@ -121,56 +121,12 @@ TextureImporter:
     serializedVersion: 2
     sprites:
     - serializedVersion: 2
-      name: walk_Right_Down_0
+      name: Idle_Down_0
       rect:
         serializedVersion: 2
-        x: 16
+        x: 19
         y: 21
-        width: 15
-        height: 25
-      alignment: 7
-      pivot: {x: 0.5, y: 0}
-      border: {x: 0, y: 0, z: 0, w: 0}
-      customData: 
-      outline: []
-      physicsShape: []
-      tessellationDetail: 0
-      bones: []
-      spriteID: 70f5ebfcdf8eba048bf13a1000ea2c77
-      internalID: -547010722
-      vertices: []
-      indices: 
-      edges: []
-      weights: []
-    - serializedVersion: 2
-      name: walk_Right_Down_1
-      rect:
-        serializedVersion: 2
-        x: 64
-        y: 21
-        width: 14
-        height: 24
-      alignment: 7
-      pivot: {x: 0.5, y: 0}
-      border: {x: 0, y: 0, z: 0, w: 0}
-      customData: 
-      outline: []
-      physicsShape: []
-      tessellationDetail: 0
-      bones: []
-      spriteID: 4042206be3de91842be1c5463290418d
-      internalID: 570603347
-      vertices: []
-      indices: 
-      edges: []
-      weights: []
-    - serializedVersion: 2
-      name: walk_Right_Down_2
-      rect:
-        serializedVersion: 2
-        x: 112
-        y: 22
-        width: 14
+        width: 12
         height: 23
       alignment: 7
       pivot: {x: 0.5, y: 0}
@@ -178,120 +134,164 @@ TextureImporter:
       customData: 
       outline: []
       physicsShape: []
-      tessellationDetail: 0
+      tessellationDetail: -1
       bones: []
-      spriteID: 5fcf10f768a60c64bac4402375c28929
-      internalID: -542296329
+      spriteID: 2e49394d6a76de150800000000000000
+      internalID: 5903488652781262050
       vertices: []
       indices: 
       edges: []
       weights: []
     - serializedVersion: 2
-      name: walk_Right_Down_3
+      name: Idle_Down_1
       rect:
         serializedVersion: 2
-        x: 160
-        y: 22
-        width: 14
-        height: 24
-      alignment: 7
-      pivot: {x: 0.5, y: 0}
-      border: {x: 0, y: 0, z: 0, w: 0}
-      customData: 
-      outline: []
-      physicsShape: []
-      tessellationDetail: 0
-      bones: []
-      spriteID: 514250d7aa1ceb843a07047d9791582c
-      internalID: -2110965675
-      vertices: []
-      indices: 
-      edges: []
-      weights: []
-    - serializedVersion: 2
-      name: walk_Right_Down_4
-      rect:
-        serializedVersion: 2
-        x: 208
+        x: 67
         y: 21
-        width: 14
-        height: 25
+        width: 12
+        height: 22
       alignment: 7
       pivot: {x: 0.5, y: 0}
       border: {x: 0, y: 0, z: 0, w: 0}
       customData: 
       outline: []
       physicsShape: []
-      tessellationDetail: 0
+      tessellationDetail: -1
       bones: []
-      spriteID: 9b12af13d15f8294db7f25d30e2c2993
-      internalID: 1546818689
+      spriteID: 6284370fa7a68eb90800000000000000
+      internalID: -7212397726981208026
       vertices: []
       indices: 
       edges: []
       weights: []
     - serializedVersion: 2
-      name: walk_Right_Down_5
+      name: Idle_Down_2
       rect:
         serializedVersion: 2
-        x: 256
-        y: 20
-        width: 15
-        height: 25
+        x: 115
+        y: 21
+        width: 12
+        height: 22
       alignment: 7
       pivot: {x: 0.5, y: 0}
       border: {x: 0, y: 0, z: 0, w: 0}
       customData: 
       outline: []
       physicsShape: []
-      tessellationDetail: 0
+      tessellationDetail: -1
       bones: []
-      spriteID: 396cf5940ec0bfe42a633468cd140e2a
-      internalID: 1338805801
+      spriteID: f433d288c0860b840800000000000000
+      internalID: 5237800769665446735
       vertices: []
       indices: 
       edges: []
       weights: []
     - serializedVersion: 2
-      name: walk_Right_Down_6
+      name: Idle_Down_3
       rect:
         serializedVersion: 2
-        x: 304
-        y: 20
-        width: 14
-        height: 25
+        x: 163
+        y: 21
+        width: 12
+        height: 23
       alignment: 7
       pivot: {x: 0.5, y: 0}
       border: {x: 0, y: 0, z: 0, w: 0}
       customData: 
       outline: []
       physicsShape: []
-      tessellationDetail: 0
+      tessellationDetail: -1
       bones: []
-      spriteID: 07ced457371e54b4ba1fb376c967fb47
-      internalID: 1754644928
+      spriteID: 83fb6951a30e76360800000000000000
+      internalID: 7162940272430989112
       vertices: []
       indices: 
       edges: []
       weights: []
     - serializedVersion: 2
-      name: walk_Right_Down_7
+      name: Idle_Down_4
       rect:
         serializedVersion: 2
-        x: 352
-        y: 20
-        width: 14
-        height: 26
+        x: 211
+        y: 21
+        width: 12
+        height: 23
       alignment: 7
       pivot: {x: 0.5, y: 0}
       border: {x: 0, y: 0, z: 0, w: 0}
       customData: 
       outline: []
       physicsShape: []
-      tessellationDetail: 0
+      tessellationDetail: -1
       bones: []
-      spriteID: 9e366612f229dc94faa459d1c66789ac
-      internalID: -1166198251
+      spriteID: 31903bee1fcd764e0800000000000000
+      internalID: -1988377778810844909
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: Idle_Down_5
+      rect:
+        serializedVersion: 2
+        x: 259
+        y: 21
+        width: 12
+        height: 22
+      alignment: 7
+      pivot: {x: 0.5, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: 7a47c88f557b994f0800000000000000
+      internalID: -821423877148347225
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: Idle_Down_6
+      rect:
+        serializedVersion: 2
+        x: 307
+        y: 21
+        width: 12
+        height: 22
+      alignment: 7
+      pivot: {x: 0.5, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: 27da2fd65c00f57c0800000000000000
+      internalID: -4080541889421202062
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: Idle_Down_7
+      rect:
+        serializedVersion: 2
+        x: 355
+        y: 21
+        width: 12
+        height: 23
+      alignment: 7
+      pivot: {x: 0.5, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: af69be84f969b7b90800000000000000
+      internalID: -7243029964827945222
       vertices: []
       indices: 
       edges: []
@@ -300,7 +300,7 @@ TextureImporter:
     customData: 
     physicsShape: []
     bones: []
-    spriteID: efb1e71f86abf9b4baa975414e67886f
+    spriteID: 9acc5a26b2580bf44b55b92e01600629
     internalID: 0
     vertices: []
     indices: 
@@ -310,14 +310,14 @@ TextureImporter:
     spriteCustomMetadata:
       entries: []
     nameFileIdTable:
-      walk_Right_Down_0: -547010722
-      walk_Right_Down_1: 570603347
-      walk_Right_Down_2: -542296329
-      walk_Right_Down_3: -2110965675
-      walk_Right_Down_4: 1546818689
-      walk_Right_Down_5: 1338805801
-      walk_Right_Down_6: 1754644928
-      walk_Right_Down_7: -1166198251
+      Idle_Down_0: 5903488652781262050
+      Idle_Down_1: -7212397726981208026
+      Idle_Down_2: 5237800769665446735
+      Idle_Down_3: 7162940272430989112
+      Idle_Down_4: -1988377778810844909
+      Idle_Down_5: -821423877148347225
+      Idle_Down_6: -4080541889421202062
+      Idle_Down_7: -7243029964827945222
   mipmapLimitGroupName: 
   pSDRemoveMatte: 0
   userData: 

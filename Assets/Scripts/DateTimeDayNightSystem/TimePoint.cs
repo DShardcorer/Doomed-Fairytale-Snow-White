@@ -1,7 +1,7 @@
 using System;
 using UnityEngine;
 
-namespace DateDayNightSystem
+namespace DateTimeDayNightSystem
 {
     /// <summary>
     /// Represents a specific time of day

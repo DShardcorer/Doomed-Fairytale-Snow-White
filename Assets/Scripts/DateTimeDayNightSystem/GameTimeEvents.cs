@@ -1,36 +1,36 @@
 using System;
+using DateDayNightSystem;
 using EventSystem.Time;
+using GeneralManagers;
 using UnityEngine;
 using UnityEngine.Events;
 
-namespace DateDayNightSystem
+namespace DateTimeDayNightSystem
 {
     /// <summary>
     /// Provides an easy way to add time-based events
     /// </summary>
-    public class GameTimeEvents : MonoBehaviour
+    public class GameTimeEvents :ILifecycle<GameTimeManager>
     {
+        private GameTimeManager _parent;
+
         #region Inspector Fields
-        
-        [Header("Time Events")]
-        [SerializeField] private GameTimeManager timeManager;
-        
-        [Header("Daily Events")]
-        public UnityEvent onDawn = new UnityEvent();
+
+        [Header("Daily Events")] public UnityEvent onDawn = new UnityEvent();
         public UnityEvent onMorning = new UnityEvent();
         public UnityEvent onNoon = new UnityEvent();
         public UnityEvent onAfternoon = new UnityEvent();
         public UnityEvent onDusk = new UnityEvent();
         public UnityEvent onEvening = new UnityEvent();
         public UnityEvent onMidnight = new UnityEvent();
-        
-        [Header("Custom Time Events")]
-        [SerializeField] private GameTimeEvent[] customTimeEvents;
-        
+
+        [Header("Custom Time Events")] [SerializeField]
+        private GameTimeEvent[] customTimeEvents;
+
         #endregion
-        
+
         #region Helper Classes
-        
+
         [Serializable]
         public class GameTimeEvent
         {
@@ -38,43 +38,36 @@ namespace DateDayNightSystem
             [Range(0f, 24f)] public float triggerHour;
             public bool repeatsDaily = true;
             public UnityEvent onTrigger = new UnityEvent();
-            
+
             [HideInInspector] public bool hasTriggeredToday = false;
         }
-        
+
         #endregion
-        
+
         #region Unity Lifecycle
-        
-        private void Start()
+
+        public void Initialize(GameTimeManager parent)
         {
-            if (!timeManager)
-                timeManager = FindObjectOfType<GameTimeManager>();
-                
-            if (!timeManager)
-            {
-                Debug.LogError("GameTimeEvents: No GameTimeManager found in scene!");
-                return;
-            }
-            
+            _parent = parent;
+
             // Subscribe to events
             TimeEventSystem.OnDayPhaseChanged += OnDayPhaseChanged;
             TimeEventSystem.OnDateChanged += OnDateChanged;
             TimeEventSystem.OnTimeChanged += OnTimeChanged;
         }
-        
-        private void OnDestroy()
+
+        public void Dispose()
         {
-            // Unsubscribe from events
+            _parent = null;
             TimeEventSystem.OnDayPhaseChanged -= OnDayPhaseChanged;
             TimeEventSystem.OnDateChanged -= OnDateChanged;
             TimeEventSystem.OnTimeChanged -= OnTimeChanged;
         }
-        
+
         #endregion
-        
+
         #region Event Handlers
-        
+
         private void OnDayPhaseChanged(TimeEventSystem.DayPhaseChangedEventArgs obj)
         {
             switch (obj.Phase)
@@ -99,12 +92,12 @@ namespace DateDayNightSystem
                     break;
                 case DayPhase.Night:
                     // Only trigger midnight at exactly midnight
-                    if (Mathf.Approximately(timeManager.CurrentTime.hourOfDay, 0f))
+                    if (Mathf.Approximately(_parent.CurrentTime.hourOfDay, 0f))
                         onMidnight?.Invoke();
                     break;
             }
         }
-        
+
         private void OnDateChanged(TimeEventSystem.DateChangedEventArgs obj)
         {
             // Reset custom events for the new day
@@ -113,29 +106,30 @@ namespace DateDayNightSystem
                 timeEvent.hasTriggeredToday = false;
             }
         }
-        
+
         private void OnTimeChanged(TimeEventSystem.TimeChangedEventArgs obj)
         {
             // Check custom time events
             CheckCustomTimeEvents(obj.TimePoint);
         }
-        
+
         #endregion
-        
+
         #region Private Methods
-        
+
         private void CheckCustomTimeEvents(TimePoint currentTime)
         {
             const float TRIGGER_THRESHOLD = 0.1f; // 6 minutes in game time
-            
+
             foreach (var timeEvent in customTimeEvents)
             {
                 if (timeEvent.hasTriggeredToday && timeEvent.repeatsDaily)
                     continue;
-                    
+
                 // Check if we've crossed the trigger hour
-                bool hasTriggered = IsTimeWithinThreshold(currentTime.hourOfDay, timeEvent.triggerHour, TRIGGER_THRESHOLD);
-                
+                bool hasTriggered =
+                    IsTimeWithinThreshold(currentTime.hourOfDay, timeEvent.triggerHour, TRIGGER_THRESHOLD);
+
                 if (hasTriggered)
                 {
                     timeEvent.onTrigger?.Invoke();
@@ -143,7 +137,7 @@ namespace DateDayNightSystem
                 }
             }
         }
-        
+
         private bool IsTimeWithinThreshold(float currentHour, float targetHour, float threshold)
         {
             // Handle cases where we're crossing midnight
@@ -151,10 +145,10 @@ namespace DateDayNightSystem
             {
                 return (currentHour > 24f - threshold) || (currentHour < threshold);
             }
-            
+
             return Mathf.Abs(currentHour - targetHour) < threshold;
         }
-        
+
         #endregion
     }
 }

@@ -1,6 +1,6 @@
 using UnityEngine;
 
-namespace DateDayNightSystem
+namespace DateTimeDayNightSystem
 {
     
     /// <summary>
@@ -56,6 +56,13 @@ namespace DateDayNightSystem
         {
             int hour = Mathf.FloorToInt(time.hourOfDay);
             int minute = Mathf.FloorToInt((time.hourOfDay - hour) * 60f);
+            return $"{hour:00}:{minute:00}";
+        }
+        public static string NormalizedToFormatTime24Hour(float normalized)
+        {
+            var time = NormalizedToHours(normalized);
+            int hour = Mathf.FloorToInt(time);
+            int minute = Mathf.FloorToInt((time - hour) * 60f);
             return $"{hour:00}:{minute:00}";
         }
     }

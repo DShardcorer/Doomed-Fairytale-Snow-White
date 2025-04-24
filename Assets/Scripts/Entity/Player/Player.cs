@@ -72,7 +72,7 @@ namespace Entity.Player
             _inputManager.dashInputted += OnDashInputted;
             _inputManager.attackInputted += OnAttackInputted;
             _inputManager.skill1Inputted += OnSkill1Inputted;
-            _parent.GameManager.CameraManager.SetFollowTarget(_playerView.transform);
+            // _parent.GameManager.CameraManager.SetFollowTarget(_playerView.transform);
 
 
             //Add to update managers

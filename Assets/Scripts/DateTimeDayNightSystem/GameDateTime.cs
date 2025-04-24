@@ -1,6 +1,6 @@
 using System;
 
-namespace DateDayNightSystem
+namespace DateTimeDayNightSystem
 {
     /// <summary>
     /// Represents a complete date-time

@@ -1,5 +1,6 @@
 using System;
 using DateDayNightSystem;
+using DateTimeDayNightSystem;
 using UnityEngine;
 
 namespace EventSystem.Time

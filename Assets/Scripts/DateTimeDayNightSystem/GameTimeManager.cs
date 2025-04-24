@@ -1,3 +1,4 @@
+using DateTimeDayNightSystem;
 using GeneralManagers;
 using UnityEngine;
 using EventSystem.Time;
@@ -28,9 +29,6 @@ namespace DateDayNightSystem
         /// </summary>
         public int CurrentDay { get; private set; }
 
-        /// <summary>
-        /// Current time of day
-        /// </summary>
         public TimePoint CurrentTime { get; private set; }
 
         /// <summary>
@@ -70,9 +68,11 @@ namespace DateDayNightSystem
 
         private DayPhase _lastPhase;
         private float _lastEventCheckTime;
-        private const float EVENT_CHECK_INTERVAL = 0.1f; // Check phase changes every 0.1 seconds
-        
+        private const float EVENT_CHECK_INTERVAL = 1f; // Check phase changes every 0.1 seconds
+
         private GameManager _parent;
+        private GameTimeEvents _timeEvents;
+        public GameTimeEvents TimeEvents => _timeEvents;
 
         #endregion
 
@@ -81,6 +81,10 @@ namespace DateDayNightSystem
         public void Initialize(GameManager parent)
         {
             _parent = parent;
+
+            _timeEvents = new GameTimeEvents();
+            _timeEvents.Initialize(this);
+
             // Initialize time
             CurrentDay = startDay;
             CurrentTime = new TimePoint { hourOfDay = startTimeOfDay };
@@ -91,21 +95,20 @@ namespace DateDayNightSystem
             _lastPhase = CurrentPhase;
         }
 
-        public void Dispose()
+        public void InvokeInitialEvents()
         {
-            _parent = null;
-            Destroy(gameObject);
-        }
-        
-
-        private void Start()
-        {
-            // Notify initial values
             TimeEventSystem.InvokeDateChanged(CurrentDay);
             TimeEventSystem.InvokeTimeChanged(CurrentTime);
             TimeEventSystem.InvokeGameDateTimeChanged(CurrentDateTime);
             TimeEventSystem.InvokeDayPhaseChanged(CurrentPhase);
         }
+
+        public void Dispose()
+        {
+            _parent = null;
+            Destroy(gameObject);
+        }
+
 
         private void Update()
         {

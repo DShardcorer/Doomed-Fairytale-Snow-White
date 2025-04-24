@@ -1,4 +1,4 @@
-namespace DateDayNightSystem
+namespace DateTimeDayNightSystem
 {
     /// <summary>
     /// Predefined time points for common day phases

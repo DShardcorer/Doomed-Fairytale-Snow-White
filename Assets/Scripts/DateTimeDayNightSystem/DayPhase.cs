@@ -1,4 +1,4 @@
-namespace DateDayNightSystem
+namespace DateTimeDayNightSystem
 {
     public enum DayPhase
     {

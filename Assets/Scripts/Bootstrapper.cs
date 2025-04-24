@@ -31,5 +31,8 @@ public class Bootstrapper : MonoBehaviour
         player.LevelSystem.InvokeInitialEvents();
         player.ActiveSkillSystem.InvokeInitialEvents();
         player.PassiveSkillSystem.InvokeInitialEvents();
+        
+        
+        GameManager.Instance.GameTimeManager.InvokeInitialEvents();
     }
 }

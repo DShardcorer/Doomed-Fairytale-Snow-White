@@ -1,16 +1,15 @@
+using DateDayNightSystem;
 using EventSystem.Time;
 using GeneralManagers;
 using UnityEngine;
 
-namespace DateDayNightSystem
+namespace DateTimeDayNightSystem
 {
     /// <summary>
     /// Handles environmental effects based on time of day
     /// </summary>
     public class SkyLightingManager : MonoBehaviour, ILifecycle<GameManager>
     {
-        private GameManager _parent;
-
         #region Inspector Fields
 
         [Header("Celestial Bodies")] [SerializeField]
@@ -46,7 +45,7 @@ namespace DateDayNightSystem
         [SerializeField] private Vector3 sunsetRotation = new Vector3(180, 0, 0);
         [SerializeField] private Vector3 midnightRotation = new Vector3(270, 0, 0);
 
-        [Header("References")] [SerializeField]
+        private GameManager _parent;
         private GameTimeManager timeManager;
 
         #endregion
@@ -56,11 +55,27 @@ namespace DateDayNightSystem
         public void Initialize(GameManager parent)
         {
             _parent = parent;
+            timeManager = parent.GameTimeManager;
+            if (timeManager)
+            {
+                // Initial update
+                UpdateEnvironment(timeManager.NormalizedTime);
+
+                // Subscribe to time change events
+                TimeEventSystem.OnTimeChanged += OnTimeChanged;
+            }
+
+            if (!timeManager)
+            {
+                Debug.LogError("EnvironmentController: No GameTimeManager found in scene!");
+            }
         }
 
         public void Dispose()
         {
             _parent = null;
+            TimeEventSystem.OnTimeChanged -= OnTimeChanged;
+            Destroy(gameObject);
         }
 
         private void Awake()
@@ -94,33 +109,6 @@ namespace DateDayNightSystem
                 sunLight.transform.parent = skyParent;
                 moonLight.transform.parent = skyParent;
             }
-
-            // Find time manager if not assigned
-            if (!timeManager)
-                timeManager = FindObjectOfType<GameTimeManager>();
-
-            if (!timeManager)
-            {
-                Debug.LogError("EnvironmentController: No GameTimeManager found in scene!");
-            }
-        }
-
-        private void Start()
-        {
-            if (timeManager)
-            {
-                // Initial update
-                UpdateEnvironment(timeManager.NormalizedTime);
-
-                // Subscribe to time change events
-                TimeEventSystem.OnTimeChanged += OnTimeChanged;
-            }
-        }
-
-
-        private void OnDestroy()
-        {
-            TimeEventSystem.OnTimeChanged -= OnTimeChanged;
         }
 
         #endregion
