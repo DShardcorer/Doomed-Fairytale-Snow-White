@@ -20,8 +20,6 @@ namespace GeneralManagers
         [SerializeField] private UpdateManager _updateManager;
         [SerializeField] private FixedUpdateManager _fixedUpdateManager;
         [SerializeField] private GameTimeManager _gameTimeManager;
-        [SerializeField] private SkyLightingManager _skyLightingManager;
-        [SerializeField] private DayCycleLightingManager _dayCycleLightingManager;
         [SerializeField] private NativeManager _enemyManager;
         [SerializeField] private CameraManager _cameraManager;
         [SerializeField] private QuestManager _questManager;
@@ -29,8 +27,6 @@ namespace GeneralManagers
 
 
         public GameTimeManager GameTimeManager => _gameTimeManager;
-        public SkyLightingManager SkyLightingManager => _skyLightingManager;
-        public DayCycleLightingManager DayCycleLightingManager => _dayCycleLightingManager;
         public InputManager InputManager => _inputManager;
         public PoolManager PoolManager => _poolManager;
         public NativeManager EnemyManager => _enemyManager;
@@ -58,8 +54,6 @@ namespace GeneralManagers
         public void Initialize()
         {
             _gameTimeManager.Initialize(this);
-            _skyLightingManager.Initialize(this);
-            _dayCycleLightingManager.Initialize(this);
             _inputManager.Initialize(this);
             _cameraManager.Initialize(this);
             _poolManager.Initialize(this);
@@ -67,7 +61,6 @@ namespace GeneralManagers
             _updateManager.Initialize(this);
             _fixedUpdateManager.Initialize(this);
             _gameTimeManager.Initialize(this);
-            _skyLightingManager.Initialize(this);
             _enemyManager.Initialize(this);
             _questManager.Initialize(this);
             _dialogueManager.Initialize(this);
@@ -77,8 +70,6 @@ namespace GeneralManagers
         {
             //Call dispose on all managers
             _gameTimeManager.Dispose();
-            _skyLightingManager.Dispose();
-            _dayCycleLightingManager.Dispose();
             _inputManager.Dispose();
             _cameraManager.Dispose();
             _poolManager.Dispose();

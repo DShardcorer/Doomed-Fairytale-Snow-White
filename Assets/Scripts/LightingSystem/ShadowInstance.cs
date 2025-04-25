@@ -1,5 +1,6 @@
 using GeneralManagers;
 using UnityEngine;
+using UnityEngine.Serialization;
 
 namespace DefaultNamespace.LightingSystem
 {
@@ -7,17 +8,22 @@ namespace DefaultNamespace.LightingSystem
     [ExecuteInEditMode]
     public class ShadowInstance : MonoBehaviour
     {
+        [SerializeField] private DayCycleLightingManager _dayCycleLightingManager;
         [Range(0, 10f)] public float BaseLength = 1f;
+        
 
         private void OnEnable()
         {
-            GameManager.Instance.DayCycleLightingManager.RegisterShadow(this);
+            if (!_dayCycleLightingManager)
+            {
+                _dayCycleLightingManager = FindAnyObjectByType<DayCycleLightingManager>();
+            }
+            _dayCycleLightingManager.RegisterShadow(this);
         }
 
         private void OnDisable()
         {
-            GameManager.Instance.DayCycleLightingManager.UnregisterShadow(this);
-
+            _dayCycleLightingManager.UnregisterShadow(this);
         }
     }
 }

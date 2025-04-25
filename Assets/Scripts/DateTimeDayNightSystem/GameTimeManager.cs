@@ -2,6 +2,7 @@ using DateTimeDayNightSystem;
 using GeneralManagers;
 using UnityEngine;
 using EventSystem.Time;
+using UnityEngine.SceneManagement;
 
 namespace DateDayNightSystem
 {
@@ -18,7 +19,7 @@ namespace DateDayNightSystem
         [SerializeField] [Range(0f, 24f)] private float startTimeOfDay = 6f; // 6 AM by default
         [SerializeField] private float secondsPerGameDay = 1200f; // 20 minutes real time = 1 day
         [SerializeField] private bool startPaused = false;
-        [SerializeField] private float timeScale = 1f; // Additional time speed multiplier
+        private float timeScale = 200f; // Additional time speed multiplier
 
         #endregion
 
@@ -69,6 +70,8 @@ namespace DateDayNightSystem
         private DayPhase _lastPhase;
         private float _lastEventCheckTime;
         private const float EVENT_CHECK_INTERVAL = 1f; // Check phase changes every 0.1 seconds
+        private float _lastLightingUpdateTime;
+        private const float LIGHTING_UPDATE_INTERVAL = 1f; // Update lighting once per second
 
         private GameManager _parent;
         private GameTimeEvents _timeEvents;
@@ -82,9 +85,6 @@ namespace DateDayNightSystem
         {
             _parent = parent;
 
-            _timeEvents = new GameTimeEvents();
-            _timeEvents.Initialize(this);
-
             // Initialize time
             CurrentDay = startDay;
             CurrentTime = new TimePoint { hourOfDay = startTimeOfDay };
@@ -94,6 +94,7 @@ namespace DateDayNightSystem
             UpdateDayPhase();
             _lastPhase = CurrentPhase;
         }
+        
 
         public void InvokeInitialEvents()
         {

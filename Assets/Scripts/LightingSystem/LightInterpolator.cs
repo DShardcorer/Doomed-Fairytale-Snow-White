@@ -28,15 +28,25 @@ namespace DefaultNamespace.LightingSystem
         [Tooltip("The light of which the shape will be changed according to the defined frames")]
         public Light2D TargetLight;
         public LightFrame[] LightFrames;
+        
+        private DayCycleLightingManager _dayCycleLightingManager;
 
         private void OnEnable()
         {
-            GameManager.Instance.DayCycleLightingManager.RegisterLightBlender(this);
+            if (!_dayCycleLightingManager)
+            {
+                _dayCycleLightingManager = FindAnyObjectByType<DayCycleLightingManager>();
+            }
+            _dayCycleLightingManager.RegisterLightBlender(this);
         }
 
         private void OnDisable()
         {
-            GameManager.Instance.DayCycleLightingManager.UnregisterLightBlender(this);
+            if (_dayCycleLightingManager)
+            {
+                _dayCycleLightingManager.UnregisterLightBlender(this);
+            }
+            DisableAllLights();
         }
 
         public void SetRatio(float t)

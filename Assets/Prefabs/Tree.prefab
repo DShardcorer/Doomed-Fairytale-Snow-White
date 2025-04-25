@@ -11,7 +11,7 @@ GameObject:
   - component: {fileID: 5108826621370988754}
   - component: {fileID: 2562572527895216126}
   - component: {fileID: 7195287695607602760}
-  m_Layer: 0
+  m_Layer: 6
   m_Name: Tree
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -74,8 +74,8 @@ SpriteRenderer:
   m_AutoUVMaxDistance: 0.5
   m_AutoUVMaxAngle: 89
   m_LightmapParameters: {fileID: 0}
-  m_SortingLayerID: 0
-  m_SortingLayer: 0
+  m_SortingLayerID: -1474879815
+  m_SortingLayer: 3
   m_SortingOrder: 0
   m_Sprite: {fileID: 1373531802, guid: 53c53602f6596874ebb4f38090b286a8, type: 3}
   m_Color: {r: 1, g: 1, b: 1, a: 1}
@@ -122,6 +122,6 @@ CapsuleCollider2D:
   m_UsedByEffector: 0
   m_CompositeOperation: 0
   m_CompositeOrder: 0
-  m_Offset: {x: -0.0024482557, y: 0.54468006}
-  m_Size: {x: 1.7160015, y: 1.1898094}
+  m_Offset: {x: 0.009447499, y: 0.35892448}
+  m_Size: {x: 1.4542952, y: 0.81831026}
   m_Direction: 1

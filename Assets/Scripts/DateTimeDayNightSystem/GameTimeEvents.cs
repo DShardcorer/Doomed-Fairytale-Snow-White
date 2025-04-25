@@ -1,18 +1,20 @@
 using System;
+using System.Collections.Generic;
 using DateDayNightSystem;
 using EventSystem.Time;
 using GeneralManagers;
 using UnityEngine;
 using UnityEngine.Events;
+using UnityEngine.SceneManagement;
 
 namespace DateTimeDayNightSystem
 {
     /// <summary>
     /// Provides an easy way to add time-based events
     /// </summary>
-    public class GameTimeEvents :ILifecycle<GameTimeManager>
+    public class GameTimeEvents :MonoBehaviour
     {
-        private GameTimeManager _parent;
+        private GameTimeManager gameTimeManager;
 
         #region Inspector Fields
 
@@ -25,7 +27,7 @@ namespace DateTimeDayNightSystem
         public UnityEvent onMidnight = new UnityEvent();
 
         [Header("Custom Time Events")] [SerializeField]
-        private GameTimeEvent[] customTimeEvents;
+        private List<GameTimeEvent> customTimeEvents = new List<GameTimeEvent>();
 
         #endregion
 
@@ -46,22 +48,27 @@ namespace DateTimeDayNightSystem
 
         #region Unity Lifecycle
 
-        public void Initialize(GameTimeManager parent)
+        public void Awake()
         {
-            _parent = parent;
-
             // Subscribe to events
             TimeEventSystem.OnDayPhaseChanged += OnDayPhaseChanged;
             TimeEventSystem.OnDateChanged += OnDateChanged;
             TimeEventSystem.OnTimeChanged += OnTimeChanged;
+            SceneManager.sceneLoaded += OnSceneLoaded;
         }
 
-        public void Dispose()
+        private void OnSceneLoaded(Scene arg0, LoadSceneMode arg1)
         {
-            _parent = null;
+            gameTimeManager = FindAnyObjectByType<GameTimeManager>();
+        }
+
+        public void OnDestroy()
+        {
+            gameTimeManager = null;
             TimeEventSystem.OnDayPhaseChanged -= OnDayPhaseChanged;
             TimeEventSystem.OnDateChanged -= OnDateChanged;
             TimeEventSystem.OnTimeChanged -= OnTimeChanged;
+            SceneManager.sceneLoaded -= OnSceneLoaded;
         }
 
         #endregion
@@ -92,7 +99,7 @@ namespace DateTimeDayNightSystem
                     break;
                 case DayPhase.Night:
                     // Only trigger midnight at exactly midnight
-                    if (Mathf.Approximately(_parent.CurrentTime.hourOfDay, 0f))
+                    if (Mathf.Approximately(gameTimeManager.CurrentTime.hourOfDay, 0f))
                         onMidnight?.Invoke();
                     break;
             }
@@ -101,7 +108,7 @@ namespace DateTimeDayNightSystem
         private void OnDateChanged(TimeEventSystem.DateChangedEventArgs obj)
         {
             // Reset custom events for the new day
-            foreach (var timeEvent in customTimeEvents)
+            foreach (GameTimeEvent timeEvent in customTimeEvents)
             {
                 timeEvent.hasTriggeredToday = false;
             }

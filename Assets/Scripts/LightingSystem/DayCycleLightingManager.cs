@@ -6,7 +6,9 @@ using UnityEditor;
 using UnityEditor.UIElements;
 using UnityEngine;
 using UnityEngine.Rendering.Universal;
+using UnityEngine.SceneManagement;
 using UnityEngine.UIElements;
+using System.Collections;
 
 namespace DefaultNamespace.LightingSystem
 {
@@ -17,7 +19,7 @@ namespace DefaultNamespace.LightingSystem
     /// etc..)
     /// </summary>
     [DefaultExecutionOrder(10)]
-    public class DayCycleLightingManager : MonoBehaviour, ILifecycle<GameManager>
+    public class DayCycleLightingManager : MonoBehaviour
     {
         public Transform LightsRoot;
 
@@ -44,27 +46,51 @@ namespace DefaultNamespace.LightingSystem
         private List<ShadowInstance> _shadows = new();
         private List<LightInterpolator> _lightBlenders = new();
 
-        private GameManager _parent;
+
         private GameTimeManager _gameTimeManager;
 
-        public void Initialize(GameManager parent)
+        private float _updateInterval = 1f;
+        private Coroutine _updateCoroutine;
+        
+        private void Awake()
         {
-            _parent = parent;
-            _gameTimeManager = parent.GameTimeManager;
+            SceneManager.sceneLoaded += OnSceneLoaded;
         }
-
-        public void Dispose()
+        
+        private void OnSceneLoaded(Scene arg0, LoadSceneMode arg1)
         {
-            _parent = null;
-        }
-
-        /// <summary>
-        /// We use an explicit ticking function instead of update so the GameManager can potentially freeze or change how
-        /// time pass
-        /// </summary>
-        public void Update()
-        {
+            _gameTimeManager = GameManager.Instance.GameTimeManager;
             UpdateLight(_gameTimeManager.NormalizedTime);
+            
+            // Start the update coroutine
+            if (_updateCoroutine != null)
+                StopCoroutine(_updateCoroutine);
+                
+            _updateCoroutine = StartCoroutine(UpdateLightingRoutine());
+        }
+        
+        private void OnDestroy()
+        {
+            if (_updateCoroutine != null)
+                StopCoroutine(_updateCoroutine);
+                
+            _gameTimeManager = null;
+            SceneManager.sceneLoaded -= OnSceneLoaded;
+        }
+        
+        // Replace Update with a coroutine
+        private IEnumerator UpdateLightingRoutine()
+        {
+            WaitForSeconds wait = new WaitForSeconds(_updateInterval);
+            
+            while (true)
+            {
+                // Update lighting based on current time
+                UpdateLight(_gameTimeManager.NormalizedTime);
+                
+                // Wait for the next update interval
+                yield return wait;
+            }
         }
 
         public void UpdateLight(float ratio)
