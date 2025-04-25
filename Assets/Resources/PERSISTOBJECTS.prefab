@@ -3384,7 +3384,7 @@ MonoBehaviour:
   m_BlockingObjects: 0
   m_BlockingMask:
     serializedVersion: 2
-    m_Bits: 4294967295
+    m_Bits: 503
 --- !u!1 &2218069256836169239
 GameObject:
   m_ObjectHideFlags: 0
@@ -10835,6 +10835,8 @@ GameObject:
   - component: {fileID: 417919357169275205}
   - component: {fileID: 4404143818734174600}
   - component: {fileID: 8049348892718461729}
+  - component: {fileID: 7607162898723607463}
+  - component: {fileID: 1377324529116919634}
   m_Layer: 5
   m_Name: DialogueText
   m_TagString: Untagged
@@ -10960,6 +10962,82 @@ MonoBehaviour:
   m_hasFontAssetChanged: 0
   m_baseMaterial: {fileID: 0}
   m_maskOffset: {x: 0, y: 0, z: 0, w: 0}
+--- !u!114 &7607162898723607463
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 7414894865512886706}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: e8ace8ced0e81c847968cdca0aeda757, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  typewriterStartsAutomatically: 0
+  animationLoop: 0
+  timeScale: 0
+  _text: ' THis is some text'
+  useDynamicScaling: 1
+  referenceFontSize: 10
+  isResettingTimeOnNewText: 1
+  useDefaultDatabases: 1
+  databaseBehaviors: {fileID: 11400000, guid: 6ece03d8e7aa8d04f8920632d9346f00, type: 2}
+  databaseAppearances: {fileID: 11400000, guid: ba1d577277b988a41883b68a6d7b2ba8, type: 2}
+  useDefaultStyleSheet: 1
+  styleSheet: {fileID: 0}
+  databaseActions: {fileID: 11400000, guid: 96690e945e69c2442b98efc26222137d, type: 2}
+  defaultAppearancesTags:
+  - offset
+  defaultDisappearancesTags:
+  - fade
+  defaultBehaviorsTags: []
+  defaultTagsMode: 0
+--- !u!114 &1377324529116919634
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 7414894865512886706}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 57a6945b90dcd0c4b81619c0d8b5c283, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  useTypeWriter: 1
+  startTypewriterMode: 3
+  hideAppearancesOnSkip: 0
+  hideDisappearancesOnSkip: 0
+  triggerEventsOnSkip: 0
+  resetTypingSpeedAtStartup: 1
+  disappearanceOrientation: 0
+  triggerShowedAfterEffectsEnd: 0
+  triggerDisappearedAfterEffectsEnd: 0
+  onTextShowed:
+    m_PersistentCalls:
+      m_Calls: []
+  onTypewriterStart:
+    m_PersistentCalls:
+      m_Calls: []
+  onTextDisappeared:
+    m_PersistentCalls:
+      m_Calls: []
+  onCharacterVisible:
+    m_PersistentCalls:
+      m_Calls: []
+  onMessage:
+    m_PersistentCalls:
+      m_Calls: []
+  waitForNormalChars: 0.03
+  waitLong: 0.6
+  waitMiddle: 0.2
+  avoidMultiplePunctuationWait: 0
+  waitForNewLines: 1
+  waitForLastCharacter: 1
+  useTypewriterWaitForDisappearances: 1
+  disappearanceWaitTime: 0.015
+  disappearanceSpeedMultiplier: 1
 --- !u!1 &7437653851286993386
 GameObject:
   m_ObjectHideFlags: 0
@@ -11088,8 +11166,8 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: e61d2cd9df02ba943bece7384cf6e9b0, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  textSpeed: 0.04
-  dialogueText: {fileID: 8049348892718461729}
+  dialogueText: {fileID: 7607162898723607463}
+  typewriter: {fileID: 1377324529116919634}
   canContinueIcon: {fileID: 7437653851286993386}
   choiceButtons:
   - {fileID: 1348348360245250703}
@@ -13784,8 +13862,6 @@ MonoBehaviour:
   startTimeOfDay: 6
   secondsPerGameDay: 1200
   startPaused: 0
-  timeScale: 1
-  _timeEvents: {fileID: 0}
 --- !u!1 &9166661139214146913
 GameObject:
   m_ObjectHideFlags: 0
