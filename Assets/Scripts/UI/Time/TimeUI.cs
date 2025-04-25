@@ -30,7 +30,7 @@ namespace DefaultNamespace.UI.Time
         {
             TimePoint timePoint = obj.TimePoint;
             minuteText.textFull = timePoint.GetMinuteString();
-            if (String.Equals(hourText.textFull, timePoint.GetHourString()))
+            if (!String.Equals(hourText.textFull, timePoint.GetHourString()))
             {
                 hourText.textFull = timePoint.GetHourString();
             }

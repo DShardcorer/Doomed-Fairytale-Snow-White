@@ -6,98 +6,74 @@ using UnityEngine.SceneManagement;
 
 namespace DateDayNightSystem
 {
-    /// <summary>
-    /// Core system that manages game time and date
-    /// </summary>
     public class GameTimeManager : MonoBehaviour, ILifecycle<GameManager>
     {
-        #region Inspector Fields
-
-        [Header("Time Settings")] [SerializeField]
-        private int startDay = 1;
-
-        [SerializeField] [Range(0f, 24f)] private float startTimeOfDay = 6f; // 6 AM by default
-        [SerializeField] private float secondsPerGameDay = 1200f; // 20 minutes real time = 1 day
+        [Header("Time Settings")]
+        [SerializeField] private int startDay = 1;
+        [SerializeField][Range(0f, 24f)] private float startTimeOfDay = 6f;
+        [SerializeField] private float secondsPerGameDay = 1200f;
         [SerializeField] private bool startPaused = false;
-        private float timeScale = 200f; // Additional time speed multiplier
+        [SerializeField]
+        private float timeScale = 200f;
 
-        #endregion
+        [Header("Time Reversal")]
+        [SerializeField] private bool enableTimeReversal = true;
+        [SerializeField] private float timeReversalScale = 1f; // How fast time reverses (multiplier)
 
-        #region Properties
+        // New property for time reversal
+        [SerializeField]
+        private bool _isReversing = false;
+        public bool IsReversing 
+        { 
+            get => _isReversing; 
+            set 
+            {
+                if (_isReversing != value)
+                {
+                    _isReversing = value;
+                    // Notify the system that time direction has changed
+                    // if (_isReversing)
+                    //     TimeEventSystem.InvokeTimeReversalStarted();
+                    // else
+                    //     TimeEventSystem.InvokeTimeReversalStopped();
+                }
+            }
+        }
 
-        /// <summary>
-        /// Current day number, starting from 1
-        /// </summary>
         public int CurrentDay { get; private set; }
-
         public TimePoint CurrentTime { get; private set; }
-
-        /// <summary>
-        /// Current time of day normalized (0-1)
-        /// </summary>
         public float NormalizedTime => CurrentTime.Normalized;
-
-        /// <summary>
-        /// Returns whether it's currently daytime (between dawn and dusk)
-        /// </summary>
         public bool IsDaytime => CurrentTime.hourOfDay > DayPhases.Dawn.hourOfDay &&
-                                 CurrentTime.hourOfDay < DayPhases.Dusk.hourOfDay;
-
-        /// <summary>
-        /// Returns whether it's currently nighttime
-        /// </summary>
+                                  CurrentTime.hourOfDay < DayPhases.Dusk.hourOfDay;
         public bool IsNighttime => !IsDaytime;
-
-        /// <summary>
-        /// Current phase of the day
-        /// </summary>
         public DayPhase CurrentPhase { get; private set; }
-
-        /// <summary>
-        /// Is the time system currently paused
-        /// </summary>
         public bool IsPaused { get; private set; }
-
-        /// <summary>
-        /// Complete current date-time
-        /// </summary>
         public GameDateTime CurrentDateTime => new GameDateTime(CurrentDay, CurrentTime);
-
-        #endregion
-
-        #region Private Fields
-
         private DayPhase _lastPhase;
+        private float _timeAccumulator = 0f;
+        [SerializeField]
+        private float TIME_ADVANCE_INTERVAL = 0.5f;
         private float _lastEventCheckTime;
-        private const float EVENT_CHECK_INTERVAL = 1f; // Check phase changes every 0.1 seconds
+        [SerializeField]
+        private const float EVENT_CHECK_INTERVAL = 1f;
         private float _lastLightingUpdateTime;
-        private const float LIGHTING_UPDATE_INTERVAL = 1f; // Update lighting once per second
+        [SerializeField]
+        private const float LIGHTING_UPDATE_INTERVAL = 1f;
 
         private GameManager _parent;
         private GameTimeEvents _timeEvents;
         public GameTimeEvents TimeEvents => _timeEvents;
 
-        private float _timeAccumulator = 0f; // New field to accumulate time
-        private const float TIME_ADVANCE_INTERVAL = 1f; // Only advance time every 1 second
-
-        #endregion
-
-        #region Unity Lifecycle
-
         public void Initialize(GameManager parent)
         {
             _parent = parent;
-
-            // Initialize time
             CurrentDay = startDay;
             CurrentTime = new TimePoint { hourOfDay = startTimeOfDay };
             IsPaused = startPaused;
-
-            // Calculate initial day phase
+            IsReversing = false;
             UpdateDayPhase();
             _lastPhase = CurrentPhase;
         }
-        
 
         public void InvokeInitialEvents()
         {
@@ -113,43 +89,50 @@ namespace DateDayNightSystem
             Destroy(gameObject);
         }
 
-
         private void Update()
         {
-            if (IsPaused)
-                return;
+            if (IsPaused) return;
 
-            // Accumulate time
             _timeAccumulator += Time.deltaTime;
-            
-            // Only advance time once per second
             if (_timeAccumulator >= TIME_ADVANCE_INTERVAL)
             {
-                // Advance time based on accumulated time
-                AdvanceTime(_timeAccumulator * timeScale);
+                // The key change: if reversing, we use a negative time delta
+                float timeDelta = _timeAccumulator * timeScale;
+                if (IsReversing)
+                    timeDelta = -timeDelta * timeReversalScale;
+                    
+                AdvanceTime(timeDelta);
                 _timeAccumulator = 0f;
-                
-                // Also update day phase when we advance time
                 UpdateDayPhase();
                 _lastEventCheckTime = 0f;
             }
         }
 
-        #endregion
+        // Toggle time reversal on/off
+        public void ToggleTimeReversal()
+        {
+            if (!enableTimeReversal) return;
+            IsReversing = !IsReversing;
+        }
 
-        #region Public Methods
+        // Start reversing time
+        public void StartTimeReversal()
+        {
+            if (!enableTimeReversal) return;
+            IsReversing = true;
+        }
 
-        /// <summary>
-        /// Sets the game time to a specific day and time
-        /// </summary>
+        // Stop reversing time
+        public void StopTimeReversal()
+        {
+            IsReversing = false;
+        }
+
         public void SetDateTime(int day, float hourOfDay)
         {
             SetDateTime(new GameDateTime(day, new TimePoint { hourOfDay = hourOfDay }));
         }
 
-        /// <summary>
-        /// Sets the game time to a specific datetime
-        /// </summary>
         public void SetDateTime(GameDateTime dateTime)
         {
             bool dayChanged = CurrentDay != dateTime.day;
@@ -157,20 +140,14 @@ namespace DateDayNightSystem
 
             CurrentDay = dateTime.day;
             CurrentTime = dateTime.timeOfDay;
-
-            // Update phase
             UpdateDayPhase();
 
-            // Trigger events
             if (dayChanged)
                 TimeEventSystem.InvokeDateChanged(CurrentDay);
-
             if (timeChanged)
                 TimeEventSystem.InvokeTimeChanged(CurrentTime);
-
             if (dayChanged || timeChanged)
                 TimeEventSystem.InvokeGameDateTimeChanged(CurrentDateTime);
-
             if (CurrentPhase != _lastPhase)
             {
                 TimeEventSystem.InvokeDayPhaseChanged(CurrentPhase);
@@ -178,17 +155,9 @@ namespace DateDayNightSystem
             }
         }
 
-        /// <summary>
-        /// Sets the day to a specific value
-        /// </summary>
         public void SetDay(int day)
         {
-            if (day < 1)
-            {
-                Debug.LogError("GameTimeManager: Day cannot be less than 1.");
-                return;
-            }
-
+            if (day < 1) return;
             if (CurrentDay != day)
             {
                 CurrentDay = day;
@@ -197,21 +166,15 @@ namespace DateDayNightSystem
             }
         }
 
-        /// <summary>
-        /// Sets the time of day
-        /// </summary>
         public void SetTimeOfDay(float hourOfDay)
         {
             hourOfDay = Mathf.Clamp(hourOfDay, 0f, 24f);
-
             if (!Mathf.Approximately(CurrentTime.hourOfDay, hourOfDay))
             {
                 CurrentTime = new TimePoint { hourOfDay = hourOfDay };
                 UpdateDayPhase();
-
                 TimeEventSystem.InvokeTimeChanged(CurrentTime);
                 TimeEventSystem.InvokeGameDateTimeChanged(CurrentDateTime);
-
                 if (CurrentPhase != _lastPhase)
                 {
                     TimeEventSystem.InvokeDayPhaseChanged(CurrentPhase);
@@ -220,120 +183,66 @@ namespace DateDayNightSystem
             }
         }
 
-        /// <summary>
-        /// Advances to the next day at the specified hour
-        /// </summary>
         public void AdvanceToNextDay(float startHour = 6f)
         {
             SetDateTime(CurrentDay + 1, startHour);
         }
 
-        /// <summary>
-        /// Pauses the time system
-        /// </summary>
-        public void PauseTime()
-        {
-            IsPaused = true;
-        }
-
-        /// <summary>
-        /// Resumes the time system
-        /// </summary>
-        public void ResumeTime()
-        {
-            IsPaused = false;
-        }
-
-        /// <summary>
-        /// Toggles the paused state
-        /// </summary>
-        public void TogglePause()
-        {
-            IsPaused = !IsPaused;
-        }
-
-        /// <summary>
-        /// Sets the time scale (1 = normal, 2 = double speed, etc.)
-        /// </summary>
-        public void SetTimeScale(float scale)
-        {
-            timeScale = Mathf.Max(0f, scale);
-        }
-
-        /// <summary>
-        /// Sets how long a day lasts in real-time seconds
-        /// </summary>
+        public void PauseTime() => IsPaused = true;
+        public void ResumeTime() => IsPaused = false;
+        public void TogglePause() => IsPaused = !IsPaused;
+        public void SetTimeScale(float scale) => timeScale = Mathf.Max(0f, scale);
         public void SetDayLength(float seconds)
         {
-            if (seconds <= 0f)
-            {
-                Debug.LogError("GameTimeManager: Day length must be greater than 0.");
-                return;
-            }
-
-            secondsPerGameDay = seconds;
+            if (seconds > 0f) secondsPerGameDay = seconds;
         }
 
-        /// <summary>
-        /// Advances time by the specified amount of real seconds
-        /// </summary>
         public void AdvanceTime(float deltaSeconds)
         {
-            // Calculate how much game time passes
             float dayFraction = deltaSeconds / secondsPerGameDay;
             float newHourOfDay = CurrentTime.hourOfDay + (dayFraction * 24f);
-
-            // Check for day change
+            
+            // Handle day changes, allowing for negative days when reversing time
             int daysToAdd = Mathf.FloorToInt(newHourOfDay / 24f);
             newHourOfDay %= 24f;
-
-            // Apply changes
+            
+            // Handle negative hours
+            if (newHourOfDay < 0)
+            {
+                newHourOfDay += 24f;
+                daysToAdd -= 1;
+            }
+            
+            // Prevent going below day 1
+            if (CurrentDay + daysToAdd < 1)
+            {
+                daysToAdd = 1 - CurrentDay;
+                newHourOfDay = 0f;
+            }
+            
             SetDateTime(CurrentDay + daysToAdd, newHourOfDay);
         }
 
-        /// <summary>
-        /// Get a formatted time string (HH:MM)
-        /// </summary>
-        public string GetTimeString()
-        {
-            return CurrentTime.GetTimeString();
-        }
+        public string GetTimeString() => CurrentTime.GetTimeString();
+        public string GetDateTimeString() => $"Day {CurrentDay}, {GetTimeString()}";
 
-        /// <summary>
-        /// Get a formatted date-time string
-        /// </summary>
-        public string GetDateTimeString()
-        {
-            return $"Day {CurrentDay}, {GetTimeString()}";
-        }
-
-        #endregion
-
-        #region Private Methods
-
-        /// <summary>
-        /// Updates the current day phase based on time
-        /// </summary>
         private void UpdateDayPhase()
         {
             float hour = CurrentTime.hourOfDay;
-
             if (hour >= 21f || hour < 5f)
                 CurrentPhase = DayPhase.Night;
-            else if (hour >= 5f && hour < 8f)
+            else if (hour < 8f)
                 CurrentPhase = DayPhase.Dawn;
-            else if (hour >= 8f && hour < 11f)
+            else if (hour < 11f)
                 CurrentPhase = DayPhase.Morning;
-            else if (hour >= 11f && hour < 14f)
+            else if (hour < 14f)
                 CurrentPhase = DayPhase.Noon;
-            else if (hour >= 14f && hour < 17f)
+            else if (hour < 17f)
                 CurrentPhase = DayPhase.Afternoon;
-            else if (hour >= 17f && hour < 19f)
+            else if (hour < 19f)
                 CurrentPhase = DayPhase.Dusk;
             else
                 CurrentPhase = DayPhase.Evening;
         }
-
-        #endregion
     }
 }
