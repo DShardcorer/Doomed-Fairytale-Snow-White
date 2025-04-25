@@ -9,22 +9,22 @@
 }
 
 = requirementsNotMet
-Uh. I still have standards you know ? Shoo, shoo. #speaker:Hoshiko #sprite:hoshi_school_upset #layout:left
+Uh. I still have standards you know ? Shoo, shoo. #speaker:Hoshiko #sprite:HoshikoSchool_upset #layout:left
 -> END
 
 
 = canStart
-Oh, Hello ? #speaker:Hoshiko #sprite:hoshi_school_smile #layout:left
+Oh, Hello ? #speaker:Hoshiko #sprite:HoshikoSchool_smile #layout:left
 Will you please collect 3 coins and bring them to my clone over there ? This is for experimentation, don't ask why i make such a dumb request.
 So, what is your answer ? 
 *[No]
 *[...]
--Pretty please ?I'll show you my <b><color=\#FF1493>swimsuit</color></b> ? #speaker:Hoshiko #sprite:hoshi_school_embarassed1 #layout:left
+-Pretty please ?I'll show you my <b><color=\#FF1493>swimsuit</color></> #speaker:Hoshiko #sprite:HoshikoSchool_embarrassed1 #layout:left
 *[Yes]
     ~StartQuest("CollectCoinsQuest")
     Cool!
-    Feast your eyes upon my glorious self ! #speaker:Hoshiko clone in swimsuit #sprite:hoshi_swim_embarassed2 #layout:right
-    Alright, that's enough, clone. Now go fetch me, i mean my clone some coins !#speaker:Hoshiko #sprite:hoshi_school_embarassed1 #layout:left
+    Feast your eyes upon my glorious self ! #speaker:Hoshiko clone in swimsuit #sprite:HoshikoSwim_embarrassed2 #layout:right
+    Alright, that's enough, clone. Now go fetch me, i mean my clone some coins !#speaker:Hoshiko #sprite:HoshikoSchool_embarrassed1 #layout:left
     
     
 *[No]
@@ -32,13 +32,13 @@ So, what is your answer ?
 --> END
 
 = inProgress
-How is the coins collecting going ?
+How is the coins collecting going ?#speaker:Hoshiko #sprite:HoshikoSchool_smile #layout:left
 -> END
 
 = canFinish
-You're done ? Cool ! Go talk to my clone over there to get the rewards.
+You're done ? Cool ! Go talk to my clone over there to get the rewards.#speaker:Hoshiko #sprite:HoshikoSchool_smile #layout:left
 -> END
 
 = finished
-Thanks. The rewards are over there though.
+Thanks. The rewards are over there though.#speaker:Hoshiko #sprite:HoshikoSchool_smile #layout:left
 -> END

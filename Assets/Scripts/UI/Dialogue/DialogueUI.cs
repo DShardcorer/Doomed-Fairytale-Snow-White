@@ -1,8 +1,10 @@
+using System;
 using System.Collections;
 using System.Text.RegularExpressions;
 using EventSystem.Dialogue;
 using Febucci.UI;
 using GeneralManagers;
+using Helpers;
 using Ink.InkLibs.InkRuntime;
 using Input;
 using TMPro;
@@ -22,16 +24,13 @@ namespace UI.Dialogue
         [SerializeField] private GameObject canContinueIcon;
         [SerializeField] private DialogueChoiceButtonUI[] choiceButtons;
 
-        [FormerlySerializedAs("leftSpriteImageAnimator")]
-        [Header("Dialogue Box Sprites")] 
-        
-        [SerializeField]
+        [FormerlySerializedAs("leftSpriteImageAnimator")] [Header("Dialogue Box Sprites")] [SerializeField]
         private Image leftSpriteImage;
 
-        [FormerlySerializedAs("rightSpriteImageAnimator")] [SerializeField] 
+        [FormerlySerializedAs("rightSpriteImageAnimator")] [SerializeField]
         private Image rightSpriteImage;
-        
-        [Header("Dialogue Box Sprite Database")]
+
+        [Header("Dialogue Box Sprite Database")] [SerializeField]
         private DialogueSpriteDatabase dialogueSpriteDatabase;
 
         [Header("Speaker Name")] [SerializeField]
@@ -121,6 +120,12 @@ namespace UI.Dialogue
 
         private void OnTypewriterComplete()
         {
+            StartCoroutine(AllowNextLineCoroutine());
+        }
+
+        private IEnumerator AllowNextLineCoroutine()
+        {
+            yield return new WaitForSeconds(0.3f);
             _canContinueToNextLine = true;
             DialogueEventSystem.InvokeUpdateCanContinueToNextLine(
                 new DialogueEventSystem.UpdateCanContinueToNextLineEventArgs(_canContinueToNextLine));
@@ -136,8 +141,12 @@ namespace UI.Dialogue
 
         private void PlayTextTypingSound(int currentDisplayedLetterIndex, char currentCharacter)
         {
-            if (currentDisplayedLetterIndex % textTypingSoundInterval == 0)
+            //play sound if time or textTypingSoundInterval is reached
+            if (currentDisplayedLetterIndex % textTypingSoundInterval == 0 ||
+                lastTextTypingSoundTime >= textTypingSoundTimeInterval
+                )
             {
+                lastTextTypingSoundTime = 0;
                 int audioClipIndex = currentCharacter.GetHashCode() % textTypingSounds.Length;
                 int maxPitchInt = Mathf.FloorToInt(maxPitch * 100);
                 int minPitchInt = Mathf.FloorToInt(minPitch * 100);
@@ -147,6 +156,14 @@ namespace UI.Dialogue
                 _audioSource.pitch = pitch;
                 _audioSource.PlayOneShot(textTypingSounds[audioClipIndex]);
             }
+        }
+
+        private float textTypingSoundTimeInterval = 0.3f;
+        private float lastTextTypingSoundTime = 0;
+        private void Update()
+        {
+            lastTextTypingSoundTime += Time.deltaTime;
+            
         }
 
         private void OnUISubmitInputted(InputEventContext context)
@@ -163,7 +180,7 @@ namespace UI.Dialogue
 
         private IEnumerator ResetSkippingFlag()
         {
-            yield return null; // Wait for the next frame
+            yield return new WaitForSeconds(0.2f);
             _isSkippingTypewriter = false;
         }
 
@@ -174,20 +191,26 @@ namespace UI.Dialogue
 
         private void OnUpdateSpeakerSprite(DialogueEventSystem.UpdateSpeakerSpriteEventArgs args)
         {
-            string characterId = args.SpeakerSpriteName.Split('_')[0];
-            string characterEmotion = args.SpeakerSpriteName.Split('_')[1];
+            var raw = args.SpeakerSpriteName;
+            var parts = raw.Split('_');
+            string characterId = parts[0];
+            string characterEmotion = parts[1];
 
             if (args.Layout == "left")
             {
                 leftSpriteImage.gameObject.SetActive(true);
-                leftSpriteImage.sprite = dialogueSpriteDatabase.GetSprite(characterId, characterEmotion);
+                leftSpriteImage.sprite = UnityEngine.Resources.Load<Sprite>(HelperResourcePath.DialogueSpritePath +
+                                                                            characterId + "/" +
+                                                                            characterEmotion);
                 leftSpriteImage.GetComponent<CanvasGroup>().alpha = 1;
                 rightSpriteImage.GetComponent<CanvasGroup>().alpha = 0.5f;
             }
             else if (args.Layout == "right")
             {
                 rightSpriteImage.gameObject.SetActive(true);
-                rightSpriteImage.sprite = dialogueSpriteDatabase.GetSprite(characterId, characterEmotion);
+                rightSpriteImage.sprite = UnityEngine.Resources.Load<Sprite>(HelperResourcePath.DialogueSpritePath +
+                                                                             characterId + "/" +
+                                                                             characterEmotion);
                 rightSpriteImage.GetComponent<CanvasGroup>().alpha = 1;
                 leftSpriteImage.GetComponent<CanvasGroup>().alpha = 0.5f;
             }

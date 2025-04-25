@@ -213,13 +213,12 @@ namespace DialogueSystem
             }
             if (!string.IsNullOrEmpty(speakerName))
             {
+                Debug.Log($"Speaker name: {speakerName}");
                 DialogueEventSystem.InvokeUpdateSpeakerName(new UpdateSpeakerNameEventArgs(speakerName));
             }
             if (!string.IsNullOrEmpty(speakerSprite) && !string.IsNullOrEmpty(layout))
             {
                 DialogueEventSystem.InvokeUpdateSpeakerSprite(new UpdateSpeakerSpriteEventArgs(speakerSprite, layout));
-            }else{
-                DialogueEventSystem.InvokeUpdateSpeakerSprite(new UpdateSpeakerSpriteEventArgs(speakerSprite));
             }
 
             if (!string.IsNullOrEmpty(cg))

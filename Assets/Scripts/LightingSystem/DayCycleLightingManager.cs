@@ -49,7 +49,7 @@ namespace DefaultNamespace.LightingSystem
 
         private GameTimeManager _gameTimeManager;
 
-        private float _updateInterval = 1f;
+        private float _updateInterval = 0.5f;
         private Coroutine _updateCoroutine;
         
         private void Awake()

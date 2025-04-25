@@ -6,5 +6,6 @@ namespace Helpers
         public static string PassiveSkillPath = "ScriptableObjects/Skill/Passive/";
         public static string ActiveSkillPath = "ScriptableObjects/Skill/Active/";
         public static string NPCAIConfigPath = "ScriptableObjects/NPCAIConfig/";
+        public static string DialogueSpritePath = "DialogueSprites/";
     }
 }

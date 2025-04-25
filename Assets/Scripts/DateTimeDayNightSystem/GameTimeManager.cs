@@ -77,6 +77,9 @@ namespace DateDayNightSystem
         private GameTimeEvents _timeEvents;
         public GameTimeEvents TimeEvents => _timeEvents;
 
+        private float _timeAccumulator = 0f; // New field to accumulate time
+        private const float TIME_ADVANCE_INTERVAL = 1f; // Only advance time every 1 second
+
         #endregion
 
         #region Unity Lifecycle
@@ -116,13 +119,17 @@ namespace DateDayNightSystem
             if (IsPaused)
                 return;
 
-            // Advance time
-            AdvanceTime(Time.deltaTime * timeScale);
-
-            // Check for phase changes periodically rather than every frame
-            _lastEventCheckTime += Time.deltaTime;
-            if (_lastEventCheckTime >= EVENT_CHECK_INTERVAL)
+            // Accumulate time
+            _timeAccumulator += Time.deltaTime;
+            
+            // Only advance time once per second
+            if (_timeAccumulator >= TIME_ADVANCE_INTERVAL)
             {
+                // Advance time based on accumulated time
+                AdvanceTime(_timeAccumulator * timeScale);
+                _timeAccumulator = 0f;
+                
+                // Also update day phase when we advance time
                 UpdateDayPhase();
                 _lastEventCheckTime = 0f;
             }

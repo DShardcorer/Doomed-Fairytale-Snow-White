@@ -7,10 +7,10 @@
 
 
 = finished
-Thank you !
+Thank you !#speaker:Hoshiko #sprite:HoshikoSchool_smile #layout:left
 ->END
 = default
-Hm ? What do you want?
+Hm ? What do you want?#speaker:Hoshiko #sprite:HoshikoSchool_smile #layout:left
 *[Just checking on you.]
     ...Creep.
 ->END
