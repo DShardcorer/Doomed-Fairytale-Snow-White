@@ -30,8 +30,7 @@ namespace UI.Dialogue
         [FormerlySerializedAs("rightSpriteImageAnimator")] [SerializeField]
         private Image rightSpriteImage;
 
-        [Header("Dialogue Box Sprite Database")] [SerializeField]
-        private DialogueSpriteDatabase dialogueSpriteDatabase;
+        [SerializeField] private Image cgImage;
 
         [Header("Speaker Name")] [SerializeField]
         private TextMeshProUGUI speakerNameText;
@@ -56,6 +55,7 @@ namespace UI.Dialogue
             _audioSource = gameObject.AddComponent<AudioSource>();
             typewriter.onCharacterVisible.AddListener(OnCharacterVisible);
             typewriter.onTextShowed.AddListener(OnTypewriterComplete);
+            cgImage.gameObject.SetActive(false);
             gameObject.SetActive(false);
         }
 
@@ -73,6 +73,7 @@ namespace UI.Dialogue
             DialogueEventSystem.OnDialogueContinue += OnDialogueContinue;
             DialogueEventSystem.OnUpdateSpeakerName += OnUpdateSpeakerName;
             DialogueEventSystem.OnUpdateSpeakerSprite += OnUpdateSpeakerSprite;
+            DialogueEventSystem.OnUpdateCG += OnUpdateCG;
             GameManager.Instance.InputManager.uiSubmitInputted += OnUISubmitInputted;
         }
 
@@ -83,7 +84,21 @@ namespace UI.Dialogue
             DialogueEventSystem.OnDialogueContinue -= OnDialogueContinue;
             DialogueEventSystem.OnUpdateSpeakerName -= OnUpdateSpeakerName;
             DialogueEventSystem.OnUpdateSpeakerSprite -= OnUpdateSpeakerSprite;
+            DialogueEventSystem.OnUpdateCG -= OnUpdateCG;
             GameManager.Instance.InputManager.uiSubmitInputted -= OnUISubmitInputted;
+        }
+
+        private void OnUpdateCG(DialogueEventSystem.UpdateCGEventArgs obj)
+        {
+            if (String.Equals("null", obj.CGName))
+            {
+                cgImage.gameObject.SetActive(false);
+            }
+            else
+            {
+                cgImage.gameObject.SetActive(true);
+                cgImage.sprite = UnityEngine.Resources.Load<Sprite>(HelperResourcePath.CGPath + obj.CGName);
+            }
         }
 
         private void OnEnterDialogue(DialogueEventSystem.EnterDialogueEventArgs args)
@@ -144,7 +159,7 @@ namespace UI.Dialogue
             //play sound if time or textTypingSoundInterval is reached
             if (currentDisplayedLetterIndex % textTypingSoundInterval == 0 ||
                 lastTextTypingSoundTime >= textTypingSoundTimeInterval
-                )
+               )
             {
                 lastTextTypingSoundTime = 0;
                 int audioClipIndex = currentCharacter.GetHashCode() % textTypingSounds.Length;
@@ -160,10 +175,10 @@ namespace UI.Dialogue
 
         private float textTypingSoundTimeInterval = 0.3f;
         private float lastTextTypingSoundTime = 0;
+
         private void Update()
         {
             lastTextTypingSoundTime += Time.deltaTime;
-            
         }
 
         private void OnUISubmitInputted(InputEventContext context)

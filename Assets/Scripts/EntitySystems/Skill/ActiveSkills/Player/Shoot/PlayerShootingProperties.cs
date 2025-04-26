@@ -13,11 +13,11 @@ namespace EntitySystems.Skill.ActiveSkills.Player.Shoot
         public float ShootRange => _shootRange;
         public float ShootKnockbackForce => _shootKnockbackForce;
 
-        public PlayerShootingProperties(float shootDamage = 20, float shootRange = 100, float shootKnockbackForce = 3)
+        public PlayerShootingProperties(ShootActiveSkillInfoSO shootActiveSkillInfoSO)
         {
-            _shootDamage = shootDamage;
-            _shootRange = shootRange;
-            _shootKnockbackForce = shootKnockbackForce;
+            _shootDamage = shootActiveSkillInfoSO.ShootDamage;
+            _shootRange = shootActiveSkillInfoSO.ShootRange;
+            _shootKnockbackForce = shootActiveSkillInfoSO.ShootKnockbackForce;
         }
 
         protected override void UpdateDerivedProperties(object sender, EventArgs e)

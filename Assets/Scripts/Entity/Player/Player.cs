@@ -27,9 +27,7 @@ namespace Entity.Player
 
         private PlayerInteraction _playerInteraction;
         public PlayerInteraction PlayerInteraction => _playerInteraction;
-
-
-        public bool IsBusy = false;
+        
 
         //Idling
         private PlayerIdlingState _playerIdlingState;

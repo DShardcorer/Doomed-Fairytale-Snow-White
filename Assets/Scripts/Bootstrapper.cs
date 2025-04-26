@@ -21,7 +21,7 @@ public class Bootstrapper : MonoBehaviour
     }
     private void InvokeInitialEvents()
     {
-        Player player = GameManager.Instance.PlayerManager.GetPlayer();
+        Player player = GameManager.Instance.PlayerManager.Player;
         player.InventorySystem.InvokeInitialEvents();
         player.HealthSystem.InvokeInitialEvents();
         player.ManaSystem.InvokeInitialEvents();

@@ -86,7 +86,7 @@ namespace GeneralManagers
         {
             if(UnityEngine.Input.GetKeyDown(KeyCode.Space)){
                 //add 50 xp
-                GameManager.Instance.PlayerManager.GetPlayer().LevelSystem.AddExperience(50);
+                GameManager.Instance.PlayerManager.Player.LevelSystem.AddExperience(50);
             }
 
             if (UnityEngine.Input.GetKeyDown(KeyCode.Backspace))

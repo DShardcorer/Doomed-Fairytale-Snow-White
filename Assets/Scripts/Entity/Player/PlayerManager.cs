@@ -19,6 +19,7 @@ namespace Entity.Player
     {
         private GameManager _gameManager;
         private Player _player;
+        public Player Player => _player;
 
         public GameManager GameManager => _gameManager;
 
@@ -29,12 +30,11 @@ namespace Entity.Player
         public void Initialize(GameManager gameManager)
         {
             _gameManager = gameManager;
-            CreatePlayer();
         }
 
-        public void CreatePlayer()
+        public void CreatePlayer(Vector3 position)
         {
-            GameObject playerGameObject = Instantiate(_playerPrefab);
+            GameObject playerGameObject = Instantiate(_playerPrefab, position, Quaternion.identity);
 
             //PlayerView creation
             PlayerView playerView = playerGameObject.GetComponent<PlayerView>();
@@ -42,13 +42,13 @@ namespace Entity.Player
 
 
             //ActiveSkillSystem creation
-            PlayerDashingProperties playerDashingProperties = new PlayerDashingProperties();
+            DashProperties dashProperties = new DashProperties();
             ActiveSkillInfoSO dashSkillInfoSO =
                 UnityEngine.Resources.Load<ActiveSkillInfoSO>(HelperResourcePath.ActiveSkillPath + "Dash");
-            PlayerDashingState playerDashingState =
-                new PlayerDashingState(HelperAnimationStateName.IS_DASHING, playerDashingProperties);
+            DashState dashState =
+                new DashState(HelperAnimationStateName.IS_DASHING, dashProperties);
             DashActiveSkill dashActiveSkill =
-                new DashActiveSkill(dashSkillInfoSO, playerDashingState);
+                new DashActiveSkill(dashSkillInfoSO, dashState);
 
 
             PlayerShootingProperties playerShootingProperties = new PlayerShootingProperties();
@@ -126,10 +126,7 @@ namespace Entity.Player
             _player.Initialize(this);
         }
 
-        public Player GetPlayer()
-        {
-            return _player;
-        }
+
 
         public void Dispose()
         {

@@ -19,7 +19,7 @@ namespace GeneralManagers
         {
             //find the cinemachine camera in the scene
             cinemachineCamera = FindAnyObjectByType<CinemachineCamera>();
-            SetFollowTarget(GameManager.Instance.PlayerManager.GetPlayer().View.transform);
+            SetFollowTarget(GameManager.Instance.PlayerManager.Player.View.transform);
         }
 
         public void Dispose()

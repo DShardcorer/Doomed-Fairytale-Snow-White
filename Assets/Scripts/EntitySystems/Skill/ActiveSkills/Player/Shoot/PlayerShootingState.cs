@@ -1,15 +1,20 @@
 using System;
 using Entity.Player.State;
+using Helpers;
 
 namespace EntitySystems.Skill.ActiveSkills.Player.Shoot
 {
     public class PlayerShootingState : PlayerState
     {
         private PlayerShootingProperties _playerShootingProperties;
-
-        public PlayerShootingState(string animationBoolName, PlayerShootingProperties entityStateProperties) : base(animationBoolName, entityStateProperties)
+        public PlayerShootingState(ShootActiveSkillInfoSO activeSkillInfoSO)
+            : this(HelperAnimationStateName.IS_SHOOTING, new PlayerShootingProperties(activeSkillInfoSO))
         {
-            _playerShootingProperties = entityStateProperties as PlayerShootingProperties;
+        }
+
+        private PlayerShootingState(string animationBoolName, PlayerShootingProperties entityStateProperties) : base(animationBoolName, entityStateProperties)
+        {
+            _playerShootingProperties = entityStateProperties;
         }
 
         public override void EnterState()

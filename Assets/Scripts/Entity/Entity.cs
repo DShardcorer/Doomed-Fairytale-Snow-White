@@ -43,10 +43,10 @@ namespace Entity
         protected AnimationTriggers animationTriggers;
 
         public AnimationTriggers AnimationTriggers => animationTriggers;
+        public bool IsBusy = false;
 
-
-        public Entity(EntityView view, EntityProperties properties, 
-            StatSystem statSystem, EquipmentSystem equipmentSystem, 
+        public Entity(EntityView view, EntityProperties properties,
+            StatSystem statSystem, EquipmentSystem equipmentSystem,
             ActiveSkillSystem activeSkillSystem, PassiveSkillSystem passiveSkillSystem,
             LevelSystem levelSystem,
             HealthSystem healthSystem, ManaSystem manaSystem, StaminaSystem staminaSystem,
@@ -73,6 +73,7 @@ namespace Entity
         {
             properties.currentPosition = view.transform.position;
         }
+
         public virtual void Initialize()
         {
             equipmentSystem.Initialize(this);
@@ -85,6 +86,7 @@ namespace Entity
             manaSystem.Initialize(this);
             staminaSystem.Initialize(this);
         }
+
         public void TakeDamage(float damage)
         {
             view.PlayDamagedAnimation();

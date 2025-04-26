@@ -5,13 +5,13 @@ namespace EntitySystems.Skill.ActiveSkills.Player.Dash
 {
     public class DashActiveSkill : ActiveSkill
     {
-        private PlayerDashingState _dashingState;
+        private DashState _dashingState;
 
 
-        public DashActiveSkill(ActiveSkillInfoSO activeSkillInfoSO, PlayerDashingState dashingState) : base(
+        public DashActiveSkill(DashActiveSkillInfoSO activeSkillInfoSO) : base(
             activeSkillInfoSO)
         {
-            _dashingState = dashingState;
+            _dashingState = new DashState(activeSkillInfoSO);
         }
 
         public override void Initialize(ActiveSkillSystem parent)

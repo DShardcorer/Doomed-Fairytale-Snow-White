@@ -7,10 +7,11 @@ namespace EntitySystems.Skill.ActiveSkills.Player.Shoot
     {
         private PlayerShootingState _shootingState;
 
-        public ShootActiveSkill(ActiveSkillInfoSO activeSkillInfoSO, PlayerShootingState shootingState) : base(
+
+        public ShootActiveSkill(ShootActiveSkillInfoSO activeSkillInfoSO) : base(
             activeSkillInfoSO)
         {
-            _shootingState = shootingState;
+            _shootingState = new PlayerShootingState(activeSkillInfoSO);
         }
 
         public override void Initialize(ActiveSkillSystem parent)

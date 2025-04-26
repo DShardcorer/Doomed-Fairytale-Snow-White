@@ -16,7 +16,8 @@ Uh. I still have standards you know ? Shoo, shoo. #speaker:Hoshiko #sprite:Hoshi
 = canStart
 Oh, Hello ? #speaker:Hoshiko #sprite:HoshikoSchool_smile #layout:left
 Will you please collect 3 coins and bring them to my clone over there ? This is for experimentation, don't ask why i make such a dumb request.
-So, what is your answer ? 
+This is Monika by the way. #cg:monika
+So, what is your answer ?  #cg:null
 *[No]
 *[...]
 -Pretty please ?I'll show you my <b><color=\#FF1493>swimsuit</color></> #speaker:Hoshiko #sprite:HoshikoSchool_embarrassed1 #layout:left

@@ -91,13 +91,13 @@ namespace QuestSystem
         {
             //Put reward into inventory
             Debug.Log($"Quest {questInfo.QuestName} completed! Rewards given.");
-            InventorySystem playerInventorySystem = GameManager.Instance.PlayerManager.GetPlayer().InventorySystem;
+            InventorySystem playerInventorySystem = GameManager.Instance.PlayerManager.Player.InventorySystem;
             foreach (InventoryItem inventoryItem in questInfo.itemRewards)
             {
                 playerInventorySystem.AddItem(inventoryItem.ItemData, inventoryItem.stackSize);
             }
 
-            LevelSystem playerLevelSystem = GameManager.Instance.PlayerManager.GetPlayer().LevelSystem;
+            LevelSystem playerLevelSystem = GameManager.Instance.PlayerManager.Player.LevelSystem;
             playerLevelSystem.AddExperience(questInfo.experienceReward);
             Debug.Log($"Quest {questInfo.QuestName} completed! Experience given: {questInfo.experienceReward}");
         }

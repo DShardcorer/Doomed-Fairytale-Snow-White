@@ -30,7 +30,7 @@ namespace SceneSwitch
 
         public void Initialize()
         {
-            _playerView = GameManager.Instance.PlayerManager.GetPlayer().PlayerView;
+            _playerView = GameManager.Instance.PlayerManager.Player.PlayerView;
         }
 
         private void OnEnable()

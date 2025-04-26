@@ -9,7 +9,7 @@ namespace Item
         private static Dictionary<string, ItemData> itemDataDictionary;
 
         // Call this to initialize the registry, either on application start or when needed.
-        [RuntimeInitializeOnLoadMethod(RuntimeInitializeLoadType.BeforeSceneLoad)]
+        [RuntimeInitializeOnLoadMethod(RuntimeInitializeLoadType.BeforeSplashScreen)]
         private static void Initialize()
         {
             LoadAllItemData();

@@ -8,6 +8,7 @@ namespace DefaultNamespace
     {
         private void Awake()
         {
+            DontDestroyOnLoad(gameObject);
             string sceneName = SceneManager.GetActiveScene().name;
             if (sceneName != "IntroScene" && sceneName != "MainMenuScene" && GameObject.Find("PERSISTOBJECTS(Clone)") == null)
             {
