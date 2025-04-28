@@ -1,2 +1,2 @@
 Mirror, mirror on the wall...
-Who's the is the maddest of them all ?
+Who's the maddest of them all ?
