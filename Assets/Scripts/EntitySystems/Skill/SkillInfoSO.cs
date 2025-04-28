@@ -4,7 +4,7 @@ using UnityEngine;
 namespace EntitySystems.Skill
 {
     
-    public class SkillInfoSO:ScriptableObject
+    public abstract class SkillInfoSO:ScriptableObject
     {
         public string SkillName;
         public bool IsMindBound;

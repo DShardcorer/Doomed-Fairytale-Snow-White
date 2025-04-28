@@ -19,8 +19,13 @@ namespace EntitySystems.Skill
 
         public ActiveSkillSystem(List<ActiveSkill> skills)
         {
-            foreach (var skill in skills)
+            foreach (ActiveSkill skill in skills)
             {
+                if (skill == null)
+                {
+                    Debug.LogError("Attempted to add a null skill.");
+                    continue;
+                }
                 if (!activeSkillsDict.ContainsKey(skill.activeSkillInfo.SkillName))
                 {
                     activeSkillsDict.Add(skill.activeSkillInfo.SkillName, skill);

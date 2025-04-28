@@ -3,7 +3,7 @@ using Entity.NPC.AI;
 
 namespace Entity.NPC.StandardAI.Chase
 {
-    public class StandardNPCMeleeChasingProperties : EntityStateProperties
+    public class StandardNPCMeleeChaseProperties : EntityStateProperties
     {
         private float chaseSpeed = 3.0f;
         public float ChaseSpeed => chaseSpeed;
@@ -14,7 +14,7 @@ namespace Entity.NPC.StandardAI.Chase
         private float attackRange = 3.0f;
         public float AttackRange => attackRange;
 
-        public StandardNPCMeleeChasingProperties(NPCAIConfiguration config)
+        public StandardNPCMeleeChaseProperties(NPCAIConfiguration config)
         {
             this.chaseSpeed = config.chaseSpeed;
             this.chaseRange = config.chaseRange;

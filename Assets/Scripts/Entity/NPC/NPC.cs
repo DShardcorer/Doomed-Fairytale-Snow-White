@@ -27,7 +27,6 @@ namespace Entity.NPC
         public FOVDetector FOVDetector => _fovDetector;
         protected ProximityDetector _proximityDetector;
         public ProximityDetector ProximityDetector => _proximityDetector;
-        public bool IsBusy = false;
 
 
         protected NPCInteractSystem _npcInteractSystem;
@@ -60,6 +59,7 @@ namespace Entity.NPC
             _npcView = view;
             _npcProperties = properties;
             _npcAIController = aiController;
+            IdleState = aiController.NpcIdleState;
         }
         public virtual void Initialize(NPCManager parent)
         {

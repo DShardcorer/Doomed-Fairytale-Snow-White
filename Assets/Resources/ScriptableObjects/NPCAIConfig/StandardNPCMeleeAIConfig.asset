@@ -21,11 +21,11 @@ MonoBehaviour:
   patrolRadius: 10
   patrolWaitTime: 3
   idleTime: 2
-  moveSpeed: 2
+  moveSpeed: 5
   movingTime: 2
   chaseSpeed: 3
-  chasingTime: 2
   attackCooldown: 2
+  chaseRange: 5
   attackType: 0
   attackRange: 1
   attackDamage: 10

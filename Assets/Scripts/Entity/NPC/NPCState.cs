@@ -1,10 +1,18 @@
 using Entity.NPC.AI;
+using Pathfinding;
+using UnityEngine;
 
 namespace Entity.NPC
 {
     public class NPCState : EntityState
     {
-        public NPCState(string animationBoolName, EntityStateProperties entityStateProperties) : base(animationBoolName, entityStateProperties)
+        protected Seeker seeker; // Reference to the Seeker component
+        public Seeker Seeker => seeker;
+        protected IAstarAI astarAI; // Reference to AIPath or other IAstarAI implementation
+        public IAstarAI AstarAI => astarAI; 
+
+        public NPCState(string animationBoolName, EntityStateProperties entityStateProperties) : base(animationBoolName,
+            entityStateProperties)
         {
         }
 
@@ -13,12 +21,14 @@ namespace Entity.NPC
 
         protected NPCAIController npcAIController;
         public NPCAIController NPCAIController => npcAIController;
+
         public virtual void Initialize(NPC controller)
         {
             npc = controller;
             npcAIController = controller.NPCAIController;
+            seeker = npcAIController.Seeker;
+            astarAI = npcAIController.AstarAI;
             base.Initialize(controller);
         }
     }
 }
-

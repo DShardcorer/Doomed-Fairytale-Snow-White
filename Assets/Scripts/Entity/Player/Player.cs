@@ -2,6 +2,7 @@ using System;
 using Entity.Player.Idle;
 using Entity.Player.Interaction;
 using Entity.Player.Move;
+using Entity.Player.State;
 using EntitySystems.PlayerSystems;
 using EntitySystems.Skill;
 using EntitySystems.Skill.ActiveSkills.Player.Attack;
@@ -30,21 +31,21 @@ namespace Entity.Player
         
 
         //Idling
-        private PlayerIdlingState _playerIdlingState;
-        public PlayerIdlingState PlayerIdlingState => _playerIdlingState;
+        private PlayerIdleState _playerIdleState;
+        public PlayerIdleState PlayerIdleState => _playerIdleState;
 
         //Moving
-        private PlayerMovingState _playerMovingState;
-        public PlayerMovingState PlayerMovingState => _playerMovingState;
+        private PlayerMoveState _playerMoveState;
+        public PlayerMoveState PlayerMoveState => _playerMoveState;
 
 
         //Attacking
-        private PlayerAttackingState _playerAttackingState;
-        public PlayerAttackingState PlayerAttackingState => _playerAttackingState;
+        private PlayerAttackState _playerAttackState;
+        public PlayerAttackState PlayerAttackState => _playerAttackState;
 
         public Player(PlayerView view, PlayerProperties properties,
-            PlayerIdlingState playerIdlingState, PlayerMovingState playerMovingState,
-            PlayerAttackingState playerAttackingState,
+            PlayerIdleState playerIdleState, PlayerMoveState playerMoveState,
+            PlayerAttackState playerAttackState,
             PlayerStatSystem statSystem, PlayerEquipmentSystem equipmentSystem,
             ActiveSkillSystem activeSkillSystem, PassiveSkillSystem passiveSkillSystem,
             PlayerLevelSystem levelSystem, PlayerHealthSystem healthSystem,
@@ -55,9 +56,10 @@ namespace Entity.Player
         {
             _playerView = view;
             _playerProperties = properties;
-            _playerIdlingState = playerIdlingState;
-            _playerMovingState = playerMovingState;
-            _playerAttackingState = playerAttackingState;
+            _playerIdleState = playerIdleState;
+            IdleState = playerIdleState;
+            _playerMoveState = playerMoveState;
+            _playerAttackState = playerAttackState;
             _playerInteraction = view.GetComponentInChildren<PlayerInteraction>();
         }
 
@@ -84,12 +86,12 @@ namespace Entity.Player
 
 
             //State creation
-            _playerIdlingState.Initialize(this);
-            _playerMovingState.Initialize(this);
-            _playerAttackingState.Initialize(this);
+            _playerIdleState.Initialize(this);
+            _playerMoveState.Initialize(this);
+            _playerAttackState.Initialize(this);
 
 
-            stateMachine.Initialize(_playerIdlingState);
+            stateMachine.Initialize(IdleState);
 
 
             //SkillSystem initialization
@@ -100,7 +102,7 @@ namespace Entity.Player
         private void OnAttackInputted(object sender, EventArgs e)
         {
             if (IsBusy) return;
-            stateMachine.ChangeState(_playerAttackingState);
+            stateMachine.ChangeState(_playerAttackState);
         }
 
         private void OnDashInputted(object sender, EventArgs e)
@@ -137,9 +139,9 @@ namespace Entity.Player
             _parent.GameManager.FixedUpdateManager.RemoveFixedUpdatable(this);
             _playerView = null;
             _playerProperties = null;
-            _playerIdlingState = null;
-            _playerMovingState = null;
-            _playerAttackingState = null;
+            IdleState = null;
+            _playerMoveState = null;
+            _playerAttackState = null;
             _playerInteraction = null;
             _inputManager = null;
             _parent = null;

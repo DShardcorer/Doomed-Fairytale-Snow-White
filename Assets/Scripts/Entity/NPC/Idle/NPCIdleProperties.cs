@@ -3,12 +3,12 @@ using Entity.NPC.AI;
 
 namespace Entity.NPC.Idle
 {
-    public class NPCIdlingProperties: EntityStateProperties
+    public class NPCIdleProperties: EntityStateProperties
     {
         private float idleTime = 2.0f;
         public float IdleTime => idleTime;
 
-        public NPCIdlingProperties(NPCAIConfiguration config)
+        public NPCIdleProperties(NPCAIConfiguration config)
         {
             idleTime = config.idleTime;
         }

@@ -48,7 +48,7 @@ namespace Entity.NPC
                 return;
             }
 #pragma warning restore CS0252 // Possible unintended reference comparison; left hand side needs cast
-            npcAIController.ChangeState(npcAIController.NPCIdlingState);
+            npcAIController.ChangeState(npcAIController.NpcIdleState);
         }
 
 

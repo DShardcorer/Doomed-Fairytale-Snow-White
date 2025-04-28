@@ -4,11 +4,11 @@ using Entity.Player.State;
 
 namespace EntitySystems.Skill.ActiveSkills.Player.Attack
 {
-    public class PlayerAttackingState : PlayerState
+    public class PlayerAttackState : PlayerState
     {
         private PlayerAttackingProperties _playerAttackProperties;
 
-        public PlayerAttackingState(string animationBoolName, PlayerAttackingProperties entityStateProperties) : base(animationBoolName, entityStateProperties)
+        public PlayerAttackState(string animationBoolName, PlayerAttackingProperties entityStateProperties) : base(animationBoolName, entityStateProperties)
         {
             _playerAttackProperties = entityStateProperties;
         }
@@ -27,7 +27,7 @@ namespace EntitySystems.Skill.ActiveSkills.Player.Attack
             }
             else
             {
-                _stateMachine.ChangeState(_player.PlayerIdlingState);
+                _stateMachine.ChangeState(_entity.IdleState);
             }
         }
 

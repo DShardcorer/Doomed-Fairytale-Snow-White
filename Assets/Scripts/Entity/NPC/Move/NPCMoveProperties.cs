@@ -4,7 +4,7 @@ using Entity.NPC.AI;
 namespace Entity.NPC.Move
 {
     [Serializable]
-    public class NPCMovingProperties: EntityStateProperties
+    public class NPCMoveProperties: EntityStateProperties
     {
         private float moveSpeed = 2.0f;
         public float MoveSpeed => moveSpeed;
@@ -12,7 +12,7 @@ namespace Entity.NPC.Move
         private float movingTime = 2.0f;
         public float MovingTime => movingTime;
 
-        public NPCMovingProperties(NPCAIConfiguration config)
+        public NPCMoveProperties(NPCAIConfiguration config)
         {
             this.moveSpeed = config.moveSpeed;
             this.movingTime = config.movingTime;

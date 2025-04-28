@@ -3,11 +3,11 @@ using UnityEngine;
 
 namespace Entity.Player.Move
 {
-    public class PlayerMovingState : PlayerState
+    public class PlayerMoveState : PlayerState
     {
         private PlayerMovingProperties _playerMovingProperties;
 
-        public PlayerMovingState(string animationBoolName, PlayerMovingProperties entityStateProperties) : base(animationBoolName, entityStateProperties)
+        public PlayerMoveState(string animationBoolName, PlayerMovingProperties entityStateProperties) : base(animationBoolName, entityStateProperties)
         {
             _playerMovingProperties = entityStateProperties;
         }
@@ -25,7 +25,7 @@ namespace Entity.Player.Move
             }
             else
             {
-                _stateMachine.ChangeState(_player.PlayerIdlingState);
+                _stateMachine.ChangeState(_entity.IdleState);
             }
             base.FixedUpdateState();
 

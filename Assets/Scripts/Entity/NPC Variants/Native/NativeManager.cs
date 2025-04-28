@@ -42,7 +42,7 @@ namespace Entity.NPC_Variants.Native
 
 
             NPCProperties npcProperties = new NPCProperties(EntityFaction.Native,
-                new List<EntityFaction> {EntityFaction.Civilized}, 2, 10);
+                new List<EntityFaction> {EntityFaction.Civilized, EntityFaction.Player}, 2, 10);
 
             //LevelSystem creation
             LevelSystem levelSystem = new LevelSystem();

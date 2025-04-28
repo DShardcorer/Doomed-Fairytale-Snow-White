@@ -21,7 +21,7 @@ namespace Entity.NPC.AI
         public float idleTime = 2f;
         
         [Header("Move Settings")] 
-        public float moveSpeed = 2f;
+        public float moveSpeed = 5f;
         public float movingTime = 2f;
         
         [Header("Chase Settings")]

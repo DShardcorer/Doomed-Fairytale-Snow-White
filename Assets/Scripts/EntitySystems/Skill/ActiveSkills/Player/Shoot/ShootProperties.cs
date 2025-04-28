@@ -3,7 +3,7 @@ using Entity;
 
 namespace EntitySystems.Skill.ActiveSkills.Player.Shoot
 {
-    public class PlayerShootingProperties: EntityStateProperties
+    public class ShootProperties: EntityStateProperties
     {
         private float _shootDamage = 20;
         private float _shootRange = 100;
@@ -13,7 +13,7 @@ namespace EntitySystems.Skill.ActiveSkills.Player.Shoot
         public float ShootRange => _shootRange;
         public float ShootKnockbackForce => _shootKnockbackForce;
 
-        public PlayerShootingProperties(ShootActiveSkillInfoSO shootActiveSkillInfoSO)
+        public ShootProperties(ShootActiveSkillInfoSO shootActiveSkillInfoSO)
         {
             _shootDamage = shootActiveSkillInfoSO.ShootDamage;
             _shootRange = shootActiveSkillInfoSO.ShootRange;

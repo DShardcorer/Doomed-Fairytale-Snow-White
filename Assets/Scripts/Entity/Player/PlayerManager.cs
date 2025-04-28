@@ -8,6 +8,8 @@ using EntitySystems.Skill.ActiveSkills.Player.Attack;
 using EntitySystems.Skill.ActiveSkills.Player.Dash;
 using EntitySystems.Skill.ActiveSkills.Player.Shoot;
 using EntitySystems.Skill.PassiveSkills;
+using EntitySystems.Skill.SkillFactory;
+using EntitySystems.States.Movement;
 using EntitySystems.Stats;
 using GeneralManagers;
 using Helpers;
@@ -30,6 +32,7 @@ namespace Entity.Player
         public void Initialize(GameManager gameManager)
         {
             _gameManager = gameManager;
+            CreatePlayer(new Vector3(0,0,0));
         }
 
         public void CreatePlayer(Vector3 position)
@@ -42,50 +45,34 @@ namespace Entity.Player
 
 
             //ActiveSkillSystem creation
-            DashProperties dashProperties = new DashProperties();
-            ActiveSkillInfoSO dashSkillInfoSO =
-                UnityEngine.Resources.Load<ActiveSkillInfoSO>(HelperResourcePath.ActiveSkillPath + "Dash");
-            DashState dashState =
-                new DashState(HelperAnimationStateName.IS_DASHING, dashProperties);
-            DashActiveSkill dashActiveSkill =
-                new DashActiveSkill(dashSkillInfoSO, dashState);
+            DashActiveSkill dashActiveSkill = SkillRegistry.CreateActiveSkill("Dash") as DashActiveSkill;
+            ShootActiveSkill shootActiveSkill = SkillRegistry.CreateActiveSkill("Shoot") as ShootActiveSkill;
 
-
-            PlayerShootingProperties playerShootingProperties = new PlayerShootingProperties();
-            ActiveSkillInfoSO shootSkillInfoSO =
-                UnityEngine.Resources.Load<ActiveSkillInfoSO>(HelperResourcePath.ActiveSkillPath + "Shoot");
-            PlayerShootingState playerShootingState =
-                new PlayerShootingState(HelperAnimationStateName.IS_SHOOTING, playerShootingProperties);
-            ShootActiveSkill shootActiveSkill =
-                new ShootActiveSkill(shootSkillInfoSO, playerShootingState);
             PlayerActiveSkillSystem activeSkillSystem =
                 new PlayerActiveSkillSystem(new List<ActiveSkill> { dashActiveSkill, shootActiveSkill });
 
 
             NaturalStrengthPassiveSkill naturalStrengthPassiveSkill =
-                new NaturalStrengthPassiveSkill(UnityEngine.Resources.Load<SkillInfoSO>(
-                    HelperResourcePath.PassiveSkillPath + "NaturalStrength"));
+                SkillRegistry.CreatePassiveSkill("Natural Strength") as NaturalStrengthPassiveSkill;
             BodyControlPassiveSkill bodyControlPassiveSkill =
-                new BodyControlPassiveSkill(UnityEngine.Resources.Load<SkillInfoSO>(
-                    HelperResourcePath.PassiveSkillPath + "BodyControl"));
-
+                SkillRegistry.CreatePassiveSkill("Body Control") as BodyControlPassiveSkill;
             List<PassiveSkill> passiveSkills = new List<PassiveSkill>
                 { naturalStrengthPassiveSkill, bodyControlPassiveSkill };
             PlayerPassiveSkillSystem passiveSkillSystem = new PlayerPassiveSkillSystem(passiveSkills);
 
             //States creation
             PlayerIdlingProperties playerIdlingProperties = new PlayerIdlingProperties();
-            PlayerIdlingState playerIdlingState =
-                new PlayerIdlingState(HelperAnimationStateName.IS_IDLING, playerIdlingProperties);
+            PlayerIdleState playerIdleState =
+                new PlayerIdleState(HelperAnimationStateName.IS_IDLING, playerIdlingProperties);
 
 
             PlayerMovingProperties playerMovingProperties = new PlayerMovingProperties();
-            PlayerMovingState playerMovingState =
-                new PlayerMovingState(HelperAnimationStateName.IS_MOVING, playerMovingProperties);
+            PlayerMoveState playerMoveState =
+                new PlayerMoveState(HelperAnimationStateName.IS_MOVING, playerMovingProperties);
 
             PlayerAttackingProperties playerAttackingProperties = new PlayerAttackingProperties();
-            PlayerAttackingState playerAttackingState =
-                new PlayerAttackingState(HelperAnimationStateName.IS_ATTACKING, playerAttackingProperties);
+            PlayerAttackState playerAttackState =
+                new PlayerAttackState(HelperAnimationStateName.IS_ATTACKING, playerAttackingProperties);
 
             EntityStateMachine stateMachine = new EntityStateMachine();
 
@@ -118,14 +105,13 @@ namespace Entity.Player
             PlayerInventorySystem inventory = new PlayerInventorySystem();
 
             _player = new Player(
-                playerView, playerProperties, playerIdlingState, playerMovingState, playerAttackingState,
+                playerView, playerProperties, playerIdleState, playerMoveState, playerAttackState,
                 statSystem, equipmentSystem,
                 activeSkillSystem, passiveSkillSystem,
                 levelSystem, healthSystem, manaSystem, staminaSystem,
                 stateMachine, inventory);
             _player.Initialize(this);
         }
-
 
 
         public void Dispose()

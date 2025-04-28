@@ -1,4 +1,5 @@
 using Entity.Player;
+using EntitySystems.States.Movement;
 using UnityEngine;
 
 namespace EntitySystems.Skill.ActiveSkills.Player.Dash
@@ -17,14 +18,7 @@ namespace EntitySystems.Skill.ActiveSkills.Player.Dash
         public override void Initialize(ActiveSkillSystem parent)
         {
             base.Initialize(parent);
-            if (base.parent.Parent is Entity.Player.Player player)
-            {
-                _dashingState.Initialize(player);
-            }
-            else
-            {
-                Debug.LogError($"DashSkill initialized with a non-Player entity: {base.parent.Parent}");
-            }
+            _dashingState.Initialize(parent.Parent);
         }
 
 

@@ -9,14 +9,15 @@ MonoBehaviour:
   m_GameObject: {fileID: 0}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 2f9849fbc4334406a50192b75d8b9caa, type: 3}
-  m_Name: Shoot
+  m_Script: {fileID: 11500000, guid: 8d4e9dcf07f340a7a60eb33ef6d2f8a1, type: 3}
+  m_Name: DashActiveSkillInfoSO
   m_EditorClassIdentifier: 
-  SkillName: Shoot
-  IsMindBound: 0
-  SkillDescription: I don't think you are supposed to have this ?
-  SkillIcon: {fileID: -1544027418, guid: 1cdeade6368c6cf4bac8b847b58f7c5c, type: 3}
-  cooldown: 0
+  SkillName: Dash
+  IsMindBound: 1
+  SkillDescription: Can't take that attack ? Just dash away.
+  SkillIcon: {fileID: -729496347, guid: 1cdeade6368c6cf4bac8b847b58f7c5c, type: 3}
+  cooldown: 1
   healthCost: 0
   manaCost: 0
   staminaCost: 30
+  DashSpeed: 10

@@ -43,7 +43,12 @@ namespace Entity
         protected AnimationTriggers animationTriggers;
 
         public AnimationTriggers AnimationTriggers => animationTriggers;
+
         public bool IsBusy = false;
+
+        // Default states that any entity should have
+        public EntityState IdleState { get; protected set; }
+
 
         public Entity(EntityView view, EntityProperties properties,
             StatSystem statSystem, EquipmentSystem equipmentSystem,

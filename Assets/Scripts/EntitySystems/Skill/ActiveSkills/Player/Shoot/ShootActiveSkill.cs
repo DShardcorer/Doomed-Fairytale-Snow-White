@@ -5,13 +5,13 @@ namespace EntitySystems.Skill.ActiveSkills.Player.Shoot
 {
     public class ShootActiveSkill : ActiveSkill
     {
-        private PlayerShootingState _shootingState;
+        private ShootState _shootingState;
 
 
         public ShootActiveSkill(ShootActiveSkillInfoSO activeSkillInfoSO) : base(
             activeSkillInfoSO)
         {
-            _shootingState = new PlayerShootingState(activeSkillInfoSO);
+            _shootingState = new ShootState(activeSkillInfoSO);
         }
 
         public override void Initialize(ActiveSkillSystem parent)

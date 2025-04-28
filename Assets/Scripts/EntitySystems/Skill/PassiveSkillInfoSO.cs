@@ -1,6 +1,8 @@
+using UnityEngine;
+
 namespace EntitySystems.Skill
 {
-    public abstract class PassiveSkillInfoSO:SkillInfoSO
+    public abstract class PassiveSkillInfoSO : SkillInfoSO
     {
         public abstract PassiveSkill Create();
     }

@@ -5,14 +5,14 @@ using EntitySystems.Stats;
 
 namespace Entity.NPC.StandardAI.Attack
 {
-    public class StandardNPCMeleeAttackingProperties: EntityStateProperties
+    public class StandardNPCMeleeAttackProperties: EntityStateProperties
     {
         public AttackType AttackType { get; private set; }
         public float AttackRange { get; private set; }
         public float AttackDamage { get; private set; }
         public float AttackCooldown { get; private set; } = 1.0f;
 
-        public StandardNPCMeleeAttackingProperties(NPCAIConfiguration config)
+        public StandardNPCMeleeAttackProperties(NPCAIConfiguration config)
         {
             AttackType = config.attackType;
             AttackRange = config.attackRange;
