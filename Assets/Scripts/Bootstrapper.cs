@@ -14,11 +14,11 @@ public class Bootstrapper : MonoBehaviour
         // Then initialize UIManager or notify UI components.
         UIManager.Instance.Initialize();
         InvokeInitialEvents();
-        
+
         DataPersistenceManager.Instance.Initialize();
         SceneSwitchManager.Instance.Initialize();
-
     }
+
     private void InvokeInitialEvents()
     {
         Player player = GameManager.Instance.PlayerManager.Player;
@@ -31,8 +31,8 @@ public class Bootstrapper : MonoBehaviour
         player.LevelSystem.InvokeInitialEvents();
         player.ActiveSkillSystem.InvokeInitialEvents();
         player.PassiveSkillSystem.InvokeInitialEvents();
-        
-        
+
+
         GameManager.Instance.GameTimeManager.InvokeInitialEvents();
     }
 }

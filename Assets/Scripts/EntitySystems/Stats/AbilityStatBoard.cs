@@ -21,7 +21,41 @@ namespace EntitySystems.Stats
             Wisdom = new AbilityStat(abilityStatboardSO.Wisdom);
             Charisma = new AbilityStat(abilityStatboardSO.Charisma);
         }
+        //A constructor with int parameters for each stat
+        public AbilityStatBoard(float strength, float dexterity, float constitution, float intelligence, float wisdom, float charisma)
+        {
+            Strength = new AbilityStat(strength);
+            Dexterity = new AbilityStat(dexterity);
+            Constitution = new AbilityStat(constitution);
+            Intelligence = new AbilityStat(intelligence);
+            Wisdom = new AbilityStat(wisdom);
+            Charisma = new AbilityStat(charisma);
+        }
 
+        public void SetStat(StatType statType, int points)
+        {
+            switch (statType)
+            {
+                case StatType.Strength:
+                    Strength.BaseValue = points;
+                    break;
+                case StatType.Dexterity:
+                    Dexterity.BaseValue = points;
+                    break;
+                case StatType.Constitution:
+                    Constitution.BaseValue = points;
+                    break;
+                case StatType.Intelligence:
+                    Intelligence.BaseValue = points;
+                    break;
+                case StatType.Wisdom:
+                    Wisdom.BaseValue = points;
+                    break;
+                case StatType.Charisma:
+                    Charisma.BaseValue = points;
+                    break;
+            }
+        }
         public void IncreaseStat(StatType statType, int points)
         {
             switch (statType)

@@ -57,6 +57,18 @@ namespace EntitySystems.Stats
             RecalculateStats();
             OnStatsChanged();
         }
+        /// <summary>
+        /// USE THIS WITH CAUTION. Straight up sets the stat points to the value given.
+        /// </summary>
+        /// <param name="statType"></param>
+        /// <param name="points"></param>
+        public void SetAbilityStatPoints(StatType statType, int points)
+        {
+            _unallocatedAbilityStatPoints -= points;
+            AbilityStatBoard.SetStat(statType, points);
+            RecalculateStats();
+            OnStatsChanged();
+        }
 
         public virtual void RecalculateStats()
         {

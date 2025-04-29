@@ -12,6 +12,8 @@ namespace Entity
 {
     public abstract class Entity
     {
+        protected EntityProfile profile;
+        public EntityProfile Profile => profile;
         protected EntityStateMachine stateMachine;
         protected EntityView view;
         protected EntityProperties properties;

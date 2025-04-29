@@ -9,6 +9,7 @@ using UnityEngine.Rendering.Universal;
 using UnityEngine.SceneManagement;
 using UnityEngine.UIElements;
 using System.Collections;
+using EventSystem.Time;
 
 namespace DefaultNamespace.LightingSystem
 {
@@ -18,7 +19,7 @@ namespace DefaultNamespace.LightingSystem
     /// The ticking of that system can be stopped, this is useful e.g. if the game is put in pause (or need to do cutscene
     /// etc..)
     /// </summary>
-    [DefaultExecutionOrder(10)]
+    // [DefaultExecutionOrder(10)]
     public class DayCycleLightingManager : MonoBehaviour
     {
         public Transform LightsRoot;
@@ -48,49 +49,15 @@ namespace DefaultNamespace.LightingSystem
 
 
         private GameTimeManager _gameTimeManager;
-
-        private float _updateInterval = 0.5f;
-        private Coroutine _updateCoroutine;
         
         private void Awake()
         {
-            SceneManager.sceneLoaded += OnSceneLoaded;
+            TimeEventSystem.OnTimeChanged += OnTimeChanged;
         }
-        
-        private void OnSceneLoaded(Scene arg0, LoadSceneMode arg1)
+
+        private void OnTimeChanged(TimeEventSystem.TimeChangedEventArgs obj)
         {
-            _gameTimeManager = GameManager.Instance.GameTimeManager;
-            UpdateLight(_gameTimeManager.NormalizedTime);
-            
-            // Start the update coroutine
-            if (_updateCoroutine != null)
-                StopCoroutine(_updateCoroutine);
-                
-            _updateCoroutine = StartCoroutine(UpdateLightingRoutine());
-        }
-        
-        private void OnDestroy()
-        {
-            if (_updateCoroutine != null)
-                StopCoroutine(_updateCoroutine);
-                
-            _gameTimeManager = null;
-            SceneManager.sceneLoaded -= OnSceneLoaded;
-        }
-        
-        // Replace Update with a coroutine
-        private IEnumerator UpdateLightingRoutine()
-        {
-            WaitForSeconds wait = new WaitForSeconds(_updateInterval);
-            
-            while (true)
-            {
-                // Update lighting based on current time
-                UpdateLight(_gameTimeManager.NormalizedTime);
-                
-                // Wait for the next update interval
-                yield return wait;
-            }
+            UpdateLight(obj.TimePoint.Normalized);
         }
 
         public void UpdateLight(float ratio)

@@ -1,3 +1,4 @@
+using AudioSystem;
 using DateDayNightSystem;
 using DateTimeDayNightSystem;
 using DefaultNamespace.LightingSystem;
@@ -14,18 +15,24 @@ namespace GeneralManagers
     public class GameManager : MonoBehaviour
     {
         public static GameManager Instance { get; private set; }
+        [SerializeField]
+        public Camera MainCamera;
+        [SerializeField]
+        public Camera UIMainCamera;
+        [SerializeField] private AudioManager _audioManager;
         [SerializeField] private InputManager _inputManager;
         [SerializeField] private PoolManager _poolManager;
         [SerializeField] private PlayerManager _playerManager;
         [SerializeField] private UpdateManager _updateManager;
         [SerializeField] private FixedUpdateManager _fixedUpdateManager;
         [SerializeField] private GameTimeManager _gameTimeManager;
+        [SerializeField] private DayCycleLightingManager _dayCycleLightingManager;
         [SerializeField] private NativeManager _enemyManager;
         [SerializeField] private CameraManager _cameraManager;
         [SerializeField] private QuestManager _questManager;
         [SerializeField] private DialogueManager _dialogueManager;
 
-
+        public AudioManager AudioManager => _audioManager;
         public GameTimeManager GameTimeManager => _gameTimeManager;
         public InputManager InputManager => _inputManager;
         public PoolManager PoolManager => _poolManager;
@@ -53,6 +60,7 @@ namespace GeneralManagers
 
         public void Initialize()
         {
+            _audioManager.Initialize(this);
             _gameTimeManager.Initialize(this);
             _inputManager.Initialize(this);
             _cameraManager.Initialize(this);

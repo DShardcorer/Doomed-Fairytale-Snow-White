@@ -13,6 +13,8 @@ using EntitySystems.States.Movement;
 using EntitySystems.Stats;
 using GeneralManagers;
 using Helpers;
+using Item;
+using Item.Inventory;
 using UnityEngine;
 
 namespace Entity.Player
@@ -42,23 +44,10 @@ namespace Entity.Player
             //PlayerView creation
             PlayerView playerView = playerGameObject.GetComponent<PlayerView>();
             DontDestroyOnLoad(playerView);
-
-
             //ActiveSkillSystem creation
-            DashActiveSkill dashActiveSkill = SkillRegistry.CreateActiveSkill("Dash") as DashActiveSkill;
-            ShootActiveSkill shootActiveSkill = SkillRegistry.CreateActiveSkill("Shoot") as ShootActiveSkill;
+            PlayerActiveSkillSystem activeSkillSystem = new PlayerActiveSkillSystem(new List<ActiveSkill>());
 
-            PlayerActiveSkillSystem activeSkillSystem =
-                new PlayerActiveSkillSystem(new List<ActiveSkill> { dashActiveSkill, shootActiveSkill });
-
-
-            NaturalStrengthPassiveSkill naturalStrengthPassiveSkill =
-                SkillRegistry.CreatePassiveSkill("Natural Strength") as NaturalStrengthPassiveSkill;
-            BodyControlPassiveSkill bodyControlPassiveSkill =
-                SkillRegistry.CreatePassiveSkill("Body Control") as BodyControlPassiveSkill;
-            List<PassiveSkill> passiveSkills = new List<PassiveSkill>
-                { naturalStrengthPassiveSkill, bodyControlPassiveSkill };
-            PlayerPassiveSkillSystem passiveSkillSystem = new PlayerPassiveSkillSystem(passiveSkills);
+            PlayerPassiveSkillSystem passiveSkillSystem = new PlayerPassiveSkillSystem(new List<PassiveSkill>());
 
             //States creation
             PlayerIdlingProperties playerIdlingProperties = new PlayerIdlingProperties();
@@ -113,10 +102,53 @@ namespace Entity.Player
             _player.Initialize(this);
         }
 
-
         public void Dispose()
         {
             _player = null;
         }
+
+        #region Player Utility API
+        public void DisablePlayer()
+        {
+            _player.PlayerView.gameObject.SetActive(false);
+        }
+        public void EnablePlayer()
+        {
+            _player.PlayerView.gameObject.SetActive(true);
+        }
+        public void SetPlayerStat(StatType statType, int value)
+        {
+            _player.StatSystem.SetAbilityStatPoints(statType, value);
+        }
+
+        public void AddItemToInventory(ItemData itemData, int amount)
+        {
+            _player.InventorySystem.AddItem(itemData, amount);
+        }
+        
+        public void RemoveItemFromInventory(ItemData itemData, int amount)
+        {
+            _player.InventorySystem.RemoveItem(itemData, amount);
+        }
+        
+        public void AddActiveSkill(ActiveSkill skill)
+        {
+            _player.ActiveSkillSystem.AddSkill(skill);
+        }
+        public void AddPassiveSkill(PassiveSkill skill)
+        {
+            _player.PassiveSkillSystem.AddSkill(skill);
+        }
+        public void SetPlayerName(string name)
+        {
+            _player.Profile.SetName(name);
+        }
+        public void SetPlayerPosition(Vector3 position)
+        {
+            _player.PlayerView.transform.position = position;
+        }
+        
+
+        #endregion
     }
 }

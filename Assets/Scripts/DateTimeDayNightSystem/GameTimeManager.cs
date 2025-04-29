@@ -8,25 +8,26 @@ namespace DateDayNightSystem
 {
     public class GameTimeManager : MonoBehaviour, ILifecycle<GameManager>
     {
-        [Header("Time Settings")]
-        [SerializeField] private int startDay = 1;
-        [SerializeField][Range(0f, 24f)] private float startTimeOfDay = 6f;
+        [Header("Time Settings")] [SerializeField]
+        private int startDay = 1;
+
+        [Range(0f, 24f)] private float startTimeOfDay = 0f;
         [SerializeField] private float secondsPerGameDay = 1200f;
         [SerializeField] private bool startPaused = false;
-        [SerializeField]
-        private float timeScale = 200f;
+        [SerializeField] private float timeScale = 200f;
 
-        [Header("Time Reversal")]
-        [SerializeField] private bool enableTimeReversal = true;
+        [Header("Time Reversal")] [SerializeField]
+        private bool enableTimeReversal = true;
+
         [SerializeField] private float timeReversalScale = 1f; // How fast time reverses (multiplier)
 
         // New property for time reversal
-        [SerializeField]
-        private bool _isReversing = false;
-        public bool IsReversing 
-        { 
-            get => _isReversing; 
-            set 
+        [SerializeField] private bool _isReversing = false;
+
+        public bool IsReversing
+        {
+            get => _isReversing;
+            set
             {
                 if (_isReversing != value)
                 {
@@ -43,22 +44,21 @@ namespace DateDayNightSystem
         public int CurrentDay { get; private set; }
         public TimePoint CurrentTime { get; private set; }
         public float NormalizedTime => CurrentTime.Normalized;
+
         public bool IsDaytime => CurrentTime.hourOfDay > DayPhases.Dawn.hourOfDay &&
-                                  CurrentTime.hourOfDay < DayPhases.Dusk.hourOfDay;
+                                 CurrentTime.hourOfDay < DayPhases.Dusk.hourOfDay;
+
         public bool IsNighttime => !IsDaytime;
         public DayPhase CurrentPhase { get; private set; }
         public bool IsPaused { get; private set; }
         public GameDateTime CurrentDateTime => new GameDateTime(CurrentDay, CurrentTime);
         private DayPhase _lastPhase;
         private float _timeAccumulator = 0f;
-        [SerializeField]
-        private float TIME_ADVANCE_INTERVAL = 0.5f;
+        [SerializeField] private float TIME_ADVANCE_INTERVAL = 0.5f;
         private float _lastEventCheckTime;
-        [SerializeField]
-        private const float EVENT_CHECK_INTERVAL = 1f;
+        [SerializeField] private const float EVENT_CHECK_INTERVAL = 1f;
         private float _lastLightingUpdateTime;
-        [SerializeField]
-        private const float LIGHTING_UPDATE_INTERVAL = 1f;
+        [SerializeField] private const float LIGHTING_UPDATE_INTERVAL = 1f;
 
         private GameManager _parent;
         private GameTimeEvents _timeEvents;
@@ -100,7 +100,7 @@ namespace DateDayNightSystem
                 float timeDelta = _timeAccumulator * timeScale;
                 if (IsReversing)
                     timeDelta = -timeDelta * timeReversalScale;
-                    
+
                 AdvanceTime(timeDelta);
                 _timeAccumulator = 0f;
                 UpdateDayPhase();
@@ -192,6 +192,7 @@ namespace DateDayNightSystem
         public void ResumeTime() => IsPaused = false;
         public void TogglePause() => IsPaused = !IsPaused;
         public void SetTimeScale(float scale) => timeScale = Mathf.Max(0f, scale);
+
         public void SetDayLength(float seconds)
         {
             if (seconds > 0f) secondsPerGameDay = seconds;
@@ -201,25 +202,25 @@ namespace DateDayNightSystem
         {
             float dayFraction = deltaSeconds / secondsPerGameDay;
             float newHourOfDay = CurrentTime.hourOfDay + (dayFraction * 24f);
-            
+
             // Handle day changes, allowing for negative days when reversing time
             int daysToAdd = Mathf.FloorToInt(newHourOfDay / 24f);
             newHourOfDay %= 24f;
-            
+
             // Handle negative hours
             if (newHourOfDay < 0)
             {
                 newHourOfDay += 24f;
                 daysToAdd -= 1;
             }
-            
+
             // Prevent going below day 1
             if (CurrentDay + daysToAdd < 1)
             {
                 daysToAdd = 1 - CurrentDay;
                 newHourOfDay = 0f;
             }
-            
+
             SetDateTime(CurrentDay + daysToAdd, newHourOfDay);
         }
 

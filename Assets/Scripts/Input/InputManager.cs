@@ -42,6 +42,15 @@ namespace Input
             _playerInputActions.UI.Cancel.performed += ctx => uiCancelInputted?.Invoke(inputEventContext);
             _playerInputActions.UI.Disable();
         }
+        public void DisableOpenMenuInput()
+        {
+            _playerInputActions.Player.OpenMenu.Disable();
+        }
+
+        public void EnableOpenMenuInput()
+        {
+            _playerInputActions.Player.OpenMenu.Enable();
+        }
 
         public void SetInputEventContext(InputEventContext context)
         {

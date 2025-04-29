@@ -32,7 +32,7 @@ namespace DataPersistence
         public void Initialize()
         {
             fileDataHandler = new FileDataHandler(Application.persistentDataPath, fileName, useEncryption);
-            LoadGame();
+            // LoadGame();
         }
 
         public void NewGame()

@@ -1,18 +1,23 @@
-
 using UnityEngine;
-using UnityEngine.SceneManagement;
 
 namespace DefaultNamespace
 {
-    public class Initializer : MonoBehaviour
+    public static class Initializer
     {
-        private void Awake()
+        [RuntimeInitializeOnLoadMethod(RuntimeInitializeLoadType.BeforeSceneLoad)]
+        public static void Initialize()
         {
-            DontDestroyOnLoad(gameObject);
-            string sceneName = SceneManager.GetActiveScene().name;
-            if (sceneName != "IntroScene" && sceneName != "MainMenuScene" && GameObject.Find("PERSISTOBJECTS(Clone)") == null)
+            if (GameObject.Find("PERSISTOBJECTS(Clone)") == null)
             {
-                DontDestroyOnLoad(Instantiate(UnityEngine.Resources.Load("PERSISTOBJECTS")));
+                var prefab = UnityEngine.Resources.Load<GameObject>("PERSISTOBJECTS");
+                if (prefab != null)
+                {
+                    Object.DontDestroyOnLoad(Object.Instantiate(prefab));
+                }
+                else
+                {
+                    Debug.LogError("Failed to load PERSISTOBJECTS from Resources.");
+                }
             }
         }
     }

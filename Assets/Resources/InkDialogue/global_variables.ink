@@ -1,4 +1,9 @@
-//PLAYER STATS SECTION
+//PLAYER SECTION
+VAR PlayerName= ""
+
+VAR PlayerLevel = 1
+
+
 VAR PlayerStrength = 0
 VAR PlayerDexterity = 0
 VAR PlayerConstitution = 0
