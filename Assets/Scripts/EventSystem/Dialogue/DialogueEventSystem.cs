@@ -39,11 +39,13 @@ namespace EventSystem.Dialogue
         {
             public string DialogueText;
             public List<Choice> Choices;
+            public float Delay;
 
-            public DialogueContinueEventArgs(string dialogueText, List<Choice> choices)
+            public DialogueContinueEventArgs(string dialogueText, List<Choice> choices, float delay = 0)
             {
                 DialogueText = dialogueText;
                 Choices = choices;
+                Delay = delay;
             }
         }
 
@@ -128,6 +130,22 @@ namespace EventSystem.Dialogue
             OnUpdateSpeakerName?.Invoke(e);
         }
 
+        public class UpdateCGPathEventArgs : EventArgs
+        {
+            public string CGPath;
+            
+            public UpdateCGPathEventArgs(string cgPath)
+            {
+                this.CGPath = cgPath;
+            }
+        }
+        
+        public static event Action<UpdateCGPathEventArgs> OnUpdateCGPath;
+        public static void InvokeUpdateCGPath(UpdateCGPathEventArgs e)
+        {
+            OnUpdateCGPath?.Invoke(e);
+        }
+
         public class UpdateCGEventArgs : EventArgs
         {
             public string CGName;
@@ -176,5 +194,7 @@ namespace EventSystem.Dialogue
         {
             OnUpdateCanContinueToNextLine?.Invoke(e);
         }
+        
+
     }
 }

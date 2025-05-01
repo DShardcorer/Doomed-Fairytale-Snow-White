@@ -20,6 +20,8 @@ namespace UI.Dialogue
         [Header("Dialogue Box UI")] [SerializeField]
         private TextAnimator_TMP dialogueText;
 
+        [SerializeField] private GameObject dialogueHolder;
+
         [SerializeField] private TypewriterByCharacter typewriter;
         [SerializeField] private GameObject canContinueIcon;
         [SerializeField] private DialogueChoiceButtonUI[] choiceButtons;
@@ -30,7 +32,11 @@ namespace UI.Dialogue
         [FormerlySerializedAs("rightSpriteImageAnimator")] [SerializeField]
         private Image rightSpriteImage;
 
-        [SerializeField] private Image cgImage;
+        [SerializeField] private GameObject backCGLayer;
+        [SerializeField] private GameObject frontCGLayer;
+        [SerializeField] private GameObject mainCGLayer;
+
+        private string cgPath;
 
         [Header("Speaker Name")] [SerializeField]
         private TextMeshProUGUI speakerNameText;
@@ -55,7 +61,7 @@ namespace UI.Dialogue
             _audioSource = gameObject.AddComponent<AudioSource>();
             typewriter.onCharacterVisible.AddListener(OnCharacterVisible);
             typewriter.onTextShowed.AddListener(OnTypewriterComplete);
-            cgImage.gameObject.SetActive(false);
+            mainCGLayer.gameObject.SetActive(false);
             gameObject.SetActive(false);
         }
 
@@ -74,6 +80,7 @@ namespace UI.Dialogue
             DialogueEventSystem.OnUpdateSpeakerName += OnUpdateSpeakerName;
             DialogueEventSystem.OnUpdateSpeakerSprite += OnUpdateSpeakerSprite;
             DialogueEventSystem.OnUpdateCG += OnUpdateCG;
+            DialogueEventSystem.OnUpdateCGPath += OnUpdateCGPath;
             GameManager.Instance.InputManager.uiSubmitInputted += OnUISubmitInputted;
         }
 
@@ -85,19 +92,82 @@ namespace UI.Dialogue
             DialogueEventSystem.OnUpdateSpeakerName -= OnUpdateSpeakerName;
             DialogueEventSystem.OnUpdateSpeakerSprite -= OnUpdateSpeakerSprite;
             DialogueEventSystem.OnUpdateCG -= OnUpdateCG;
+            DialogueEventSystem.OnUpdateCGPath -= OnUpdateCGPath;
             GameManager.Instance.InputManager.uiSubmitInputted -= OnUISubmitInputted;
+        }
+
+        private void OnUpdateCGPath(DialogueEventSystem.UpdateCGPathEventArgs obj)
+        {
+            cgPath = obj.CGPath;
+
+            //Destroy children of back and front
+            foreach (Transform child in backCGLayer.transform)
+            {
+                Destroy(child.gameObject);
+            }
+
+            foreach (Transform child in frontCGLayer.transform)
+            {
+                Destroy(child.gameObject);
+            }
+
+            // Load prefabs
+            GameObject backPrefab =
+                UnityEngine.Resources.Load<GameObject>(HelperResourcePath.CGPath + cgPath + "/Back");
+            GameObject frontPrefab =
+                UnityEngine.Resources.Load<GameObject>(HelperResourcePath.CGPath + cgPath + "/Front");
+
+            // Handle back layer
+            if (backPrefab)
+            {
+                backCGLayer = Instantiate(backPrefab, backCGLayer.transform);
+                backCGLayer.SetActive(true);
+            }
+            else
+            {
+                backCGLayer.SetActive(false);
+                Debug.Log("No backCgLayer found at " + HelperResourcePath.CGPath + cgPath + "/Back");
+            }
+
+            // Handle front layer
+            if (frontPrefab)
+            {
+                frontCGLayer = Instantiate(frontPrefab, frontCGLayer.transform);
+                frontCGLayer.SetActive(true);
+            }
+            else
+            {
+                frontCGLayer.SetActive(false);
+                Debug.Log("No frontCgLayer found at " + HelperResourcePath.CGPath + cgPath + "/Front");
+            }
         }
 
         private void OnUpdateCG(DialogueEventSystem.UpdateCGEventArgs obj)
         {
             if (String.Equals("null", obj.CGName))
             {
-                cgImage.gameObject.SetActive(false);
+                mainCGLayer.gameObject.SetActive(false);
             }
             else
             {
-                cgImage.gameObject.SetActive(true);
-                cgImage.sprite = UnityEngine.Resources.Load<Sprite>(HelperResourcePath.CGPath + obj.CGName);
+                mainCGLayer.gameObject.SetActive(true);
+                GameObject cgPrefab =
+                    UnityEngine.Resources.Load<GameObject>(HelperResourcePath.CGPath + cgPath + "/" + obj.CGName);
+                if (cgPrefab)
+                {
+                    foreach (Transform child in mainCGLayer.transform)
+                    {
+                        Destroy(child.gameObject);
+                    }
+
+                    GameObject cg = Instantiate(cgPrefab, mainCGLayer.transform);
+                    cg.SetActive(true);
+                }
+                else
+                {
+                    mainCGLayer.gameObject.SetActive(false);
+                    Debug.Log("No CG found at " + HelperResourcePath.CGPath + cgPath + "/" + obj.CGName);
+                }
             }
         }
 
@@ -120,7 +190,21 @@ namespace UI.Dialogue
             _canContinueToNextLine = false;
             DialogueEventSystem.InvokeUpdateCanContinueToNextLine(
                 new DialogueEventSystem.UpdateCanContinueToNextLineEventArgs(_canContinueToNextLine));
+            if (args.Delay != 0)
+            {
+                StartCoroutine(DelayedDisplayLine(args));
+            }
+            else
+            {
+                DisplayLine(args);
+            }
+        }
 
+        private IEnumerator DelayedDisplayLine(DialogueEventSystem.DialogueContinueEventArgs args)
+        {
+            dialogueHolder.SetActive(false);
+            yield return new WaitForSeconds(args.Delay);
+            dialogueHolder.SetActive(true);
             DisplayLine(args);
         }
 

@@ -53,6 +53,8 @@ namespace DefaultNamespace.SceneSpecificScript.IntroScene
             {
                 //Start the fade in effect
                 typewriter.StartDisappearingText();
+                DialogueEventSystem.InvokeEnterDialogue(
+                    new DialogueEventSystem.EnterDialogueEventArgs(inkDialogue, knotName));
                 fadeInCoroutine = StartCoroutine(FadeIn());
             }
         }
@@ -74,9 +76,6 @@ namespace DefaultNamespace.SceneSpecificScript.IntroScene
                 fadeInPanel.color = color;
                 yield return null;
             }
-
-            DialogueEventSystem.InvokeEnterDialogue(
-                new DialogueEventSystem.EnterDialogueEventArgs(inkDialogue, knotName));
             Destroy(fadeInPanel);
         }
     }

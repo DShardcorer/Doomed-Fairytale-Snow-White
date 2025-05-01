@@ -1,3 +1,4 @@
+using System;
 using System.Collections.Generic;
 using EntitySystems.Stats;
 using EventSystem.Dialogue;
@@ -16,8 +17,7 @@ namespace DialogueSystem
     {
         private GameManager gameManager;
         private Story story;
-        [SerializeField]
-        private TextAsset inkGlobalVariablesTextAsset;
+        [SerializeField] private TextAsset inkGlobalVariablesTextAsset;
         private Story inkGlobalVariablesStory;
         private InkExternalFunctions inkExternalFunctions;
         private InkDialogueVariables inkDialogueVariables;
@@ -28,7 +28,9 @@ namespace DialogueSystem
         private const string SPRITE_TAG = "sprite";
         private const string LAYOUT_TAG = "layout";
         private const string CG_TAG = "cg";
+        private const string CG_PATH_TAG = "cgpath";
         private const string TEXT_SPEED_TAG = "textSpeed";
+        private const string DELAY_TAG = "delay";
         private bool canContinueToNextLine = false;
 
 
@@ -54,7 +56,6 @@ namespace DialogueSystem
             DialogueEventSystem.OnUpdateCanContinueToNextLine += OnUpdateCanContinueToNextLine;
             QuestEventSystem.OnQuestStateChanged += OnQuestStateChanged;
             PlayerStatsEventSystem.OnAbilityStatsChanged += OnPlayerAbilityStatsChanged;
-
         }
 
         private void OnPlayerAbilityStatsChanged(object sender, AbilityStatBoard e)
@@ -62,8 +63,10 @@ namespace DialogueSystem
             //update the stats into ink variables
             inkDialogueVariables.UpdateVariablesState("PlayerStrength", new IntValue((int)e.Strength.ModifiedValue));
             inkDialogueVariables.UpdateVariablesState("PlayerDexterity", new IntValue((int)e.Dexterity.ModifiedValue));
-            inkDialogueVariables.UpdateVariablesState("PlayerConstitution", new IntValue((int)e.Constitution.ModifiedValue));
-            inkDialogueVariables.UpdateVariablesState("PlayerIntelligence", new IntValue((int)e.Intelligence.ModifiedValue));
+            inkDialogueVariables.UpdateVariablesState("PlayerConstitution",
+                new IntValue((int)e.Constitution.ModifiedValue));
+            inkDialogueVariables.UpdateVariablesState("PlayerIntelligence",
+                new IntValue((int)e.Intelligence.ModifiedValue));
             inkDialogueVariables.UpdateVariablesState("PlayerWisdom", new IntValue((int)e.Wisdom.ModifiedValue));
             inkDialogueVariables.UpdateVariablesState("PlayerCharisma", new IntValue((int)e.Charisma.ModifiedValue));
         }
@@ -76,14 +79,15 @@ namespace DialogueSystem
         private void OnQuestStateChanged(Quest quest)
         {
             DialogueEventSystem.InvokeUpdateInkDialogueVariable(
-                new UpdateInkDialogueVariableEventArgs(quest.questInfo.QuestName + "State", new StringValue(quest.questState.ToString())));
-
+                new UpdateInkDialogueVariableEventArgs(quest.questInfo.QuestName + "State",
+                    new StringValue(quest.questState.ToString())));
         }
 
         private void OnUpdateInkDialogueVariable(UpdateInkDialogueVariableEventArgs args)
         {
             inkDialogueVariables.UpdateVariablesState(args.VariableName, args.VariableValue);
         }
+
         private void OnUpdateChoiceIndex(UpdateChoiceIndexEventArgs args)
         {
             currentChoiceIndex = args.ChoiceIndex;
@@ -92,7 +96,7 @@ namespace DialogueSystem
         private void OnUISubmitInputted(InputEventContext context)
         {
             if (context != InputEventContext.DIALOGUE) return;
-            if(!canContinueToNextLine) return;
+            if (!canContinueToNextLine) return;
             if (isDialoguePlaying)
             {
                 Debug.Log($"Submit input received in context: {context}");
@@ -112,11 +116,10 @@ namespace DialogueSystem
             DialogueEventSystem.OnUpdateChoiceIndex -= OnUpdateChoiceIndex;
             DialogueEventSystem.OnUpdateInkDialogueVariable -= OnUpdateInkDialogueVariable;
             QuestEventSystem.OnQuestStateChanged -= OnQuestStateChanged;
-
         }
+
         private void OnDestroy()
         {
-
         }
 
         private void OnEnterDialogue(EnterDialogueEventArgs args)
@@ -136,10 +139,11 @@ namespace DialogueSystem
                 Debug.LogWarning("Knot name is empty. Cannot start dialogue.");
                 return;
             }
+
             Debug.Log($"Starting dialogue with knot: {args.KnotName}");
             ContinueOrExitStory();
         }
-
+        private float delay = 0;
         private void ContinueOrExitStory()
         {
             if (story.currentChoices.Count > 0 && currentChoiceIndex != -1)
@@ -147,6 +151,7 @@ namespace DialogueSystem
                 story.ChooseChoiceIndex(currentChoiceIndex);
                 currentChoiceIndex = -1; // Reset the choice index after making a choice
             }
+
             if (story.canContinue)
             {
                 string dialogue = story.Continue();
@@ -154,6 +159,7 @@ namespace DialogueSystem
                 {
                     dialogue = story.Continue();
                 }
+
                 //Handle cases where last line of dialogue is blank
                 if (IsLineBlank(dialogue) && !story.canContinue)
                 {
@@ -162,14 +168,14 @@ namespace DialogueSystem
                 else
                 {
                     HandleTags(story.currentTags);
-                    InvokeDialogueContinue(new DialogueContinueEventArgs(dialogue, story.currentChoices));
+                    InvokeDialogueContinue(new DialogueContinueEventArgs(dialogue, story.currentChoices, delay));
                 }
             }
             else if (story.currentChoices.Count == 0)
             {
                 ExitDialogue();
             }
-
+            delay = 0;
         }
 
         private void HandleTags(List<string> currentTags)
@@ -179,6 +185,7 @@ namespace DialogueSystem
             string layout = string.Empty;
             string cg = string.Empty;
             string textSpeed = string.Empty;
+            string cgPath = string.Empty;
             foreach (string tag in currentTags)
             {
                 string[] tagParts = tag.Split(':');
@@ -187,6 +194,7 @@ namespace DialogueSystem
                     Debug.LogWarning($"Invalid tag format: {tag}. Expected format: 'key:value'.");
                     continue;
                 }
+
                 string key = tagParts[0].Trim();
                 string value = tagParts[1].Trim();
                 switch (key.ToLower())
@@ -206,19 +214,33 @@ namespace DialogueSystem
                     case TEXT_SPEED_TAG:
                         textSpeed = value;
                         break;
+                    case CG_PATH_TAG:
+                        cgPath = value;
+                        break;
+                    case DELAY_TAG:
+                        //convert to float
+                        delay = float.Parse(value);
+                        break;
                     default:
                         Debug.LogWarning($"Unknown tag: {key}. Ignoring.");
                         break;
                 }
             }
+
             if (!string.IsNullOrEmpty(speakerName))
             {
                 Debug.Log($"Speaker name: {speakerName}");
                 DialogueEventSystem.InvokeUpdateSpeakerName(new UpdateSpeakerNameEventArgs(speakerName));
             }
+
             if (!string.IsNullOrEmpty(speakerSprite) && !string.IsNullOrEmpty(layout))
             {
                 DialogueEventSystem.InvokeUpdateSpeakerSprite(new UpdateSpeakerSpriteEventArgs(speakerSprite, layout));
+            }
+
+            if (!string.IsNullOrEmpty(cgPath))
+            {
+                DialogueEventSystem.InvokeUpdateCGPath(new UpdateCGPathEventArgs(cgPath));
             }
 
             if (!string.IsNullOrEmpty(cg))
@@ -230,7 +252,6 @@ namespace DialogueSystem
             {
                 DialogueEventSystem.InvokeUpdateTextSpeed(new UpdateTextSpeedEventArgs(float.Parse(textSpeed)));
             }
-
         }
 
         private void ExitDialogue()
@@ -247,8 +268,8 @@ namespace DialogueSystem
 
         private bool IsLineBlank(string dialogueLine)
         {
-            return string.IsNullOrWhiteSpace(dialogueLine) || dialogueLine.Equals(" ") || dialogueLine.Equals("\n") || dialogueLine.Equals("\r\n");
+            return string.IsNullOrWhiteSpace(dialogueLine) || dialogueLine.Equals(" ") || dialogueLine.Equals("\n") ||
+                   dialogueLine.Equals("\r\n");
         }
-
     }
 }
