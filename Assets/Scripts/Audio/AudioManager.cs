@@ -455,6 +455,48 @@ namespace AudioSystem
             return string.Empty;
         }
 
+        public string PlayVoiceFromResources(string resourcePath, float volume = 1f, float pitch = 1f,
+            Vector3? position = null)
+        {
+            AudioClip clip;
+            if (audioClipCache.TryGetValue(resourcePath, out clip))
+            {
+                // Use cached clip
+                return PlayVoice(clip, volume, pitch, position);
+            }
+            else
+            {
+                // Load and cache
+                clip = UnityEngine.Resources.Load<AudioClip>(resourcePath);
+                if (clip != null)
+                {
+                    audioClipCache[resourcePath] = clip;
+                    return PlayVoice(clip, volume, pitch, position);
+                }
+            }
+            return string.Empty;
+        }
+        
+        public void PlayMusicFromResources(string resourcePath, bool fade = true, float fadeDuration = -1f)
+        {
+            AudioClip clip;
+            if (audioClipCache.TryGetValue(resourcePath, out clip))
+            {
+                // Use cached clip
+                PlayMusic(clip, fade, fadeDuration);
+            }
+            else
+            {
+                // Load and cache
+                clip = UnityEngine.Resources.Load<AudioClip>(resourcePath);
+                if (clip != null)
+                {
+                    audioClipCache[resourcePath] = clip;
+                    PlayMusic(clip, fade, fadeDuration);
+                }
+            }
+        }
+
         /// <summary>
         /// Set master volume level
         /// </summary>

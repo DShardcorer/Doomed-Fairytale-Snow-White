@@ -1,6 +1,5 @@
 using System;
 using System.Collections;
-using System.Text.RegularExpressions;
 using EventSystem.Dialogue;
 using Febucci.UI;
 using GeneralManagers;
@@ -8,7 +7,6 @@ using Helpers;
 using Ink.InkLibs.InkRuntime;
 using Input;
 using TMPro;
-using UI.Dialogue.Sprites;
 using UnityEngine;
 using UnityEngine.Serialization;
 using UnityEngine.UI;
@@ -54,6 +52,7 @@ namespace UI.Dialogue
         private DialogueEventSystem.DialogueContinueEventArgs currentDialogueEventArgs;
         private bool _isSkippingTypewriter = false;
         private int currentDisplayedLetterIndex = 0;
+        private bool _dialogePaused = false;
 
         private void Awake()
         {
@@ -80,7 +79,11 @@ namespace UI.Dialogue
             DialogueEventSystem.OnUpdateSpeakerName += OnUpdateSpeakerName;
             DialogueEventSystem.OnUpdateSpeakerSprite += OnUpdateSpeakerSprite;
             DialogueEventSystem.OnUpdateCG += OnUpdateCG;
+            DialogueEventSystem.OnUpdateCGBack += OnUpdateCGBack;
+            DialogueEventSystem.OnUpdateCGFront += OnUpdateCGFront;
             DialogueEventSystem.OnUpdateCGPath += OnUpdateCGPath;
+            DialogueEventSystem.OnPauseDialogue += OnPauseDialogue;
+            DialogueEventSystem.OnResumeDialogue += OnResumeDialogue;
             GameManager.Instance.InputManager.uiSubmitInputted += OnUISubmitInputted;
         }
 
@@ -92,9 +95,15 @@ namespace UI.Dialogue
             DialogueEventSystem.OnUpdateSpeakerName -= OnUpdateSpeakerName;
             DialogueEventSystem.OnUpdateSpeakerSprite -= OnUpdateSpeakerSprite;
             DialogueEventSystem.OnUpdateCG -= OnUpdateCG;
+            DialogueEventSystem.OnUpdateCGBack -= OnUpdateCGBack;
+            DialogueEventSystem.OnUpdateCGFront -= OnUpdateCGFront;
             DialogueEventSystem.OnUpdateCGPath -= OnUpdateCGPath;
+            DialogueEventSystem.OnPauseDialogue -= OnPauseDialogue;
+            DialogueEventSystem.OnResumeDialogue -= OnResumeDialogue;
             GameManager.Instance.InputManager.uiSubmitInputted -= OnUISubmitInputted;
         }
+
+        #region CGs
 
         private void OnUpdateCGPath(DialogueEventSystem.UpdateCGPathEventArgs obj)
         {
@@ -166,10 +175,72 @@ namespace UI.Dialogue
                 else
                 {
                     mainCGLayer.gameObject.SetActive(false);
-                    Debug.Log("No CG found at " + HelperResourcePath.CGPath + cgPath + "/" + obj.CGName);
+                    Debug.LogError("No CG found at " + HelperResourcePath.CGPath + cgPath + "/" + obj.CGName);
                 }
             }
         }
+
+        private void OnUpdateCGFront(DialogueEventSystem.UpdateCGFrontEventArgs obj)
+        {
+            Debug.LogWarning("OnUpdateCGFront");
+            if (String.Equals("null", obj.CGFrontName))
+            {
+                frontCGLayer.gameObject.SetActive(false);
+            }
+            else
+            {
+                frontCGLayer.gameObject.SetActive(true);
+                GameObject cgPrefab =
+                    UnityEngine.Resources.Load<GameObject>(HelperResourcePath.CGPath + cgPath + "/" + obj.CGFrontName);
+                if (cgPrefab)
+                {
+                    foreach (Transform child in frontCGLayer.transform)
+                    {
+                        Destroy(child.gameObject);
+                    }
+
+                    GameObject cg = Instantiate(cgPrefab, frontCGLayer.transform);
+                    cg.SetActive(true);
+                }
+                else
+                {
+                    frontCGLayer.gameObject.SetActive(false);
+                    Debug.LogError("No CG found at " + HelperResourcePath.CGPath + cgPath + "/" + obj.CGFrontName);
+                }
+            }
+        }
+
+        private void OnUpdateCGBack(DialogueEventSystem.UpdateCGBackEventArgs obj)
+        {
+            if (String.Equals("null", obj.CGBackName))
+            {
+                backCGLayer.gameObject.SetActive(false);
+            }
+            else
+            {
+                backCGLayer.gameObject.SetActive(true);
+                GameObject cgPrefab =
+                    UnityEngine.Resources.Load<GameObject>(HelperResourcePath.CGPath + cgPath + "/" + obj.CGBackName);
+                if (cgPrefab)
+                {
+                    foreach (Transform child in backCGLayer.transform)
+                    {
+                        Destroy(child.gameObject);
+                    }
+
+                    GameObject cg = Instantiate(cgPrefab, backCGLayer.transform);
+                    cg.SetActive(true);
+                }
+                else
+                {
+                    backCGLayer.gameObject.SetActive(false);
+                    Debug.LogError("No CG found at " + HelperResourcePath.CGPath + cgPath + "/" + obj.CGBackName);
+                }
+            }
+        }
+
+        #endregion
+        
 
         private void OnEnterDialogue(DialogueEventSystem.EnterDialogueEventArgs args)
         {
@@ -194,10 +265,34 @@ namespace UI.Dialogue
             {
                 StartCoroutine(DelayedDisplayLine(args));
             }
-            else
+            else if (!_dialogePaused)
             {
                 DisplayLine(args);
             }
+            else
+            {
+                StartCoroutine(PausedDisplayLine(args));
+            }
+        }
+
+        public void OnPauseDialogue()
+        {
+            _dialogePaused = true;
+        }
+
+        public void OnResumeDialogue()
+        {
+            _dialogePaused = false;
+        }
+        private IEnumerator PausedDisplayLine(DialogueEventSystem.DialogueContinueEventArgs args)
+        {
+            dialogueHolder.SetActive(false);
+            while (_dialogePaused)
+            {
+                yield return null;
+            }
+            dialogueHolder.SetActive(true);
+            DisplayLine(args);
         }
 
         private IEnumerator DelayedDisplayLine(DialogueEventSystem.DialogueContinueEventArgs args)

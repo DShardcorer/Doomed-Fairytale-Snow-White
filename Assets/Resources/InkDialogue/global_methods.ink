@@ -7,6 +7,11 @@ EXTERNAL AddPlayerPassiveSkill(skillId)
 EXTERNAL AddPlayerItem(itemId, amount)
 
 
+//TextInputter
+EXTERNAL OpenTextInputter(placeholderText, inputPurpose)
+
+//Audio
+EXTERNAL PlaySFX(sfxName)
 
 
 //Quest stuff

@@ -208,7 +208,7 @@ namespace QuestSystem
                           $"Current Step Index: {quest.CurrentQuestStepIndex}, Steps: {quest.questInfo.questStepPrefabs.Length} \n");
                 for (int i = 0; i < quest.QuestStepStates.Length; i++)
                 {
-                    Debug.Log($"Step {i}: {quest.QuestStepStates[i].state}");
+                    // Debug.Log($"Step {i}: {quest.QuestStepStates[i].state}");
                 }
 
             }

@@ -43,6 +43,7 @@ namespace Entity.Player
 
             //PlayerView creation
             PlayerView playerView = playerGameObject.GetComponent<PlayerView>();
+            PlayerProfile playerProfile = new PlayerProfile();
             DontDestroyOnLoad(playerView);
             //ActiveSkillSystem creation
             PlayerActiveSkillSystem activeSkillSystem = new PlayerActiveSkillSystem(new List<ActiveSkill>());
@@ -94,7 +95,9 @@ namespace Entity.Player
             PlayerInventorySystem inventory = new PlayerInventorySystem();
 
             _player = new Player(
-                playerView, playerProperties, playerIdleState, playerMoveState, playerAttackState,
+                playerView, playerProperties,
+                playerProfile,
+                playerIdleState, playerMoveState, playerAttackState,
                 statSystem, equipmentSystem,
                 activeSkillSystem, passiveSkillSystem,
                 levelSystem, healthSystem, manaSystem, staminaSystem,

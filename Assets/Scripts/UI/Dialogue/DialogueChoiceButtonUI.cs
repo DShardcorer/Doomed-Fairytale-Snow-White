@@ -17,7 +17,7 @@ namespace UI.Dialogue
 
         public void OnSelect(BaseEventData eventData)
         {
-            Debug.Log($"Selected choice button with index: {choiceIndex}");
+            // Debug.Log($"Selected choice button with index: {choiceIndex}");
             DialogueEventSystem.InvokeUpdateChoiceIndex(new DialogueEventSystem.UpdateChoiceIndexEventArgs(choiceIndex));
         }
 

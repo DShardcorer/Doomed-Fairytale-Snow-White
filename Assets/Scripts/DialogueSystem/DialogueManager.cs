@@ -28,8 +28,10 @@ namespace DialogueSystem
         private const string SPRITE_TAG = "sprite";
         private const string LAYOUT_TAG = "layout";
         private const string CG_TAG = "cg";
+        private const string CG_BACK_TAG = "cgback";
+        private const string CG_FRONT_TAG = "cgfront";
         private const string CG_PATH_TAG = "cgpath";
-        private const string TEXT_SPEED_TAG = "textSpeed";
+        private const string TEXT_SPEED_TAG = "textspeed";
         private const string DELAY_TAG = "delay";
         private bool canContinueToNextLine = false;
 
@@ -55,7 +57,38 @@ namespace DialogueSystem
             DialogueEventSystem.OnUpdateInkDialogueVariable += OnUpdateInkDialogueVariable;
             DialogueEventSystem.OnUpdateCanContinueToNextLine += OnUpdateCanContinueToNextLine;
             QuestEventSystem.OnQuestStateChanged += OnQuestStateChanged;
+            SubscribeToPlayerEvents();
+        }
+
+        public void Dispose()
+        {
+            gameManager = null;
+            GameManager.Instance.InputManager.uiSubmitInputted -= OnUISubmitInputted;
+            DialogueEventSystem.OnEnterDialogue -= OnEnterDialogue;
+            DialogueEventSystem.OnUpdateChoiceIndex -= OnUpdateChoiceIndex;
+            DialogueEventSystem.OnUpdateInkDialogueVariable -= OnUpdateInkDialogueVariable;
+            DialogueEventSystem.OnUpdateCanContinueToNextLine -= OnUpdateCanContinueToNextLine;
+            QuestEventSystem.OnQuestStateChanged -= OnQuestStateChanged;
+            UnSubscribeToPlayerEvents();
+        }
+
+        #region Player
+
+        private void SubscribeToPlayerEvents()
+        {
             PlayerStatsEventSystem.OnAbilityStatsChanged += OnPlayerAbilityStatsChanged;
+            PlayerProfileEventSystem.OnPlayerNameChanged += OnPlayerNameChanged;
+        }
+
+        private void UnSubscribeToPlayerEvents()
+        {
+            PlayerStatsEventSystem.OnAbilityStatsChanged -= OnPlayerAbilityStatsChanged;
+            PlayerProfileEventSystem.OnPlayerNameChanged -= OnPlayerNameChanged;
+        }
+
+        private void OnPlayerNameChanged(PlayerProfileEventSystem.PlayerNameChangedEventArgs obj)
+        {
+            inkDialogueVariables.UpdateVariablesState("PlayerName", new StringValue(obj.NewName));
         }
 
         private void OnPlayerAbilityStatsChanged(object sender, AbilityStatBoard e)
@@ -70,6 +103,9 @@ namespace DialogueSystem
             inkDialogueVariables.UpdateVariablesState("PlayerWisdom", new IntValue((int)e.Wisdom.ModifiedValue));
             inkDialogueVariables.UpdateVariablesState("PlayerCharisma", new IntValue((int)e.Charisma.ModifiedValue));
         }
+
+        #endregion
+
 
         private void OnUpdateCanContinueToNextLine(UpdateCanContinueToNextLineEventArgs args)
         {
@@ -99,24 +135,10 @@ namespace DialogueSystem
             if (!canContinueToNextLine) return;
             if (isDialoguePlaying)
             {
-                Debug.Log($"Submit input received in context: {context}");
                 ContinueOrExitStory();
-            }
-            else
-            {
-                Debug.Log("No dialogue is currently playing.");
             }
         }
 
-        public void Dispose()
-        {
-            gameManager = null;
-            DialogueEventSystem.OnEnterDialogue -= OnEnterDialogue;
-            GameManager.Instance.InputManager.uiSubmitInputted -= OnUISubmitInputted;
-            DialogueEventSystem.OnUpdateChoiceIndex -= OnUpdateChoiceIndex;
-            DialogueEventSystem.OnUpdateInkDialogueVariable -= OnUpdateInkDialogueVariable;
-            QuestEventSystem.OnQuestStateChanged -= OnQuestStateChanged;
-        }
 
         private void OnDestroy()
         {
@@ -143,7 +165,9 @@ namespace DialogueSystem
             Debug.Log($"Starting dialogue with knot: {args.KnotName}");
             ContinueOrExitStory();
         }
+
         private float delay = 0;
+
         private void ContinueOrExitStory()
         {
             if (story.currentChoices.Count > 0 && currentChoiceIndex != -1)
@@ -175,6 +199,7 @@ namespace DialogueSystem
             {
                 ExitDialogue();
             }
+
             delay = 0;
         }
 
@@ -184,6 +209,8 @@ namespace DialogueSystem
             string speakerSprite = string.Empty;
             string layout = string.Empty;
             string cg = string.Empty;
+            string cgBack = string.Empty;
+            string cgFront = string.Empty;
             string textSpeed = string.Empty;
             string cgPath = string.Empty;
             foreach (string tag in currentTags)
@@ -211,6 +238,12 @@ namespace DialogueSystem
                     case CG_TAG:
                         cg = value;
                         break;
+                    case CG_BACK_TAG:
+                        cgBack = value;
+                        break;
+                    case CG_FRONT_TAG:
+                        cgFront = value;
+                        break;
                     case TEXT_SPEED_TAG:
                         textSpeed = value;
                         break;
@@ -229,7 +262,6 @@ namespace DialogueSystem
 
             if (!string.IsNullOrEmpty(speakerName))
             {
-                Debug.Log($"Speaker name: {speakerName}");
                 DialogueEventSystem.InvokeUpdateSpeakerName(new UpdateSpeakerNameEventArgs(speakerName));
             }
 
@@ -246,6 +278,14 @@ namespace DialogueSystem
             if (!string.IsNullOrEmpty(cg))
             {
                 DialogueEventSystem.InvokeUpdateCG(new UpdateCGEventArgs(cg));
+            }
+            if (!string.IsNullOrEmpty(cgBack))
+            {
+                DialogueEventSystem.InvokeUpdateCGBack(new UpdateCGBackEventArgs(cgBack));
+            }
+            if (!string.IsNullOrEmpty(cgFront))
+            {
+                DialogueEventSystem.InvokeUpdateCGFront(new UpdateCGFrontEventArgs(cgFront));
             }
 
             if (!string.IsNullOrEmpty(textSpeed))

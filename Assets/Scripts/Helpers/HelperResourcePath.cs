@@ -2,11 +2,14 @@ namespace Helpers
 {
     public static class HelperResourcePath
     {
-        public static string Quests = "Quests/";
-        public static string PassiveSkillPath = "ScriptableObjects/Skill/Passive/";
-        public static string ActiveSkillPath = "ScriptableObjects/Skill/Active/";
-        public static string NPCAIConfigPath = "ScriptableObjects/NPCAIConfig/";
-        public static string DialogueSpritePath = "DialogueSprites/";
-        public static string CGPath = "CGs/";
+        public const string Quests = "Quests/";
+        public const string PassiveSkillPath = "ScriptableObjects/Skill/Passive/";
+        public const string ActiveSkillPath = "ScriptableObjects/Skill/Active/";
+        public const string NPCAIConfigPath = "ScriptableObjects/NPCAIConfig/";
+        public const string DialogueSpritePath = "DialogueSprites/";
+        public const string CGPath = "CGs/";
+        public const string SFXPath = "Audio/SFX/";
+        public const string MusicPath = "Audio/Music/";
+        public const string AmbiencePath = "Audio/Ambience/";
     }
 }

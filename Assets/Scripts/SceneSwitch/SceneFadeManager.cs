@@ -35,7 +35,6 @@ namespace SceneSwitch
 
         private void Update()
         {
-            Debug.Log(_fadeOutImage.color.a);
             if (IsFadingOut)
             {
                 if (_fadeOutImage.color.a < 1)

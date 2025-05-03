@@ -1,11 +1,14 @@
 using System;
+using DefaultNamespace.EventSystem.Input;
 using EntitySystems.Skill;
 using EntitySystems.Skill.SkillFactory;
 using EntitySystems.Stats;
 using EventSystem.Quest;
 using GeneralManagers;
+using Helpers;
 using Ink.InkLibs.InkRuntime;
 using Item;
+using UnityEngine;
 
 namespace DialogueSystem
 {
@@ -15,13 +18,47 @@ namespace DialogueSystem
         {
             BindQuestFunctions(story);
             BindPlayerFunctions(story);
+            BindAudioFunctions(story);
+            BindTextInputFunctions(story);
         }
 
         public void StopListening(Story story)
         {
             UnbindQuestFunctions(story);
             UnbindPlayerFunctions(story);
+            UnbindAudioFunctions(story);
+            UnbindTextInputFunctions(story);
         }
+        #region TEXTINPUT
+        private void BindTextInputFunctions(Story story)
+        {
+            story.BindExternalFunction("OpenTextInputter", (string placeholderText, string inputPurpose) => OpenTextInputter(placeholderText, inputPurpose));
+        }
+        private void UnbindTextInputFunctions(Story story)
+        {
+            story.UnbindExternalFunction("OpenTextInputter");
+        }
+
+        private void OpenTextInputter(string placeholderText, string inputPurpose)
+        {
+            TextInputEventSystem.InvokeOpenTextInputter(placeholderText, inputPurpose);
+        }
+        #endregion
+        #region AUDIO
+        private void BindAudioFunctions(Story story)
+        {
+            story.BindExternalFunction("PlaySFX", (string sfxName) => PlaySFX(sfxName));
+        }
+        private void UnbindAudioFunctions(Story story)
+        {
+            story.UnbindExternalFunction("PlaySFX");
+        }
+        private void PlaySFX(string sfxName)
+        {
+            GameManager.Instance.AudioManager.PlaySFXFromResources(HelperResourcePath.SFXPath + sfxName);
+        }
+        
+        #endregion
 
         #region PLAYER
 

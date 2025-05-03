@@ -40,12 +40,14 @@ namespace EventSystem.Dialogue
             public string DialogueText;
             public List<Choice> Choices;
             public float Delay;
+            public bool Pause;
 
-            public DialogueContinueEventArgs(string dialogueText, List<Choice> choices, float delay = 0)
+            public DialogueContinueEventArgs(string dialogueText, List<Choice> choices, float delay = 0, bool pause = false)
             {
                 DialogueText = dialogueText;
                 Choices = choices;
                 Delay = delay;
+                Pause = pause;
             }
         }
 
@@ -162,6 +164,37 @@ namespace EventSystem.Dialogue
         {
             OnUpdateCG?.Invoke(e);
         }
+        public class UpdateCGBackEventArgs : EventArgs
+        {
+            public string CGBackName;
+
+            public UpdateCGBackEventArgs(string cgBackName)
+            {
+                this.CGBackName = cgBackName;
+            }
+        }
+        public static event Action<UpdateCGBackEventArgs> OnUpdateCGBack;
+        public static void InvokeUpdateCGBack(UpdateCGBackEventArgs e)
+        {
+            OnUpdateCGBack?.Invoke(e);
+        }
+        
+        public class UpdateCGFrontEventArgs : EventArgs
+        {
+            public string CGFrontName;
+
+            public UpdateCGFrontEventArgs(string cgFrontName)
+            {
+                this.CGFrontName = cgFrontName;
+            }
+        }
+        public static event Action<UpdateCGFrontEventArgs> OnUpdateCGFront;
+        
+        public static void InvokeUpdateCGFront(UpdateCGFrontEventArgs e)
+        {
+            OnUpdateCGFront?.Invoke(e);
+        }
+        
 
         public class UpdateTextSpeedEventArgs : EventArgs
         {
@@ -195,6 +228,16 @@ namespace EventSystem.Dialogue
             OnUpdateCanContinueToNextLine?.Invoke(e);
         }
         
+        public static event Action OnPauseDialogue;
+        public static void InvokePauseDialogue()
+        {
+            OnPauseDialogue?.Invoke();
+        }
+        public static event Action OnResumeDialogue;
+        public static void InvokeResumeDialogue()
+        {
+            OnResumeDialogue?.Invoke();
+        }
 
     }
 }

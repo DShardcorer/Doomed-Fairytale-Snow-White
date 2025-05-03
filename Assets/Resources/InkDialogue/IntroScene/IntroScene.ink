@@ -1,65 +1,51 @@
 INCLUDE ../global_variables.ink
 INCLUDE ../global_methods.ink
 ===IntroScene===
-I open my eyes. The first thing I see is darkness. Then I recognize the light from the moon, which then reveals a woman. #cgpath:IntroScene #cg:Main #delay:5
 
-of them all...Oh? Finally, you're awake. I almost feel bad interrupting your sound sleep. #speaker:Mysterious Woman 
+of them all~~ #cgpath:IntroScene #cg:Default
+~OpenTextInputter("Your name ?", "PlayerName")
+Oh? Finally, you're awake. I almost feel bad interrupting your sound sleep. #speaker:Mysterious Woman
 
 * [Who are you?]
 * [Where am I?]
-
--Shhh. Leave the questions for later. All I can say is that you’re in a place where you should be.
+-Nice to meet you
+So... {PlayerName} huh ? A lovely choice.
+-Shhh. Questions are for later. All I can say is that you’re in a place where you should be.
 
 It doesn't matter, not as much as who you are...
 
-On that note, do you remember who you are? #speaker:Mysterious Woman
+Do you remember who you are?
 
-*[...No.]
+*...No.
 -Don't worry. It's supposed to be that way.
 
-* [What do you mean by that?]
-* [Then who am I?]
+* What do you mean by that?
+* Then who am I?
 
--Tch, questions again. Impatient, aren't we? But I suppose it's understandable being in your shoes. #speaker:Mysterious Woman
+-Tch, questions again. Impatient, aren't we? Being you, that's how it should be.  #cg:SmileShyly
 
-It takes a while to explain, but for now, just know that you're now the protagonist of this story. #speaker:Mysterious Woman
+It takes a while to explain, but for now, just know that you're now a protagonist.  #cg:Default
 
-* [Sorry, I may have misheard that?]
-* [Excuse me... what?]
+* Sorry, I may have misheard that?
+* Excuse me... what?
 
--A hero. A leading character in a tale. My lord, you don't have stories where you come from? #speaker:Mysterious Woman
+-A hero. A leading character in a tale. Lord, you don't have stories where you come from? #speaker:Mysterious Woman
 
-*[...I guess you too are a character of some kind?]
-* [Can you tell me who you are at least?]
+* Stories...then I guess you too are a character of some kind?
+* Can you tell me who you are at least?
 
 -For now, I can only tell you that I'm a kind of divinity. #speaker:Mysterious Woman
 
-* [Yeah, cannot argue with that...]
-    -> MWdialogue1
-* [Do some magic trick]
-    -> MWdialogue2
-
-= MWdialogue1
-
-You can, but I can see you're the type that won't waste your time fighting a losing battle. We're fine, then. #speaker:Mysterious Woman
-
--> yesno_choice
-
-= MWdialogue2
-
-The moonlight in the room changes into blue and then purple.
-
-I hope it's convincing enough. #speaker:Mysterious Woman
-
--> yesno_choice
-
-= yesno_choice
-
-* [Yes]
-    Then let’s continue. Shall we go along and humor each other a bit? #speaker:Mysterious Woman
+* Yeah, cannot argue with that...
+    You can, but I can see you're the type that won't waste your time fighting a losing battle. We're fine, then.
+* Do some magic tricks then
+    I hope the little trick is enough to convince you. #speaker:Mysterious Woman #cg:Laugh #cgfront:FrontBlue
+-
+* Yes
+    Then let’s continue. Shall we go along and humor each other a bit? 
     -> quiz1
 
-* [No]
+* No
     I've done my part, if it can't convince you, let the rest of the world do it. Shall we play along and humor each other a bit? #speaker:Mysterious Woman
     -> quiz1
 
@@ -67,62 +53,63 @@ I hope it's convincing enough. #speaker:Mysterious Woman
 
 What alias do you want to be called by? We're starting fresh, after all.
 
-- Protag enters name
+~OpenTextInputter("Your name ?", "PlayerName")
 
-A lovely choice. #speaker:Mysterious Woman
+A lovely choice.
 
-Then... let me tell you a story. One that I'd like to call "Snow White and the Seven Dwarves".
+Then... let me tell you a story. One that I think you may find familiar.
 
-There was this princess, a girl so beautiful with hair as black as ebony, lips as red as the rose, skin as white as snow. The fairest of them all.
+There was this princess, hair of the ebony, skin of snow, and the smiles on her lips bloom as red as the loveliest of roses. She's known as, you may have guessed, the fairest of them all.
 
-Almost everyone treasured her. All but her stepmother, who wanted to be the "fairest of them all".
+Almost everyone treasured her. Almost, aside from the Queen, her stepmother. Who was also a great mage. Who wanted to be the "fairest of them all" above everything.
 
-And so, she wanted her dead. For such a reason. Quite petty, right?
+And so, the Queen wanted the princess dead. For such a reason. Petty, I daresay?
 
-* [Yes]
-    ...Indeed.
+* Yes
+    Someone that petty coming to such a great power. My, my, you're as naive as I thought. 
+    But it's just a minor detail. Let's go on.
 
-* [There must be something behind it.]
+* Royals are never so simple. There must be something else. 
     You're quite perceptive, aren't you?
     But that's just a minor detail, let's continue. //+Perception skill
 
 -In response to that, what do you think the girl should do?
 
-* [Fight back]
+* Fight back
     A very straightforward approach. I like your spirits.
     But what could a small girl do against the all-powerful queen, doused to the teeth with magical prowess?
 
-* [Expose the queen's intention to her father.]
-    A wise choice, but no one would believe her. Nor could they do a thing. The whole queendom was under the queen's palm.
+* Expose the Queen intention to her father.
+    Really, depending on the King? Why do you think the queen get so powerful? Her Father was a good parent, wasn't that much of a ruler. 
 
-* [Mutilate her own face]
-    ...Would you believe that the girl would stay the fairest even with many scars on her face?
+* Multilate her own face
+    ...Seems like a wise choice. I wish life would be so easy. 
 
-* [Escape to the woods.]
-    A realistic approach. Saving your skin at the cost of living your whole future in fear and seclusion.
+* Escape to the woods.
+    A realistic approach. A little girl raised in wealth and admiration, now alone in the place where life's boiled down to mere survival.
 
 -But, what do you think the girl chose?
 
-* [Fight back]
-* [Expose the queen]
-* [Mutilate her own face]
-* [Escape]
-* [Another choice?]
+* Fight back
+* Expose the queen
+* Multilate her own face
+* Escape
+* Another choice?
 
--...She chose all of them. But to no avail.
+-...She chose all of them. She ran off to the wood with her face changed. Not with the naive mind of merely survive, but rather the strong will to stay safe until she gathered enough power for a back strike.
+But to no avail. #cg:Sad
+This is where the dwarves come into play. They are hunted by the queendom for certain reasons. The girl ran into them during her escape. And they somehow managed to live together. What a fate, I daresay? #cg:Default
 
-This is where the dwarves come into play. They are hunted by the queendom for certain reasons. The girl ran into them during her escape. And they somehow managed to live together.
+What did the princess do to fit in? Your take?
 
-What did the girl do to fit in? Your take?
+* Learn how to fight.
+    Yes. How else would she survive? With now the whole queendom on her tail. But you shouldn't just fight the ones who are now your housemates.
 
-* [Learn how to fight.]
-    Yes. How else would she survive? With now the whole queendom on her tail. But that's not all.
+* Do chores for them
+    The obvious choice. If only it were that simple. This isn't a tale where a song can save you and mere chores can keep your head on your neck.
 
-* [Do housework]
-    The obvious choice. If only it was that simple. This isn't a fairytale.
-
-* [...The things]
-    Dirty-minded, aren't you?... But you're not entirely wrong either. #cg:blush
+* What she needed to do in that situation. You know?
+    Dirty-minded, aren't you?... But you're not entirely wrong either. #cg:Blush
 
 -Well, you might have guessed the answer by now. Again, she did all of them. There wasn't any other way.
 
@@ -136,10 +123,10 @@ There were more things like the poison apple or the mad prince that I'd love to 
 
 ...If you had the power to change fates, would you help the girl?
 
-    * [Yes] //+xtra Sanity
-    * [I would hog the power first] //+xtra stat
+    * Yes //+xtra Sanity
+    * I would hog the power first. //+xtra stat
 
--I see...
+-I see... #cg:Sad
 
 I feel my eyelids heavy and the sleep's about to take over me.
 

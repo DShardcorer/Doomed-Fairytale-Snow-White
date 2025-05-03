@@ -1,6 +1,5 @@
 //PLAYER SECTION
-VAR PlayerName= ""
-
+VAR PlayerName = "Empty"
 VAR PlayerLevel = 1
 
 

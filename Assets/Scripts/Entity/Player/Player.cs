@@ -19,7 +19,8 @@ namespace Entity.Player
         private InputManager _inputManager;
         public InputManager InputManager => _inputManager;
 
-
+        private PlayerProfile _profile;
+        public PlayerProfile Profile => _profile;
         private PlayerView _playerView;
         public PlayerView PlayerView => _playerView;
 
@@ -44,6 +45,7 @@ namespace Entity.Player
         public PlayerAttackState PlayerAttackState => _playerAttackState;
 
         public Player(PlayerView view, PlayerProperties properties,
+            PlayerProfile profile,
             PlayerIdleState playerIdleState, PlayerMoveState playerMoveState,
             PlayerAttackState playerAttackState,
             PlayerStatSystem statSystem, PlayerEquipmentSystem equipmentSystem,
@@ -57,6 +59,7 @@ namespace Entity.Player
             _playerView = view;
             _playerProperties = properties;
             _playerIdleState = playerIdleState;
+            _profile = profile;
             IdleState = playerIdleState;
             _playerMoveState = playerMoveState;
             _playerAttackState = playerAttackState;
@@ -125,6 +128,10 @@ namespace Entity.Player
 
         public void UpdateLogic()
         {
+            if (UnityEngine.Input.GetKeyDown(KeyCode.Space))
+            {
+                LevelSystem.AddExperience(50);
+            }
             stateMachine.UpdateLogic();
         }
 
