@@ -88,7 +88,7 @@ namespace DialogueSystem
 
         private void OnPlayerNameChanged(PlayerProfileEventSystem.PlayerNameChangedEventArgs obj)
         {
-            inkDialogueVariables.UpdateVariablesState("PlayerName", new StringValue(obj.NewName));
+            inkDialogueVariables.SetVariableState("PlayerName", new StringValue(obj.NewName), story);
         }
 
         private void OnPlayerAbilityStatsChanged(object sender, AbilityStatBoard e)
@@ -121,7 +121,7 @@ namespace DialogueSystem
 
         private void OnUpdateInkDialogueVariable(UpdateInkDialogueVariableEventArgs args)
         {
-            inkDialogueVariables.UpdateVariablesState(args.VariableName, args.VariableValue);
+            inkDialogueVariables.SetVariableState(args.VariableName, args.VariableValue, story);
         }
 
         private void OnUpdateChoiceIndex(UpdateChoiceIndexEventArgs args)

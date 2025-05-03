@@ -1,26 +1,24 @@
 INCLUDE ../global_variables.ink
 INCLUDE ../global_methods.ink
 ===IntroScene===
-
+=begin
 of them all~~ #cgpath:IntroScene #cg:Default
-~OpenTextInputter("Your name ?", "PlayerName")
 Oh? Finally, you're awake. I almost feel bad interrupting your sound sleep. #speaker:Mysterious Woman
-
 * [Who are you?]
 * [Where am I?]
--Nice to meet you
-So... {PlayerName} huh ? A lovely choice.
--Shhh. Questions are for later. All I can say is that you’re in a place where you should be.
 
+-Shhh. Questions are for later. All I can say is that you’re in a place where you should be.
+~OpenTextInputter("Your name ?", "PlayerName")
 It doesn't matter, not as much as who you are...
 
 Do you remember who you are?
 
-*...No.
--Don't worry. It's supposed to be that way.
+*[...No.]
 
-* What do you mean by that?
-* Then who am I?
+-Don't worry. It's supposed to be that way, {PlayerName}
+
+*[What do you mean by that?]
+*[Then who am I?]
 
 -Tch, questions again. Impatient, aren't we? Being you, that's how it should be.  #cg:SmileShyly
 
@@ -54,8 +52,10 @@ It takes a while to explain, but for now, just know that you're now a protagonis
 What alias do you want to be called by? We're starting fresh, after all.
 
 ~OpenTextInputter("Your name ?", "PlayerName")
+->IntroScene2
 
-A lovely choice.
+===IntroScene2===
+{PlayerName} ?A lovely choice.
 
 Then... let me tell you a story. One that I think you may find familiar.
 

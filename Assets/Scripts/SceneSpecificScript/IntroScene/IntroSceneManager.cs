@@ -13,7 +13,7 @@ namespace DefaultNamespace.SceneSpecificScript.IntroScene
     public class IntroSceneManager : MonoBehaviour
     {
         [Header("Dialogue")] [SerializeField] private TextAsset inkDialogue;
-        [SerializeField] private String knotName = "RandomMan";
+        [SerializeField] private String knotName = "IntroScene";
 
         [Header("Music")] [SerializeField] private AudioClip introMusic;
 
@@ -76,6 +76,7 @@ namespace DefaultNamespace.SceneSpecificScript.IntroScene
                 fadeInPanel.color = color;
                 yield return null;
             }
+            
             Destroy(fadeInPanel);
         }
     }

@@ -5,7 +5,8 @@ INCLUDE ../global_methods.ink
 ~ temp charismaReq = 20
 
 Oh, hello? What do you need? #speaker:Random Man #sprite:HoshikoSchool_smile #layout:left
-
+~OpenTextInputter("Your name ?", "PlayerName")
+So, {PlayerName} ?. What can i do for ya ?
 * [Nothing]
     <speed=2> Okay...? </speed> This is awkward. #sprite:HoshikoSchool_surprised
 

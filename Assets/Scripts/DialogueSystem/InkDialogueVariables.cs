@@ -8,15 +8,15 @@ namespace DialogueSystem
     public class InkDialogueVariables
     {
         private Dictionary<string, Object> variables;
-        private Story story;
+        private Story _inkGlobalVariablesStory;
 
-        public InkDialogueVariables(Story inkGlobalsStory)
+        public InkDialogueVariables(Story inkGlobalVariablesStory)
         {
-            story = inkGlobalsStory;
+            _inkGlobalVariablesStory = inkGlobalVariablesStory;
             variables = new Dictionary<string, Object>();
-            foreach (string name in inkGlobalsStory.variablesState)
+            foreach (string name in inkGlobalVariablesStory.variablesState)
             {
-                Object value = inkGlobalsStory.variablesState.GetVariableWithName(name);
+                Object value = inkGlobalVariablesStory.variablesState.GetVariableWithName(name);
                 variables.Add(name, value);
             }
         }
@@ -39,18 +39,19 @@ namespace DialogueSystem
             {
                 return;
             }
-
+        
             variables[name] = value;
             // Debug.Log($"Updated dialogue variable: {name} to {value}");
         }
 
-        // public void UpdateVariablesState(string name, Object value)
-        // {
-        //     if (!variables.ContainsKey(name))
-        //         return;
-        //     variables[name] = value;
-        //     story.variablesState.SetGlobal(name, value);
-        // }
+        public void SetVariableState(string name, Object value, Story story)
+        {
+            if (!variables.ContainsKey(name))
+                return;
+            variables[name] = value;
+            story.variablesState.SetGlobal(name, value);
+            Debug.LogWarning(_inkGlobalVariablesStory.variablesState["PlayerName"]);
+        }
 
         public void SyncVariablesToStory(Story story)
         {

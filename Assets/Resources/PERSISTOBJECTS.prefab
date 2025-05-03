@@ -11218,7 +11218,7 @@ MonoBehaviour:
   m_Spacing: 5
   m_ChildForceExpandWidth: 1
   m_ChildForceExpandHeight: 0
-  m_ChildControlWidth: 1
+  m_ChildControlWidth: 0
   m_ChildControlHeight: 0
   m_ChildScaleWidth: 0
   m_ChildScaleHeight: 0
@@ -16466,7 +16466,7 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 1731342154953459696, guid: c5515850c3bcf1445b547f50283e217f, type: 3}
       propertyPath: m_SizeDelta.x
-      value: 0
+      value: 700
       objectReference: {fileID: 0}
     - target: {fileID: 1731342154953459696, guid: c5515850c3bcf1445b547f50283e217f, type: 3}
       propertyPath: m_SizeDelta.y
@@ -16544,9 +16544,17 @@ PrefabInstance:
       propertyPath: m_Name
       value: DialogueChoiceButton (5)
       objectReference: {fileID: 0}
+    - target: {fileID: 7525715830290677945, guid: c5515850c3bcf1445b547f50283e217f, type: 3}
+      propertyPath: m_SizeDelta.x
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 7525715830290677945, guid: c5515850c3bcf1445b547f50283e217f, type: 3}
+      propertyPath: m_SizeDelta.y
+      value: 0
+      objectReference: {fileID: 0}
     - target: {fileID: 8044362034416517795, guid: c5515850c3bcf1445b547f50283e217f, type: 3}
       propertyPath: m_fontSize
-      value: 62.75
+      value: 59.03
       objectReference: {fileID: 0}
     - target: {fileID: 8044362034416517795, guid: c5515850c3bcf1445b547f50283e217f, type: 3}
       propertyPath: m_fontAsset
@@ -16578,7 +16586,7 @@ PrefabInstance:
       objectReference: {fileID: 3572019363814162641, guid: 1fd52ac9eb0298f42b14c551fc289d2b, type: 2}
     - target: {fileID: 8044362034416517795, guid: c5515850c3bcf1445b547f50283e217f, type: 3}
       propertyPath: m_enableAutoSizing
-      value: 1
+      value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 8044362034416517795, guid: c5515850c3bcf1445b547f50283e217f, type: 3}
       propertyPath: m_fontColor32.rgba
@@ -16607,13 +16615,35 @@ PrefabInstance:
     m_RemovedComponents: []
     m_RemovedGameObjects: []
     m_AddedGameObjects: []
-    m_AddedComponents: []
+    m_AddedComponents:
+    - targetCorrespondingSourceObject: {fileID: 6422283076520454663, guid: c5515850c3bcf1445b547f50283e217f, type: 3}
+      insertIndex: -1
+      addedObject: {fileID: 4263149254536048890}
   m_SourcePrefab: {fileID: 100100000, guid: c5515850c3bcf1445b547f50283e217f, type: 3}
 --- !u!224 &1744570664997255765 stripped
 RectTransform:
   m_CorrespondingSourceObject: {fileID: 1731342154953459696, guid: c5515850c3bcf1445b547f50283e217f, type: 3}
   m_PrefabInstance: {fileID: 14358808064392613}
   m_PrefabAsset: {fileID: 0}
+--- !u!1 &6418626918938204066 stripped
+GameObject:
+  m_CorrespondingSourceObject: {fileID: 6422283076520454663, guid: c5515850c3bcf1445b547f50283e217f, type: 3}
+  m_PrefabInstance: {fileID: 14358808064392613}
+  m_PrefabAsset: {fileID: 0}
+--- !u!114 &4263149254536048890
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 6418626918938204066}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 3245ec927659c4140ac4f8d17403cc18, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  m_HorizontalFit: 2
+  m_VerticalFit: 2
 --- !u!114 &8450538457757440995 stripped
 MonoBehaviour:
   m_CorrespondingSourceObject: {fileID: 8463764218888037958, guid: c5515850c3bcf1445b547f50283e217f, type: 3}
@@ -16659,7 +16689,7 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 1731342154953459696, guid: c5515850c3bcf1445b547f50283e217f, type: 3}
       propertyPath: m_SizeDelta.x
-      value: 0
+      value: 700
       objectReference: {fileID: 0}
     - target: {fileID: 1731342154953459696, guid: c5515850c3bcf1445b547f50283e217f, type: 3}
       propertyPath: m_SizeDelta.y
@@ -16737,9 +16767,17 @@ PrefabInstance:
       propertyPath: m_Name
       value: DialogueChoiceButton (4)
       objectReference: {fileID: 0}
+    - target: {fileID: 7525715830290677945, guid: c5515850c3bcf1445b547f50283e217f, type: 3}
+      propertyPath: m_SizeDelta.x
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 7525715830290677945, guid: c5515850c3bcf1445b547f50283e217f, type: 3}
+      propertyPath: m_SizeDelta.y
+      value: 0
+      objectReference: {fileID: 0}
     - target: {fileID: 8044362034416517795, guid: c5515850c3bcf1445b547f50283e217f, type: 3}
       propertyPath: m_fontSize
-      value: 62.75
+      value: 59.03
       objectReference: {fileID: 0}
     - target: {fileID: 8044362034416517795, guid: c5515850c3bcf1445b547f50283e217f, type: 3}
       propertyPath: m_fontAsset
@@ -16771,7 +16809,7 @@ PrefabInstance:
       objectReference: {fileID: 3572019363814162641, guid: 1fd52ac9eb0298f42b14c551fc289d2b, type: 2}
     - target: {fileID: 8044362034416517795, guid: c5515850c3bcf1445b547f50283e217f, type: 3}
       propertyPath: m_enableAutoSizing
-      value: 1
+      value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 8044362034416517795, guid: c5515850c3bcf1445b547f50283e217f, type: 3}
       propertyPath: m_fontColor32.rgba
@@ -16800,13 +16838,35 @@ PrefabInstance:
     m_RemovedComponents: []
     m_RemovedGameObjects: []
     m_AddedGameObjects: []
-    m_AddedComponents: []
+    m_AddedComponents:
+    - targetCorrespondingSourceObject: {fileID: 6422283076520454663, guid: c5515850c3bcf1445b547f50283e217f, type: 3}
+      insertIndex: -1
+      addedObject: {fileID: 854384175362508672}
   m_SourcePrefab: {fileID: 100100000, guid: c5515850c3bcf1445b547f50283e217f, type: 3}
 --- !u!224 &1039386573154180840 stripped
 RectTransform:
   m_CorrespondingSourceObject: {fileID: 1731342154953459696, guid: c5515850c3bcf1445b547f50283e217f, type: 3}
   m_PrefabInstance: {fileID: 1615193647312230680}
   m_PrefabAsset: {fileID: 0}
+--- !u!1 &5713619315874493215 stripped
+GameObject:
+  m_CorrespondingSourceObject: {fileID: 6422283076520454663, guid: c5515850c3bcf1445b547f50283e217f, type: 3}
+  m_PrefabInstance: {fileID: 1615193647312230680}
+  m_PrefabAsset: {fileID: 0}
+--- !u!114 &854384175362508672
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 5713619315874493215}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 3245ec927659c4140ac4f8d17403cc18, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  m_HorizontalFit: 2
+  m_VerticalFit: 2
 --- !u!114 &7142434845526392670 stripped
 MonoBehaviour:
   m_CorrespondingSourceObject: {fileID: 8463764218888037958, guid: c5515850c3bcf1445b547f50283e217f, type: 3}
@@ -17000,7 +17060,7 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 1731342154953459696, guid: c5515850c3bcf1445b547f50283e217f, type: 3}
       propertyPath: m_SizeDelta.x
-      value: 0
+      value: 700
       objectReference: {fileID: 0}
     - target: {fileID: 1731342154953459696, guid: c5515850c3bcf1445b547f50283e217f, type: 3}
       propertyPath: m_SizeDelta.y
@@ -17078,9 +17138,17 @@ PrefabInstance:
       propertyPath: m_Name
       value: DialogueChoiceButton (2)
       objectReference: {fileID: 0}
+    - target: {fileID: 7525715830290677945, guid: c5515850c3bcf1445b547f50283e217f, type: 3}
+      propertyPath: m_SizeDelta.x
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 7525715830290677945, guid: c5515850c3bcf1445b547f50283e217f, type: 3}
+      propertyPath: m_SizeDelta.y
+      value: 0
+      objectReference: {fileID: 0}
     - target: {fileID: 8044362034416517795, guid: c5515850c3bcf1445b547f50283e217f, type: 3}
       propertyPath: m_fontSize
-      value: 62.75
+      value: 59.03
       objectReference: {fileID: 0}
     - target: {fileID: 8044362034416517795, guid: c5515850c3bcf1445b547f50283e217f, type: 3}
       propertyPath: m_fontAsset
@@ -17112,7 +17180,7 @@ PrefabInstance:
       objectReference: {fileID: 3572019363814162641, guid: 1fd52ac9eb0298f42b14c551fc289d2b, type: 2}
     - target: {fileID: 8044362034416517795, guid: c5515850c3bcf1445b547f50283e217f, type: 3}
       propertyPath: m_enableAutoSizing
-      value: 1
+      value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 8044362034416517795, guid: c5515850c3bcf1445b547f50283e217f, type: 3}
       propertyPath: m_fontColor32.rgba
@@ -17141,7 +17209,10 @@ PrefabInstance:
     m_RemovedComponents: []
     m_RemovedGameObjects: []
     m_AddedGameObjects: []
-    m_AddedComponents: []
+    m_AddedComponents:
+    - targetCorrespondingSourceObject: {fileID: 6422283076520454663, guid: c5515850c3bcf1445b547f50283e217f, type: 3}
+      insertIndex: -1
+      addedObject: {fileID: 2361565660622309365}
   m_SourcePrefab: {fileID: 100100000, guid: c5515850c3bcf1445b547f50283e217f, type: 3}
 --- !u!224 &3361143660134057684 stripped
 RectTransform:
@@ -17159,6 +17230,25 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: a8e5e37aa9f1e714c90265b7d427d45b, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+--- !u!1 &8035354893930785571 stripped
+GameObject:
+  m_CorrespondingSourceObject: {fileID: 6422283076520454663, guid: c5515850c3bcf1445b547f50283e217f, type: 3}
+  m_PrefabInstance: {fileID: 3937228945634738468}
+  m_PrefabAsset: {fileID: 0}
+--- !u!114 &2361565660622309365
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 8035354893930785571}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 3245ec927659c4140ac4f8d17403cc18, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  m_HorizontalFit: 2
+  m_VerticalFit: 2
 --- !u!1001 &4768544159184953185
 PrefabInstance:
   m_ObjectHideFlags: 0
@@ -17193,7 +17283,7 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 1731342154953459696, guid: c5515850c3bcf1445b547f50283e217f, type: 3}
       propertyPath: m_SizeDelta.x
-      value: 0
+      value: 700
       objectReference: {fileID: 0}
     - target: {fileID: 1731342154953459696, guid: c5515850c3bcf1445b547f50283e217f, type: 3}
       propertyPath: m_SizeDelta.y
@@ -17271,6 +17361,14 @@ PrefabInstance:
       propertyPath: m_Name
       value: DialogueChoiceButton (6)
       objectReference: {fileID: 0}
+    - target: {fileID: 7525715830290677945, guid: c5515850c3bcf1445b547f50283e217f, type: 3}
+      propertyPath: m_SizeDelta.x
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 7525715830290677945, guid: c5515850c3bcf1445b547f50283e217f, type: 3}
+      propertyPath: m_SizeDelta.y
+      value: 0
+      objectReference: {fileID: 0}
     - target: {fileID: 8044362034416517795, guid: c5515850c3bcf1445b547f50283e217f, type: 3}
       propertyPath: m_fontSize
       value: 59.03
@@ -17304,6 +17402,10 @@ PrefabInstance:
       value: 
       objectReference: {fileID: 3572019363814162641, guid: 1fd52ac9eb0298f42b14c551fc289d2b, type: 2}
     - target: {fileID: 8044362034416517795, guid: c5515850c3bcf1445b547f50283e217f, type: 3}
+      propertyPath: m_enableAutoSizing
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 8044362034416517795, guid: c5515850c3bcf1445b547f50283e217f, type: 3}
       propertyPath: m_fontColor32.rgba
       value: 4294967295
       objectReference: {fileID: 0}
@@ -17330,8 +17432,30 @@ PrefabInstance:
     m_RemovedComponents: []
     m_RemovedGameObjects: []
     m_AddedGameObjects: []
-    m_AddedComponents: []
+    m_AddedComponents:
+    - targetCorrespondingSourceObject: {fileID: 6422283076520454663, guid: c5515850c3bcf1445b547f50283e217f, type: 3}
+      insertIndex: -1
+      addedObject: {fileID: 4436908544829394533}
   m_SourcePrefab: {fileID: 100100000, guid: c5515850c3bcf1445b547f50283e217f, type: 3}
+--- !u!1 &1949440488452568422 stripped
+GameObject:
+  m_CorrespondingSourceObject: {fileID: 6422283076520454663, guid: c5515850c3bcf1445b547f50283e217f, type: 3}
+  m_PrefabInstance: {fileID: 4768544159184953185}
+  m_PrefabAsset: {fileID: 0}
+--- !u!114 &4436908544829394533
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1949440488452568422}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 3245ec927659c4140ac4f8d17403cc18, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  m_HorizontalFit: 2
+  m_VerticalFit: 2
 --- !u!114 &3987956243581909287 stripped
 MonoBehaviour:
   m_CorrespondingSourceObject: {fileID: 8463764218888037958, guid: c5515850c3bcf1445b547f50283e217f, type: 3}
@@ -17382,7 +17506,7 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 1731342154953459696, guid: c5515850c3bcf1445b547f50283e217f, type: 3}
       propertyPath: m_SizeDelta.x
-      value: 0
+      value: 700
       objectReference: {fileID: 0}
     - target: {fileID: 1731342154953459696, guid: c5515850c3bcf1445b547f50283e217f, type: 3}
       propertyPath: m_SizeDelta.y
@@ -17460,9 +17584,17 @@ PrefabInstance:
       propertyPath: m_Name
       value: DialogueChoiceButton (3)
       objectReference: {fileID: 0}
+    - target: {fileID: 7525715830290677945, guid: c5515850c3bcf1445b547f50283e217f, type: 3}
+      propertyPath: m_SizeDelta.x
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 7525715830290677945, guid: c5515850c3bcf1445b547f50283e217f, type: 3}
+      propertyPath: m_SizeDelta.y
+      value: 0
+      objectReference: {fileID: 0}
     - target: {fileID: 8044362034416517795, guid: c5515850c3bcf1445b547f50283e217f, type: 3}
       propertyPath: m_fontSize
-      value: 62.75
+      value: 59.03
       objectReference: {fileID: 0}
     - target: {fileID: 8044362034416517795, guid: c5515850c3bcf1445b547f50283e217f, type: 3}
       propertyPath: m_fontAsset
@@ -17494,7 +17626,7 @@ PrefabInstance:
       objectReference: {fileID: 3572019363814162641, guid: 1fd52ac9eb0298f42b14c551fc289d2b, type: 2}
     - target: {fileID: 8044362034416517795, guid: c5515850c3bcf1445b547f50283e217f, type: 3}
       propertyPath: m_enableAutoSizing
-      value: 1
+      value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 8044362034416517795, guid: c5515850c3bcf1445b547f50283e217f, type: 3}
       propertyPath: m_fontColor32.rgba
@@ -17523,8 +17655,30 @@ PrefabInstance:
     m_RemovedComponents: []
     m_RemovedGameObjects: []
     m_AddedGameObjects: []
-    m_AddedComponents: []
+    m_AddedComponents:
+    - targetCorrespondingSourceObject: {fileID: 6422283076520454663, guid: c5515850c3bcf1445b547f50283e217f, type: 3}
+      insertIndex: -1
+      addedObject: {fileID: 8536280086786754631}
   m_SourcePrefab: {fileID: 100100000, guid: c5515850c3bcf1445b547f50283e217f, type: 3}
+--- !u!1 &1169051038752586302 stripped
+GameObject:
+  m_CorrespondingSourceObject: {fileID: 6422283076520454663, guid: c5515850c3bcf1445b547f50283e217f, type: 3}
+  m_PrefabInstance: {fileID: 5267458769585377337}
+  m_PrefabAsset: {fileID: 0}
+--- !u!114 &8536280086786754631
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1169051038752586302}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 3245ec927659c4140ac4f8d17403cc18, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  m_HorizontalFit: 2
+  m_VerticalFit: 2
 --- !u!114 &4354014787426629247 stripped
 MonoBehaviour:
   m_CorrespondingSourceObject: {fileID: 8463764218888037958, guid: c5515850c3bcf1445b547f50283e217f, type: 3}
@@ -17575,7 +17729,7 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 1731342154953459696, guid: c5515850c3bcf1445b547f50283e217f, type: 3}
       propertyPath: m_SizeDelta.x
-      value: 0
+      value: 700
       objectReference: {fileID: 0}
     - target: {fileID: 1731342154953459696, guid: c5515850c3bcf1445b547f50283e217f, type: 3}
       propertyPath: m_SizeDelta.y
@@ -17653,9 +17807,17 @@ PrefabInstance:
       propertyPath: m_Name
       value: DialogueChoiceButton
       objectReference: {fileID: 0}
+    - target: {fileID: 7525715830290677945, guid: c5515850c3bcf1445b547f50283e217f, type: 3}
+      propertyPath: m_SizeDelta.x
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 7525715830290677945, guid: c5515850c3bcf1445b547f50283e217f, type: 3}
+      propertyPath: m_SizeDelta.y
+      value: 0
+      objectReference: {fileID: 0}
     - target: {fileID: 8044362034416517795, guid: c5515850c3bcf1445b547f50283e217f, type: 3}
       propertyPath: m_fontSize
-      value: 62.75
+      value: 59.03
       objectReference: {fileID: 0}
     - target: {fileID: 8044362034416517795, guid: c5515850c3bcf1445b547f50283e217f, type: 3}
       propertyPath: m_fontAsset
@@ -17687,7 +17849,7 @@ PrefabInstance:
       objectReference: {fileID: 3572019363814162641, guid: 1fd52ac9eb0298f42b14c551fc289d2b, type: 2}
     - target: {fileID: 8044362034416517795, guid: c5515850c3bcf1445b547f50283e217f, type: 3}
       propertyPath: m_enableAutoSizing
-      value: 1
+      value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 8044362034416517795, guid: c5515850c3bcf1445b547f50283e217f, type: 3}
       propertyPath: m_fontColor32.rgba
@@ -17716,7 +17878,10 @@ PrefabInstance:
     m_RemovedComponents: []
     m_RemovedGameObjects: []
     m_AddedGameObjects: []
-    m_AddedComponents: []
+    m_AddedComponents:
+    - targetCorrespondingSourceObject: {fileID: 6422283076520454663, guid: c5515850c3bcf1445b547f50283e217f, type: 3}
+      insertIndex: -1
+      addedObject: {fileID: 8328864735670078900}
   m_SourcePrefab: {fileID: 100100000, guid: c5515850c3bcf1445b547f50283e217f, type: 3}
 --- !u!114 &1348348360245250703 stripped
 MonoBehaviour:
@@ -17729,6 +17894,25 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: a8e5e37aa9f1e714c90265b7d427d45b, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+--- !u!1 &4531632123728922318 stripped
+GameObject:
+  m_CorrespondingSourceObject: {fileID: 6422283076520454663, guid: c5515850c3bcf1445b547f50283e217f, type: 3}
+  m_PrefabInstance: {fileID: 7476853918146604233}
+  m_PrefabAsset: {fileID: 0}
+--- !u!114 &8328864735670078900
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 4531632123728922318}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 3245ec927659c4140ac4f8d17403cc18, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  m_HorizontalFit: 2
+  m_VerticalFit: 2
 --- !u!224 &9207021758156417849 stripped
 RectTransform:
   m_CorrespondingSourceObject: {fileID: 1731342154953459696, guid: c5515850c3bcf1445b547f50283e217f, type: 3}
@@ -17768,7 +17952,7 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 1731342154953459696, guid: c5515850c3bcf1445b547f50283e217f, type: 3}
       propertyPath: m_SizeDelta.x
-      value: 0
+      value: 700
       objectReference: {fileID: 0}
     - target: {fileID: 1731342154953459696, guid: c5515850c3bcf1445b547f50283e217f, type: 3}
       propertyPath: m_SizeDelta.y
@@ -17846,9 +18030,17 @@ PrefabInstance:
       propertyPath: m_Name
       value: DialogueChoiceButton (1)
       objectReference: {fileID: 0}
+    - target: {fileID: 7525715830290677945, guid: c5515850c3bcf1445b547f50283e217f, type: 3}
+      propertyPath: m_SizeDelta.x
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 7525715830290677945, guid: c5515850c3bcf1445b547f50283e217f, type: 3}
+      propertyPath: m_SizeDelta.y
+      value: 0
+      objectReference: {fileID: 0}
     - target: {fileID: 8044362034416517795, guid: c5515850c3bcf1445b547f50283e217f, type: 3}
       propertyPath: m_fontSize
-      value: 62.75
+      value: 59.03
       objectReference: {fileID: 0}
     - target: {fileID: 8044362034416517795, guid: c5515850c3bcf1445b547f50283e217f, type: 3}
       propertyPath: m_fontAsset
@@ -17880,7 +18072,7 @@ PrefabInstance:
       objectReference: {fileID: 3572019363814162641, guid: 1fd52ac9eb0298f42b14c551fc289d2b, type: 2}
     - target: {fileID: 8044362034416517795, guid: c5515850c3bcf1445b547f50283e217f, type: 3}
       propertyPath: m_enableAutoSizing
-      value: 1
+      value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 8044362034416517795, guid: c5515850c3bcf1445b547f50283e217f, type: 3}
       propertyPath: m_fontColor32.rgba
@@ -17909,7 +18101,10 @@ PrefabInstance:
     m_RemovedComponents: []
     m_RemovedGameObjects: []
     m_AddedGameObjects: []
-    m_AddedComponents: []
+    m_AddedComponents:
+    - targetCorrespondingSourceObject: {fileID: 6422283076520454663, guid: c5515850c3bcf1445b547f50283e217f, type: 3}
+      insertIndex: -1
+      addedObject: {fileID: 763060336898221463}
   m_SourcePrefab: {fileID: 100100000, guid: c5515850c3bcf1445b547f50283e217f, type: 3}
 --- !u!114 &1946220871028601758 stripped
 MonoBehaviour:
@@ -17922,6 +18117,25 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: a8e5e37aa9f1e714c90265b7d427d45b, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+--- !u!1 &3987798152679194591 stripped
+GameObject:
+  m_CorrespondingSourceObject: {fileID: 6422283076520454663, guid: c5515850c3bcf1445b547f50283e217f, type: 3}
+  m_PrefabInstance: {fileID: 7959840920003139032}
+  m_PrefabAsset: {fileID: 0}
+--- !u!114 &763060336898221463
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 3987798152679194591}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 3245ec927659c4140ac4f8d17403cc18, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  m_HorizontalFit: 2
+  m_VerticalFit: 2
 --- !u!224 &8534883834117673512 stripped
 RectTransform:
   m_CorrespondingSourceObject: {fileID: 1731342154953459696, guid: c5515850c3bcf1445b547f50283e217f, type: 3}
