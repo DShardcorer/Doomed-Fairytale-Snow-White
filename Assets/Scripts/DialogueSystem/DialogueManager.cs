@@ -94,14 +94,14 @@ namespace DialogueSystem
         private void OnPlayerAbilityStatsChanged(object sender, AbilityStatBoard e)
         {
             //update the stats into ink variables
-            inkDialogueVariables.UpdateVariablesState("PlayerStrength", new IntValue((int)e.Strength.ModifiedValue));
-            inkDialogueVariables.UpdateVariablesState("PlayerDexterity", new IntValue((int)e.Dexterity.ModifiedValue));
-            inkDialogueVariables.UpdateVariablesState("PlayerConstitution",
-                new IntValue((int)e.Constitution.ModifiedValue));
-            inkDialogueVariables.UpdateVariablesState("PlayerIntelligence",
-                new IntValue((int)e.Intelligence.ModifiedValue));
-            inkDialogueVariables.UpdateVariablesState("PlayerWisdom", new IntValue((int)e.Wisdom.ModifiedValue));
-            inkDialogueVariables.UpdateVariablesState("PlayerCharisma", new IntValue((int)e.Charisma.ModifiedValue));
+            inkDialogueVariables.SetVariableState("PlayerStrength", new IntValue((int)e.Strength.ModifiedValue), story);
+            inkDialogueVariables.SetVariableState("PlayerDexterity", new IntValue((int)e.Dexterity.ModifiedValue), story);
+            inkDialogueVariables.SetVariableState("PlayerConstitution",
+                new IntValue((int)e.Constitution.ModifiedValue), story);
+            inkDialogueVariables.SetVariableState("PlayerIntelligence",
+                new IntValue((int)e.Intelligence.ModifiedValue), story);
+            inkDialogueVariables.SetVariableState("PlayerWisdom", new IntValue((int)e.Wisdom.ModifiedValue), story);
+            inkDialogueVariables.SetVariableState("PlayerCharisma", new IntValue((int)e.Charisma.ModifiedValue), story);
         }
 
         #endregion

@@ -49,8 +49,11 @@ namespace DialogueSystem
             if (!variables.ContainsKey(name))
                 return;
             variables[name] = value;
+            if (!story)
+            {
+                return;
+            }
             story.variablesState.SetGlobal(name, value);
-            Debug.LogWarning(_inkGlobalVariablesStory.variablesState["PlayerName"]);
         }
 
         public void SyncVariablesToStory(Story story)

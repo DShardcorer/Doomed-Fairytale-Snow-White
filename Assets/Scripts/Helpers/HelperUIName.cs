@@ -2,13 +2,15 @@ namespace Helpers
 {
     public static class HelperUIName
     {
-        public static string InventorySlotUI = "InventorySlotUI";
+        public const string InventorySlotUI = "InventorySlotUI";
 
-        public static string EquipmentInventorySlotUI = "EquipmentInventorySlotUI";
+        public const string EquipmentInventorySlotUI = "EquipmentInventorySlotUI";
 
-        public static string DamagePopupUI = "DamagePopupUI";
+        public const string DamagePopupUI = "DamagePopupUI";
         
-        public static string PassiveSkillSlotUI = "PassiveSkillSlotUI";
-        public static string ActiveSkillSlotUI = "ActiveSkillSlotUI";
+        public const string PassiveSkillSlotUI = "PassiveSkillSlotUI";
+        public const string ActiveSkillSlotUI = "ActiveSkillSlotUI";
+        public const string DialogueChoiceButtonUI = "DialogueChoiceButtonUI";
+        
     }
 }

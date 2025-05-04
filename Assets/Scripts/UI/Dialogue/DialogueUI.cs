@@ -6,10 +6,12 @@ using GeneralManagers;
 using Helpers;
 using Ink.InkLibs.InkRuntime;
 using Input;
+using Pool;
 using TMPro;
 using UnityEngine;
 using UnityEngine.Serialization;
 using UnityEngine.UI;
+using UnityEngine.EventSystems;
 
 namespace UI.Dialogue
 {
@@ -22,7 +24,9 @@ namespace UI.Dialogue
 
         [SerializeField] private TypewriterByCharacter typewriter;
         [SerializeField] private GameObject canContinueIcon;
-        [SerializeField] private DialogueChoiceButtonUI[] choiceButtons;
+
+        [Header("Choice Buttons")] [SerializeField]
+        private DialogueChoiceButtonUI[] choiceButtons;
 
         [FormerlySerializedAs("leftSpriteImageAnimator")] [Header("Dialogue Box Sprites")] [SerializeField]
         private Image leftSpriteImage;
@@ -240,7 +244,7 @@ namespace UI.Dialogue
         }
 
         #endregion
-        
+
 
         private void OnEnterDialogue(DialogueEventSystem.EnterDialogueEventArgs args)
         {
@@ -284,6 +288,7 @@ namespace UI.Dialogue
         {
             _dialogePaused = false;
         }
+
         private IEnumerator PausedDisplayLine(DialogueEventSystem.DialogueContinueEventArgs args)
         {
             dialogueHolder.SetActive(false);
@@ -291,6 +296,7 @@ namespace UI.Dialogue
             {
                 yield return null;
             }
+
             dialogueHolder.SetActive(true);
             DisplayLine(args);
         }
@@ -412,21 +418,26 @@ namespace UI.Dialogue
 
         private void DisplayChoiceButtons(DialogueEventSystem.DialogueContinueEventArgs args)
         {
-            for (int inkChoiceIndex = 0; inkChoiceIndex < args.Choices.Count; inkChoiceIndex++)
+            var es = UnityEngine.EventSystems.EventSystem.current;
+            if (es)
+                es.SetSelectedGameObject(null);
+
+            HideChoiceButtons();
+            for (int i = 0; i < args.Choices.Count; i++)
             {
-                Choice choice = args.Choices[inkChoiceIndex];
-                DialogueChoiceButtonUI choiceButton = choiceButtons[inkChoiceIndex];
+                var choice = args.Choices[i];
+                var button = choiceButtons[i];
+                button.gameObject.SetActive(true);
+                button.SetChoiceText(choice.text);
+                button.SetChoiceIndex(i);
+            }
 
-                choiceButton.gameObject.SetActive(true);
-                choiceButton.SetChoiceText(choice.text);
-                choiceButton.SetChoiceIndex(inkChoiceIndex);
-
-                if (inkChoiceIndex == 0)
-                {
-                    choiceButton.SelectButton();
-                    DialogueEventSystem.InvokeUpdateChoiceIndex(
-                        new DialogueEventSystem.UpdateChoiceIndexEventArgs(inkChoiceIndex));
-                }
+            // Automatically select the first choice
+            if (args.Choices.Count > 0)
+            {
+                choiceButtons[0].SelectButton();
+                DialogueEventSystem.InvokeUpdateChoiceIndex(
+                    new DialogueEventSystem.UpdateChoiceIndexEventArgs(0));
             }
         }
 
