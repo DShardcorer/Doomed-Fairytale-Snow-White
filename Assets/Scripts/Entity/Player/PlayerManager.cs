@@ -11,6 +11,7 @@ using EntitySystems.Skill.PassiveSkills;
 using EntitySystems.Skill.SkillFactory;
 using EntitySystems.States.Movement;
 using EntitySystems.Stats;
+using EventSystem.Player;
 using GeneralManagers;
 using Helpers;
 using Item;
@@ -122,6 +123,12 @@ namespace Entity.Player
         public void SetPlayerStat(StatType statType, int value)
         {
             _player.StatSystem.SetAbilityStatPoints(statType, value);
+        }
+
+        public void AddPlayerStat(StatType statType, int amount)
+        {
+            PlayerStatsEventSystem.InvokeStatPointGained(statType, amount);
+            _player.StatSystem.AddAbilityStatPoints(statType, amount);
         }
 
         public void AddItemToInventory(ItemData itemData, int amount)

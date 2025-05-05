@@ -167,7 +167,8 @@ namespace UI.Fade
 
         private void OnTextDissapeared()
         {
-            Debug.LogWarning("On text dissapeared");
+            //Clear all texts
+            floatingText.textFull = "";
             StartCoroutine(FadeIn());
         }
     }

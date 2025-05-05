@@ -13,6 +13,8 @@ EXTERNAL OpenTextInputter(placeholderText, inputPurpose)
 //Audio
 EXTERNAL PlaySFX(sfxName)
 
+//Fade
+EXTERNAL Fade(fadeInDuration, fadeOutDuration)
 
 //Quest stuff
 EXTERNAL StartQuest(questId)

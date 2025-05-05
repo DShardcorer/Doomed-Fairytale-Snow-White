@@ -511,15 +511,12 @@ namespace UI.Dialogue
 
         private void HideChoiceButtons()
         {
-            //if there are no members, return
             if (choiceButtons.Count == 0)
                 return;
             foreach (DialogueChoiceButtonUI button in choiceButtons)
             {
                 _poolManager.ReturnObject(HelperUIName.DialogueChoiceButtonUI, button.gameObject);
             }
-
-            //Remove all choice buttons from the list
             choiceButtons.Clear();
         }
     }

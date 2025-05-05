@@ -4,6 +4,7 @@ using EntitySystems.Skill;
 using EntitySystems.Skill.SkillFactory;
 using EntitySystems.Stats;
 using EventSystem.Quest;
+using EventSystem.UI;
 using GeneralManagers;
 using Helpers;
 using Ink.InkLibs.InkRuntime;
@@ -20,6 +21,13 @@ namespace DialogueSystem
             BindPlayerFunctions(story);
             BindAudioFunctions(story);
             BindTextInputFunctions(story);
+            BindMiscFunctions(story);
+        }
+
+        private void BindMiscFunctions(Story story)
+        {
+            story.BindExternalFunction("Fade", (float fadeInDuration, float fadeOutDuration) =>
+                FadeEventSystem.InvokeFade(fadeInDuration, fadeOutDuration));
         }
 
         public void StopListening(Story story)
@@ -95,7 +103,7 @@ namespace DialogueSystem
         private void AddPlayerStat(string statType, int amount)
         {
             StatType statTypeEnum = (StatType)Enum.Parse(typeof(StatType), statType);
-            GameManager.Instance.PlayerManager.SetPlayerStat(statTypeEnum, amount);
+            GameManager.Instance.PlayerManager.AddPlayerStat(statTypeEnum, amount);
         }
 
         private void SetPlayerStat(string statType, int amount)

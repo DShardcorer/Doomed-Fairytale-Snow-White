@@ -110,6 +110,7 @@ GameObject:
   - component: {fileID: 4403759785736629193}
   - component: {fileID: 9171557289267538719}
   - component: {fileID: 6028920062610826527}
+  - component: {fileID: -6184348198959057989}
   m_Layer: 5
   m_Name: DialogueChoiceButtonUI
   m_TagString: Untagged
@@ -127,7 +128,7 @@ RectTransform:
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
   m_LocalPosition: {x: 0, y: 0, z: 0}
   m_LocalScale: {x: 1, y: 1, z: 1}
-  m_ConstrainProportionsScale: 0
+  m_ConstrainProportionsScale: 1
   m_Children:
   - {fileID: 4135131490581265965}
   - {fileID: 8030684107151180408}
@@ -263,6 +264,22 @@ MonoBehaviour:
   selectedArrow: {fileID: 1470417938245180193}
   moveAmount: 10
   moveDuration: 0.5
+--- !u!114 &-6184348198959057989
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 4345568141292785173}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 51463b6252664e87a8d181b12fe1aaa5, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  selectSound: {fileID: 8300000, guid: 07e89b0b4999c98438c43dd49e6e302c, type: 3}
+  volume: 0.648
+  pitch: 1
+  resourcePath: 
 --- !u!1 &4501648234092557171
 GameObject:
   m_ObjectHideFlags: 0

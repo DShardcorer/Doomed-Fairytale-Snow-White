@@ -36,5 +36,23 @@ namespace EventSystem.Player
             OnInitialCombatStatsSet?.Invoke(null, combatStats);
         }
 
+        public class StatPointGainedEventArgs : EventArgs
+        {
+            public StatType StatType { get; }
+            public int Amount { get; }
+
+            public StatPointGainedEventArgs(StatType statType, int amount)
+            {
+                StatType = statType;
+                Amount = amount;
+            }
+        }
+        public static Action<StatPointGainedEventArgs> OnStatPointGained;
+        
+        public static void InvokeStatPointGained(StatType statType, int amount)
+        {
+            OnStatPointGained?.Invoke(new StatPointGainedEventArgs(statType, amount));
+        }
+
     }
 }

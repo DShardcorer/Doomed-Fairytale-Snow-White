@@ -64,8 +64,19 @@ namespace EntitySystems.Stats
         /// <param name="points"></param>
         public void SetAbilityStatPoints(StatType statType, int points)
         {
-            _unallocatedAbilityStatPoints -= points;
             AbilityStatBoard.SetStat(statType, points);
+            RecalculateStats();
+            OnStatsChanged();
+        }
+        /// <summary>
+        /// USE THIS WITH CAUTION. Straight up adds the stat points to the value given.
+        /// THIS IS NOT RELATED TO LEVELING UP.
+        /// </summary>
+        /// <param name="statType"></param>
+        /// <param name="points"></param>
+        public void AddAbilityStatPoints(StatType statType, int points)
+        {
+            AbilityStatBoard.IncreaseStat(statType, points);
             RecalculateStats();
             OnStatsChanged();
         }
