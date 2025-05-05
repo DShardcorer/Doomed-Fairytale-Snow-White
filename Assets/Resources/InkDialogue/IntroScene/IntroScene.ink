@@ -6,7 +6,7 @@ INCLUDE ../global_methods.ink
 
 =begin
 
-of them all~~ #cgpath:IntroScene #cg:Default
+of them all~~ #cgpath:IntroScene #cg:Default #delay:5
 
 Oh? Finally, you're awake. I almost feel bad interrupting your sound sleep. #speaker:Mysterious Woman
 
@@ -19,7 +19,7 @@ Oh? Finally, you're awake. I almost feel bad interrupting your sound sleep. #spe
 -Shhh. Questions are for later. All I can say is that you’re in a place where you should be.
 
 It doesn't matter, not as much as who you are...
-
+~AddPlayerPassiveSkill("Body Control")
 Do you remember who you are?
 
 

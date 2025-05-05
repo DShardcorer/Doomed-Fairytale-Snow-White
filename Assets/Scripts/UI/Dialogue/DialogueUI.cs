@@ -1,5 +1,7 @@
 using System;
 using System.Collections;
+using System.Collections.Generic;
+using DG.Tweening;
 using EventSystem.Dialogue;
 using Febucci.UI;
 using GeneralManagers;
@@ -24,9 +26,12 @@ namespace UI.Dialogue
 
         [SerializeField] private TypewriterByCharacter typewriter;
         [SerializeField] private GameObject canContinueIcon;
+        private Vector2 canContinueIconOriginalPosition;
 
         [Header("Choice Buttons")] [SerializeField]
-        private DialogueChoiceButtonUI[] choiceButtons;
+        private GameObject ChoiceButtonsHolder;
+
+        private List<DialogueChoiceButtonUI> choiceButtons = new List<DialogueChoiceButtonUI>();
 
         [FormerlySerializedAs("leftSpriteImageAnimator")] [Header("Dialogue Box Sprites")] [SerializeField]
         private Image leftSpriteImage;
@@ -50,6 +55,7 @@ namespace UI.Dialogue
         [Range(-3, 3)] [SerializeField] private float maxPitch = 1f;
         [SerializeField] private AudioClip[] textTypingSounds;
 
+
         private AudioSource _audioSource;
         private Coroutine _displayLineCoroutine;
         private bool _canContinueToNextLine;
@@ -57,6 +63,8 @@ namespace UI.Dialogue
         private bool _isSkippingTypewriter = false;
         private int currentDisplayedLetterIndex = 0;
         private bool _dialogePaused = false;
+        private PoolManager _poolManager;
+
 
         private void Awake()
         {
@@ -66,6 +74,31 @@ namespace UI.Dialogue
             typewriter.onTextShowed.AddListener(OnTypewriterComplete);
             mainCGLayer.gameObject.SetActive(false);
             gameObject.SetActive(false);
+
+            // Cache the original position of the continue icon
+            if (canContinueIcon != null)
+            {
+                canContinueIconOriginalPosition = canContinueIcon.GetComponent<RectTransform>().anchoredPosition;
+            }
+        }
+
+        private void Start()
+        {
+            _poolManager = GameManager.Instance.PoolManager;
+            //if pool manager is null, start a coroutine to wait for it to be initialized
+            if (_poolManager == null)
+            {
+                StartCoroutine(WaitForPoolManager());
+            }
+        }
+
+        private IEnumerator WaitForPoolManager()
+        {
+            while (_poolManager == null)
+            {
+                yield return null;
+                _poolManager = GameManager.Instance.PoolManager;
+            }
         }
 
         private void OnDestroy()
@@ -323,15 +356,42 @@ namespace UI.Dialogue
             StartCoroutine(AllowNextLineCoroutine());
         }
 
+        private Tween continueIconTween;
+
         private IEnumerator AllowNextLineCoroutine()
         {
             yield return new WaitForSeconds(0.3f);
             _canContinueToNextLine = true;
             DialogueEventSystem.InvokeUpdateCanContinueToNextLine(
                 new DialogueEventSystem.UpdateCanContinueToNextLineEventArgs(_canContinueToNextLine));
+
+            // Reset icon position before enabling
+            if (canContinueIcon != null)
+            {
+                RectTransform iconTransform = canContinueIcon.GetComponent<RectTransform>();
+                iconTransform.anchoredPosition = canContinueIconOriginalPosition;
+            }
+
             canContinueIcon.SetActive(_canContinueToNextLine);
+            StartContinueIconAnimation();
             DisplayChoiceButtons(currentDialogueEventArgs);
         }
+
+        private void StartContinueIconAnimation()
+        {
+            if (continueIconTween != null && continueIconTween.IsActive())
+                continueIconTween.Kill();
+
+            RectTransform iconTransform = canContinueIcon.GetComponent<RectTransform>();
+            // Reset to cached start position each time animation starts
+            iconTransform.anchoredPosition = canContinueIconOriginalPosition;
+            float startY = iconTransform.anchoredPosition.y;
+            continueIconTween = iconTransform
+                .DOAnchorPosY(startY + 10f, 0.5f)
+                .SetLoops(-1, LoopType.Yoyo)
+                .SetEase(Ease.InOutSine);
+        }
+
 
         private void OnCharacterVisible(char character)
         {
@@ -422,9 +482,17 @@ namespace UI.Dialogue
             if (es)
                 es.SetSelectedGameObject(null);
 
-            HideChoiceButtons();
             for (int i = 0; i < args.Choices.Count; i++)
             {
+                GameObject choiceButtonGameObject = _poolManager.GetObject(HelperUIName.DialogueChoiceButtonUI);
+                //Reset position
+                choiceButtonGameObject.transform.SetParent(ChoiceButtonsHolder.transform, false);
+                var rt = choiceButtonGameObject.GetComponent<RectTransform>();
+                rt.localScale = Vector3.one;
+                rt.anchoredPosition = Vector2.zero;
+                DialogueChoiceButtonUI choiceButton = choiceButtonGameObject.GetComponent<DialogueChoiceButtonUI>();
+                choiceButtons.Add(choiceButton);
+
                 var choice = args.Choices[i];
                 var button = choiceButtons[i];
                 button.gameObject.SetActive(true);
@@ -443,8 +511,16 @@ namespace UI.Dialogue
 
         private void HideChoiceButtons()
         {
+            //if there are no members, return
+            if (choiceButtons.Count == 0)
+                return;
             foreach (DialogueChoiceButtonUI button in choiceButtons)
-                button.gameObject.SetActive(false);
+            {
+                _poolManager.ReturnObject(HelperUIName.DialogueChoiceButtonUI, button.gameObject);
+            }
+
+            //Remove all choice buttons from the list
+            choiceButtons.Clear();
         }
     }
 }

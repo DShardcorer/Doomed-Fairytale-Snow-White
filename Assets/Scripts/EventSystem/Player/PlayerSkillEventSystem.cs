@@ -39,5 +39,44 @@ namespace EventSystem.Player
         {
             OnPassiveSkillListChanged?.Invoke(new PassiveSkillListChangedEventArgs(passiveSkills));
         }
+        public class ActiveSkillGainedEventArgs : EventArgs
+        {
+            public ActiveSkill activeSkill;
+            
+            public ActiveSkillGainedEventArgs(ActiveSkill activeSkill)
+            {
+                this.activeSkill = activeSkill;
+            }
+        }
+        public static Action<ActiveSkillGainedEventArgs> OnActiveSkillGained;
+        
+        public static void InvokeActiveSkillGained(ActiveSkill activeSkill)
+        {
+            OnActiveSkillGained?.Invoke(new ActiveSkillGainedEventArgs(activeSkill));
+        }
+        
+        public class PassiveSkillGainedEventArgs : EventArgs
+        {
+            public PassiveSkill passiveSkill;
+            
+            public PassiveSkillGainedEventArgs(PassiveSkill passiveSkill)
+            {
+                this.passiveSkill = passiveSkill;
+            }
+        }
+        public static Action<PassiveSkillGainedEventArgs> OnPassiveSkillGained;
+        public static void InvokePassiveSkillGained(PassiveSkill passiveSkill)
+        {
+            OnPassiveSkillGained?.Invoke(new PassiveSkillGainedEventArgs(passiveSkill));
+        }
+        public class ActiveSkillRemovedEventArgs : EventArgs
+        {
+            public ActiveSkill activeSkill;
+            
+            public ActiveSkillRemovedEventArgs(ActiveSkill activeSkill)
+            {
+                this.activeSkill = activeSkill;
+            }
+        }
     }
 }

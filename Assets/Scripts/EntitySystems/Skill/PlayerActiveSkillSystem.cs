@@ -27,6 +27,7 @@ namespace EntitySystems.Skill
             if (base.AddSkill(skill))
             {
                 PlayerSkillEventSystem.InvokeActiveSkillListChanged(activeSkills);
+                PlayerSkillEventSystem.InvokeActiveSkillGained(skill);
                 return true;
             }
 

@@ -25,6 +25,7 @@ namespace EntitySystems.Skill
             if (base.AddSkill(skill))
             {
                 EventSystem.Player.PlayerSkillEventSystem.InvokePassiveSkillListChanged(passiveSkills);
+                EventSystem.Player.PlayerSkillEventSystem.InvokePassiveSkillGained(skill);
                 return true;
             }
             return false;
