@@ -1,6 +1,7 @@
 using System;
 using System.Collections;
 using System.Collections.Generic;
+using AssetManagement;
 using DG.Tweening;
 using EventSystem.Dialogue;
 using Febucci.UI;
@@ -142,7 +143,7 @@ namespace UI.Dialogue
 
         #region CGs
 
-        private void OnUpdateCGPath(DialogueEventSystem.UpdateCGPathEventArgs obj)
+        private async void OnUpdateCGPath(DialogueEventSystem.UpdateCGPathEventArgs obj)
         {
             cgPath = obj.CGPath;
 
@@ -158,15 +159,26 @@ namespace UI.Dialogue
             }
 
             // Load prefabs
-            GameObject backPrefab =
-                UnityEngine.Resources.Load<GameObject>(HelperResourcePath.CGPath + cgPath + "/Back");
-            GameObject frontPrefab =
-                UnityEngine.Resources.Load<GameObject>(HelperResourcePath.CGPath + cgPath + "/Front");
+            // GameObject backPrefab =
+            //     UnityEngine.Resources.Load<GameObject>(HelperResourcePath.CGPath + cgPath + "/Back");
+            // GameObject frontPrefab =
+            //     UnityEngine.Resources.Load<GameObject>(HelperResourcePath.CGPath + cgPath + "/Front");
+            backCGLayer =
+                await AddressablesManager.Instance.LoadAndInstantiateByAddressAsync(HelperAddressablesGroup.CGs +
+                    cgPath +
+                    "/Back"
+                    +HelperExtension.PREFAB
+                    , backCGLayer.transform);
 
+            frontCGLayer =
+                await AddressablesManager.Instance.LoadAndInstantiateByAddressAsync(HelperAddressablesGroup.CGs +
+                    cgPath +
+                    "/Front"
+                    +HelperExtension.PREFAB
+                    , frontCGLayer.transform);
             // Handle back layer
-            if (backPrefab)
+            if (backCGLayer)
             {
-                backCGLayer = Instantiate(backPrefab, backCGLayer.transform);
                 backCGLayer.SetActive(true);
             }
             else
@@ -175,10 +187,8 @@ namespace UI.Dialogue
                 Debug.Log("No backCgLayer found at " + HelperResourcePath.CGPath + cgPath + "/Back");
             }
 
-            // Handle front layer
-            if (frontPrefab)
+            if (frontCGLayer)
             {
-                frontCGLayer = Instantiate(frontPrefab, frontCGLayer.transform);
                 frontCGLayer.SetActive(true);
             }
             else
@@ -188,7 +198,7 @@ namespace UI.Dialogue
             }
         }
 
-        private void OnUpdateCG(DialogueEventSystem.UpdateCGEventArgs obj)
+        private async void OnUpdateCG(DialogueEventSystem.UpdateCGEventArgs obj)
         {
             if (String.Equals("null", obj.CGName))
             {
@@ -197,57 +207,60 @@ namespace UI.Dialogue
             else
             {
                 mainCGLayer.gameObject.SetActive(true);
-                GameObject cgPrefab =
-                    UnityEngine.Resources.Load<GameObject>(HelperResourcePath.CGPath + cgPath + "/" + obj.CGName);
-                if (cgPrefab)
+                foreach (Transform child in mainCGLayer.transform)
                 {
-                    foreach (Transform child in mainCGLayer.transform)
-                    {
-                        Destroy(child.gameObject);
-                    }
+                    Destroy(child.gameObject);
+                }
 
-                    GameObject cg = Instantiate(cgPrefab, mainCGLayer.transform);
+                // GameObject cgPrefab =
+                //     UnityEngine.Resources.Load<GameObject>(HelperResourcePath.CGPath + cgPath + "/" + obj.CGName);
+                GameObject cg = await AddressablesManager.Instance.LoadAndInstantiateByAddressAsync(
+                    HelperAddressablesGroup.CGs + cgPath + "/" + obj.CGName + HelperExtension.PREFAB, mainCGLayer.transform);
+
+                if (cg)
+                {
                     cg.SetActive(true);
                 }
                 else
                 {
                     mainCGLayer.gameObject.SetActive(false);
-                    Debug.LogError("No CG found at " + HelperResourcePath.CGPath + cgPath + "/" + obj.CGName);
+                    Debug.LogError("No CG found at " + HelperResourcePath.CGPath + cgPath + "/" + obj.CGName + HelperExtension.PREFAB);
                 }
             }
         }
 
-        private void OnUpdateCGFront(DialogueEventSystem.UpdateCGFrontEventArgs obj)
+        private async void OnUpdateCGFront(DialogueEventSystem.UpdateCGFrontEventArgs obj)
         {
-            Debug.LogWarning("OnUpdateCGFront");
             if (String.Equals("null", obj.CGFrontName))
             {
                 frontCGLayer.gameObject.SetActive(false);
             }
             else
             {
-                frontCGLayer.gameObject.SetActive(true);
-                GameObject cgPrefab =
-                    UnityEngine.Resources.Load<GameObject>(HelperResourcePath.CGPath + cgPath + "/" + obj.CGFrontName);
-                if (cgPrefab)
+                foreach (Transform child in frontCGLayer.transform)
                 {
-                    foreach (Transform child in frontCGLayer.transform)
-                    {
-                        Destroy(child.gameObject);
-                    }
+                    Destroy(child.gameObject);
+                }
 
-                    GameObject cg = Instantiate(cgPrefab, frontCGLayer.transform);
+                frontCGLayer.gameObject.SetActive(true);
+                // GameObject cgPrefab =
+                //     UnityEngine.Resources.Load<GameObject>(HelperResourcePath.CGPath + cgPath + "/" + obj.CGFrontName);
+
+                GameObject cg = await AddressablesManager.Instance.LoadAndInstantiateByAddressAsync(
+                    HelperAddressablesGroup.CGs + cgPath + "/" + obj.CGFrontName+ HelperExtension.PREFAB, frontCGLayer.transform);
+                if (cg)
+                {
                     cg.SetActive(true);
                 }
                 else
                 {
                     frontCGLayer.gameObject.SetActive(false);
-                    Debug.LogError("No CG found at " + HelperResourcePath.CGPath + cgPath + "/" + obj.CGFrontName);
+                    Debug.LogError("No CG found at " + HelperResourcePath.CGPath + cgPath + "/" + obj.CGFrontName+ HelperExtension.PREFAB);
                 }
             }
         }
 
-        private void OnUpdateCGBack(DialogueEventSystem.UpdateCGBackEventArgs obj)
+        private async void OnUpdateCGBack(DialogueEventSystem.UpdateCGBackEventArgs obj)
         {
             if (String.Equals("null", obj.CGBackName))
             {
@@ -255,17 +268,18 @@ namespace UI.Dialogue
             }
             else
             {
-                backCGLayer.gameObject.SetActive(true);
-                GameObject cgPrefab =
-                    UnityEngine.Resources.Load<GameObject>(HelperResourcePath.CGPath + cgPath + "/" + obj.CGBackName);
-                if (cgPrefab)
+                foreach (Transform child in backCGLayer.transform)
                 {
-                    foreach (Transform child in backCGLayer.transform)
-                    {
-                        Destroy(child.gameObject);
-                    }
+                    Destroy(child.gameObject);
+                }
 
-                    GameObject cg = Instantiate(cgPrefab, backCGLayer.transform);
+                backCGLayer.gameObject.SetActive(true);
+                // GameObject cgPrefab =
+                //     UnityEngine.Resources.Load<GameObject>(HelperResourcePath.CGPath + cgPath + "/" + obj.CGBackName);
+                GameObject cg = await AddressablesManager.Instance.LoadAndInstantiateByAddressAsync(
+                    HelperAddressablesGroup.CGs + cgPath + "/" + obj.CGBackName + HelperExtension.PREFAB, backCGLayer.transform);
+                if (cg)
+                {
                     cg.SetActive(true);
                 }
                 else
@@ -517,6 +531,7 @@ namespace UI.Dialogue
             {
                 _poolManager.ReturnObject(HelperUIName.DialogueChoiceButtonUI, button.gameObject);
             }
+
             choiceButtons.Clear();
         }
     }

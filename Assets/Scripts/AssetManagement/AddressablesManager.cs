@@ -1,3 +1,5 @@
+// Updated AddressablesManager.cs to only support loading by address
+
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -5,19 +7,22 @@ using System.Threading.Tasks;
 using UnityEngine;
 using UnityEngine.AddressableAssets;
 using UnityEngine.ResourceManagement.AsyncOperations;
-using UnityEngine.ResourceManagement.ResourceLocations;
 using Addler.Runtime.Core.LifetimeBinding;
 
 namespace AssetManagement
 {
-    [DefaultExecutionOrder(-100)] // Ensure early execution
+    [DefaultExecutionOrder(-100)]
     public class AddressablesManager : MonoBehaviour
     {
         public static AddressablesManager Instance { get; private set; }
 
-        private readonly Dictionary<string, IList<IResourceLocation>> _locationCache = new();
+        private readonly Dictionary<string, AsyncOperationHandle> _downloadHandles = new();
 
-        private void Awake()
+        public static Task Initialized => Instance?._initializationSource?.Task ?? Task.CompletedTask;
+
+        private TaskCompletionSource<bool> _initializationSource = new();
+
+        private async void Awake()
         {
             if (Instance != null && Instance != this)
             {
@@ -27,115 +32,76 @@ namespace AssetManagement
 
             Instance = this;
             DontDestroyOnLoad(gameObject);
+
+            await Addressables.InitializeAsync().Task;
+            _initializationSource.TrySetResult(true);
         }
 
-        public async Task<T> LoadByLabelsAndNameAsync<T>(
-            IEnumerable<string> labels,
-            string assetName,
-            GameObject bindTo
-        ) where T : UnityEngine.Object
+        public async Task DownloadDependenciesAsync(IEnumerable<string> labels)
         {
-            var labelList = labels
-                .Select(label => label.Trim())
-                .Where(label => !string.IsNullOrEmpty(label))
-                .OrderBy(label => label)
-                .ToList();
+            var labelList = labels.Select(label => label.Trim()).Where(label => !string.IsNullOrEmpty(label))
+                .OrderBy(label => label).ToList();
+            if (labelList.Count == 0) return;
 
-            if (labelList.Count == 0)
-                throw new ArgumentException("At least one label is required.", nameof(labels));
+            string cacheKey = string.Join(",", labelList);
 
-            string cacheKey = GetCacheKey<T>(labelList);
+            if (_downloadHandles.ContainsKey(cacheKey)) return;
 
-            if (!_locationCache.TryGetValue(cacheKey, out var locations))
+            var handle = Addressables.DownloadDependenciesAsync(labelList, Addressables.MergeMode.Intersection);
+            await handle.Task;
+
+            if (handle.Status == AsyncOperationStatus.Succeeded)
+                _downloadHandles[cacheKey] = handle;
+        }
+
+        public void ReleaseDependencies(IEnumerable<string> labels)
+        {
+            var labelList = labels.Select(label => label.Trim()).Where(label => !string.IsNullOrEmpty(label))
+                .OrderBy(label => label).ToList();
+            if (labelList.Count == 0) return;
+
+            string cacheKey = string.Join(",", labelList);
+
+            if (_downloadHandles.TryGetValue(cacheKey, out var handle))
             {
-                var labelHandle = Addressables.LoadResourceLocationsAsync(
-                    labelList,
-                    Addressables.MergeMode.Intersection,
-                    typeof(T)
-                );
-
-                await labelHandle.Task;
-
-                if (labelHandle.Status != AsyncOperationStatus.Succeeded)
-                    return null;
-
-                locations = labelHandle.Result;
-                _locationCache[cacheKey] = locations;
+                Addressables.Release(handle);
+                _downloadHandles.Remove(cacheKey);
             }
+        }
 
-            var targetLocation = locations.FirstOrDefault(loc =>
-                loc.PrimaryKey.Equals(assetName, StringComparison.OrdinalIgnoreCase) ||
-                loc.InternalId.Contains(assetName, StringComparison.OrdinalIgnoreCase));
-
-            if (targetLocation == null)
-                return null;
-
-            var handle = Addressables.LoadAssetAsync<T>(targetLocation).BindTo(bindTo);
+        public async Task<T> LoadByAddressAsync<T>(string address, GameObject bindTo = null)
+            where T : UnityEngine.Object
+        {
+            var handle = Addressables.LoadAssetAsync<T>(address);
+            if (bindTo != null) handle.BindTo(bindTo);
             await handle.Task;
 
             return handle.Status == AsyncOperationStatus.Succeeded ? handle.Result : null;
         }
 
-        public async Task<GameObject> LoadAndInstantiateByLabelsAndNameAsync(
-            IEnumerable<string> labels,
-            string assetName
-        )
+        public async Task<GameObject> LoadAndInstantiateByAddressAsync(string address)
         {
-            var labelList = labels
-                .Select(label => label.Trim())
-                .Where(label => !string.IsNullOrEmpty(label))
-                .OrderBy(label => label)
-                .ToList();
+            var handle = Addressables.LoadAssetAsync<GameObject>(address);
+            await handle.Task;
+            if (handle.Status != AsyncOperationStatus.Succeeded) return null;
 
-            if (labelList.Count == 0)
-                throw new ArgumentException("At least one label is required.", nameof(labels));
-
-            string cacheKey = GetCacheKey<GameObject>(labelList);
-
-            if (!_locationCache.TryGetValue(cacheKey, out var locations))
-            {
-                var labelHandle = Addressables.LoadResourceLocationsAsync(
-                    labelList,
-                    Addressables.MergeMode.Intersection,
-                    typeof(GameObject)
-                );
-
-                await labelHandle.Task;
-
-                if (labelHandle.Status != AsyncOperationStatus.Succeeded)
-                    return null;
-
-                locations = labelHandle.Result;
-                _locationCache[cacheKey] = locations;
-            }
-
-            var targetLocation = locations.FirstOrDefault(loc =>
-                loc.PrimaryKey.Equals(assetName, StringComparison.OrdinalIgnoreCase) ||
-                loc.InternalId.Contains(assetName, StringComparison.OrdinalIgnoreCase));
-
-            if (targetLocation == null)
-                return null;
-
-            // Load the prefab itself
-            var prefabHandle = Addressables.LoadAssetAsync<GameObject>(targetLocation);
-            await prefabHandle.Task;
-
-            if (prefabHandle.Status != AsyncOperationStatus.Succeeded)
-                return null;
-
-            var prefab = prefabHandle.Result;
+            var prefab = handle.Result;
             var instance = Instantiate(prefab);
-
-            // Bind the prefab handle to the instance so it gets released on destroy
-            prefabHandle.BindTo(instance);
+            handle.BindTo(instance);
 
             return instance;
         }
-
-
-        private static string GetCacheKey<T>(IEnumerable<string> sortedLabels)
+        public async Task<GameObject> LoadAndInstantiateByAddressAsync(string address, Transform parent)
         {
-            return $"{typeof(T).FullName}|{string.Join(",", sortedLabels)}";
+            var handle = Addressables.LoadAssetAsync<GameObject>(address);
+            await handle.Task;
+            if (handle.Status != AsyncOperationStatus.Succeeded) return null;
+
+            var prefab = handle.Result;
+            var instance = Instantiate(prefab, parent);
+            handle.BindTo(instance);
+
+            return instance;
         }
     }
 }

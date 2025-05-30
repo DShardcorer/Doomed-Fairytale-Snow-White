@@ -2,11 +2,11 @@ INCLUDE ../global_variables.ink
 
 INCLUDE ../global_methods.ink
 
-===IntroScene===
+===Scene_Prologue_Base===
 
 =begin
 
-of them all~~ #cgpath:IntroScene #cg:Default #delay:5 #speaker:Mysterious Woman
+of them all~~ #cgpath:Scene_Prologue/Base #cg:Default #delay:5 #speaker:Mysterious Woman
 Oh? Finally, you're awake. I almost feel bad interrupting your sound sleep. 
 
 * [Who are you?]
