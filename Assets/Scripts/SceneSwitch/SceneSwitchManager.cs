@@ -62,7 +62,12 @@ namespace SceneSwitch
         {
             _loadFromPortalUse = true;
             StartCoroutine(FadeOutThenChangeScene(sceneToLoad, portalToSpawnAt));
-
+        }
+        public void SwitchSceneFromMiscUse(SceneField sceneToLoad,
+            SceneSwitchPortal.PortalToSpawnAt portalToSpawnAt = SceneSwitchPortal.PortalToSpawnAt.One)
+        {
+            _loadFromPortalUse = false;
+            StartCoroutine(FadeOutThenChangeScene(sceneToLoad, portalToSpawnAt));
         }
 
         private IEnumerator FadeOutThenChangeScene(SceneField sceneToLoad,
