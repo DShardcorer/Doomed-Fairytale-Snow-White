@@ -11,10 +11,13 @@ namespace SceneSwitch
         public static SceneSwitchManager Instance;
 
         private SceneSwitchPortal.PortalToSpawnAt _portalToSpawnTo;
-        private bool _loadFromPortalUse = false;
+        private bool _loadToPortal = false;
+        private bool _loadToOverworld = false;
         private PlayerView _playerView;
-        private Vector3 _portalStartPosition;
-        
+        private Vector3 _portalSpawnPosition;
+        private Vector3 _overworldSpawnPosition = new Vector3(0, 0, 0);
+        [SerializeField] private SceneField _overworldScene;
+
 
         private void Awake()
         {
@@ -42,12 +45,18 @@ namespace SceneSwitch
         {
             SceneFadeManager.Instance.StartFadeIn();
             Debug.Log("Scene Loaded");
-            if (_loadFromPortalUse)
+            if (_loadToPortal)
             {
                 //warp player to correct location
                 FindPortal(_portalToSpawnTo);
-                _playerView.transform.position = _portalStartPosition;
-                _loadFromPortalUse = false; 
+                _playerView.transform.position = _portalSpawnPosition;
+                _loadToPortal = false;
+            }
+
+            if (_loadToOverworld)
+            {
+                _playerView.transform.position = _overworldSpawnPosition;
+                _loadToOverworld = false;
             }
         }
 
@@ -57,17 +66,33 @@ namespace SceneSwitch
         }
 
 
-        public void SwitchSceneFromPortalUse(SceneField sceneToLoad,
+        public void SwitchSceneToPortal(SceneField sceneToLoad,
             SceneSwitchPortal.PortalToSpawnAt portalToSpawnAt = SceneSwitchPortal.PortalToSpawnAt.None)
         {
-            _loadFromPortalUse = true;
+            _loadToPortal = true;
             StartCoroutine(FadeOutThenChangeScene(sceneToLoad, portalToSpawnAt));
         }
-        public void SwitchSceneFromMiscUse(SceneField sceneToLoad,
-            SceneSwitchPortal.PortalToSpawnAt portalToSpawnAt = SceneSwitchPortal.PortalToSpawnAt.One)
+
+        public void SwitchSceneFromOverworldToPortal(SceneField sceneToLoad,
+            Vector3 overworldEnterPosition,
+            SceneSwitchPortal.PortalToSpawnAt portalToSpawnAt = SceneSwitchPortal.PortalToSpawnAt.None)
         {
-            _loadFromPortalUse = false;
+            _loadToPortal = true;
+            _overworldSpawnPosition = overworldEnterPosition;
             StartCoroutine(FadeOutThenChangeScene(sceneToLoad, portalToSpawnAt));
+        }
+
+        public void SwitchSceneToOverworld()
+        {
+            _loadToOverworld = true;
+            StartCoroutine(FadeOutThenChangeScene(_overworldScene));
+        }
+
+        public void SwitchSceneToOverworld(Vector3 overworldSpawnPosition)
+        {
+            _loadToOverworld = true;
+            _overworldSpawnPosition = overworldSpawnPosition;
+            StartCoroutine(FadeOutThenChangeScene(_overworldScene));
         }
 
         private IEnumerator FadeOutThenChangeScene(SceneField sceneToLoad,
@@ -83,6 +108,7 @@ namespace SceneSwitch
             SceneManager.LoadScene(sceneToLoad);
         }
 
+
         private void FindPortal(SceneSwitchPortal.PortalToSpawnAt portalToSpawnAt)
         {
             SceneSwitchPortal[] portals = FindObjectsByType<SceneSwitchPortal>(FindObjectsSortMode.None);
@@ -90,7 +116,7 @@ namespace SceneSwitch
             {
                 if (portalToSpawnAt == portal.CurrentPortal)
                 {
-                    _portalStartPosition = portal.transform.position + (Vector3)portal.PlayerSpawnOffset;
+                    _portalSpawnPosition = portal.transform.position + (Vector3)portal.PlayerSpawnOffset;
                     break;
                 }
             }

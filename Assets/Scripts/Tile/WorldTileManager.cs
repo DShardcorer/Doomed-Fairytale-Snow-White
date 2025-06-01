@@ -72,19 +72,18 @@ namespace Tile
             TileBase tileWalkInFront = walkInfrontTilemap.GetTile(cellPositionWalkInFront);
             if (UnityEngine.Input.GetKeyDown(KeyCode.E))
             {
-                if (tileGround != null && _groundTileDataDictionary.TryGetValue(tileGround, out WorldTileData groundTileData))
-                {
-                    Debug.Log($"Ground Tile Data: {groundTileData.name}");
-                }
-                else
-                {
-                    Debug.Log("No ground tile data found.");
-                }
+                // if (tileGround != null && _groundTileDataDictionary.TryGetValue(tileGround, out WorldTileData groundTileData))
+                // {
+                //     // Debug.Log($"Ground Tile Data: {groundTileData.name}");
+                // }
+                // else
+                // {
+                //     Debug.Log("No ground tile data found.");
+                // }
 
                 if (tileWalkInFront != null && _walkInfrontTileDataDictionary.TryGetValue(tileWalkInFront, out WorldTileData walkInfrontTileData))
                 {
-                    Debug.Log($"Walk In Front Tile Data: {walkInfrontTileData.name}");
-                    SceneSwitchManager.Instance.SwitchSceneFromMiscUse(walkInfrontTileData.sceneToLoad);
+                    SceneSwitchManager.Instance.SwitchSceneFromOverworldToPortal(walkInfrontTileData.sceneToLoad, playerPosition, SceneSwitchPortal.PortalToSpawnAt.One);
                 }
                 else
                 {
