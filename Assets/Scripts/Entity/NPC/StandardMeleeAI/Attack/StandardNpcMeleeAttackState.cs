@@ -30,7 +30,7 @@ namespace Entity.NPC.StandardAI.Attack
             base.FixedUpdateState();
             if (IsAnimationEnded())
             {
-                npcAIController.ChangeState(npcAIController.NpcIdleState);
+                npcAIController.ChangeState(HelperNPCStateName.Idle);
             }
         }
 

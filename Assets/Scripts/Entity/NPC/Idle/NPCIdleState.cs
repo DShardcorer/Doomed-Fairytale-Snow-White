@@ -7,6 +7,9 @@ namespace Entity.NPC.Idle
     public class NPCIdleState : NPCState
     {
         private NPCIdleProperties _npcIdleProperties;
+        private float idleTimer;
+        private string _stateToReturnToWhenIdleEnds;
+        private bool _isSetup = false;
 
         public NPCIdleState(NPCAIConfiguration npcaiConfiguration) : this(HelperAnimationStateName.IS_IDLING,
             new NPCIdleProperties(npcaiConfiguration))
@@ -19,21 +22,24 @@ namespace Entity.NPC.Idle
             _npcIdleProperties = entityStateProperties;
         }
 
-        private float idleTimer;
 
-        public override void EnterState()
+
+        public void Setup(string stateToReturnToWhenIdleEnds,float idleTime)
         {
-            base.EnterState();
-            idleTimer = _npcIdleProperties.IdleTime;
+            _isSetup = true;
+            _stateToReturnToWhenIdleEnds = stateToReturnToWhenIdleEnds;
+            idleTimer = idleTime;
         }
 
         public override void FixedUpdateState()
         {
             base.FixedUpdateState();
+            if (!_isSetup) return;
             idleTimer -= Time.fixedDeltaTime;
             if (idleTimer <= 0)
             {
-                _stateMachine.ChangeState(npcAIController.NpcMoveState);
+                _isSetup = false;
+                npcAIController.ChangeState(_stateToReturnToWhenIdleEnds);
             }
         }
     }

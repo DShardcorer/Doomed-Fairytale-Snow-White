@@ -1,11 +1,13 @@
 using System;
 using System.Collections.Generic;
+using Entity.NPC.AI.SubAI;
 using Entity.NPC.Attack;
 using Entity.NPC.BeingInteractedWith;
 using Entity.NPC.Chase;
 using Entity.NPC.Idle;
 using Entity.NPC.Move;
 using GeneralManagers;
+using Helpers;
 using Pathfinding;
 using UnityEngine;
 
@@ -15,48 +17,40 @@ namespace Entity.NPC.AI
     {
         protected NPC npc;
         protected NPCAIConfiguration _config;
-        protected EntityStateMachine _stateMachine;
+
         protected Seeker seeker; // Reference to the Seeker component
         public Seeker Seeker => seeker;
         protected IAstarAI astarAI; // Reference to AIPath or other IAstarAI implementation
         public IAstarAI AstarAI => astarAI;
         
-        
-        // Idling state
-        protected NPCIdleState _npcIdleState;
-        public NPCIdleState NpcIdleState => _npcIdleState;
+        protected EntityStateMachine _npcStateStateMachine;
+        protected Dictionary<string, NPCState> states = new Dictionary<string, NPCState>();
 
-        // Moving state
-        protected NPCMoveState _npcMoveState;
-        public NPCMoveState NpcMoveState => _npcMoveState;
-
-        // Attacking state
-        protected NPCAttackState _npcAttackState;
-        public NPCAttackState NpcAttackState => _npcAttackState;
-
-        // Chasing state
-        protected NPCChaseState _npcChaseState;
-        public NPCChaseState NpcChaseState => _npcChaseState;
-
-        // Being Interacted With state
-        protected NPCBeingInteractedWithState _npcBeingInteractedWithState;
-        public NPCBeingInteractedWithState NPCBeingInteractedWithState => _npcBeingInteractedWithState;
+        protected NPCSubAIStateMachine _npcSubAIStateMachine;
+        protected Dictionary<string, NPCSubAIController> subAIControllers = new Dictionary<string, NPCSubAIController>();
 
         public NPCAIController(NPCAIConfiguration config)
-        {
-            _config = config;
+        {            
             //Override this to create specific states in derived classes constructors
+            _config = config;
+            NPCIdleState npcIdleState = new NPCIdleState(config);
+            NPCBeingInteractedWithState npcBeingInteractedWithState = new NPCBeingInteractedWithState(config);
+            states.Add(HelperNPCStateName.Idle, npcIdleState);
+            states.Add(HelperNPCStateName.BeingInteractedWith, npcBeingInteractedWithState);
+            
+            // Create sub AI state machine
+            _npcSubAIStateMachine = new NPCSubAIStateMachine();
         }
 
         public virtual void Initialize(NPC npc)
         {
             this.npc = npc;
-            _stateMachine = npc.StateMachine;
+            _npcStateStateMachine = npc.StateMachine;
 
             // Set up event listeners
             this.npc.FOVDetector.OnClosestEntityFromDifferentFactionSpottedInFOV += OnTargetSpottedInFOV;
             this.npc.ProximityDetector.OnEntityFromDifferentFactionSpottedInProximity += OnTargetSpottedInProximity;
-            
+
             if (seeker == null)
                 seeker = npc.View.GetComponent<Seeker>();
 
@@ -69,24 +63,143 @@ namespace Entity.NPC.AI
                 return;
             }
 
-            // Initialize states
-            _npcIdleState.Initialize(this.npc);
-            _npcMoveState.Initialize(this.npc);
-            _npcChaseState.Initialize(this.npc);
-            _npcAttackState.Initialize(this.npc);
-            _npcBeingInteractedWithState.Initialize(this.npc);
+            foreach (var subAIController in subAIControllers.Values)
+            {
+                subAIController.Initialize(this);
+            }
+
+            foreach (var state in states)
+            {
+                state.Value.Initialize(npc);
+            }
 
             // Set initial state
-            _stateMachine.Initialize(GetInitialState());
+            _npcSubAIStateMachine.Initialize(GetInitialNPCSubAIController());
+            _npcStateStateMachine.Initialize(GetInitialState());
+            
         }
 
-        public void ChangeState(NPCState newState)
+        #region State Management
+
+        public void AddStateAndInitialize(string stateId, NPCState state)
         {
-            _stateMachine.ChangeState(newState);
+            if (!states.ContainsKey(stateId))
+            {
+                states.Add(stateId, state);
+                state.Initialize(npc);
+            }
+            else
+            {
+                Debug.LogWarning($"State with ID {stateId} already exists.");
+            }
         }
-        public void ChangeStateIdle()
+
+        public void AddState(string stateId, NPCState state)
         {
-            _stateMachine.ChangeState(_npcIdleState);
+            if (!states.ContainsKey(stateId))
+            {
+                states.Add(stateId, state);
+            }
+            else
+            {
+                Debug.LogWarning($"State with ID {stateId} already exists.");
+            }
+        }
+
+        public void ChangeState(string stateId)
+        {
+            if (states.TryGetValue(stateId, out var state))
+            {
+                _npcStateStateMachine.ChangeState(state);
+            }
+            else
+            {
+                Debug.LogWarning($"State with ID {stateId} does not exist.");
+            }
+        }
+
+        public NPCState GetState(string stateId)
+        {
+            if (states.TryGetValue(stateId, out var state))
+            {
+                return state;
+            }
+            else
+            {
+                Debug.LogWarning($"State with ID {stateId} does not exist.");
+                return null;
+            }
+        }
+        public NPCState GetCurrentState()
+        {
+            return _npcStateStateMachine.CurrentState as NPCState;
+        }
+
+        #endregion
+
+        #region NPCSubAI Management
+
+        public void AddNPCSubAIControllerAndInitialize(string controllerId, NPCSubAIController controller)
+        {
+            if (!subAIControllers.ContainsKey(controllerId))
+            {
+                subAIControllers.Add(controllerId, controller);
+                controller.Initialize(this);
+            }
+            else
+            {
+                Debug.LogWarning($"Sub AI Controller with ID {controllerId} already exists.");
+            }
+        }
+        
+        public void AddNPCSubAIController(string controllerId, NPCSubAIController controller)
+        {
+            if (!subAIControllers.ContainsKey(controllerId))
+            {
+                subAIControllers.Add(controllerId, controller);
+            }
+            else
+            {
+                Debug.LogWarning($"Sub AI Controller with ID {controllerId} already exists.");
+            }
+        }
+        
+        public void ChangeNPCSubAIController(string controllerId)
+        {
+            if (subAIControllers.TryGetValue(controllerId, out var controller))
+            {
+                _npcSubAIStateMachine.ChangeNPCSubAIController(controller);
+            }
+            else
+            {
+                Debug.LogWarning($"Sub AI Controller with ID {controllerId} does not exist.");
+            }
+        }
+        
+        public NPCSubAIController GetInitialNPCSubAIController(string controllerId)
+        {
+            if (subAIControllers.TryGetValue(controllerId, out var controller))
+            {
+                return controller;
+            }
+            else
+            {
+                Debug.LogWarning($"Sub AI Controller with ID {controllerId} does not exist.");
+                return null;
+            }
+        }
+        public NPCSubAIController GetCurrentNPCSubAIController()
+        {
+            return _npcSubAIStateMachine.CurrentNpcSubAIController;
+        }
+        
+
+        #endregion
+        
+        
+        public NPCAIConfiguration GetConfiguration()
+        {
+            return _config;
         }
 
 
@@ -95,18 +208,21 @@ namespace Entity.NPC.AI
         protected abstract void OnTargetSpottedInProximity(object sender, Entity e);
 
         protected abstract NPCState GetInitialState();
+        protected abstract NPCSubAIController GetInitialNPCSubAIController();
 
 
         public virtual void UpdateLogic()
         {
-            _stateMachine.UpdateLogic();
+            _npcSubAIStateMachine.UpdateLogic();
+            _npcStateStateMachine.UpdateLogic();
         }
 
         public virtual void FixedUpdateLogic()
         {
             npc.FOVDetector.SetColliderRotation(npc.NPCProperties.lastMovementVector);
             npc.AttackHitbox.SetAttackHitBoxRotation(npc.NPCProperties.lastMovementVector);
-            _stateMachine.FixedUpdateLogic();
+            _npcSubAIStateMachine.FixedUpdateLogic();
+            _npcStateStateMachine.FixedUpdateLogic();
         }
 
         public virtual void Dispose()
@@ -119,7 +235,7 @@ namespace Entity.NPC.AI
 
             npc = null;
             _config = null;
-            _stateMachine = null;
+            _npcStateStateMachine = null;
         }
 
         public void SetTarget(Entity target)

@@ -15,17 +15,26 @@ namespace Entity.NPC.StandardAI
         {
             // Instantiate each state using the shared configuration
 
-            _npcIdleState = new NPCIdleState(config);
-            _npcMoveState = new NPCMoveState(config);
-            _npcChaseState = new StandardNpcMeleeChaseState(config);
-            _npcAttackState = new StandardNpcMeleeAttackState(config);
-            _npcBeingInteractedWithState = new NPCBeingInteractedWithState(config);
+
+            NPCMoveState npcMoveState = new NPCMoveState(config);
+            StandardNpcMeleeChaseState npcChaseState = new StandardNpcMeleeChaseState(config);
+            StandardNpcMeleeAttackState npcAttackState = new StandardNpcMeleeAttackState(config);
+            // Add states to the dictionary
+            states.Add(HelperNPCStateName.Move, npcMoveState);
+            states.Add(HelperNPCStateName.Chase, npcChaseState);
+            states.Add(HelperNPCStateName.Attack, npcAttackState);
+
         }
 
         // The AI starts in the Idle state
         protected override NPCState GetInitialState()
         {
-            return _npcIdleState;
+            return GetState(HelperNPCStateName.Idle);
+        }
+
+        protected override NPCSubAIController GetInitialNPCSubAIController()
+        {
+            throw new System.NotImplementedException();
         }
 
         public override void FixedUpdateLogic()
@@ -36,10 +45,10 @@ namespace Entity.NPC.StandardAI
                 npc.NPCProperties.lastMovementVector =
                     (npc.NPCProperties.target.View.transform.position - npc.View.transform.position).normalized;
                 if (Vector3.Distance(npc.View.transform.position, npc.NPCProperties.target.View.transform.position) <=
-                    _config.attackRange && _stateMachine.CurrentState != _npcAttackState)
+                    _config.attackRange && _npcStateStateMachine.CurrentState != GetState(HelperNPCStateName.Attack))
                     //enemy is in range
                 {
-                    ChangeState(_npcAttackState);
+                    ChangeState(HelperNPCStateName.Attack);
                 }
             }
         }
@@ -51,7 +60,7 @@ namespace Entity.NPC.StandardAI
                 return;
 
             SetTarget(entity);
-            ChangeState(_npcChaseState);
+            ChangeState(HelperNPCStateName.Chase);
         }
 
         // When something gets close, optionally attack

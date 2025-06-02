@@ -7,6 +7,8 @@ namespace Entity.NPC.Move
     public class NPCMoveState : NPCState
     {
         private NPCMoveProperties _npcMoveProperties;
+        private string _stateToReturnToWhenMovingEnds;
+        private Vector3 _targetPosition;
 
         public NPCMoveState(NPCAIConfiguration npcaiConfiguration) : this(HelperAnimationStateName.IS_MOVING,
             new NPCMoveProperties(npcaiConfiguration))
@@ -19,32 +21,35 @@ namespace Entity.NPC.Move
             _npcMoveProperties = npcMoveProperties;
         }
 
-        private float movingTimer;
-
+        public void Setup(string stateToReturnToWhenMovingEnds, Vector3 targetPosition)
+        {
+            _stateToReturnToWhenMovingEnds = stateToReturnToWhenMovingEnds;
+            _targetPosition = targetPosition;
+        }
 
         public override void EnterState()
         {
             base.EnterState();
             astarAI.canMove = true;
-            movingTimer = _npcMoveProperties.MovingTime;
             _properties.lastMovementVector = GetRandomDirection();
-            //Get a random position towards the direction of the last movement vector
-            Vector2 randomPosition =
-                (Vector2)_view.transform.position + _properties.lastMovementVector * (_properties.MoveSpeed * _npcMoveProperties.MovingTime);
-            astarAI.destination = randomPosition;
+            astarAI.destination = _targetPosition;
         }
 
         public override void FixedUpdateState()
         {
             base.FixedUpdateState();
-            movingTimer -= Time.fixedDeltaTime;
             //set last movement vector to the current direction
             _properties.lastMovementVector = astarAI.velocity.normalized;
             npc.FOVDetector.SetColliderRotation(_properties.lastMovementVector);
             npc.AttackHitbox.SetAttackHitBoxRotation(_properties.lastMovementVector);
-            if (movingTimer <= 0)
+            if (astarAI.reachedDestination)
             {
-                _stateMachine.ChangeState(npcAIController.NpcIdleState);
+                astarAI.canMove = false;
+
+                if (_stateToReturnToWhenMovingEnds != null)
+                    npcAIController.ChangeState(_stateToReturnToWhenMovingEnds);
+                else
+                    npcAIController.ChangeState(HelperNPCStateName.Idle);
             }
         }
 

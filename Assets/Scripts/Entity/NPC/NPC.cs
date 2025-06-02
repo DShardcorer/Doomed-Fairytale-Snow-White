@@ -8,6 +8,7 @@ using EntitySystems.VitalStatSystems.Health_System;
 using EntitySystems.VitalStatSystems.Mana_System;
 using EntitySystems.VitalStatSystems.Stamina_System;
 using GeneralManagers;
+using Helpers;
 using Item.Inventory;
 
 // The refactored NPC class remains mostly unchanged.
@@ -59,7 +60,7 @@ namespace Entity.NPC
             _npcView = view;
             _npcProperties = properties;
             _npcAIController = aiController;
-            IdleState = aiController.NpcIdleState;
+            IdleState = aiController.GetState(HelperNPCStateName.Idle);
         }
         public virtual void Initialize(NPCManager parent)
         {

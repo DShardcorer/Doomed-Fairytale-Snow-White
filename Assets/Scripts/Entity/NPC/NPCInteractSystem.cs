@@ -4,6 +4,7 @@ using Entity.NPC.AI;
 using EventSystem.Dialogue;
 using EventSystem.Player;
 using GeneralManagers;
+using Helpers;
 using InteractInterface;
 using UnityEngine;
 
@@ -37,7 +38,7 @@ namespace Entity.NPC
 #pragma warning restore CS0252 // Possible unintended reference comparison; left hand side needs cast
             npc.Properties.lastMovementVector = (args.Player.View.transform.position - npc.View.transform.position).normalized;
             Debug.Log("Enter interaction with " + npc);
-            npcAIController.ChangeState(npcAIController.NPCBeingInteractedWithState);
+            npcAIController.ChangeState(HelperNPCStateName.BeingInteractedWith);
 
         }
         private void OnExitInteraction(PlayerInteractEventSystem.ExitInteractionEventArgs args)
@@ -48,7 +49,7 @@ namespace Entity.NPC
                 return;
             }
 #pragma warning restore CS0252 // Possible unintended reference comparison; left hand side needs cast
-            npcAIController.ChangeState(npcAIController.NpcIdleState);
+            npcAIController.ChangeState(HelperNPCStateName.Idle);
         }
 
 

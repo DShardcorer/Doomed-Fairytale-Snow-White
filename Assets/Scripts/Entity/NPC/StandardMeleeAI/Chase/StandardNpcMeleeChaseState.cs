@@ -58,12 +58,8 @@ namespace Entity.NPC.StandardAI.Chase
             if (Vector3.Distance(npc.View.transform.position, _properties.target.View.transform.position) <=
                 _standardNpcMeleeChaseProperties.AttackRange)
             {
-                if (npcAIController.NpcAttackState == null)
-                {
-                    Debug.LogError("npcAttackingState is null");
-                }
 
-                _stateMachine.ChangeState(npcAIController.NpcAttackState);
+                npcAIController.ChangeState(HelperNPCStateName.Attack);
             }
 
             // Check if the target is out of chase range
@@ -73,7 +69,7 @@ namespace Entity.NPC.StandardAI.Chase
                 _standardNpcMeleeChaseProperties.ChaseRange)
             {
                 npcAIController.UnsetTarget();
-                npcAIController.ChangeState(npcAIController.NpcIdleState);
+                npcAIController.ChangeState(HelperNPCStateName.Idle);
             }
         }
 
