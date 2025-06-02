@@ -29,6 +29,10 @@ namespace EntitySystems.VitalStatSystems.Health_System
             _entity = parent;
         }
 
+        public float GetHealthPercentage()
+        {
+            return currentHealth / maxHealth;
+        }
 
 
         // Virtual method for invoking initial events; base implementation does nothing.

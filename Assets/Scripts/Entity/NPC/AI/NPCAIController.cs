@@ -16,6 +16,7 @@ namespace Entity.NPC.AI
     public abstract class NPCAIController : ILifecycle<NPC>
     {
         protected NPC npc;
+        public NPC NPC => npc; // Property to access the NPC instance
         protected NPCAIConfiguration _config;
 
         protected Seeker seeker; // Reference to the Seeker component
