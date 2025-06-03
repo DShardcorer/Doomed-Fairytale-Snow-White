@@ -31,7 +31,7 @@ namespace Entity.NPC.Move
         {
             base.EnterState();
             astarAI.canMove = true;
-            _properties.lastMovementVector = GetRandomDirection();
+            _properties.lastMovementVector = (_targetPosition - npc.View.transform.position).normalized;
             astarAI.destination = _targetPosition;
         }
 
@@ -59,10 +59,6 @@ namespace Entity.NPC.Move
             base.ExitState();
         }
 
-
-        public Vector2 GetRandomDirection()
-        {
-            return new Vector2(Random.Range(-1f, 1f), Random.Range(-1f, 1f));
-        }
+        
     }
 }

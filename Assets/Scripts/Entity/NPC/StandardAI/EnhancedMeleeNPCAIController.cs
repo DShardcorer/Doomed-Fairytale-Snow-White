@@ -13,7 +13,7 @@ namespace Entity.NPC.StandardAI
     {
         public EnhancedMeleeNPCAIController(NPCAIConfiguration config) : base(config)
         {
-            // Add all required states
+            // Add states
             NPCMoveState npcMoveState = new NPCMoveState(config);
             StandardNpcMeleeChaseState npcChaseState = new StandardNpcMeleeChaseState(config);
             StandardNpcMeleeAttackState npcAttackState = new StandardNpcMeleeAttackState(config);
@@ -34,7 +34,13 @@ namespace Entity.NPC.StandardAI
         
         protected override NPCState GetInitialState()
         {
-            return GetState(HelperNPCStateName.Idle);
+            NPCState state = GetState(HelperNPCStateName.Idle);
+            if (state == null)
+            {
+                Debug.LogError("Initial state 'Idle' not found in EnhancedMeleeNPCAIController.");
+                return null;
+            }
+            return state;
         }
         
         protected override NPCSubAIController GetInitialNPCSubAIController()
@@ -42,22 +48,7 @@ namespace Entity.NPC.StandardAI
             return subAIControllers["patrol"];
         }
         
-        public override void FixedUpdateLogic()
-        {
-            base.FixedUpdateLogic();
-            
-            // Check for health-based fleeing
-            if (npc.NPCProperties.target != null)
-            {
-                float healthPercent = npc.HealthSystem.GetHealthPercentage();
-                if (healthPercent <= _config.healthFleeThreshold && 
-                    GetCurrentNPCSubAIController().GetType() != typeof(FleeNPCSubAIController))
-                {
-                    ChangeNPCSubAIController("flee");
-                }
-            }
-        }
-        
+        // ONLY handle external events - no internal state management
         protected override void OnTargetSpottedInFOV(object sender, Entity entity)
         {
             if (npc.IsBusy || !_config.shouldChaseTargets)
@@ -65,11 +56,8 @@ namespace Entity.NPC.StandardAI
                 
             SetTarget(entity);
             
-            // Switch to combat mode if not already
-            if (GetCurrentNPCSubAIController().GetType() != typeof(CombatNPCSubAIController))
-            {
-                ChangeNPCSubAIController("combat");
-            }
+            // Always switch to combat when target spotted
+            ChangeNPCSubAIController("combat");
         }
         
         protected override void OnTargetSpottedInProximity(object sender, Entity e)
@@ -79,6 +67,14 @@ namespace Entity.NPC.StandardAI
                 
             npc.NPCProperties.lastMovementVector =
                 (e.View.transform.position - npc.View.transform.position).normalized;
+        }
+        
+        // ONLY handle global conditions
+        protected override void CheckGlobalConditions()
+        {
+            base.CheckGlobalConditions(); // Handles health-based fleeing
+            
+            // Add any other global conditions specific to melee NPCs here
         }
     }
 }

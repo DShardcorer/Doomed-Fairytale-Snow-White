@@ -2,7 +2,9 @@ namespace Helpers
 {
     public static class HelperNPCSubAIControllerName
     {
-        public const string Patrol = "Patrol";
-        public const string Idle = "Idle";
+        public const string Patrol = "patrol";
+        public const string Idle = "idle";
+        public const string Combat = "combat";
+        public const string Flee = "flee";
     }
 }

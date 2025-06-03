@@ -18,7 +18,6 @@ namespace Entity.NPC.AI.SubControllers
             {
                 _lastTargetPosition = npc.NPCProperties.target.View.transform.position;
                 
-                // Immediately start appropriate combat behavior
                 if (IsInAttackRange())
                 {
                     ChangeToState(HelperNPCStateName.Attack);
@@ -38,20 +37,16 @@ namespace Entity.NPC.AI.SubControllers
                 return;
             }
             
-            // Reset lost target timer since we have a target
             _lostTargetTimer = 0f;
             _lastTargetPosition = npc.NPCProperties.target.View.transform.position;
             
-            // Update facing direction
             FaceTarget();
             
-            // Combat state machine logic
             string currentStateName = parent.GetCurrentState()?.GetType().Name;
             
             switch (currentStateName)
             {
                 case "NPCIdleState":
-                    // We're idle but have a target, start chasing
                     if (IsInAttackRange())
                     {
                         ChangeToState(HelperNPCStateName.Attack);
@@ -63,7 +58,6 @@ namespace Entity.NPC.AI.SubControllers
                     break;
                     
                 case "StandardNpcMeleeChaseState":
-                    // We're chasing, check if we can attack
                     if (IsInAttackRange())
                     {
                         ChangeToState(HelperNPCStateName.Attack);
@@ -71,7 +65,6 @@ namespace Entity.NPC.AI.SubControllers
                     break;
                     
                 case "StandardNpcMeleeAttackState":
-                    // We're attacking, check if target moved away
                     if (!IsInAttackRange())
                     {
                         ChangeToState(HelperNPCStateName.Chase);
@@ -86,25 +79,29 @@ namespace Entity.NPC.AI.SubControllers
             
             if (_lostTargetTimer < _lostTargetTimeout)
             {
-                // Search for target at last known position
                 string currentStateName = parent.GetCurrentState()?.GetType().Name;
                 
                 if (currentStateName == "NPCIdleState" || currentStateName == "StandardNpcMeleeChaseState")
                 {
-                    MoveToPosition(_lastTargetPosition, HelperNPCStateName.Idle);
+                    MoveToPosition(_lastTargetPosition);
                 }
             }
             else
             {
-                // Give up and return to patrol
+                // Give up and request return to patrol
                 parent.UnsetTarget();
-                parent.ChangeNPCSubAIController("patrol");
+                RequestControllerChange(HelperNPCSubAIControllerName.Patrol, "Lost target for too long");
             }
+        }
+        
+        public override bool ShouldRemainActive()
+        {
+            // Remain active as long as we have a target or are still searching
+            return HasTarget() || _lostTargetTimer < _lostTargetTimeout;
         }
         
         public override void FixedUpdateLogic()
         {
-            // Additional combat logic that needs to run in FixedUpdate
             if (HasTarget())
             {
                 FaceTarget();

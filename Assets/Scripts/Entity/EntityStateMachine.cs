@@ -19,6 +19,11 @@ namespace Entity
 
         public void ChangeState(EntityState newState)
         {
+            if (_currentState == null)
+            {
+                Debug.LogError("Current state is null");
+                return;
+            }
             if(newState == null)
             {
                 Debug.LogError("New state is null");

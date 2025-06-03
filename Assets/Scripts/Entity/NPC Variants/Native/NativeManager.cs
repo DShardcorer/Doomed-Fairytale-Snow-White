@@ -27,6 +27,7 @@ namespace Entity.NPC_Variants.Native
         {
             // // EnemyProperties enemyProperties = new EnemyProperties(_enemyPropertiesSO);
             NativeView nativeView = _poolManager.GetObject(_nativePrefab.name).GetComponent<NativeView>();
+            nativeView.transform.position = position;
 
             ActiveSkillSystem activeSkillSystem = new ActiveSkillSystem(new List<ActiveSkill> { });
             PassiveSkillSystem passiveSkillSystem = new PassiveSkillSystem(new List<PassiveSkill> { });
@@ -42,7 +43,7 @@ namespace Entity.NPC_Variants.Native
 
 
             NPCProperties npcProperties = new NPCProperties(EntityFaction.Native,
-                new List<EntityFaction> {EntityFaction.Civilized}, 2, 10);
+                new List<EntityFaction> {EntityFaction.Civilized, EntityFaction.Player}, 2, 10);
 
             //LevelSystem creation
             LevelSystem levelSystem = new LevelSystem();
@@ -62,7 +63,10 @@ namespace Entity.NPC_Variants.Native
                 new StandardNPCMeleeAIController(
                     UnityEngine.Resources.Load<NPCAIConfiguration>(HelperResourcePath.NPCAIConfigPath +
                                                                    "StandardNPCMeleeAIConfig"));
-
+            NPCAIController enhancedMeleeAIController =
+                new EnhancedMeleeNPCAIController(
+                    UnityEngine.Resources.Load<NPCAIConfiguration>(HelperResourcePath.NPCAIConfigPath +
+                                                                   "StandardNPCMeleeAIConfig"));
             NPC.NPC npc = new NPC.NPC(
                 nativeView,
                 npcProperties,
@@ -73,9 +77,9 @@ namespace Entity.NPC_Variants.Native
                 healthSystem, manaSystem, staminaSystem,
                 stateMachine,
                 inventory,
-                aiController);
+                enhancedMeleeAIController);
             npc.Initialize(this);
-            npc.NPCView.transform.position = position;
+            // npc.NPCView.transform.position = position;
             _enemies.Add(npc);
         }
 

@@ -1,3 +1,4 @@
+using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 using Helpers;
@@ -13,6 +14,7 @@ namespace Entity.NPC.AI.SubControllers
         private float _waitTimer = 0f;
         private bool _isWaiting = false;
         private Vector3 _spawnPosition;
+        private bool _hasCustomPatrolPoints = false;
         
         public override void Initialize(NPCAIController parent)
         {
@@ -21,26 +23,85 @@ namespace Entity.NPC.AI.SubControllers
             _waitTime = config.patrolWaitTime;
         }
         
+        /// <summary>
+        /// Sets custom patrol points for this NPC. If not called, will fall back to generating random points.
+        /// </summary>
+        /// <param name="patrolPoints">List of world positions to patrol between</param>
+        public void SetPatrolPoints(List<Vector3> patrolPoints)
+        {
+            if (patrolPoints != null && patrolPoints.Count > 0)
+            {
+                _patrolPoints.Clear();
+                _patrolPoints.AddRange(patrolPoints);
+                _hasCustomPatrolPoints = true;
+                _currentPatrolIndex = 0;
+            }
+            else
+            {
+                Debug.LogWarning("Attempted to set empty or null patrol points list");
+            }
+        }
+        
+        /// <summary>
+        /// Sets custom patrol points for this NPC using an array.
+        /// </summary>
+        /// <param name="patrolPoints">Array of world positions to patrol between</param>
+        public void SetPatrolPoints(Vector3[] patrolPoints)
+        {
+            if (patrolPoints != null && patrolPoints.Length > 0)
+            {
+                _patrolPoints.Clear();
+                _patrolPoints.AddRange(patrolPoints);
+                _hasCustomPatrolPoints = true;
+                _currentPatrolIndex = 0;
+            }
+            else
+            {
+                Debug.LogWarning("Attempted to set empty or null patrol points array");
+            }
+        }
+        
+        /// <summary>
+        /// Gets a copy of the current patrol points
+        /// </summary>
+        public List<Vector3> GetPatrolPoints()
+        {
+            return new List<Vector3>(_patrolPoints);
+        }
+        
+        /// <summary>
+        /// Clears any custom patrol points and forces regeneration on next OnEnter
+        /// </summary>
+        public void ClearCustomPatrolPoints()
+        {
+            _hasCustomPatrolPoints = false;
+            _patrolPoints.Clear();
+        }
+        
         public override void OnEnter()
         {
             base.OnEnter();
             _spawnPosition = npc.View.transform.position;
-            GeneratePatrolPoints();
+            
+            // Only generate random points if no custom points were provided
+            if (!_hasCustomPatrolPoints)
+            {
+                GeneratePatrolPoints();
+            }
+            
             _currentPatrolIndex = 0;
             _isWaiting = false;
             _waitTimer = 0f;
-            
-            // Start moving to first patrol point
             if (_patrolPoints.Count > 0)
             {
                 MoveToCurrentPatrolPoint();
             }
             else
             {
-                ChangeToState(HelperNPCStateName.Idle);
+                Debug.LogWarning("No patrol points available to move to");
             }
         }
-        
+
         private void GeneratePatrolPoints()
         {
             _patrolPoints.Clear();
@@ -66,25 +127,24 @@ namespace Entity.NPC.AI.SubControllers
         {
             if (_patrolPoints.Count > 0)
             {
-                MoveToPosition(_patrolPoints[_currentPatrolIndex], "patrol_wait");
+                MoveToPosition(_patrolPoints[_currentPatrolIndex]);
             }
         }
         
         public override void UpdateLogic()
         {
-            // Check if we should switch to combat mode
+            // If we have a target, request switch to combat
             if (HasTarget())
             {
-                parent.ChangeNPCSubAIController("combat");
+                RequestControllerChange("combat", "Target spotted during patrol");
                 return;
             }
             
-            // Handle patrol logic based on current state
+            // Handle patrol logic
             string currentStateName = parent.GetCurrentState()?.GetType().Name;
             
             if (currentStateName == "NPCIdleState")
             {
-                // We're idling, check if we should wait or move
                 if (_isWaiting)
                 {
                     _waitTimer += Time.deltaTime;
@@ -97,16 +157,16 @@ namespace Entity.NPC.AI.SubControllers
                 }
                 else
                 {
-                    // Start waiting
                     _isWaiting = true;
                     _waitTimer = 0f;
                 }
             }
         }
         
-        protected override string GetIdleStateAfterMove()
+        public override bool ShouldRemainActive()
         {
-            return HelperNPCStateName.Idle; // Will trigger waiting logic
+            // Switch to combat if we have a target
+            return !HasTarget();
         }
     }
 }

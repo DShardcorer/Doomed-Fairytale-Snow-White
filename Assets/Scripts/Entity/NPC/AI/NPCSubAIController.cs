@@ -11,7 +11,6 @@ namespace Entity.NPC.AI
         protected NPCAIConfiguration config;
         protected NPC npc;
         
-        // Properties for easy access
         public NPCAIController Parent => parent;
         public NPCAIConfiguration Config => config;
         public NPC NPC => npc;
@@ -20,7 +19,7 @@ namespace Entity.NPC.AI
         {
             this.parent = parent;
             this.config = parent.GetConfiguration();
-            this.npc = parent.NPC; // Access to the NPC instance
+            this.npc = parent.NPC;
         }
 
         public virtual void Dispose()
@@ -91,6 +90,18 @@ namespace Entity.NPC.AI
                 npc.NPCProperties.lastMovementVector =
                     (npc.NPCProperties.target.View.transform.position - npc.View.transform.position).normalized;
             }
+        }
+        
+        // NEW: Method to request controller change - doesn't do it directly
+        protected void RequestControllerChange(string controllerId, string reason = "")
+        {
+            parent.RequestSubAIControllerChange(controllerId, reason);
+        }
+        
+        // NEW: Virtual method to check if this controller should remain active
+        public virtual bool ShouldRemainActive()
+        {
+            return true;
         }
     }
 }

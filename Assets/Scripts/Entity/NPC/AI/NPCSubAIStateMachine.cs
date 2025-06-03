@@ -1,6 +1,6 @@
 using UnityEngine;
 
-namespace Entity.NPC.AI.SubAI
+namespace Entity.NPC.AI
 {
     public class NPCSubAIStateMachine
     {
