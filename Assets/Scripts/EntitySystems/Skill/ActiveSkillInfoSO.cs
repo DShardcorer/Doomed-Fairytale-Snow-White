@@ -13,7 +13,7 @@ namespace EntitySystems.Skill
 
         public virtual ActiveSkill Create()
         {
-            return SkillFactory.SkillFactory.CreateActiveSkill(this);
+            return SkillRegistry.CreateActiveSkill(this);
         }
     }
 }

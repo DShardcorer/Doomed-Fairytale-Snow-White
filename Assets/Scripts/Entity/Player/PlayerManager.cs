@@ -114,7 +114,7 @@ namespace Entity.Player
         {
             if (UnityEngine.Input.GetKeyDown(KeyCode.P))
             {
-                PassiveSkill skill = SkillFactory.CreatePassiveSkill(HelperSkillName.NaturalStrength);
+                PassiveSkill skill = SkillRegistry.CreatePassiveSkill(HelperSkillName.NaturalStrength);
                 AddPassiveSkill(skill);
             }
         }
