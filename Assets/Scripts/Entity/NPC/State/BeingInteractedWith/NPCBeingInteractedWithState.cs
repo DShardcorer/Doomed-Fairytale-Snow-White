@@ -1,7 +1,7 @@
 using Entity.NPC.AI;
 using Helpers;
 
-namespace Entity.NPC.BeingInteractedWith
+namespace Entity.NPC.State.BeingInteractedWith
 {
     public class NPCBeingInteractedWithState : NPCState
     {

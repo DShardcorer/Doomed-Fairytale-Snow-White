@@ -1,7 +1,7 @@
 using System;
 using Entity.NPC.AI;
 
-namespace Entity.NPC.Move
+namespace Entity.NPC.State.Move
 {
     [Serializable]
     public class NPCMoveProperties: EntityStateProperties

@@ -52,13 +52,15 @@ namespace Entity
         public EntityState IdleState { get; protected set; }
 
 
-        public Entity(EntityView view, EntityProperties properties,
+        public Entity(EntityProfile profile,
+            EntityView view, EntityProperties properties,
             StatSystem statSystem, EquipmentSystem equipmentSystem,
             ActiveSkillSystem activeSkillSystem, PassiveSkillSystem passiveSkillSystem,
             LevelSystem levelSystem,
             HealthSystem healthSystem, ManaSystem manaSystem, StaminaSystem staminaSystem,
             EntityStateMachine stateMachine, InventorySystem inventorySystem)
         {
+            this.profile = profile;
             this.view = view;
             attackHitbox = view.GetComponentInChildren<AttackHitbox>();
             animationTriggers = view.GetComponentInChildren<AnimationTriggers>();

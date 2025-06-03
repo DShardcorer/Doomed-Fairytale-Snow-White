@@ -164,14 +164,14 @@ namespace UI.Dialogue
             // GameObject frontPrefab =
             //     UnityEngine.Resources.Load<GameObject>(HelperResourcePath.CGPath + cgPath + "/Front");
             backCGLayer =
-                await AddressablesManager.Instance.LoadAndInstantiateByAddressAsync(HelperAddressablesGroup.CGs +
+                await AddressablesManager.Instance.LoadAndInstantiate(HelperAddressablesGroup.CGs +
                     cgPath +
                     "/Back"
                     +HelperExtension.PREFAB
                     , backCGLayer.transform);
 
             frontCGLayer =
-                await AddressablesManager.Instance.LoadAndInstantiateByAddressAsync(HelperAddressablesGroup.CGs +
+                await AddressablesManager.Instance.LoadAndInstantiate(HelperAddressablesGroup.CGs +
                     cgPath +
                     "/Front"
                     +HelperExtension.PREFAB
@@ -214,7 +214,7 @@ namespace UI.Dialogue
 
                 // GameObject cgPrefab =
                 //     UnityEngine.Resources.Load<GameObject>(HelperResourcePath.CGPath + cgPath + "/" + obj.CGName);
-                GameObject cg = await AddressablesManager.Instance.LoadAndInstantiateByAddressAsync(
+                GameObject cg = await AddressablesManager.Instance.LoadAndInstantiate(
                     HelperAddressablesGroup.CGs + cgPath + "/" + obj.CGName + HelperExtension.PREFAB, mainCGLayer.transform);
 
                 if (cg)
@@ -246,7 +246,7 @@ namespace UI.Dialogue
                 // GameObject cgPrefab =
                 //     UnityEngine.Resources.Load<GameObject>(HelperResourcePath.CGPath + cgPath + "/" + obj.CGFrontName);
 
-                GameObject cg = await AddressablesManager.Instance.LoadAndInstantiateByAddressAsync(
+                GameObject cg = await AddressablesManager.Instance.LoadAndInstantiate(
                     HelperAddressablesGroup.CGs + cgPath + "/" + obj.CGFrontName+ HelperExtension.PREFAB, frontCGLayer.transform);
                 if (cg)
                 {
@@ -276,7 +276,7 @@ namespace UI.Dialogue
                 backCGLayer.gameObject.SetActive(true);
                 // GameObject cgPrefab =
                 //     UnityEngine.Resources.Load<GameObject>(HelperResourcePath.CGPath + cgPath + "/" + obj.CGBackName);
-                GameObject cg = await AddressablesManager.Instance.LoadAndInstantiateByAddressAsync(
+                GameObject cg = await AddressablesManager.Instance.LoadAndInstantiate(
                     HelperAddressablesGroup.CGs + cgPath + "/" + obj.CGBackName + HelperExtension.PREFAB, backCGLayer.transform);
                 if (cg)
                 {

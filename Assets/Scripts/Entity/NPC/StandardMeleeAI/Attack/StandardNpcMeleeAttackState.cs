@@ -1,7 +1,7 @@
 using System;
 using Entity.NPC.AI;
-using Entity.NPC.Attack;
 using Entity.NPC.StandardAI.Chase;
+using Entity.NPC.State.Attack;
 using Helpers;
 using UnityEngine;
 

@@ -1,5 +1,5 @@
 using Entity.NPC.AI;
-using Entity.NPC.Chase;
+using Entity.NPC.State.Chase;
 using Helpers;
 using UnityEngine;
 using Pathfinding; // Add this namespace

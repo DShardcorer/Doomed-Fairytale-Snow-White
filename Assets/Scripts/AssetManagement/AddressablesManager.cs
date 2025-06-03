@@ -31,7 +31,6 @@ namespace AssetManagement
             }
 
             Instance = this;
-            DontDestroyOnLoad(gameObject);
 
             await Addressables.InitializeAsync().Task;
             _initializationSource.TrySetResult(true);
@@ -69,7 +68,7 @@ namespace AssetManagement
             }
         }
 
-        public async Task<T> LoadByAddressAsync<T>(string address, GameObject bindTo = null)
+        public async Task<T> Load<T>(string address, GameObject bindTo = null)
             where T : UnityEngine.Object
         {
             var handle = Addressables.LoadAssetAsync<T>(address);
@@ -79,7 +78,7 @@ namespace AssetManagement
             return handle.Status == AsyncOperationStatus.Succeeded ? handle.Result : null;
         }
 
-        public async Task<GameObject> LoadAndInstantiateByAddressAsync(string address)
+        public async Task<GameObject> LoadAndInstantiate(string address)
         {
             var handle = Addressables.LoadAssetAsync<GameObject>(address);
             await handle.Task;
@@ -91,7 +90,7 @@ namespace AssetManagement
 
             return instance;
         }
-        public async Task<GameObject> LoadAndInstantiateByAddressAsync(string address, Transform parent)
+        public async Task<GameObject> LoadAndInstantiate(string address, Transform parent)
         {
             var handle = Addressables.LoadAssetAsync<GameObject>(address);
             await handle.Task;
@@ -101,6 +100,55 @@ namespace AssetManagement
             var instance = Instantiate(prefab, parent);
             handle.BindTo(instance);
 
+            return instance;
+        }
+        //Load by asset reference
+        public async Task<T> Load<T>(AssetReference assetReference, GameObject bindTo = null)
+        where T: UnityEngine.Object
+        {
+            if (assetReference == null || !assetReference.IsValid())
+            {
+                Debug.LogError("Invalid AssetReference provided.");
+                return null;
+            }
+
+            var handle = assetReference.LoadAssetAsync<T>();
+            if (bindTo != null) handle.BindTo(bindTo);
+            await handle.Task;
+
+            return handle.Status == AsyncOperationStatus.Succeeded ? handle.Result : null;
+        }
+        
+        public async Task<GameObject> LoadAndInstantiate(AssetReferenceGameObject assetReference)
+        {
+            if (assetReference == null || !assetReference.IsValid())
+            {
+                Debug.LogError("Invalid AssetReference provided.");
+                return null;
+            }
+            var handle = assetReference.LoadAssetAsync<GameObject>();
+            await handle.Task;
+            if (handle.Status != AsyncOperationStatus.Succeeded) return null;
+
+            var prefab = handle.Result;
+            var instance = Instantiate(prefab);
+            handle.BindTo(instance);
+            return instance;
+        }
+        public async Task<GameObject> LoadAndInstantiate(AssetReferenceGameObject assetReference, Transform parent)
+        {
+            if (assetReference == null || !assetReference.IsValid())
+            {
+                Debug.LogError("Invalid AssetReference provided.");
+                return null;
+            }
+            var handle = assetReference.LoadAssetAsync<GameObject>();
+            await handle.Task;
+            if (handle.Status != AsyncOperationStatus.Succeeded) return null;
+
+            var prefab = handle.Result;
+            var instance = Instantiate(prefab, parent);
+            handle.BindTo(instance);
             return instance;
         }
     }

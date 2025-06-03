@@ -1,6 +1,6 @@
 using System.Collections.Generic;
-using Entity.NPC.BeingInteractedWith;
-using Entity.NPC.Idle;
+using Entity.NPC.State.BeingInteractedWith;
+using Entity.NPC.State.Idle;
 using GeneralManagers;
 using Helpers;
 using Pathfinding;

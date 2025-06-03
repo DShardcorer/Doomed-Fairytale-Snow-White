@@ -1,9 +1,8 @@
 using Entity.NPC.AI;
 using Entity.NPC.AI.SubControllers;
-using Entity.NPC.BeingInteractedWith;
-using Entity.NPC.Move;
 using Entity.NPC.StandardAI.Attack;
 using Entity.NPC.StandardAI.Chase;
+using Entity.NPC.State.Move;
 using Helpers;
 using UnityEngine;
 

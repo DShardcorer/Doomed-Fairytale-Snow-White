@@ -35,6 +35,7 @@ namespace Entity.NPC
 
         // Constructor used by the builder
         public NPC(
+            EntityProfile profile,
             NPCView view,
             NPCProperties properties,
             StatSystem statSystem,
@@ -48,7 +49,9 @@ namespace Entity.NPC
             EntityStateMachine stateMachine,
             InventorySystem inventory,
             NPCAIController aiController
-        ) : base(view,
+        ) : base(
+            profile,
+            view,
             properties,
             statSystem,
             equipmentSystem,

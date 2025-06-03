@@ -1,16 +1,25 @@
-namespace Entity
+using System;
+using UnityEngine;
+
+[Serializable]
+public class EntityProfile
 {
-    public class EntityProfile
+    [SerializeField]
+    private string _name = "Default Entity";
+    public string Name => _name;
+
+    [SerializeField]
+    private string _description = "?";
+    public string Description => _description;
+
+    public EntityProfile(string name, string description)
     {
-        private string _name = "?";
-        public string Name => _name;
-        public virtual void SetName(string name)
-        {
-            _name = name;
-        }
-        private string _description = "?";
-        public string Description => _description;
-        
-        
+        _name = name;
+        _description = description;
+    }
+
+    public virtual void SetName(string name)
+    {
+        _name = name;
     }
 }

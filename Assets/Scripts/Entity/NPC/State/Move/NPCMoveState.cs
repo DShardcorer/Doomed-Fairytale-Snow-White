@@ -2,7 +2,7 @@ using Entity.NPC.AI;
 using Helpers;
 using UnityEngine;
 
-namespace Entity.NPC.Move
+namespace Entity.NPC.State.Move
 {
     public class NPCMoveState : NPCState
     {

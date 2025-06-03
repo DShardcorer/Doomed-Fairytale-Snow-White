@@ -29,7 +29,7 @@ namespace Entity.Player
 
         private PlayerInteraction _playerInteraction;
         public PlayerInteraction PlayerInteraction => _playerInteraction;
-        
+
 
         //Idling
         private PlayerIdleState _playerIdleState;
@@ -44,8 +44,9 @@ namespace Entity.Player
         private PlayerAttackState _playerAttackState;
         public PlayerAttackState PlayerAttackState => _playerAttackState;
 
-        public Player(PlayerView view, PlayerProperties properties,
+        public Player(
             PlayerProfile profile,
+            PlayerView view, PlayerProperties properties,
             PlayerIdleState playerIdleState, PlayerMoveState playerMoveState,
             PlayerAttackState playerAttackState,
             PlayerStatSystem statSystem, PlayerEquipmentSystem equipmentSystem,
@@ -53,8 +54,11 @@ namespace Entity.Player
             PlayerLevelSystem levelSystem, PlayerHealthSystem healthSystem,
             PlayerManaSystem manaSystem, PlayerStaminaSystem staminaSystem,
             EntityStateMachine stateMachine, PlayerInventorySystem inventory)
-            : base(view, properties, statSystem, equipmentSystem,
-                activeSkillSystem, passiveSkillSystem, levelSystem, healthSystem, manaSystem, staminaSystem, stateMachine, inventory)
+            : base(
+                profile,
+                view, properties, statSystem, equipmentSystem,
+                activeSkillSystem, passiveSkillSystem, levelSystem, healthSystem, manaSystem, staminaSystem,
+                stateMachine, inventory)
         {
             _playerView = view;
             _playerProperties = properties;
@@ -132,6 +136,7 @@ namespace Entity.Player
             {
                 LevelSystem.AddExperience(50);
             }
+
             stateMachine.UpdateLogic();
         }
 
@@ -152,7 +157,7 @@ namespace Entity.Player
             _playerInteraction = null;
             _inputManager = null;
             _parent = null;
-            
+
             //Garbage collector hoat dong
             // different flavor of wrong
         }

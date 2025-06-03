@@ -1,7 +1,7 @@
 using System;
 using Entity.NPC.AI;
 
-namespace Entity.NPC.Idle
+namespace Entity.NPC.State.Idle
 {
     public class NPCIdleProperties: EntityStateProperties
     {

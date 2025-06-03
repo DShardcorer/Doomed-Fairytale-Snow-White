@@ -1,4 +1,4 @@
-namespace Entity.NPC.Chase
+namespace Entity.NPC.State.Chase
 {
     public class NPCChasingProperties
     {

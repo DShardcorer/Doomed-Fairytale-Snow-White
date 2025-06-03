@@ -1,4 +1,4 @@
-using Entity.NPC.Move;
+using Entity.NPC.State.Move;
 using GeneralManagers;
 using Helpers;
 using UnityEngine;

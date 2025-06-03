@@ -35,7 +35,7 @@ namespace Entity.Player
         public void Initialize(GameManager gameManager)
         {
             _gameManager = gameManager;
-            CreatePlayer(new Vector3(0,0,0));
+            CreatePlayer(new Vector3(0, 0, 0));
         }
 
         public void CreatePlayer(Vector3 position)
@@ -44,7 +44,7 @@ namespace Entity.Player
 
             //PlayerView creation
             PlayerView playerView = playerGameObject.GetComponent<PlayerView>();
-            PlayerProfile playerProfile = new PlayerProfile();
+            PlayerProfile playerProfile = new PlayerProfile("Player", "The main player character");
             DontDestroyOnLoad(playerView);
             //ActiveSkillSystem creation
             PlayerActiveSkillSystem activeSkillSystem = new PlayerActiveSkillSystem(new List<ActiveSkill>());
@@ -95,9 +95,8 @@ namespace Entity.Player
 
             PlayerInventorySystem inventory = new PlayerInventorySystem();
 
-            _player = new Player(
+            _player = new Player(playerProfile,
                 playerView, playerProperties,
-                playerProfile,
                 playerIdleState, playerMoveState, playerAttackState,
                 statSystem, equipmentSystem,
                 activeSkillSystem, passiveSkillSystem,
@@ -111,15 +110,27 @@ namespace Entity.Player
             _player = null;
         }
 
+        private void Update()
+        {
+            if (UnityEngine.Input.GetKeyDown(KeyCode.P))
+            {
+                PassiveSkill skill = SkillFactory.CreatePassiveSkill(HelperSkillName.NaturalStrength);
+                AddPassiveSkill(skill);
+            }
+        }
+
         #region Player Utility API
+
         public void DisablePlayer()
         {
             _player.PlayerView.gameObject.SetActive(false);
         }
+
         public void EnablePlayer()
         {
             _player.PlayerView.gameObject.SetActive(true);
         }
+
         public void SetPlayerStat(StatType statType, int value)
         {
             _player.StatSystem.SetAbilityStatPoints(statType, value);
@@ -135,29 +146,31 @@ namespace Entity.Player
         {
             _player.InventorySystem.AddItem(itemData, amount);
         }
-        
+
         public void RemoveItemFromInventory(ItemData itemData, int amount)
         {
             _player.InventorySystem.RemoveItem(itemData, amount);
         }
-        
+
         public void AddActiveSkill(ActiveSkill skill)
         {
             _player.ActiveSkillSystem.AddSkill(skill);
         }
+
         public void AddPassiveSkill(PassiveSkill skill)
         {
             _player.PassiveSkillSystem.AddSkill(skill);
         }
+
         public void SetPlayerName(string name)
         {
             _player.Profile.SetName(name);
         }
+
         public void SetPlayerPosition(Vector3 position)
         {
             _player.PlayerView.transform.position = position;
         }
-        
 
         #endregion
     }

@@ -1,6 +1,6 @@
 using System;
 
-namespace Entity.NPC.BeingInteractedWith
+namespace Entity.NPC.State.BeingInteractedWith
 {
     public class NPCBeingInteractedWithProperties : EntityStateProperties
     {

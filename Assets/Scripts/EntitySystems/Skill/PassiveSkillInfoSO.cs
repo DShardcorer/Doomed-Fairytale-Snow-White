@@ -2,8 +2,11 @@ using UnityEngine;
 
 namespace EntitySystems.Skill
 {
-    public abstract class PassiveSkillInfoSO : SkillInfoSO
+    public class PassiveSkillInfoSO : SkillInfoSO
     {
-        public abstract PassiveSkill Create();
+        public virtual PassiveSkill Create()
+        {
+            return SkillFactory.SkillFactory.CreatePassiveSkill(this);
+        }
     }
 }

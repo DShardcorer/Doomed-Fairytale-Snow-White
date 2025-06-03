@@ -2,7 +2,7 @@ using Entity.NPC.AI;
 using Helpers;
 using UnityEngine;
 
-namespace Entity.NPC.Idle
+namespace Entity.NPC.State.Idle
 {
     public class NPCIdleState : NPCState
     {

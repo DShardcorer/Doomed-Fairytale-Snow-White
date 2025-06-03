@@ -1,7 +1,6 @@
 using System;
-using UnityEngine;
 
-namespace Entity.NPC.Attack
+namespace Entity.NPC.State.Attack
 {
     public class NPCAttackingProperties: EntityStateProperties
     {
