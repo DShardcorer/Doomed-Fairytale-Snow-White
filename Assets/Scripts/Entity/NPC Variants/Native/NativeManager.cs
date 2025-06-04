@@ -27,7 +27,7 @@ namespace Entity.NPC_Variants.Native
         {
             EntityProfile entityProfile = new EntityProfile("Native", "A native NPC");
             // // EnemyProperties enemyProperties = new EnemyProperties(_enemyPropertiesSO);
-            NativeView nativeView = _poolManager.GetObject(_nativePrefab.name).GetComponent<NativeView>();
+            NativeView nativeView = Instantiate(_nativePrefab).GetComponent<NativeView>();
             nativeView.transform.position = position;
 
             ActiveSkillSystem activeSkillSystem = new ActiveSkillSystem(new List<ActiveSkill> { });
@@ -59,7 +59,7 @@ namespace Entity.NPC_Variants.Native
             StaminaSystem staminaSystem = new StaminaSystem((int)statSystem.CombatStatBoard.Stamina.ModifiedValue);
             InventorySystem inventory = new InventorySystem();
             NPCAIController enhancedMeleeAIController =
-                new EnhancedMeleeNPCAIController(
+                new StandardMeleeNPCAIController(
                     UnityEngine.Resources.Load<NPCAIConfiguration>(HelperResourcePath.NPCAIConfigPath +
                                                                    "StandardNPCMeleeAIConfig"));
             NPC.NPC npc = new NPC.NPC(
@@ -74,7 +74,7 @@ namespace Entity.NPC_Variants.Native
                 stateMachine,
                 inventory,
                 enhancedMeleeAIController);
-            npc.Initialize(this);
+            npc.Initialize();
             // npc.NPCView.transform.position = position;
             _enemies.Add(npc);
         }

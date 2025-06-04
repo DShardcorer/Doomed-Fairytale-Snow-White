@@ -2,6 +2,7 @@ using Entity.Player;
 using InteractInterface;
 using QuestSystem;
 using UnityEngine;
+using UnityEngine.Serialization;
 
 namespace Item
 {
@@ -9,30 +10,30 @@ namespace Item
     {
         private SpriteRenderer spriteRenderer;
 
-        [SerializeField]
-        private ItemData itemData;
+        [FormerlySerializedAs("itemData")] [SerializeField]
+        private ItemDataSO itemDataSo;
 
-        public ItemData ItemData { get => itemData; }
+        public ItemDataSO ItemDataSo { get => itemDataSo; }
 
         public int Priority => 99;
 
         private void Awake()
         {
             spriteRenderer = GetComponent<SpriteRenderer>();
-            spriteRenderer.sprite = itemData.icon;
+            spriteRenderer.sprite = itemDataSo.icon;
         }
 
 
-        public void SetItemData(ItemData itemData)
+        public void SetItemData(ItemDataSO itemDataSo)
         {
-            this.itemData = itemData;
-            spriteRenderer.sprite = itemData.icon;
+            this.itemDataSo = itemDataSo;
+            spriteRenderer.sprite = itemDataSo.icon;
         }
 
 
         public void Interact(Player player)
         {
-            player.InventorySystem.AddItem(itemData);
+            player.InventorySystem.AddItem(itemDataSo);
             ItemQuestEventTrigger itemQuestEventTrigger = GetComponent<ItemQuestEventTrigger>();
             if (itemQuestEventTrigger != null)
             {

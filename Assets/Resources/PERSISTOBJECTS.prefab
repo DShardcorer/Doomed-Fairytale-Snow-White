@@ -710,6 +710,50 @@ MonoBehaviour:
   m_hasFontAssetChanged: 0
   m_baseMaterial: {fileID: 0}
   m_maskOffset: {x: 0, y: 0, z: 0, w: 0}
+--- !u!1 &357029971017059780
+GameObject:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  serializedVersion: 6
+  m_Component:
+  - component: {fileID: 5287040845672522601}
+  - component: {fileID: 1179045211173341652}
+  m_Layer: 0
+  m_Name: NPCSpawnManager
+  m_TagString: Untagged
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!4 &5287040845672522601
+Transform:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 357029971017059780}
+  serializedVersion: 2
+  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
+  m_LocalPosition: {x: 0, y: 0, z: 0}
+  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_ConstrainProportionsScale: 0
+  m_Children: []
+  m_Father: {fileID: 584083036329223134}
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!114 &1179045211173341652
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 357029971017059780}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 8d02a266dd1b4090a0e3f166e4875471, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
 --- !u!1 &374305519334211331
 GameObject:
   m_ObjectHideFlags: 0
@@ -15722,6 +15766,7 @@ Transform:
   - {fileID: 3235185229481041410}
   - {fileID: 6105256421078332942}
   - {fileID: 5707835034484961860}
+  - {fileID: 5287040845672522601}
   m_Father: {fileID: 4168242989214445674}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!114 &1662689396998035593
@@ -15738,6 +15783,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   MainCamera: {fileID: 785360852805023252}
   UIMainCamera: {fileID: 0}
+  _npcSpawnManager: {fileID: 1179045211173341652}
   _audioManager: {fileID: 6452216333338965687}
   _inputManager: {fileID: 2036921571733045575}
   _poolManager: {fileID: 7010993423142856986}
@@ -15745,7 +15791,7 @@ MonoBehaviour:
   _updateManager: {fileID: 233703112412752437}
   _fixedUpdateManager: {fileID: 37445566464350831}
   _gameTimeManager: {fileID: 7602510673601268339}
-  _dayCycleLightingManager: {fileID: 0}
+  _dayCycleLightingManager: {fileID: 9221723598969773250}
   _enemyManager: {fileID: 8034564445236652252}
   _cameraManager: {fileID: 2039141571637035602}
   _questManager: {fileID: 3793671313868507934}
@@ -17776,3 +17822,14 @@ Transform:
   m_CorrespondingSourceObject: {fileID: 9087484857605250298, guid: a7ef3041802fd8546bc6c34c56c4c819, type: 3}
   m_PrefabInstance: {fileID: 1845115637839810764}
   m_PrefabAsset: {fileID: 0}
+--- !u!114 &9221723598969773250 stripped
+MonoBehaviour:
+  m_CorrespondingSourceObject: {fileID: 7377193215471635470, guid: a7ef3041802fd8546bc6c34c56c4c819, type: 3}
+  m_PrefabInstance: {fileID: 1845115637839810764}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 09383ae289114f3f8f068fe9e507f8ac, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 

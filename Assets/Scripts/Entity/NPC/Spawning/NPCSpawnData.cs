@@ -4,19 +4,21 @@ using Entity.NPC.AI;
 using EntitySystems.Skill;
 using EntitySystems.Stats;
 using Item;
+using Item.Inventory;
 using UnityEngine;
 using UnityEngine.AddressableAssets;
 
 namespace Entity.NPC.Spawning
 {
-    [CreateAssetMenu(fileName = "NPCSpawnData", menuName = "Game/NPC/NPC Spawn Data")]
+    [CreateAssetMenu(fileName = "NPCSpawnData", menuName = "NPC/NPC Spawn Data")]
     public class NPCSpawnData : ScriptableObject
     {
         [Header("Identity")]
         public EntityProfile npcProfile;
         
         [Header("Visual")]
-        public AssetReferenceGameObject viewPrefab;
+        public AssetReferenceGameObject viewAssetReferencePrefab;
+        public GameObject viewPrefab;
 
         
         [Header("Stats")]
@@ -28,7 +30,7 @@ namespace Entity.NPC.Spawning
         public List<EntityFaction> enemyFactions = new List<EntityFaction>();
         
         [Header("AI Configuration")]
-        public NPCAIType aiType = NPCAIType.Enhanced_Melee;
+        public NPCAIType aiType = NPCAIType.Melee;
         public NPCAIConfiguration aiConfiguration;
         
         [Header("Skills")]
@@ -36,10 +38,11 @@ namespace Entity.NPC.Spawning
         public List<PassiveSkillInfoSO> passiveSkills = new List<PassiveSkillInfoSO>();
         
         [Header("Equipment")]
-        public List<ItemData_Equipment> startingEquipment = new List<ItemData_Equipment>();
-        public List<ItemData> startingInventory = new List<ItemData>();
+        public List<ItemDataSOEquipment> startingEquipment = new List<ItemDataSOEquipment>();
+        public List<InventoryItem> startingInventory = new List<InventoryItem>();
         
         [Header("Behavior")]
+        public float speed = 2f;
         public float detectionRange = 5f;
         public float aggroRange = 3f;
         public bool isHostile = true;
@@ -57,7 +60,7 @@ namespace Entity.NPC.Spawning
                 "Melee Warrior",
                 "A fierce warrior skilled in close combat."
             );
-            data.aiType = NPCAIType.Enhanced_Melee;
+            data.aiType = NPCAIType.Melee;
             data.faction = EntityFaction.Native;
             data.enemyFactions = new List<EntityFaction> { EntityFaction.Civilized, EntityFaction.Player };
             data.isHostile = true;
@@ -98,7 +101,7 @@ namespace Entity.NPC.Spawning
     
     public enum NPCAIType
     {
-        Enhanced_Melee,
+        Melee,
         Ranged,
         Guard,
         Peaceful,

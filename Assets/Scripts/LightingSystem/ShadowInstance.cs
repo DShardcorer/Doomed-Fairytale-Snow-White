@@ -1,3 +1,4 @@
+using DefaultNamespace.Utility;
 using GeneralManagers;
 using UnityEngine;
 using UnityEngine.Serialization;
@@ -5,18 +6,19 @@ using UnityEngine.Serialization;
 namespace DefaultNamespace.LightingSystem
 {
     [DefaultExecutionOrder(999)]
-    [ExecuteInEditMode]
+    // [ExecuteInEditMode]
     public class ShadowInstance : MonoBehaviour
     {
         [SerializeField] private DayCycleLightingManager _dayCycleLightingManager;
         [Range(0, 10f)] public float BaseLength = 1f;
         
 
-        private void OnEnable()
+        private async void OnEnable()
         {
             if (!_dayCycleLightingManager)
             {
-                _dayCycleLightingManager = FindAnyObjectByType<DayCycleLightingManager>();
+                await ServiceLocator.InitializationTask;
+                _dayCycleLightingManager = GameManager.Instance.DayCycleLightingManager;
             }
             _dayCycleLightingManager.RegisterShadow(this);
         }

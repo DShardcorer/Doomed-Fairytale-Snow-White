@@ -36,7 +36,7 @@ namespace UI.Player.Equipment
             if (item != null)
             {
                 _item = item;
-                _iconImage.sprite = _item.EquipmentData.icon;
+                _iconImage.sprite = _item.SoEquipmentDataSo.icon;
                 _iconImage.GetComponent<CanvasGroup>().alpha = 1;
             }
             else

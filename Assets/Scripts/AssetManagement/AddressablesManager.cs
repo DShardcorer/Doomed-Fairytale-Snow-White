@@ -90,6 +90,7 @@ namespace AssetManagement
 
             return instance;
         }
+
         public async Task<GameObject> LoadAndInstantiate(string address, Transform parent)
         {
             var handle = Addressables.LoadAssetAsync<GameObject>(address);
@@ -102,9 +103,10 @@ namespace AssetManagement
 
             return instance;
         }
+
         //Load by asset reference
         public async Task<T> Load<T>(AssetReference assetReference, GameObject bindTo = null)
-        where T: UnityEngine.Object
+            where T : UnityEngine.Object
         {
             if (assetReference == null || !assetReference.IsValid())
             {
@@ -118,14 +120,22 @@ namespace AssetManagement
 
             return handle.Status == AsyncOperationStatus.Succeeded ? handle.Result : null;
         }
-        
+
         public async Task<GameObject> LoadAndInstantiate(AssetReferenceGameObject assetReference)
         {
-            if (assetReference == null || !assetReference.IsValid())
+            Debug.Log($"AssetReference: {assetReference}, RuntimeKey: {assetReference?.RuntimeKey}");
+            if (assetReference == null)
+            {
+                Debug.LogError("AssetReference is null.");
+                return null;
+            }
+
+            if (!assetReference.IsValid())
             {
                 Debug.LogError("Invalid AssetReference provided.");
                 return null;
             }
+
             var handle = assetReference.LoadAssetAsync<GameObject>();
             await handle.Task;
             if (handle.Status != AsyncOperationStatus.Succeeded) return null;
@@ -135,6 +145,7 @@ namespace AssetManagement
             handle.BindTo(instance);
             return instance;
         }
+
         public async Task<GameObject> LoadAndInstantiate(AssetReferenceGameObject assetReference, Transform parent)
         {
             if (assetReference == null || !assetReference.IsValid())
@@ -142,6 +153,7 @@ namespace AssetManagement
                 Debug.LogError("Invalid AssetReference provided.");
                 return null;
             }
+
             var handle = assetReference.LoadAssetAsync<GameObject>();
             await handle.Task;
             if (handle.Status != AsyncOperationStatus.Succeeded) return null;

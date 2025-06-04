@@ -16,16 +16,18 @@ MonoBehaviour:
   fieldOfViewAngle: 90
   shouldChaseTargets: 1
   shouldAttackTargets: 1
-  shouldPatrol: 0
+  shouldPatrol: 1
   maxChaseDistance: 20
+  moveSpeed: 5
+  chaseSpeed: 3
+  chaseRange: 5
   patrolRadius: 10
   patrolWaitTime: 3
-  idleTime: 2
-  moveSpeed: 5
-  movingTime: 2
-  chaseSpeed: 3
-  attackCooldown: 2
-  chaseRange: 5
   attackType: 0
   attackRange: 1
   attackDamage: 10
+  attackCooldown: 2
+  preferredDistance: 5
+  fleeDistance: 10
+  fleeTime: 5
+  healthFleeThreshold: 0.25

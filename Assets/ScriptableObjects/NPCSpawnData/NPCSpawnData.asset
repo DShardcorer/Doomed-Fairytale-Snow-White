@@ -1,0 +1,44 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: e221f137081c4c0a8977919570fcf2ce, type: 3}
+  m_Name: NPCSpawnData
+  m_EditorClassIdentifier: 
+  npcProfile:
+    _name: Villager 1
+    _description: A random guy with orange hair and a thick beard.
+  viewAssetReferencePrefab:
+    m_AssetGUID: e18510a9eeb760e4583a435e068f9ec2
+    m_SubObjectName: 
+    m_SubObjectGUID: 
+    m_SubObjectType: 
+    m_EditorAssetChanged: 1
+  viewPrefab: {fileID: 6419308707183161573, guid: e18510a9eeb760e4583a435e068f9ec2, type: 3}
+  abilityStatboard: {fileID: 11400000, guid: 9f4b68311fbc458418dae28980976955, type: 2}
+  level: 1
+  faction: 1
+  enemyFactions: 02000000
+  aiType: 3
+  aiConfiguration: {fileID: 11400000, guid: 95e61debf34f3a948a084d325a483db6, type: 2}
+  activeSkills: []
+  passiveSkills:
+  - {fileID: 11400000, guid: 6d460ab9046e138458d1c657affb2835, type: 2}
+  startingEquipment: []
+  startingInventory:
+  - itemDataSo: {fileID: 11400000, guid: f944e59553a1a74479f7778c1d457135, type: 2}
+    stackSize: 50
+  speed: 2
+  detectionRange: 5
+  aggroRange: 3
+  isHostile: 1
+  canPatrol: 1
+  poolSize: 5
+  spawnWeight: 1

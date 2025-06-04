@@ -1,4 +1,3 @@
-using EntitySystems.Skill.SkillFactory;
 using UnityEngine;
 
 namespace EntitySystems.Skill
@@ -13,7 +12,7 @@ namespace EntitySystems.Skill
 
         public virtual ActiveSkill Create()
         {
-            return SkillRegistry.CreateActiveSkill(this);
+            return SkillRegistry.SkillRegistry.CreateActiveSkill(this);
         }
     }
 }

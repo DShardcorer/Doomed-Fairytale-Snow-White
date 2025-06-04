@@ -38,10 +38,10 @@ namespace UI.Player.Equipment
         {
 
             _equipmentItem = item;
-            _equipmentIcon.sprite = item.EquipmentData.icon;
-            _equipmentNameText.text = item.EquipmentData.itemName;
-            _equipmentTypeText.text = item.EquipmentData.equipmentItemType.ToString();
-            _equipmentStatsText.text = item.EquipmentData.GetStatsString();
+            _equipmentIcon.sprite = item.SoEquipmentDataSo.icon;
+            _equipmentNameText.text = item.SoEquipmentDataSo.itemName;
+            _equipmentTypeText.text = item.SoEquipmentDataSo.equipmentItemType.ToString();
+            _equipmentStatsText.text = item.SoEquipmentDataSo.GetStatsString();
             _equippedText.text = item.isEquipped ? "E" : "";
             Debug.Log("Equipped: " + item.isEquipped);
 

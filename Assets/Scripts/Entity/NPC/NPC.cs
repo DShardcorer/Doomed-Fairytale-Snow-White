@@ -14,10 +14,9 @@ using Item.Inventory;
 // The refactored NPC class remains mostly unchanged.
 namespace Entity.NPC
 {
-    public class NPC : Entity, ILifecycle<NPCManager>, IUpdatable, IFixedUpdatable
+    public class NPC : Entity, IUpdatable, IFixedUpdatable
     {
         // References and properties
-        protected NPCManager _parent;
         protected NPCView _npcView;
         public NPCView NPCView => _npcView;
         protected NPCProperties _npcProperties;
@@ -65,13 +64,11 @@ namespace Entity.NPC
             _npcAIController = aiController;
             IdleState = aiController.GetState(HelperNPCStateName.Idle);
         }
-        public virtual void Initialize(NPCManager parent)
+        public override void Initialize()
         {
-            _parent = parent;
-
             // Subscribe to update managers
-            _parent.GameManager.UpdateManager.AddUpdatable(this);
-            _parent.GameManager.FixedUpdateManager.AddFixedUpdatable(this);
+            GameManager.Instance.UpdateManager.AddUpdatable(this);
+            GameManager.Instance.FixedUpdateManager.AddFixedUpdatable(this);
 
             // Initialize the view
             view.Initialize(this);
@@ -108,10 +105,9 @@ namespace Entity.NPC
 
         public override void Dispose()
         {
-            _parent.GameManager.UpdateManager.RemoveUpdatable(this);
-            _parent.GameManager.FixedUpdateManager.RemoveFixedUpdatable(this);
+            GameManager.Instance.UpdateManager.RemoveUpdatable(this);
+            GameManager.Instance.FixedUpdateManager.RemoveFixedUpdatable(this);
             // Nullify references
-            _parent = null;
             _npcView = null;
             _npcProperties = null;
             _fovDetector = null;

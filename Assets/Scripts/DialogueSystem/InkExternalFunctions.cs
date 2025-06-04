@@ -1,7 +1,7 @@
 using System;
 using DefaultNamespace.EventSystem.Input;
 using EntitySystems.Skill;
-using EntitySystems.Skill.SkillFactory;
+using EntitySystems.Skill.SkillRegistry;
 using EntitySystems.Stats;
 using EventSystem.Quest;
 using EventSystem.UI;
@@ -84,8 +84,8 @@ namespace DialogueSystem
 
         private void AddPlayerItem(string itemId, int amount)
         {
-            ItemData itemData = ItemDataRegistry.GetItemDataByName(itemId);
-            GameManager.Instance.PlayerManager.AddItemToInventory(itemData, amount);
+            ItemDataSO itemDataSo = ItemDataRegistry.GetItemDataByName(itemId);
+            GameManager.Instance.PlayerManager.AddItemToInventory(itemDataSo, amount);
         }
 
         private void AddPlayerPassiveSkill(string skillId)

@@ -1,16 +1,18 @@
 using System;
+using UnityEngine.Serialization;
 
 namespace Item.Inventory
 {
     [Serializable]
     public class InventoryItem
     {
-        public ItemData ItemData;
+        [FormerlySerializedAs("ItemData")] 
+        public ItemDataSO itemDataSo;
         public int stackSize;
 
-        public InventoryItem(ItemData itemData)
+        public InventoryItem(ItemDataSO itemDataSo)
         {
-            ItemData = itemData;
+            this.itemDataSo = itemDataSo;
         }
         public void AddToStack(int amount)
         {

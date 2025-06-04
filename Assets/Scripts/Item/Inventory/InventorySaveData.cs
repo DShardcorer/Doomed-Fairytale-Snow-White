@@ -5,7 +5,7 @@ using UnityEngine.Serialization;
 namespace Item.Inventory
 {
 [System.Serializable]
-public class InventoryItemData
+public class InventoryItemSaveData
 {
     public string itemName; // a unique identifier from ItemData
     public int stackSize;
@@ -16,11 +16,11 @@ public class InventorySaveData
 {
     public float capacity;
     public float currentWeight;
-    public List<InventoryItemData> items;
-    public List<InventoryItemData> materialItems;
-    public List<InventoryItemData> consumableItems;
-    public List<InventoryItemData> equipmentItems;
-    public List<InventoryItemData> miscellaneousItems;
+    public List<InventoryItemSaveData> items;
+    public List<InventoryItemSaveData> materialItems;
+    public List<InventoryItemSaveData> consumableItems;
+    public List<InventoryItemSaveData> equipmentItems;
+    public List<InventoryItemSaveData> miscellaneousItems;
 }
 
 }

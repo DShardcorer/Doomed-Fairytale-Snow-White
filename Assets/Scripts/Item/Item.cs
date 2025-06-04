@@ -1,9 +1,10 @@
 using UnityEngine;
+using UnityEngine.Serialization;
 
 namespace Item
 {
     public class Item : MonoBehaviour
     {
-        public ItemData itemData;
+        [FormerlySerializedAs("itemData")] public ItemDataSO itemDataSo;
     }
 }

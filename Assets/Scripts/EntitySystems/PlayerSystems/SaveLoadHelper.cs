@@ -38,14 +38,14 @@ namespace EntitySystems.PlayerSystems
                 CreateItems(saveData.miscellaneousItems, inventory.miscellaneousItemDictionary);
         }
 
-        private static List<InventoryItemData> ConvertItems(List<InventoryItem> items)
+        private static List<InventoryItemSaveData> ConvertItems(List<InventoryItem> items)
         {
-            var result = new List<InventoryItemData>();
+            var result = new List<InventoryItemSaveData>();
             foreach (var item in items)
             {
-                result.Add(new InventoryItemData
+                result.Add(new InventoryItemSaveData
                 {
-                    itemName = item.ItemData.itemName,
+                    itemName = item.itemDataSo.itemName,
                     stackSize = item.stackSize
                 });
             }
@@ -53,8 +53,8 @@ namespace EntitySystems.PlayerSystems
             return result;
         }
 
-        private static List<InventoryItem> CreateItems(List<InventoryItemData> dataList,
-            Dictionary<ItemData, InventoryItem> dictionary)
+        private static List<InventoryItem> CreateItems(List<InventoryItemSaveData> dataList,
+            Dictionary<ItemDataSO, InventoryItem> dictionary)
         {
             var result = new List<InventoryItem>();
             foreach (var data in dataList)

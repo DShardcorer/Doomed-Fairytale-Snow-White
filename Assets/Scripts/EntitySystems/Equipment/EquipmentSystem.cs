@@ -32,22 +32,22 @@ namespace EntitySystems.Equipment
 
         public virtual void EquipItem(EquipmentInventoryItem item)
         {
-            if (_equippedItems.ContainsKey(item.EquipmentData.equipmentSlotType))
+            if (_equippedItems.ContainsKey(item.SoEquipmentDataSo.equipmentSlotType))
             {
-                _equippedItems[item.EquipmentData.equipmentSlotType] = item;
+                _equippedItems[item.SoEquipmentDataSo.equipmentSlotType] = item;
             }
             else
             {
-                _equippedItems.Add(item.EquipmentData.equipmentSlotType, item);
+                _equippedItems.Add(item.SoEquipmentDataSo.equipmentSlotType, item);
             }
             item.isEquipped = true;
         }
 
         public virtual void UnequipItem(EquipmentInventoryItem item)
         {
-            if (_equippedItems.ContainsKey(item.EquipmentData.equipmentSlotType))
+            if (_equippedItems.ContainsKey(item.SoEquipmentDataSo.equipmentSlotType))
             {
-                _equippedItems.Remove(item.EquipmentData.equipmentSlotType);
+                _equippedItems.Remove(item.SoEquipmentDataSo.equipmentSlotType);
             }
             item.isEquipped = false;
         }

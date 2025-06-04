@@ -3,6 +3,7 @@ using DateDayNightSystem;
 using DateTimeDayNightSystem;
 using DefaultNamespace.LightingSystem;
 using DialogueSystem;
+using Entity.NPC.Spawning;
 using Entity.NPC_Variants.Native;
 using Entity.Player;
 using Input;
@@ -15,10 +16,13 @@ namespace GeneralManagers
     public class GameManager : MonoBehaviour
     {
         public static GameManager Instance { get; private set; }
-        [SerializeField]
-        public Camera MainCamera;
-        [SerializeField]
-        public Camera UIMainCamera;
+
+        [Header("Cameras")]
+        [SerializeField] public Camera MainCamera;
+        [SerializeField] public Camera UIMainCamera;
+
+        [Header("Managers")]
+        [SerializeField] private NPCSpawnManager _npcSpawnManager;
         [SerializeField] private AudioManager _audioManager;
         [SerializeField] private InputManager _inputManager;
         [SerializeField] private PoolManager _poolManager;
@@ -32,19 +36,23 @@ namespace GeneralManagers
         [SerializeField] private QuestManager _questManager;
         [SerializeField] private DialogueManager _dialogueManager;
 
+        #region Public Accessors
+
+        public NPCSpawnManager NPCSpawnManager => _npcSpawnManager;
         public AudioManager AudioManager => _audioManager;
-        public GameTimeManager GameTimeManager => _gameTimeManager;
         public InputManager InputManager => _inputManager;
         public PoolManager PoolManager => _poolManager;
-        public NativeManager EnemyManager => _enemyManager;
         public PlayerManager PlayerManager => _playerManager;
         public UpdateManager UpdateManager => _updateManager;
         public FixedUpdateManager FixedUpdateManager => _fixedUpdateManager;
-
+        public DayCycleLightingManager DayCycleLightingManager => _dayCycleLightingManager;
+        public GameTimeManager GameTimeManager => _gameTimeManager;
+        public NativeManager EnemyManager => _enemyManager;
         public CameraManager CameraManager => _cameraManager;
         public QuestManager QuestManager => _questManager;
         public DialogueManager DialogueManager => _dialogueManager;
 
+        #endregion
 
         private void Awake()
         {
@@ -60,15 +68,15 @@ namespace GeneralManagers
 
         public void Initialize()
         {
+            _npcSpawnManager.Initialize(this);
             _audioManager.Initialize(this);
-            _gameTimeManager.Initialize(this);
             _inputManager.Initialize(this);
-            _cameraManager.Initialize(this);
             _poolManager.Initialize(this);
             _playerManager.Initialize(this);
             _updateManager.Initialize(this);
             _fixedUpdateManager.Initialize(this);
             _gameTimeManager.Initialize(this);
+            _cameraManager.Initialize(this);
             _enemyManager.Initialize(this);
             _questManager.Initialize(this);
             _dialogueManager.Initialize(this);
@@ -76,22 +84,19 @@ namespace GeneralManagers
 
         public void Dispose()
         {
-            //Call dispose on all managers
+            _npcSpawnManager.Dispose();
             _gameTimeManager.Dispose();
             _inputManager.Dispose();
-            _cameraManager.Dispose();
             _poolManager.Dispose();
             _playerManager.Dispose();
             _updateManager.Dispose();
             _fixedUpdateManager.Dispose();
+            _cameraManager.Dispose();
             _enemyManager.Dispose();
             _questManager.Dispose();
             _dialogueManager.Dispose();
 
-
-            //Set instance to null
             Instance = null;
-            //Destroy this game object
             Destroy(gameObject);
         }
     }

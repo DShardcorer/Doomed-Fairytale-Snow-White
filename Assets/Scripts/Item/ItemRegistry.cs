@@ -6,7 +6,7 @@ namespace Item
     public static class ItemDataRegistry
     {
         // Dictionary to hold all ItemData keyed by a unique identifier (here we're using itemName)
-        private static Dictionary<string, ItemData> itemDataDictionary;
+        private static Dictionary<string, ItemDataSO> itemDataDictionary;
 
         // Call this to initialize the registry, either on application start or when needed.
         [RuntimeInitializeOnLoadMethod(RuntimeInitializeLoadType.BeforeSplashScreen)]
@@ -17,12 +17,12 @@ namespace Item
 
         private static void LoadAllItemData()
         {
-            itemDataDictionary = new Dictionary<string, ItemData>();
+            itemDataDictionary = new Dictionary<string, ItemDataSO>();
 
             // Load all ItemData assets from the Resources/ItemData folder
-            ItemData[] items = UnityEngine.Resources.LoadAll<ItemData>("ScriptableObjects/ItemData");
+            ItemDataSO[] items = UnityEngine.Resources.LoadAll<ItemDataSO>("ScriptableObjects/ItemData");
 
-            foreach (ItemData item in items)
+            foreach (ItemDataSO item in items)
             {
                 if (!itemDataDictionary.ContainsKey(item.itemName))
                 {
@@ -38,9 +38,9 @@ namespace Item
         }
 
         // Public method to retrieve an ItemData by its unique key (or name, in this example)
-        public static ItemData GetItemDataByName(string name)
+        public static ItemDataSO GetItemDataByName(string name)
         {
-            if (itemDataDictionary.TryGetValue(name, out ItemData data))
+            if (itemDataDictionary.TryGetValue(name, out ItemDataSO data))
             {
                 return data;
             }

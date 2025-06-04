@@ -7,11 +7,12 @@ using Entity.NPC.StandardAI;
 using EntitySystems.Equipment;
 using EntitySystems.Level;
 using EntitySystems.Skill;
-using EntitySystems.Skill.SkillFactory;
+using EntitySystems.Skill.SkillRegistry;
 using EntitySystems.Stats;
 using EntitySystems.VitalStatSystems.Health_System;
 using EntitySystems.VitalStatSystems.Mana_System;
 using EntitySystems.VitalStatSystems.Stamina_System;
+using GeneralManagers;
 using Item;
 using Item.Inventory;
 using UnityEngine;
@@ -19,13 +20,18 @@ using Object = UnityEngine.Object;
 
 namespace Entity.NPC.Spawning
 {
-    public abstract class NPCSpawnManager : MonoBehaviour
+    public class NPCSpawnManager : MonoBehaviour, ILifecycle<GameManager>
     {
         protected AddressablesManager addressablesManager;
 
-        protected virtual void Awake()
+        public void Initialize(GameManager parent)
         {
             addressablesManager = AddressablesManager.Instance;
+        }
+
+        public void Dispose()
+        {
+            addressablesManager = null;
         }
 
         /// <summary>
@@ -35,7 +41,7 @@ namespace Entity.NPC.Spawning
             Quaternion rotation = default)
         {
             // Use AddressablesManager to instantiate the NPC view
-            GameObject viewObject = await addressablesManager.LoadAndInstantiate(npcData.viewPrefab);
+            GameObject viewObject = await addressablesManager.LoadAndInstantiate(npcData.viewAssetReferencePrefab);
 
             if (viewObject == null)
             {
@@ -68,6 +74,44 @@ namespace Entity.NPC.Spawning
             Destroy(viewObject);
             return null;
         }
+        //Make a synchronous version
+        public virtual NPC SpawnNPC(NPCSpawnData npcData, Vector3 position,
+            Quaternion rotation = default)
+        {
+            GameObject viewObject = Instantiate(npcData.viewPrefab);
+            if (viewObject == null)
+            {
+                Debug.LogError($"Failed to instantiate prefab for {npcData.npcProfile.Name}");
+                return null;
+            }
+
+            // Position the spawned object
+            viewObject.transform.position = position;
+            viewObject.transform.rotation = rotation;
+
+            NPCView npcView = viewObject.GetComponent<NPCView>();
+            if (npcView == null)
+            {
+                Debug.LogError(
+                    $"Failed to find NPCView component on instantiated prefab for {npcData.npcProfile.Name}");
+                Object.Destroy(viewObject);
+                return null;
+            }
+
+            // Create NPC systems and initialize
+            NPC npc = CreateNPCFromData(npcData, npcView);
+            if (npc != null)
+            {
+                npc.Initialize();
+                return npc;
+            }
+
+            // Clean up if NPC creation failed
+            Destroy(viewObject);
+            return null;
+        }
+        
+        
 
         /// <summary>
         /// Non-async wrapper method for backward compatibility
@@ -109,7 +153,7 @@ namespace Entity.NPC.Spawning
             NPCProperties npcProperties = new NPCProperties(
                 npcData.faction,
                 npcData.enemyFactions,
-                npcData.detectionRange,
+                npcData.speed,
                 npcData.aggroRange
             );
 
@@ -188,7 +232,7 @@ namespace Entity.NPC.Spawning
         {
             switch (aiType)
             {
-                case NPCAIType.Enhanced_Melee:
+                case NPCAIType.Melee:
                 case NPCAIType.Guard:
                     return AttackStatType.Strength;
                 case NPCAIType.Ranged:
@@ -199,25 +243,25 @@ namespace Entity.NPC.Spawning
             }
         }
 
-        protected virtual void AddStartingEquipment(EquipmentSystem equipmentSystem, List<ItemData_Equipment> equipment)
+        protected virtual void AddStartingEquipment(EquipmentSystem equipmentSystem, List<ItemDataSOEquipment> equipment)
         {
             foreach (var itemData in equipment)
             {
                 if (itemData != null)
                 {
-                    // Using the equipment data directly since it's already an ItemData object
-                    // equipmentSystem.TryEquipItem(itemData);
+                    EquipmentInventoryItem item = new EquipmentInventoryItem(itemData);
+                    equipmentSystem.EquipItem(item);
                 }
             }
         }
 
-        protected virtual void AddStartingInventory(InventorySystem inventory, List<ItemData> items)
+        protected virtual void AddStartingInventory(InventorySystem inventory, List<InventoryItem> items)
         {
             foreach (var itemData in items)
             {
                 if (itemData != null)
                 {
-                    // Using the item data directly since it's already an ItemData object
+                    
                     inventory.AddItem(itemData);
                 }
             }
@@ -227,6 +271,7 @@ namespace Entity.NPC.Spawning
         {
             return NPCAIFactory.Create(npcData);
         }
+
 
     }
 }

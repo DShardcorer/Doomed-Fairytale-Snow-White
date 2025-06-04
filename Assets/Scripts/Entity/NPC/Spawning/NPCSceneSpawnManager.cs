@@ -2,6 +2,8 @@ using System.Collections.Generic;
 using System.Threading.Tasks;
 using UnityEngine;
 using System.Linq;
+using DefaultNamespace.Utility;
+using GeneralManagers;
 
 namespace Entity.NPC.Spawning
 {
@@ -17,36 +19,29 @@ namespace Entity.NPC.Spawning
             public NPCSpawnData npcData;
             public Transform spawnPoint;
             public bool spawnOnStart = true;
+
             [Tooltip("Set to true if this NPC should persist when changing scenes")]
             public bool isPersistent = false;
         }
 
-        [Header("Scene Configuration")]
-        [SerializeField] private List<SceneNPCData> sceneNPCs = new List<SceneNPCData>();
+        [Header("Scene Configuration")] [SerializeField]
+        private List<SceneNPCData> sceneNPCs = new List<SceneNPCData>();
+
         [SerializeField] private bool spawnAllOnStart = true;
         [SerializeField] private float staggeredSpawnDelay = 0.1f;
-        [SerializeField] private NPCSpawnManager spawnManager;
+        private NPCSpawnManager spawnManager;
 
         // Track spawned NPCs by key for easy lookup
         private Dictionary<string, NPC> spawnedNPCs = new Dictionary<string, NPC>();
+
         // Additional dictionary to track NPCs by their name
         private Dictionary<string, NPC> spawnedNPCsByName = new Dictionary<string, NPC>();
 
-        private void Awake()
-        {
-            // If spawnManager wasn't set in the inspector, try to find it
-            if (spawnManager == null)
-            {
-                spawnManager = FindFirstObjectByType<NPCSpawnManager>();
-                if (spawnManager == null)
-                {
-                    Debug.LogError("NPCSpawnManager not found! Scene spawning won't work.");
-                }
-            }
-        }
 
-        private void Start()
+        private async void Start()
         {
+            await ServiceLocator.InitializationTask;
+            spawnManager = GameManager.Instance.NPCSpawnManager;
             if (spawnAllOnStart && spawnManager != null)
             {
                 SpawnAllSceneNPCs();
@@ -62,12 +57,12 @@ namespace Entity.NPC.Spawning
                 {
                     // Stagger spawns to avoid performance hitches
                     await Task.Delay((int)(staggeredSpawnDelay * 1000));
-                    await SpawnSceneNPC(npcData.npcKey);
+                    await SpawnSceneNPCAsync(npcData.npcKey);
                 }
             }
         }
 
-        public async Task<NPC> SpawnSceneNPC(string npcKey)
+        public async Task<NPC> SpawnSceneNPCAsync(string npcKey)
         {
             if (spawnManager == null)
             {
@@ -95,13 +90,13 @@ namespace Entity.NPC.Spawning
             Quaternion rotation = npcData.spawnPoint ? npcData.spawnPoint.rotation : Quaternion.identity;
 
             // Use the spawn manager to handle the actual spawning
+            // NPC spawnedNPC = await spawnManager.SpawnNPCAsync(npcData.npcData, position, rotation);
             NPC spawnedNPC = await spawnManager.SpawnNPCAsync(npcData.npcData, position, rotation);
-
             if (spawnedNPC != null)
             {
                 // Add to both dictionaries
                 spawnedNPCs[npcKey] = spawnedNPC;
-                
+
                 // Add to name-based dictionary
                 string npcName = spawnedNPC.Profile.Name;
                 if (!string.IsNullOrEmpty(npcName))
@@ -116,6 +111,7 @@ namespace Entity.NPC.Spawning
                             counter++;
                             uniqueName = $"{npcName}_{counter}";
                         }
+
                         Debug.LogWarning($"NPC name conflict: {npcName} already exists. Using {uniqueName} instead.");
                         spawnedNPCsByName[uniqueName] = spawnedNPC;
                     }
@@ -131,7 +127,76 @@ namespace Entity.NPC.Spawning
                     DontDestroyOnLoad(spawnedNPC.NPCView.gameObject);
                 }
             }
+            spawnedNPC.Initialize();
+            return spawnedNPC;
+        }
+        
+        public NPC SpawnSceneNPC(string npcKey)
+        {
+            if (spawnManager == null)
+            {
+                Debug.LogError("Cannot spawn NPC: No NPCSpawnManager available");
+                return null;
+            }
 
+            // Check if NPC already exists
+            if (spawnedNPCs.TryGetValue(npcKey, out var existingNpc))
+            {
+                Debug.LogWarning($"NPC with key {npcKey} already spawned");
+                return existingNpc;
+            }
+
+            // Find NPC data by key
+            var npcData = sceneNPCs.FirstOrDefault(n => n.npcKey == npcKey);
+            if (npcData == null)
+            {
+                Debug.LogError($"No NPC data found for key: {npcKey}");
+                return null;
+            }
+
+            // Spawn NPC at the designated point
+            Vector3 position = npcData.spawnPoint ? npcData.spawnPoint.position : transform.position;
+            Quaternion rotation = npcData.spawnPoint ? npcData.spawnPoint.rotation : Quaternion.identity;
+
+            // Use the spawn manager to handle the actual spawning
+            NPC spawnedNPC = spawnManager.SpawnNPC(npcData.npcData, position, rotation);
+            if (spawnedNPC != null)
+            {
+                // Add to both dictionaries
+                spawnedNPCs[npcKey] = spawnedNPC;
+
+                // Add to name-based dictionary
+                string npcName = spawnedNPC.Profile.Name;
+                if (!string.IsNullOrEmpty(npcName))
+                {
+                    // Handle name conflicts with a numbering scheme
+                    if (spawnedNPCsByName.ContainsKey(npcName))
+                    {
+                        int counter = 1;
+                        string uniqueName = $"{npcName}_{counter}";
+                        while (spawnedNPCsByName.ContainsKey(uniqueName))
+                        {
+                            counter++;
+                            uniqueName = $"{npcName}_{counter}";
+                        }
+
+                        Debug.LogWarning($"NPC name conflict: {npcName} already exists. Using {uniqueName} instead.");
+                        spawnedNPCsByName[uniqueName] = spawnedNPC;
+                    }
+                    else
+                    {
+                        spawnedNPCsByName[npcName] = spawnedNPC;
+                    }
+                }
+
+                // Set DontDestroyOnLoad if this NPC should persist
+                if (npcData.isPersistent && spawnedNPC.NPCView != null)
+                {
+                    DontDestroyOnLoad(spawnedNPC.NPCView.gameObject);
+                }
+            }
+            
+            spawnedNPC.Initialize();
             return spawnedNPC;
         }
 
@@ -145,7 +210,7 @@ namespace Entity.NPC.Spawning
                 {
                     spawnedNPCsByName.Remove(npcName);
                 }
-                
+
                 Destroy(npc.NPCView.gameObject);
                 spawnedNPCs.Remove(npcKey);
             }
@@ -161,6 +226,7 @@ namespace Entity.NPC.Spawning
                     return pair.Key;
                 }
             }
+
             return null;
         }
 
@@ -170,6 +236,7 @@ namespace Entity.NPC.Spawning
             {
                 return npc;
             }
+
             return null;
         }
 
@@ -179,6 +246,7 @@ namespace Entity.NPC.Spawning
             {
                 return npc;
             }
+
             return null;
         }
 
@@ -224,6 +292,7 @@ namespace Entity.NPC.Spawning
                     Destroy(npc.NPCView.gameObject);
                 }
             }
+
             spawnedNPCs.Clear();
             spawnedNPCsByName.Clear();
         }

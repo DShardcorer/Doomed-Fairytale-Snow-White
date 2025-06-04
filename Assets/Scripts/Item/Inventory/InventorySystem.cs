@@ -13,32 +13,32 @@ namespace Item.Inventory
         public float CurrentWeight => currentWeight;
 
         public List<InventoryItem> items;
-        public Dictionary<ItemData, InventoryItem> itemDictionary;
+        public Dictionary<ItemDataSO, InventoryItem> itemDictionary;
 
         public List<InventoryItem> materialItems;
-        public Dictionary<ItemData, InventoryItem> materialItemDictionary;
+        public Dictionary<ItemDataSO, InventoryItem> materialItemDictionary;
 
         public List<InventoryItem> consumableItems;
-        public Dictionary<ItemData, InventoryItem> consumableItemDictionary;
+        public Dictionary<ItemDataSO, InventoryItem> consumableItemDictionary;
 
         public List<InventoryItem> equipmentItems;
-        public Dictionary<ItemData, InventoryItem> equipmentItemDictionary;
+        public Dictionary<ItemDataSO, InventoryItem> equipmentItemDictionary;
 
         public List<InventoryItem> miscellaneousItems;
-        public Dictionary<ItemData, InventoryItem> miscellaneousItemDictionary;
+        public Dictionary<ItemDataSO, InventoryItem> miscellaneousItemDictionary;
 
         public InventorySystem()
         {
             items = new List<InventoryItem>();
-            itemDictionary = new Dictionary<ItemData, InventoryItem>();
+            itemDictionary = new Dictionary<ItemDataSO, InventoryItem>();
             materialItems = new List<InventoryItem>();
-            materialItemDictionary = new Dictionary<ItemData, InventoryItem>();
+            materialItemDictionary = new Dictionary<ItemDataSO, InventoryItem>();
             consumableItems = new List<InventoryItem>();
-            consumableItemDictionary = new Dictionary<ItemData, InventoryItem>();
+            consumableItemDictionary = new Dictionary<ItemDataSO, InventoryItem>();
             equipmentItems = new List<InventoryItem>();
-            equipmentItemDictionary = new Dictionary<ItemData, InventoryItem>();
+            equipmentItemDictionary = new Dictionary<ItemDataSO, InventoryItem>();
             miscellaneousItems = new List<InventoryItem>();
-            miscellaneousItemDictionary = new Dictionary<ItemData, InventoryItem>();
+            miscellaneousItemDictionary = new Dictionary<ItemDataSO, InventoryItem>();
         }
 
         public void ClearAll()
@@ -102,7 +102,7 @@ namespace Item.Inventory
             currentWeight = 0;
             foreach (InventoryItem item in items)
             {
-                currentWeight += item.ItemData.weight * item.stackSize;
+                currentWeight += item.itemDataSo.weight * item.stackSize;
             }
 
             OnWeightChanged(currentWeight, capacity);
@@ -122,214 +122,214 @@ namespace Item.Inventory
 
         public virtual void AddItem(InventoryItem inventoryItem)
         {
-            AddItem(inventoryItem.ItemData, inventoryItem.stackSize);
+            AddItem(inventoryItem.itemDataSo, inventoryItem.stackSize);
         }
 
-        public virtual void AddItem(ItemData itemData, int amount)
+        public virtual void AddItem(ItemDataSO itemDataSo, int amount)
         {
             InventoryItem item;
-            bool isNewItem = !itemDictionary.TryGetValue(itemData, out item);
+            bool isNewItem = !itemDictionary.TryGetValue(itemDataSo, out item);
 
             if (isNewItem)
             {
-                item = InventoryItemFactory.CreateItem(itemData);
+                item = InventoryItemFactory.CreateItem(itemDataSo);
                 items.Add(item);
-                itemDictionary[itemData] = item;
+                itemDictionary[itemDataSo] = item;
             }
 
             item.AddToStack(amount);
 
-            switch (itemData.itemType)
+            switch (itemDataSo.itemType)
             {
                 case ItemType.Material:
                     if (isNewItem) materialItems.Add(item);
-                    materialItemDictionary[itemData] = item;
+                    materialItemDictionary[itemDataSo] = item;
                     OnMaterialItemListChanged(materialItems);
                     break;
                 case ItemType.Consumable:
                     if (isNewItem) consumableItems.Add(item);
-                    consumableItemDictionary[itemData] = item;
+                    consumableItemDictionary[itemDataSo] = item;
                     OnConsumableItemListChanged(consumableItems);
                     break;
                 case ItemType.Equipment:
                     if (isNewItem) equipmentItems.Add(item);
-                    equipmentItemDictionary[itemData] = item;
+                    equipmentItemDictionary[itemDataSo] = item;
                     OnEquipmentItemListChanged(equipmentItems);
                     break;
                 case ItemType.Miscellaneous:
                     if (isNewItem) miscellaneousItems.Add(item);
-                    miscellaneousItemDictionary[itemData] = item;
+                    miscellaneousItemDictionary[itemDataSo] = item;
                     OnMiscellaneousItemListChanged(miscellaneousItems);
                     break;
             }
 
             OnItemListChanged(items);
-            IncrementCurrentWeight(itemData.weight * amount);
+            IncrementCurrentWeight(itemDataSo.weight * amount);
         }
 
 
-        public virtual void AddItem(ItemData itemData)
+        public virtual void AddItem(ItemDataSO itemDataSo)
         {
             InventoryItem item;
-            bool isNewItem = !itemDictionary.TryGetValue(itemData, out item);
+            bool isNewItem = !itemDictionary.TryGetValue(itemDataSo, out item);
 
             if (isNewItem)
             {
-                item = InventoryItemFactory.CreateItem(itemData);
+                item = InventoryItemFactory.CreateItem(itemDataSo);
                 items.Add(item);
-                itemDictionary[itemData] = item;
+                itemDictionary[itemDataSo] = item;
             }
 
             item.AddToStack();
 
-            switch (itemData.itemType)
+            switch (itemDataSo.itemType)
             {
                 case ItemType.Material:
                     if (isNewItem) materialItems.Add(item);
-                    materialItemDictionary[itemData] = item;
+                    materialItemDictionary[itemDataSo] = item;
                     OnMaterialItemListChanged(materialItems);
                     break;
                 case ItemType.Consumable:
                     if (isNewItem) consumableItems.Add(item);
-                    consumableItemDictionary[itemData] = item;
+                    consumableItemDictionary[itemDataSo] = item;
                     OnConsumableItemListChanged(consumableItems);
                     break;
                 case ItemType.Equipment:
                     if (isNewItem) equipmentItems.Add(item);
-                    equipmentItemDictionary[itemData] = item;
+                    equipmentItemDictionary[itemDataSo] = item;
                     OnEquipmentItemListChanged(equipmentItems);
                     break;
                 case ItemType.Miscellaneous:
                     if (isNewItem) miscellaneousItems.Add(item);
-                    miscellaneousItemDictionary[itemData] = item;
+                    miscellaneousItemDictionary[itemDataSo] = item;
                     OnMiscellaneousItemListChanged(miscellaneousItems);
                     break;
             }
 
             OnItemListChanged(items);
-            IncrementCurrentWeight(itemData.weight);
+            IncrementCurrentWeight(itemDataSo.weight);
         }
 
         public virtual void RemoveItem(InventoryItem inventoryItem)
         {
-            RemoveItem(inventoryItem.ItemData, inventoryItem.stackSize);
+            RemoveItem(inventoryItem.itemDataSo, inventoryItem.stackSize);
         }
 
-        public virtual void RemoveItem(ItemData itemData, int amount)
+        public virtual void RemoveItem(ItemDataSO itemDataSo, int amount)
         {
-            if (itemDictionary.ContainsKey(itemData))
+            if (itemDictionary.ContainsKey(itemDataSo))
             {
-                itemDictionary[itemData].RemoveFromStack(amount);
-                switch (itemData.itemType)
+                itemDictionary[itemDataSo].RemoveFromStack(amount);
+                switch (itemDataSo.itemType)
                 {
                     case ItemType.Material:
-                        materialItemDictionary[itemData].RemoveFromStack(amount);
+                        materialItemDictionary[itemDataSo].RemoveFromStack(amount);
                         OnMaterialItemListChanged(materialItems);
                         break;
                     case ItemType.Consumable:
-                        consumableItemDictionary[itemData].RemoveFromStack(amount);
+                        consumableItemDictionary[itemDataSo].RemoveFromStack(amount);
                         OnConsumableItemListChanged(consumableItems);
                         break;
                     case ItemType.Equipment:
-                        equipmentItemDictionary[itemData].RemoveFromStack(amount);
+                        equipmentItemDictionary[itemDataSo].RemoveFromStack(amount);
                         OnEquipmentItemListChanged(equipmentItems);
                         break;
                     case ItemType.Miscellaneous:
-                        miscellaneousItemDictionary[itemData].RemoveFromStack(amount);
+                        miscellaneousItemDictionary[itemDataSo].RemoveFromStack(amount);
                         OnMiscellaneousItemListChanged(miscellaneousItems);
                         break;
                 }
 
-                if (itemDictionary[itemData].stackSize <= 0)
+                if (itemDictionary[itemDataSo].stackSize <= 0)
                 {
-                    items.Remove(itemDictionary[itemData]);
-                    itemDictionary.Remove(itemData);
-                    switch (itemData.itemType)
+                    items.Remove(itemDictionary[itemDataSo]);
+                    itemDictionary.Remove(itemDataSo);
+                    switch (itemDataSo.itemType)
                     {
                         case ItemType.Material:
-                            materialItems.Remove(materialItemDictionary[itemData]);
-                            materialItemDictionary.Remove(itemData);
+                            materialItems.Remove(materialItemDictionary[itemDataSo]);
+                            materialItemDictionary.Remove(itemDataSo);
                             OnMaterialItemListChanged(materialItems);
                             break;
                         case ItemType.Consumable:
-                            consumableItems.Remove(consumableItemDictionary[itemData]);
-                            consumableItemDictionary.Remove(itemData);
+                            consumableItems.Remove(consumableItemDictionary[itemDataSo]);
+                            consumableItemDictionary.Remove(itemDataSo);
                             OnConsumableItemListChanged(consumableItems);
                             break;
                         case ItemType.Equipment:
-                            equipmentItems.Remove(equipmentItemDictionary[itemData]);
-                            equipmentItemDictionary.Remove(itemData);
+                            equipmentItems.Remove(equipmentItemDictionary[itemDataSo]);
+                            equipmentItemDictionary.Remove(itemDataSo);
                             OnEquipmentItemListChanged(equipmentItems);
                             break;
                         case ItemType.Miscellaneous:
-                            miscellaneousItems.Remove(miscellaneousItemDictionary[itemData]);
-                            miscellaneousItemDictionary.Remove(itemData);
+                            miscellaneousItems.Remove(miscellaneousItemDictionary[itemDataSo]);
+                            miscellaneousItemDictionary.Remove(itemDataSo);
                             OnMiscellaneousItemListChanged(miscellaneousItems);
                             break;
                     }
                 }
 
                 OnItemListChanged(items);
-                DecrementCurrentWeight(itemData.weight * amount);
+                DecrementCurrentWeight(itemDataSo.weight * amount);
             }
         }
 
-        public virtual void RemoveItem(ItemData itemData)
+        public virtual void RemoveItem(ItemDataSO itemDataSo)
         {
-            if (itemDictionary.ContainsKey(itemData))
+            if (itemDictionary.ContainsKey(itemDataSo))
             {
-                itemDictionary[itemData].RemoveFromStack();
-                switch (itemData.itemType)
+                itemDictionary[itemDataSo].RemoveFromStack();
+                switch (itemDataSo.itemType)
                 {
                     case ItemType.Material:
-                        materialItemDictionary[itemData].RemoveFromStack();
+                        materialItemDictionary[itemDataSo].RemoveFromStack();
                         OnMaterialItemListChanged(materialItems);
                         break;
                     case ItemType.Consumable:
-                        consumableItemDictionary[itemData].RemoveFromStack();
+                        consumableItemDictionary[itemDataSo].RemoveFromStack();
                         OnConsumableItemListChanged(consumableItems);
                         break;
                     case ItemType.Equipment:
-                        equipmentItemDictionary[itemData].RemoveFromStack();
+                        equipmentItemDictionary[itemDataSo].RemoveFromStack();
                         OnEquipmentItemListChanged(equipmentItems);
                         break;
                     case ItemType.Miscellaneous:
-                        miscellaneousItemDictionary[itemData].RemoveFromStack();
+                        miscellaneousItemDictionary[itemDataSo].RemoveFromStack();
                         OnMiscellaneousItemListChanged(miscellaneousItems);
                         break;
                 }
 
-                if (itemDictionary[itemData].stackSize <= 0)
+                if (itemDictionary[itemDataSo].stackSize <= 0)
                 {
-                    items.Remove(itemDictionary[itemData]);
-                    itemDictionary.Remove(itemData);
-                    switch (itemData.itemType)
+                    items.Remove(itemDictionary[itemDataSo]);
+                    itemDictionary.Remove(itemDataSo);
+                    switch (itemDataSo.itemType)
                     {
                         case ItemType.Material:
-                            materialItems.Remove(materialItemDictionary[itemData]);
-                            materialItemDictionary.Remove(itemData);
+                            materialItems.Remove(materialItemDictionary[itemDataSo]);
+                            materialItemDictionary.Remove(itemDataSo);
                             OnMaterialItemListChanged(materialItems);
                             break;
                         case ItemType.Consumable:
-                            consumableItems.Remove(consumableItemDictionary[itemData]);
-                            consumableItemDictionary.Remove(itemData);
+                            consumableItems.Remove(consumableItemDictionary[itemDataSo]);
+                            consumableItemDictionary.Remove(itemDataSo);
                             OnConsumableItemListChanged(consumableItems);
                             break;
                         case ItemType.Equipment:
-                            equipmentItems.Remove(equipmentItemDictionary[itemData]);
-                            equipmentItemDictionary.Remove(itemData);
+                            equipmentItems.Remove(equipmentItemDictionary[itemDataSo]);
+                            equipmentItemDictionary.Remove(itemDataSo);
                             OnEquipmentItemListChanged(equipmentItems);
                             break;
                         case ItemType.Miscellaneous:
-                            miscellaneousItems.Remove(miscellaneousItemDictionary[itemData]);
-                            miscellaneousItemDictionary.Remove(itemData);
+                            miscellaneousItems.Remove(miscellaneousItemDictionary[itemDataSo]);
+                            miscellaneousItemDictionary.Remove(itemDataSo);
                             OnMiscellaneousItemListChanged(miscellaneousItems);
                             break;
                     }
                 }
 
                 OnItemListChanged(items);
-                DecrementCurrentWeight(itemData.weight);
+                DecrementCurrentWeight(itemDataSo.weight);
             }
         }
     }

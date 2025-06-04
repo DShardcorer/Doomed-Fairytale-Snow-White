@@ -16,7 +16,7 @@ namespace Entity.NPC.AI
 
         private static void RegisterDefaults()
         {
-            Register(NPCAIType.Enhanced_Melee, data => new EnhancedMeleeNPCAIController(data.aiConfiguration));
+            Register(NPCAIType.Melee, data => new StandardMeleeNPCAIController(data.aiConfiguration));
             // Register(NPCAIType.Ranged, data => new RangedNPCAIController(data.aiConfiguration));
             Register(NPCAIType.Guard, data => new GuardNPCAIController(data.aiConfiguration));
             Register(NPCAIType.Peaceful, data => new PeacefulNPCAIController(data.aiConfiguration));

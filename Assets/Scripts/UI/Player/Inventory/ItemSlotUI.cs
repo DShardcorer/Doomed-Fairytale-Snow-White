@@ -21,7 +21,7 @@ namespace UI.Player.Inventory
         public void UpdateUI(InventoryItem item)
         {
             this.item = item;
-            _icon.sprite = item.ItemData.icon;
+            _icon.sprite = item.itemDataSo.icon;
             if (this.item.stackSize > 1)
             {
                 _stackSizeText.text = this.item.stackSize.ToString();
@@ -43,8 +43,8 @@ namespace UI.Player.Inventory
 
         private void OnDoubleClick()
         {
-            if(item.ItemData.itemType == ItemType.Equipment){
-                Debug.Log("Equipping item: " + item.ItemData.itemName);
+            if(item.itemDataSo.itemType == ItemType.Equipment){
+                Debug.Log("Equipping item: " + item.itemDataSo.itemName);
             }
         }
 

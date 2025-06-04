@@ -2,15 +2,15 @@ namespace Item.Inventory
 {
     public static class InventoryItemFactory
     {
-        public static InventoryItem CreateItem(ItemData itemData)
+        public static InventoryItem CreateItem(ItemDataSO itemDataSo)
         {
-            if(itemData is ItemData_Equipment)
+            if(itemDataSo is ItemDataSOEquipment)
             {
-                return new EquipmentInventoryItem(itemData as ItemData_Equipment);
+                return new EquipmentInventoryItem(itemDataSo as ItemDataSOEquipment);
             }
             else
             {
-                return new InventoryItem(itemData);
+                return new InventoryItem(itemDataSo);
             }
         }
     }

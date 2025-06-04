@@ -1,4 +1,5 @@
 using DataPersistence;
+using DefaultNamespace.Utility;
 using Entity.Player;
 using GeneralManagers;
 using SceneSwitch;
@@ -17,6 +18,7 @@ public class Bootstrapper : MonoBehaviour
 
         DataPersistenceManager.Instance.Initialize();
         SceneSwitchManager.Instance.Initialize();
+        ServiceLocator.SetInitialized();
     }
 
     private void InvokeInitialEvents()

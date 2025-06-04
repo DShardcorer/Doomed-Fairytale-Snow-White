@@ -94,7 +94,7 @@ namespace QuestSystem
             InventorySystem playerInventorySystem = GameManager.Instance.PlayerManager.Player.InventorySystem;
             foreach (InventoryItem inventoryItem in questInfo.itemRewards)
             {
-                playerInventorySystem.AddItem(inventoryItem.ItemData, inventoryItem.stackSize);
+                playerInventorySystem.AddItem(inventoryItem.itemDataSo, inventoryItem.stackSize);
             }
 
             LevelSystem playerLevelSystem = GameManager.Instance.PlayerManager.Player.LevelSystem;

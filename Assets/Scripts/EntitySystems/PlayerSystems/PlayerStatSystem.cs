@@ -60,7 +60,7 @@ namespace EntitySystems.PlayerSystems
                 {
                     continue;
                 }
-                foreach (var modifier in item.EquipmentData.StatModifiers)
+                foreach (var modifier in item.SoEquipmentDataSo.StatModifiers)
                 {
                     // Check for ability vs. combat modifier.
                     if (modifier.StatType == StatType.Strength ||

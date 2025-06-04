@@ -18,9 +18,9 @@ namespace Entity.Player
         private PlayerManager _parent;
         private InputManager _inputManager;
         public InputManager InputManager => _inputManager;
-
-        private PlayerProfile _profile;
-        public PlayerProfile Profile => _profile;
+        //
+        // private PlayerProfile _profile;
+        // public PlayerProfile Profile => _profile;
         private PlayerView _playerView;
         public PlayerView PlayerView => _playerView;
 
@@ -63,7 +63,7 @@ namespace Entity.Player
             _playerView = view;
             _playerProperties = properties;
             _playerIdleState = playerIdleState;
-            _profile = profile;
+            // _profile = profile;
             IdleState = playerIdleState;
             _playerMoveState = playerMoveState;
             _playerAttackState = playerAttackState;

@@ -8,7 +8,7 @@ using EntitySystems.Skill.ActiveSkills.Player.Attack;
 using EntitySystems.Skill.ActiveSkills.Player.Dash;
 using EntitySystems.Skill.ActiveSkills.Player.Shoot;
 using EntitySystems.Skill.PassiveSkills;
-using EntitySystems.Skill.SkillFactory;
+using EntitySystems.Skill.SkillRegistry;
 using EntitySystems.States.Movement;
 using EntitySystems.Stats;
 using EventSystem.Player;
@@ -142,14 +142,14 @@ namespace Entity.Player
             _player.StatSystem.AddAbilityStatPoints(statType, amount);
         }
 
-        public void AddItemToInventory(ItemData itemData, int amount)
+        public void AddItemToInventory(ItemDataSO itemDataSo, int amount)
         {
-            _player.InventorySystem.AddItem(itemData, amount);
+            _player.InventorySystem.AddItem(itemDataSo, amount);
         }
 
-        public void RemoveItemFromInventory(ItemData itemData, int amount)
+        public void RemoveItemFromInventory(ItemDataSO itemDataSo, int amount)
         {
-            _player.InventorySystem.RemoveItem(itemData, amount);
+            _player.InventorySystem.RemoveItem(itemDataSo, amount);
         }
 
         public void AddActiveSkill(ActiveSkill skill)

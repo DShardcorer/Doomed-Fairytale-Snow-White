@@ -1,4 +1,3 @@
-using EntitySystems.Skill.SkillFactory;
 using UnityEngine;
 
 namespace EntitySystems.Skill
@@ -7,7 +6,7 @@ namespace EntitySystems.Skill
     {
         public virtual PassiveSkill Create()
         {
-            return SkillRegistry.CreatePassiveSkill(this);
+            return SkillRegistry.SkillRegistry.CreatePassiveSkill(this);
         }
     }
 }
