@@ -41,6 +41,8 @@ namespace Entity.AttackCheck
         public void SetAttackHitBoxRotation(Vector2 direction)
         {
             transform.localRotation = Quaternion.Euler(0, 0, Vector2.SignedAngle(Vector2.down, direction));
+            //Set rotation only to updownleft/right
+            
         }
 
         // === Overloaded PerformAttack Methods === //
