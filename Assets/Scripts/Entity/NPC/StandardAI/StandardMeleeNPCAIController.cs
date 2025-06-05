@@ -15,7 +15,7 @@ namespace Entity.NPC.StandardAI
             // Add states
             NPCMoveState npcMoveState = new NPCMoveState(config);
             StandardNpcMeleeChaseState npcChaseState = new StandardNpcMeleeChaseState(config);
-            StandardNpcMeleeAttackState npcAttackState = new StandardNpcMeleeAttackState(config);
+            NpcMeleeAttackState npcAttackState = new NpcMeleeAttackState(config);
             
             states.Add(HelperNPCStateName.Move, npcMoveState);
             states.Add(HelperNPCStateName.Chase, npcChaseState);
@@ -55,8 +55,8 @@ namespace Entity.NPC.StandardAI
                 
             SetTarget(entity);
             
-            // Always switch to combat when target spotted
-            ChangeNPCSubAIController("combat");
+            // // Always switch to combat when target spotted
+            // ChangeNPCSubAIController("combat");
         }
         
         protected override void OnTargetSpottedInProximity(object sender, Entity e)

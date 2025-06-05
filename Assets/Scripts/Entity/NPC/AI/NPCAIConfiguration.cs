@@ -27,7 +27,7 @@ namespace Entity.NPC.AI
 
         [Header("Attack Settings")]
         public AttackType attackType = AttackType.OverlapCircle;
-        public float attackRange = 1f;
+        public float attackRange = 2f;
         public float attackDamage = 10f;
         public float attackCooldown = 2f;
 

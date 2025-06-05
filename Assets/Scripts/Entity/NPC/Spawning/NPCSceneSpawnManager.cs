@@ -57,7 +57,7 @@ namespace Entity.NPC.Spawning
                 {
                     // Stagger spawns to avoid performance hitches
                     await Task.Delay((int)(staggeredSpawnDelay * 1000));
-                    await SpawnSceneNPCAsync(npcData.npcKey);
+                    SpawnSceneNPC(npcData.npcKey);
                 }
             }
         }

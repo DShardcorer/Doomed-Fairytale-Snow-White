@@ -10,9 +10,8 @@ namespace Entity.NPC.AI
 {
     public abstract class NPCAIController : ILifecycle<NPC>
     {
-        // Existing fields...
         protected NPC npc;
-        public NPC NPC => npc; // Add public property
+        public NPC NPC => npc;
         protected NPCAIConfiguration _config;
         protected Seeker seeker;
         public Seeker Seeker => seeker;
@@ -26,9 +25,10 @@ namespace Entity.NPC.AI
 
         protected Dictionary<string, NPCSubAIController>
             subAIControllers = new Dictionary<string, NPCSubAIController>();
-
-        // NEW: Queue for controller change requests
+        
         private Queue<ControllerChangeRequest> _changeRequests = new Queue<ControllerChangeRequest>();
+
+        
 
         private struct ControllerChangeRequest
         {
@@ -145,7 +145,18 @@ namespace Entity.NPC.AI
         #endregion
 
         #region NPCSubAI Management
-
+        public void SetCurrentSubControllerBusy(bool isBusy)
+        {
+            var currentController = GetCurrentNPCSubAIController();
+            if (currentController != null)
+            {
+                currentController.SetBusy(isBusy);
+            }
+            else
+            {
+                Debug.LogWarning("No current NPC Sub AI Controller to set busy state.");
+            }
+        }
         public void AddNPCSubAIControllerAndInitialize(string controllerId, NPCSubAIController controller)
         {
             if (!subAIControllers.ContainsKey(controllerId))

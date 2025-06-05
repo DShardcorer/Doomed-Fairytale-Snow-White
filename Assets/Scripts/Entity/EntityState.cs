@@ -42,15 +42,16 @@ namespace Entity
         }
 
         protected virtual void OnTakingEffect(object sender, EventArgs e){
-            Debug.Log("Taking effect triggered from animation frame");
+            Debug.LogWarning("Taking effect triggered from animation frame");
         }
 
         public virtual void UpdateState()
         {
+            _view.SetAnimationDirection(_properties.lastMovementVector);
         }
         public virtual void FixedUpdateState()
         {
-            _view.SetAnimationDirection(_properties.lastMovementVector);
+
         }
 
         public virtual void OnAnimationEnd()

@@ -39,8 +39,23 @@ namespace Entity.NPC.AI
             Debug.Log($"{GetType().Name} exited");
         }
         
-        public virtual void UpdateLogic() {}
-        public virtual void FixedUpdateLogic() {}
+        private bool _isBusy = false;
+
+        public void SetBusy(bool isBusy)
+        {
+            _isBusy = isBusy;
+            Debug.Log($"{GetType().Name} is now busy: {_isBusy}");
+        }
+
+        public virtual void UpdateLogic()
+        {
+            if(_isBusy) return;
+        }
+
+        public virtual void FixedUpdateLogic()
+        {
+            if(_isBusy) return;
+        }
         
         // Helper methods for common operations
         protected void ChangeToState(string stateId)
