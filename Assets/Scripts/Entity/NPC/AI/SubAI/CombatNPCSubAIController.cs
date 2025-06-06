@@ -9,7 +9,7 @@ namespace Entity.NPC.AI.SubControllers
         private float _lostTargetTimer = 0f;
         private float _lostTargetTimeout = 3f;
         private Vector3 _lastTargetPosition;
-        
+
         // Attack cooldown variables
         private float _attackCooldown = 0.3f;
         private float _attackCooldownTimer = 0f;
@@ -72,12 +72,12 @@ namespace Entity.NPC.AI.SubControllers
 
             FaceTarget();
 
-            string currentStateName = parent.GetCurrentState()?.GetType().Name;
-            
-            Debug.Log(currentStateName);
-            switch (currentStateName)
+            string currentStateId = parent.GetCurrentStateId();
+            // Debug.Log($"Current State ID: {currentStateId}");
+
+            switch (currentStateId)
             {
-                case "NPCIdleState":
+                case HelperNPCStateName.Idle:
                     if (IsInAttackRange() && !_isOnAttackCooldown)
                     {
                         ChangeToState(HelperNPCStateName.Attack);
@@ -88,14 +88,15 @@ namespace Entity.NPC.AI.SubControllers
                     }
                     break;
 
-                case "NpcMoveState":
+                case HelperNPCStateName.Move:
+                case HelperNPCStateName.Chase:
                     if (IsInAttackRange() && !_isOnAttackCooldown)
                     {
                         ChangeToState(HelperNPCStateName.Attack);
                     }
                     break;
 
-                case "NpcMeleeAttackState":
+                case HelperNPCStateName.Attack:
                     // Start cooldown when in attack state
                     _isOnAttackCooldown = true;
                     _attackCooldownTimer = 0f;
@@ -109,9 +110,9 @@ namespace Entity.NPC.AI.SubControllers
 
             if (_lostTargetTimer < _lostTargetTimeout)
             {
-                string currentStateName = parent.GetCurrentState()?.GetType().Name;
+                string currentStateId = parent.GetCurrentStateId();
 
-                if (currentStateName == "NPCIdleState" || currentStateName == "StandardNpcMeleeChaseState")
+                if (currentStateId == HelperNPCStateName.Idle || currentStateId == HelperNPCStateName.Chase)
                 {
                     MoveToPosition(_lastTargetPosition);
                 }
@@ -138,13 +139,13 @@ namespace Entity.NPC.AI.SubControllers
                 FaceTarget();
             }
         }
-        
+
         // Method to check if attack is on cooldown
         public bool IsAttackOnCooldown()
         {
             return _isOnAttackCooldown;
         }
-        
+
         // Method to get remaining cooldown time
         public float GetRemainingCooldown()
         {

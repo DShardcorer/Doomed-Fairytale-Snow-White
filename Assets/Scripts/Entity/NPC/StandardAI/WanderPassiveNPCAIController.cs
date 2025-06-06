@@ -5,18 +5,18 @@ using Helpers;
 
 namespace Entity.NPC.StandardAI
 {
-    public class PeacefulNPCAIController : NPCAIController
+    public class WanderPassiveNPCAIController : NPCAIController
     {
-        public PeacefulNPCAIController(NPCAIConfiguration config) : base(config)
+        public WanderPassiveNPCAIController(NPCAIConfiguration config) : base(config)
         {
             var moveState = new NPCMoveState(config);
             states.Add(HelperNPCStateName.Move, moveState);
             
             var wanderController = new WanderNPCSubAIController();
-            var fleeController = new FleeNPCSubAIController();
+            var fleeController = new FleeNPCSubAIController(HelperNPCSubAIControllerName.Wander);
             
-            subAIControllers.Add("wander", wanderController);
-            subAIControllers.Add("flee", fleeController);
+            subAIControllers.Add(HelperNPCSubAIControllerName.Wander, wanderController);
+            subAIControllers.Add(HelperNPCSubAIControllerName.Flee, fleeController);
         }
         
         protected override NPCState GetInitialState()
@@ -26,21 +26,31 @@ namespace Entity.NPC.StandardAI
         
         protected override NPCSubAIController GetInitialNPCSubAIController()
         {
-            return subAIControllers["wander"];
+            return subAIControllers[HelperNPCSubAIControllerName.Wander];
         }
-        
+
+        protected override string GetInitialStateId()
+        {
+            return HelperNPCStateName.Idle;
+        }
+
+        protected override string GetInitialSubAIControllerId()
+        {
+            return HelperNPCSubAIControllerName.Wander;
+        }
+
         protected override void OnTargetSpottedInFOV(object sender, Entity entity)
         {
             // Peaceful NPCs flee when they see enemies
             SetTarget(entity);
-            ChangeNPCSubAIController("flee");
+            ChangeNPCSubAIController(HelperNPCSubAIControllerName.Flee);
         }
         
         protected override void OnTargetSpottedInProximity(object sender, Entity e)
         {
             // Also flee from close enemies
             SetTarget(e);
-            ChangeNPCSubAIController("flee");
+            ChangeNPCSubAIController(HelperNPCSubAIControllerName.Flee);
         }
     }
 

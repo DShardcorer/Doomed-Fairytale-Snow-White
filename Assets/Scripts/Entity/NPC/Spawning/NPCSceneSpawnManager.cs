@@ -19,6 +19,9 @@ namespace Entity.NPC.Spawning
             public NPCSpawnData npcData;
             public Transform spawnPoint;
             public bool spawnOnStart = true;
+            
+            
+            public List<Vector3> patrolPoints = new List<Vector3>();
 
             [Tooltip("Set to true if this NPC should persist when changing scenes")]
             public bool isPersistent = false;

@@ -1,3 +1,4 @@
+// WanderNPCSubAIController.cs
 using UnityEngine;
 using Helpers;
 
@@ -40,21 +41,21 @@ namespace Entity.NPC.AI.SubControllers
                 // Depending on NPC type and configuration, they might flee, fight, or investigate
                 if (config.shouldChaseTargets)
                 {
-                    RequestControllerChange("combat", "Target spotted while wandering");
+                    RequestControllerChange(HelperNPCSubAIControllerName.Combat, "Target spotted while wandering");
                 }
                 else
                 {
-                    RequestControllerChange("flee", "Scared by target while wandering");
+                    RequestControllerChange(HelperNPCSubAIControllerName.Flee, "Scared by target while wandering");
                 }
                 return;
             }
             
-            string currentStateName = parent.GetCurrentState()?.GetType().Name;
+            string currentStateId = parent.GetCurrentStateId();
             
             if (_isWandering)
             {
                 // We're currently moving to a wander destination
-                if (currentStateName == "NPCIdleState")
+                if (currentStateId == HelperNPCStateName.Idle)
                 {
                     // We've reached our destination, start pausing
                     _isWandering = false;

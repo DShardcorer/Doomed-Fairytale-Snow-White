@@ -84,8 +84,8 @@ namespace Entity.NPC.AI.SubControllers
             else
             {
                 // Just guard - stay idle and alert
-                string currentStateName = parent.GetCurrentState()?.GetType().Name;
-                if (currentStateName != "NPCIdleState")
+                string currentStateId = parent.GetCurrentStateId();
+                if (currentStateId != HelperNPCStateName.Idle)
                 {
                     ChangeToState(HelperNPCStateName.Idle);
                 }
@@ -117,11 +117,11 @@ namespace Entity.NPC.AI.SubControllers
             // Normal combat logic
             FaceTarget();
             
-            string currentStateName = parent.GetCurrentState()?.GetType().Name;
+            string currentStateId = parent.GetCurrentStateId();
             
-            switch (currentStateName)
+            switch (currentStateId)
             {
-                case "NPCIdleState":
+                case HelperNPCStateName.Idle:
                     if (IsInAttackRange())
                     {
                         ChangeToState(HelperNPCStateName.Attack);
@@ -132,14 +132,14 @@ namespace Entity.NPC.AI.SubControllers
                     }
                     break;
                     
-                case "StandardNpcMeleeChaseState":
+                case HelperNPCStateName.Chase:
                     if (IsInAttackRange())
                     {
                         ChangeToState(HelperNPCStateName.Attack);
                     }
                     break;
                     
-                case "StandardNpcMeleeAttackState":
+                case HelperNPCStateName.Attack:
                     if (!IsInAttackRange())
                     {
                         ChangeToState(HelperNPCStateName.Chase);
@@ -169,8 +169,8 @@ namespace Entity.NPC.AI.SubControllers
             
             if (distanceFromPost > _guardRadius * 0.5f)
             {
-                string currentStateName = parent.GetCurrentState()?.GetType().Name;
-                if (currentStateName == "NPCIdleState")
+                string currentStateId = parent.GetCurrentStateId();
+                if (currentStateId == HelperNPCStateName.Idle)
                 {
                     MoveToPosition(_guardPosition);
                 }

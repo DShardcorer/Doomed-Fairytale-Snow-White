@@ -5,9 +5,9 @@ using Helpers;
 
 namespace Entity.NPC.StandardAI
 {
-    public class GuardNPCAIController : NPCAIController
+    public class GuardAgressiveNPCAIController : NPCAIController
     {
-        public GuardNPCAIController(NPCAIConfiguration config) : base(config)
+        public GuardAgressiveNPCAIController(NPCAIConfiguration config) : base(config)
         {
             // Add basic states
             var moveState = new NPCMoveState(config);
@@ -17,8 +17,8 @@ namespace Entity.NPC.StandardAI
             var guardController = new GuardNPCSubAIController();
             var combatController = new CombatNPCSubAIController();
             
-            subAIControllers.Add("guard", guardController);
-            subAIControllers.Add("combat", combatController);
+            subAIControllers.Add(HelperNPCSubAIControllerName.Guard, guardController);
+            subAIControllers.Add(HelperNPCSubAIControllerName.Combat, combatController);
         }
         
         protected override NPCState GetInitialState()
@@ -28,15 +28,25 @@ namespace Entity.NPC.StandardAI
         
         protected override NPCSubAIController GetInitialNPCSubAIController()
         {
-            return subAIControllers["guard"];
+            return subAIControllers[HelperNPCSubAIControllerName.Guard];
         }
-        
+
+        protected override string GetInitialStateId()
+        {
+            return HelperNPCStateName.Idle;
+        }
+
+        protected override string GetInitialSubAIControllerId()
+        {
+            return HelperNPCSubAIControllerName.Guard;
+        }
+
         protected override void OnTargetSpottedInFOV(object sender, Entity entity)
         {
             if (npc.IsBusy || !_config.shouldChaseTargets) return;
             
             SetTarget(entity);
-            ChangeNPCSubAIController("combat");
+            // ChangeNPCSubAIController("combat");
         }
         
         protected override void OnTargetSpottedInProximity(object sender, Entity e)

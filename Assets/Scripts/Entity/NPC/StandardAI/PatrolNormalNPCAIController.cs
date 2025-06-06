@@ -8,9 +8,9 @@ using UnityEngine;
 
 namespace Entity.NPC.StandardAI
 {
-    public class StandardMeleeNPCAIController : NPCAIController
+    public class PatrolNormalNPCAIController : NPCAIController
     {
-        public StandardMeleeNPCAIController(NPCAIConfiguration config) : base(config)
+        public PatrolNormalNPCAIController(NPCAIConfiguration config) : base(config)
         {
             // Add states
             NPCMoveState npcMoveState = new NPCMoveState(config);
@@ -24,11 +24,11 @@ namespace Entity.NPC.StandardAI
             // Add sub AI controllers
             PatrolNPCSubAIController patrolController = new PatrolNPCSubAIController();
             CombatNPCSubAIController combatController = new CombatNPCSubAIController();
-            FleeNPCSubAIController fleeController = new FleeNPCSubAIController();
+            FleeNPCSubAIController fleeController = new FleeNPCSubAIController(HelperNPCSubAIControllerName.Patrol);
             
-            subAIControllers.Add("patrol", patrolController);
-            subAIControllers.Add("combat", combatController);
-            subAIControllers.Add("flee", fleeController);
+            subAIControllers.Add(HelperNPCSubAIControllerName.Patrol, patrolController);
+            subAIControllers.Add(HelperNPCSubAIControllerName.Combat, combatController);
+            subAIControllers.Add(HelperNPCSubAIControllerName.Flee, fleeController);
         }
         
         protected override NPCState GetInitialState()
@@ -44,10 +44,20 @@ namespace Entity.NPC.StandardAI
         
         protected override NPCSubAIController GetInitialNPCSubAIController()
         {
-            return subAIControllers["patrol"];
+            return subAIControllers[HelperNPCSubAIControllerName.Patrol];
         }
         
         // ONLY handle external events - no internal state management
+        protected override string GetInitialStateId()
+        {
+            return HelperNPCStateName.Idle;
+        }
+
+        protected override string GetInitialSubAIControllerId()
+        {
+            return HelperNPCSubAIControllerName.Patrol;
+        }
+
         protected override void OnTargetSpottedInFOV(object sender, Entity entity)
         {
             if (npc.IsBusy || !_config.shouldChaseTargets)

@@ -16,10 +16,10 @@ namespace Entity.NPC.AI
 
         private static void RegisterDefaults()
         {
-            Register(NPCAIType.Melee, data => new StandardMeleeNPCAIController(data.aiConfiguration));
+            Register(NPCAIType.Melee, data => new PatrolNormalNPCAIController(data.aiConfiguration));
             // Register(NPCAIType.Ranged, data => new RangedNPCAIController(data.aiConfiguration));
-            Register(NPCAIType.Guard, data => new GuardNPCAIController(data.aiConfiguration));
-            Register(NPCAIType.Peaceful, data => new PeacefulNPCAIController(data.aiConfiguration));
+            Register(NPCAIType.Guard, data => new GuardAgressiveNPCAIController(data.aiConfiguration));
+            Register(NPCAIType.Peaceful, data => new WanderPassiveNPCAIController(data.aiConfiguration));
             // Register(NPCAIType.Stealth, data => new StealthNPCAIController(data.aiConfiguration));
             // Register(NPCAIType.Merchant, data => new MerchantNPCAIController(data.aiConfiguration));
         }

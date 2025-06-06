@@ -15,14 +15,14 @@ namespace Entity.NPC.AI.SubControllers
         private bool _isWaiting = false;
         private Vector3 _spawnPosition;
         private bool _hasCustomPatrolPoints = false;
-        
+
         public override void Initialize(NPCAIController parent)
         {
             base.Initialize(parent);
             _patrolRadius = config.patrolRadius;
             _waitTime = config.patrolWaitTime;
         }
-        
+
         /// <summary>
         /// Sets custom patrol points for this NPC. If not called, will fall back to generating random points.
         /// </summary>
@@ -41,7 +41,7 @@ namespace Entity.NPC.AI.SubControllers
                 Debug.LogWarning("Attempted to set empty or null patrol points list");
             }
         }
-        
+
         /// <summary>
         /// Sets custom patrol points for this NPC using an array.
         /// </summary>
@@ -60,7 +60,7 @@ namespace Entity.NPC.AI.SubControllers
                 Debug.LogWarning("Attempted to set empty or null patrol points array");
             }
         }
-        
+
         /// <summary>
         /// Gets a copy of the current patrol points
         /// </summary>
@@ -68,7 +68,7 @@ namespace Entity.NPC.AI.SubControllers
         {
             return new List<Vector3>(_patrolPoints);
         }
-        
+
         /// <summary>
         /// Clears any custom patrol points and forces regeneration on next OnEnter
         /// </summary>
@@ -77,18 +77,18 @@ namespace Entity.NPC.AI.SubControllers
             _hasCustomPatrolPoints = false;
             _patrolPoints.Clear();
         }
-        
+
         public override void OnEnter()
         {
             base.OnEnter();
             _spawnPosition = npc.View.transform.position;
-            
+
             // Only generate random points if no custom points were provided
             if (!_hasCustomPatrolPoints)
             {
                 GeneratePatrolPoints();
             }
-            
+
             _currentPatrolIndex = 0;
             _isWaiting = false;
             _waitTimer = 0f;
@@ -106,23 +106,23 @@ namespace Entity.NPC.AI.SubControllers
         {
             _patrolPoints.Clear();
             int pointCount = Random.Range(3, 6);
-            
+
             for (int i = 0; i < pointCount; i++)
             {
                 float angle = i * (360f / pointCount) + Random.Range(-30f, 30f);
                 float rad = angle * Mathf.Deg2Rad;
                 float distance = _patrolRadius * Random.Range(0.6f, 1f);
-                
+
                 Vector3 point = _spawnPosition + new Vector3(
                     Mathf.Cos(rad) * distance,
                     Mathf.Sin(rad) * distance,
                     0
                 );
-                
+
                 _patrolPoints.Add(point);
             }
         }
-        
+
         private void MoveToCurrentPatrolPoint()
         {
             if (_patrolPoints.Count > 0)
@@ -130,20 +130,20 @@ namespace Entity.NPC.AI.SubControllers
                 MoveToPosition(_patrolPoints[_currentPatrolIndex]);
             }
         }
-        
+
         public override void UpdateLogic()
         {
             // If we have a target, request switch to combat
             if (HasTarget())
             {
-                RequestControllerChange("combat", "Target spotted during patrol");
+                RequestControllerChange(HelperNPCSubAIControllerName.Combat, "Target spotted during patrol");
                 return;
             }
-            
+
             // Handle patrol logic
-            string currentStateName = parent.GetCurrentState()?.GetType().Name;
-            
-            if (currentStateName == "NPCIdleState")
+            string currentStateId = parent.GetCurrentStateId();
+
+            if (currentStateId == HelperNPCStateName.Idle)
             {
                 if (_isWaiting)
                 {
@@ -162,7 +162,7 @@ namespace Entity.NPC.AI.SubControllers
                 }
             }
         }
-        
+
         public override bool ShouldRemainActive()
         {
             // Switch to combat if we have a target

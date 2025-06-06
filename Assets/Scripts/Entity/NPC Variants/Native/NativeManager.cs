@@ -59,7 +59,7 @@ namespace Entity.NPC_Variants.Native
             StaminaSystem staminaSystem = new StaminaSystem((int)statSystem.CombatStatBoard.Stamina.ModifiedValue);
             InventorySystem inventory = new InventorySystem();
             NPCAIController enhancedMeleeAIController =
-                new StandardMeleeNPCAIController(
+                new PatrolNormalNPCAIController(
                     UnityEngine.Resources.Load<NPCAIConfiguration>(HelperResourcePath.NPCAIConfigPath +
                                                                    "StandardNPCMeleeAIConfig"));
             NPC.NPC npc = new NPC.NPC(

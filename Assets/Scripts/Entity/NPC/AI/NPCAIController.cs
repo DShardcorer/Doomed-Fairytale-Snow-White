@@ -21,14 +21,20 @@ namespace Entity.NPC.AI
         protected EntityStateMachine _npcStateStateMachine;
         protected Dictionary<string, NPCState> states = new Dictionary<string, NPCState>();
 
+        // Track current state and subcontroller IDs
+        private string _currentStateId = string.Empty;
+        private string _currentSubControllerId = string.Empty;
+
+        // Public properties to access current IDs
+        public string CurrentStateId => _currentStateId;
+        public string CurrentSubControllerId => _currentSubControllerId;
+
         protected NPCSubAIStateMachine _npcSubAIStateMachine;
 
         protected Dictionary<string, NPCSubAIController>
             subAIControllers = new Dictionary<string, NPCSubAIController>();
-        
-        private Queue<ControllerChangeRequest> _changeRequests = new Queue<ControllerChangeRequest>();
 
-        
+        private Queue<ControllerChangeRequest> _changeRequests = new Queue<ControllerChangeRequest>();
 
         private struct ControllerChangeRequest
         {
@@ -78,11 +84,16 @@ namespace Entity.NPC.AI
                 state.Value.Initialize(npc);
             }
 
-            _npcStateStateMachine.Initialize(GetInitialState());
-            _npcSubAIStateMachine.Initialize(GetInitialNPCSubAIController());
-        }
+            // Initialize state machines with initial values
+            string initialStateId = GetInitialStateId();
+            string initialSubControllerId = GetInitialSubAIControllerId();
 
-        // Existing state management methods...
+            _currentStateId = initialStateId;
+            _currentSubControllerId = initialSubControllerId;
+
+            _npcStateStateMachine.Initialize(GetState(initialStateId));
+            _npcSubAIStateMachine.Initialize(GetInitialNPCSubAIController(initialSubControllerId));
+        }
 
         #region State Management
 
@@ -116,13 +127,13 @@ namespace Entity.NPC.AI
             if (states.TryGetValue(stateId, out var state))
             {
                 _npcStateStateMachine.ChangeState(state);
+                _currentStateId = stateId; // Update the current state ID directly
             }
             else
             {
                 Debug.LogWarning($"State with ID {stateId} does not exist.");
             }
         }
-
 
         public NPCState GetState(string stateId)
         {
@@ -142,6 +153,15 @@ namespace Entity.NPC.AI
             return _npcStateStateMachine.CurrentState as NPCState;
         }
 
+        // Get the current state ID directly
+        public string GetCurrentStateId()
+        {
+            return _currentStateId;
+        }
+
+        // Method to get initial state ID
+        protected abstract string GetInitialStateId();
+
         #endregion
 
         #region NPCSubAI Management
@@ -157,6 +177,7 @@ namespace Entity.NPC.AI
                 Debug.LogWarning("No current NPC Sub AI Controller to set busy state.");
             }
         }
+
         public void AddNPCSubAIControllerAndInitialize(string controllerId, NPCSubAIController controller)
         {
             if (!subAIControllers.ContainsKey(controllerId))
@@ -187,6 +208,7 @@ namespace Entity.NPC.AI
             if (subAIControllers.TryGetValue(controllerId, out var controller))
             {
                 _npcSubAIStateMachine.ChangeNPCSubAIController(controller);
+                _currentSubControllerId = controllerId; // Update the current controller ID directly
             }
             else
             {
@@ -212,7 +234,16 @@ namespace Entity.NPC.AI
             return _npcSubAIStateMachine.CurrentNpcSubAIController;
         }
 
-        // NEW: Method for sub-controllers to request changes
+        // Get the current subcontroller ID directly
+        public string GetCurrentSubControllerId()
+        {
+            return _currentSubControllerId;
+        }
+
+        // Method to get initial subcontroller ID
+        protected abstract string GetInitialSubAIControllerId();
+
+        // Method for sub-controllers to request changes
         public void RequestSubAIControllerChange(string controllerId, string reason = "")
         {
             _changeRequests.Enqueue(new ControllerChangeRequest
@@ -247,7 +278,7 @@ namespace Entity.NPC.AI
             _npcStateStateMachine.UpdateLogic();
         }
 
-        // NEW: Process queued controller change requests
+        // Process queued controller change requests
         private void ProcessControllerChangeRequests()
         {
             while (_changeRequests.Count > 0)
@@ -269,7 +300,7 @@ namespace Entity.NPC.AI
             }
         }
 
-        // NEW: Check global conditions that can override sub-controller behavior
+        // Check global conditions that can override sub-controller behavior
         protected virtual void CheckGlobalConditions()
         {
             var currentController = GetCurrentNPCSubAIController();
@@ -287,7 +318,7 @@ namespace Entity.NPC.AI
             {
                 float healthPercent = (float)npc.HealthSystem.GetHealthPercentage();
                 if (healthPercent <= _config.healthFleeThreshold &&
-                    currentController.GetType().Name != "FleeNPCSubAIController")
+                    _currentSubControllerId != "flee")
                 {
                     ChangeNPCSubAIController("flee");
                     return;
