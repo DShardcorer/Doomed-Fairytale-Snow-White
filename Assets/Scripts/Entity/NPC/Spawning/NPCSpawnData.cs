@@ -55,10 +55,11 @@ namespace Entity.NPC.Spawning
     public enum NPCAIType
     {
         PatrolNormal,
-        Ranged,
         GuardAgressive,
         WanderPassive,
+        KeepPositionPassive,
         Stealth,
+        Ranged,
         Merchant,
         Custom
     }
