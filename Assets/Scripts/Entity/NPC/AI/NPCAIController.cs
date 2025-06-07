@@ -92,7 +92,7 @@ namespace Entity.NPC.AI
             _currentSubControllerId = initialSubControllerId;
 
             _npcStateStateMachine.Initialize(GetState(initialStateId));
-            _npcSubAIStateMachine.Initialize(GetInitialNPCSubAIController(initialSubControllerId));
+            _npcSubAIStateMachine.Initialize(GetNPCSubAIController(initialSubControllerId));
         }
 
         #region State Management
@@ -165,6 +165,7 @@ namespace Entity.NPC.AI
         #endregion
 
         #region NPCSubAI Management
+
         public void SetCurrentSubControllerBusy(bool isBusy)
         {
             var currentController = GetCurrentNPCSubAIController();
@@ -203,7 +204,7 @@ namespace Entity.NPC.AI
             }
         }
 
-        public void ChangeNPCSubAIController(string controllerId)
+        private void ChangeNPCSubAIController(string controllerId)
         {
             if (subAIControllers.TryGetValue(controllerId, out var controller))
             {
@@ -216,22 +217,20 @@ namespace Entity.NPC.AI
             }
         }
 
-        public NPCSubAIController GetInitialNPCSubAIController(string controllerId)
-        {
-            if (subAIControllers.TryGetValue(controllerId, out var controller))
-            {
-                return controller;
-            }
-            else
-            {
-                Debug.LogWarning($"Sub AI Controller with ID {controllerId} does not exist.");
-                return null;
-            }
-        }
 
         public NPCSubAIController GetCurrentNPCSubAIController()
         {
             return _npcSubAIStateMachine.CurrentNpcSubAIController;
+        }
+
+        public NPCSubAIController GetNPCSubAIController(string controllerId)
+        {
+            return subAIControllers.TryGetValue(controllerId, out var controller) ? controller : null;
+        }
+
+        public bool HasNPCSubAIController(string controllerId)
+        {
+            return subAIControllers.ContainsKey(controllerId);
         }
 
         // Get the current subcontroller ID directly
@@ -242,6 +241,11 @@ namespace Entity.NPC.AI
 
         // Method to get initial subcontroller ID
         protected abstract string GetInitialSubAIControllerId();
+
+        public string InitialSubAIControllerId()
+        {
+            return GetInitialSubAIControllerId();
+        }
 
         // Method for sub-controllers to request changes
         public void RequestSubAIControllerChange(string controllerId, string reason = "")
@@ -261,8 +265,24 @@ namespace Entity.NPC.AI
             return _config;
         }
 
-        protected abstract void OnTargetSpottedInFOV(object sender, Entity entity);
-        protected abstract void OnTargetSpottedInProximity(object sender, Entity e);
+        protected virtual void OnTargetSpottedInFOV(object sender, Entity entity)
+        {
+            SetTarget(entity);
+        }
+
+        protected virtual void OnTargetSpottedInProximity(object sender, Entity e)
+        {
+            if (npc.IsBusy)
+                return;
+            if (HasTarget())
+            {
+                return;
+            }
+
+            npc.NPCProperties.lastMovementVector =
+                (e.View.transform.position - npc.View.transform.position).normalized;
+        }
+
         protected abstract NPCState GetInitialState();
         protected abstract NPCSubAIController GetInitialNPCSubAIController();
 
@@ -307,20 +327,24 @@ namespace Entity.NPC.AI
             if (currentController == null) return;
 
             // Check if current controller wants to remain active
-            if (!currentController.ShouldRemainActive())
+            if (currentController.ShouldRemainActiveDespiteGlobalConditions())
             {
                 // Let the controller decide what to do
                 return;
             }
 
             // Global condition: Health-based fleeing
-            if (npc.NPCProperties.target != null)
+            if (HasTarget())
             {
-                float healthPercent = (float)npc.HealthSystem.GetHealthPercentage();
+                float healthPercent = npc.HealthSystem.GetHealthPercentage();
+                //print out current health percent and stateid
+                Debug.Log(
+                    $"Current Health Percent: {healthPercent}, Current subcontroller ID: {_currentSubControllerId}");
                 if (healthPercent <= _config.healthFleeThreshold &&
-                    _currentSubControllerId != "flee")
+                    _currentSubControllerId != HelperNPCSubAIControllerName.Flee
+                    && HasNPCSubAIController(HelperNPCSubAIControllerName.Flee))
                 {
-                    ChangeNPCSubAIController("flee");
+                    ChangeNPCSubAIController(HelperNPCSubAIControllerName.Flee);
                     return;
                 }
             }
@@ -358,6 +382,11 @@ namespace Entity.NPC.AI
         public void UnsetTarget()
         {
             npc.NPCProperties.target = null;
+        }
+
+        public bool HasTarget()
+        {
+            return npc.NPCProperties.target != null;
         }
     }
 }

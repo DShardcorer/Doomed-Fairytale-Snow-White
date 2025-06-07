@@ -232,8 +232,8 @@ namespace Entity.NPC.Spawning
         {
             switch (aiType)
             {
-                case NPCAIType.Melee:
-                case NPCAIType.Guard:
+                case NPCAIType.PatrolNormal:
+                case NPCAIType.GuardAgressive:
                     return AttackStatType.Strength;
                 case NPCAIType.Ranged:
                 case NPCAIType.Stealth:

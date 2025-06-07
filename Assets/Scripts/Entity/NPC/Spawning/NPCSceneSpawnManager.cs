@@ -4,6 +4,9 @@ using UnityEngine;
 using System.Linq;
 using DefaultNamespace.Utility;
 using GeneralManagers;
+using LBG;
+using Sirenix.OdinInspector;
+using Sirenix.Serialization;
 
 namespace Entity.NPC.Spawning
 {
@@ -12,24 +15,10 @@ namespace Entity.NPC.Spawning
     /// </summary>
     public class NPCSceneSpawnManager : MonoBehaviour
     {
-        [System.Serializable]
-        public class SceneNPCData
-        {
-            public string npcKey;
-            public NPCSpawnData npcData;
-            public Transform spawnPoint;
-            public bool spawnOnStart = true;
-            
-            
-            public List<Vector3> patrolPoints = new List<Vector3>();
 
-            [Tooltip("Set to true if this NPC should persist when changing scenes")]
-            public bool isPersistent = false;
-        }
-
-        [Header("Scene Configuration")] [SerializeField]
+        [Header("Scene Configuration")]
+        [OdinSerialize, SerializeReference, SubclassSelector]
         private List<SceneNPCData> sceneNPCs = new List<SceneNPCData>();
-
         [SerializeField] private bool spawnAllOnStart = true;
         [SerializeField] private float staggeredSpawnDelay = 0.1f;
         private NPCSpawnManager spawnManager;
@@ -131,6 +120,7 @@ namespace Entity.NPC.Spawning
                 }
             }
             spawnedNPC.Initialize();
+            npcData.Setup(spawnedNPC);
             return spawnedNPC;
         }
         
@@ -200,6 +190,7 @@ namespace Entity.NPC.Spawning
             }
             
             spawnedNPC.Initialize();
+            npcData.Setup(spawnedNPC);
             return spawnedNPC;
         }
 

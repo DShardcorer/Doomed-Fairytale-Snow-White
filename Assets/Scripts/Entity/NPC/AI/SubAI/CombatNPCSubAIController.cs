@@ -1,8 +1,8 @@
-using Entity.NPC.State.Idle;
+
 using UnityEngine;
 using Helpers;
 
-namespace Entity.NPC.AI.SubControllers
+namespace Entity.NPC.AI.SubAI
 {
     public class CombatNPCSubAIController : NPCSubAIController
     {
@@ -10,7 +10,6 @@ namespace Entity.NPC.AI.SubControllers
         private float _lostTargetTimeout = 3f;
         private Vector3 _lastTargetPosition;
 
-        // Attack cooldown variables
         private float _attackCooldown = 0.3f;
         private float _attackCooldownTimer = 0f;
         private bool _isOnAttackCooldown = false;
@@ -18,7 +17,6 @@ namespace Entity.NPC.AI.SubControllers
         public override void Initialize(NPCAIController parent)
         {
             base.Initialize(parent);
-            // Initialize attack cooldown from config if available
             if (config != null)
             {
                 _attackCooldown = config.attackCooldown;
@@ -50,7 +48,7 @@ namespace Entity.NPC.AI.SubControllers
         public override void UpdateLogic()
         {
             base.UpdateLogic();
-            // Update cooldown timer
+
             if (_isOnAttackCooldown)
             {
                 _attackCooldownTimer += Time.deltaTime;
@@ -73,7 +71,6 @@ namespace Entity.NPC.AI.SubControllers
             FaceTarget();
 
             string currentStateId = parent.GetCurrentStateId();
-            // Debug.Log($"Current State ID: {currentStateId}");
 
             switch (currentStateId)
             {
@@ -84,20 +81,19 @@ namespace Entity.NPC.AI.SubControllers
                     }
                     else if (!IsInAttackRange())
                     {
-                        MoveToPosition(_lastTargetPosition);
+                        ChangeToState(HelperNPCStateName.Chase);
                     }
                     break;
 
-                case HelperNPCStateName.Move:
                 case HelperNPCStateName.Chase:
                     if (IsInAttackRange() && !_isOnAttackCooldown)
                     {
                         ChangeToState(HelperNPCStateName.Attack);
                     }
+                    // No direct movement logic here; let the Chase state handle it
                     break;
 
                 case HelperNPCStateName.Attack:
-                    // Start cooldown when in attack state
                     _isOnAttackCooldown = true;
                     _attackCooldownTimer = 0f;
                     break;
@@ -106,53 +102,20 @@ namespace Entity.NPC.AI.SubControllers
 
         private void HandleLostTarget()
         {
-            _lostTargetTimer += Time.deltaTime;
-
-            if (_lostTargetTimer < _lostTargetTimeout)
-            {
-                string currentStateId = parent.GetCurrentStateId();
-
-                if (currentStateId == HelperNPCStateName.Idle || currentStateId == HelperNPCStateName.Chase)
-                {
-                    MoveToPosition(_lastTargetPosition);
-                }
-            }
-            else
-            {
-                // Give up and request return to patrol
-                parent.UnsetTarget();
-                RequestControllerChange(HelperNPCSubAIControllerName.Patrol, "Lost target for too long");
-            }
+            RequestControllerChange(parent.InitialSubAIControllerId(), "Lost target, switching to initial controller");
         }
 
-        public override bool ShouldRemainActive()
+        public override bool ShouldRemainActiveDespiteGlobalConditions()
         {
-            // Remain active as long as we have a target or are still searching
-            return HasTarget() || _lostTargetTimer < _lostTargetTimeout;
+            return false;
         }
 
-        public override void FixedUpdateLogic()
-        {
-            base.FixedUpdateLogic();
-            if (HasTarget())
-            {
-                FaceTarget();
-            }
-        }
+        public bool IsAttackOnCooldown() => _isOnAttackCooldown;
 
-        // Method to check if attack is on cooldown
-        public bool IsAttackOnCooldown()
-        {
-            return _isOnAttackCooldown;
-        }
-
-        // Method to get remaining cooldown time
         public float GetRemainingCooldown()
         {
             if (_isOnAttackCooldown)
-            {
                 return _attackCooldown - _attackCooldownTimer;
-            }
             return 0f;
         }
     }

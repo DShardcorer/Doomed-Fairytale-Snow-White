@@ -90,7 +90,7 @@ namespace Entity.NPC.AI
         
         protected bool HasTarget()
         {
-            return npc.NPCProperties.target != null;
+            return parent.HasTarget();
         }
         
         protected bool IsInAttackRange()
@@ -107,16 +107,12 @@ namespace Entity.NPC.AI
             }
         }
         
-        // NEW: Method to request controller change - doesn't do it directly
         protected void RequestControllerChange(string controllerId, string reason = "")
         {
             parent.RequestSubAIControllerChange(controllerId, reason);
         }
         
-        // NEW: Virtual method to check if this controller should remain active
-        public virtual bool ShouldRemainActive()
-        {
-            return true;
-        }
+        //Virtual method to check if this controller should remain active DESPITE global conditions
+        public abstract bool ShouldRemainActiveDespiteGlobalConditions();
     }
 }

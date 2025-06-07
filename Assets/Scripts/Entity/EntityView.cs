@@ -45,7 +45,6 @@ namespace Entity
 
         public virtual void StartStateAnimation(string stateAnimation)
         {
-            Debug.LogWarning("Starting state animation: " + stateAnimation);
             StopStateAnimation(stateAnimation);
             _animator.SetBool(stateAnimation, true);
         }

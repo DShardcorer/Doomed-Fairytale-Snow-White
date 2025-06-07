@@ -163,10 +163,10 @@ namespace Entity.NPC.AI.SubControllers
             }
         }
 
-        public override bool ShouldRemainActive()
+        public override bool ShouldRemainActiveDespiteGlobalConditions()
         {
             // Switch to combat if we have a target
-            return !HasTarget();
+            return false;
         }
     }
 }

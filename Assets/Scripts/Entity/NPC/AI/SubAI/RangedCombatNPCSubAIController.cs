@@ -151,7 +151,7 @@ namespace Entity.NPC.AI.SubControllers
             }
         }
         
-        public override bool ShouldRemainActive()
+        public override bool ShouldRemainActiveDespiteGlobalConditions()
         {
             // Remain active as long as we have a target or are still searching
             return HasTarget() || _lostTargetTimer < _lostTargetTimeout;

@@ -14,7 +14,7 @@ namespace Entity.NPC.AI.SubControllers
         private int _maxFleeAttempts = 3;
         private string _subControllerToChangeToWhenFleeingFinished;
 
-        public FleeNPCSubAIController(string subControllerToChangeToWhenFleeingFinished): base()
+        public FleeNPCSubAIController(string subControllerToChangeToWhenFleeingFinished)
         {
             _subControllerToChangeToWhenFleeingFinished = subControllerToChangeToWhenFleeingFinished;
         }
@@ -125,7 +125,7 @@ namespace Entity.NPC.AI.SubControllers
             return distanceToThreat < safeDistance && _fleeTimer < _fleeTimeout * 0.8f;
         }
 
-        public override bool ShouldRemainActive()
+        public override bool ShouldRemainActiveDespiteGlobalConditions()
         {
             // Remain active until timeout or we feel safe
             if (_fleeTimer >= _fleeTimeout) return false;

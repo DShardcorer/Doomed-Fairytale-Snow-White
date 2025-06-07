@@ -1,7 +1,8 @@
 using Entity.NPC.AI;
+using Entity.NPC.AI.SubAI;
 using Entity.NPC.AI.SubControllers;
 using Entity.NPC.StandardAI.Attack;
-using Entity.NPC.StandardAI.Chase;
+using Entity.NPC.State.Chase;
 using Entity.NPC.State.Move;
 using Helpers;
 using UnityEngine;
@@ -14,7 +15,7 @@ namespace Entity.NPC.StandardAI
         {
             // Add states
             NPCMoveState npcMoveState = new NPCMoveState(config);
-            StandardNpcMeleeChaseState npcChaseState = new StandardNpcMeleeChaseState(config);
+            NPCChaseState npcChaseState = new NPCChaseState(config);
             NpcMeleeAttackState npcAttackState = new NpcMeleeAttackState(config);
             
             states.Add(HelperNPCStateName.Move, npcMoveState);
@@ -47,7 +48,6 @@ namespace Entity.NPC.StandardAI
             return subAIControllers[HelperNPCSubAIControllerName.Patrol];
         }
         
-        // ONLY handle external events - no internal state management
         protected override string GetInitialStateId()
         {
             return HelperNPCStateName.Idle;
@@ -57,33 +57,6 @@ namespace Entity.NPC.StandardAI
         {
             return HelperNPCSubAIControllerName.Patrol;
         }
-
-        protected override void OnTargetSpottedInFOV(object sender, Entity entity)
-        {
-            if (npc.IsBusy || !_config.shouldChaseTargets)
-                return;
-                
-            SetTarget(entity);
-            
-            // // Always switch to combat when target spotted
-            // ChangeNPCSubAIController("combat");
-        }
         
-        protected override void OnTargetSpottedInProximity(object sender, Entity e)
-        {
-            if (npc.IsBusy)
-                return;
-                
-            npc.NPCProperties.lastMovementVector =
-                (e.View.transform.position - npc.View.transform.position).normalized;
-        }
-        
-        // ONLY handle global conditions
-        protected override void CheckGlobalConditions()
-        {
-            base.CheckGlobalConditions(); // Handles health-based fleeing
-            
-            // Add any other global conditions specific to melee NPCs here
-        }
     }
 }

@@ -100,6 +100,7 @@ namespace Entity
         {
             view.PlayDamagedAnimation();
             healthSystem.TakeDamage((int)damage);
+            
         }
 
         public virtual void Die()

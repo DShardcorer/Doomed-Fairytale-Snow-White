@@ -1,6 +1,5 @@
 using System;
 using Entity.NPC.AI;
-using Entity.NPC.StandardAI.Chase;
 using Entity.NPC.State.Attack;
 using Helpers;
 using UnityEngine;
@@ -41,7 +40,6 @@ namespace Entity.NPC.StandardAI.Attack
             base.UpdateState();
             if (IsAnimationEnded())
             {
-                Debug.Log("Attack Animation ended");
                 npcAIController.ChangeState(HelperNPCStateName.Idle);
             }
         }
@@ -49,7 +47,6 @@ namespace Entity.NPC.StandardAI.Attack
         public override void FixedUpdateState()
         {
             base.FixedUpdateState();
-
         }
         
 
@@ -58,7 +55,6 @@ namespace Entity.NPC.StandardAI.Attack
             base.OnTakingEffect(sender, e);
             _entity.AttackHitbox.PerformAttack(NpcMeleeAttackProperties.AttackType,
                 NpcMeleeAttackProperties.AttackDamage);
-            Debug.Log("Attacking!");
         }
     }
 }

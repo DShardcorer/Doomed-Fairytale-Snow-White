@@ -1,4 +1,5 @@
 using Entity.NPC.AI;
+using Entity.NPC.AI.SubAI;
 using Entity.NPC.AI.SubControllers;
 using Entity.NPC.State.Move;
 using Helpers;
@@ -40,22 +41,9 @@ namespace Entity.NPC.StandardAI
         {
             return HelperNPCSubAIControllerName.Guard;
         }
-
-        protected override void OnTargetSpottedInFOV(object sender, Entity entity)
-        {
-            if (npc.IsBusy || !_config.shouldChaseTargets) return;
-            
-            SetTarget(entity);
-            // ChangeNPCSubAIController("combat");
-        }
         
-        protected override void OnTargetSpottedInProximity(object sender, Entity e)
-        {
-            if (npc.IsBusy) return;
-            
-            npc.NPCProperties.lastMovementVector =
-                (e.View.transform.position - npc.View.transform.position).normalized;
-        }
+        
+
     }
 
 

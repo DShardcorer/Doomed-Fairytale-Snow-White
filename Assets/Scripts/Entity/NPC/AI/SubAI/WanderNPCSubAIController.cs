@@ -13,6 +13,12 @@ namespace Entity.NPC.AI.SubControllers
         private bool _isWandering = false;
         private float _pauseTimer = 0f;
         private float _pauseDuration;
+        private string _subcontrollerIdToChangeToWhenTargetSpotted;
+
+        public WanderNPCSubAIController(string subcontrollerIdToChangeToWhenTargetSpotted)
+        {
+            _subcontrollerIdToChangeToWhenTargetSpotted = subcontrollerIdToChangeToWhenTargetSpotted;
+        }
         
         public override void Initialize(NPCAIController parent)
         {
@@ -38,15 +44,7 @@ namespace Entity.NPC.AI.SubControllers
             // If we spot a target, switch to appropriate behavior
             if (HasTarget())
             {
-                // Depending on NPC type and configuration, they might flee, fight, or investigate
-                if (config.shouldChaseTargets)
-                {
-                    RequestControllerChange(HelperNPCSubAIControllerName.Combat, "Target spotted while wandering");
-                }
-                else
-                {
-                    RequestControllerChange(HelperNPCSubAIControllerName.Flee, "Scared by target while wandering");
-                }
+                RequestControllerChange(_subcontrollerIdToChangeToWhenTargetSpotted, "Target spotted while wandering");
                 return;
             }
             
@@ -112,10 +110,9 @@ namespace Entity.NPC.AI.SubControllers
             _isWandering = true;
         }
         
-        public override bool ShouldRemainActive()
+        public override bool ShouldRemainActiveDespiteGlobalConditions()
         {
-            // Keep wandering unless we encounter something interesting
-            return !HasTarget();
+            return false;
         }
         
         public override void FixedUpdateLogic()

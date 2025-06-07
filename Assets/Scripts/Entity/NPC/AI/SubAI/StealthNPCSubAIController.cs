@@ -145,7 +145,7 @@ namespace Entity.NPC.AI.SubControllers
             return angle < detectionAngle && distance < config.detectionRadius;
         }
         
-        public override bool ShouldRemainActive()
+        public override bool ShouldRemainActiveDespiteGlobalConditions()
         {
             // Remain active if we have a target and haven't timed out
             return HasTarget() && _stealthTimer < _maxStealthTime;

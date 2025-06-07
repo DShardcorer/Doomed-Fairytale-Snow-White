@@ -3,7 +3,7 @@ using Entity.AttackCheck;
 
 namespace Entity.NPC.AI
 {
-    [CreateAssetMenu(fileName = "NPCAIConfig", menuName = "Game/AI/NPC AI Configuration")]
+    [CreateAssetMenu(fileName = "NPCAIConfig", menuName = "NPCAI/NPC AI Configuration")]
     public class NPCAIConfiguration : ScriptableObject
     {
         [Header("Detection Settings")]
@@ -12,9 +12,6 @@ namespace Entity.NPC.AI
 
         [Header("Behavior Settings")]
         public bool shouldChaseTargets = true;
-        public bool shouldAttackTargets = true;
-        public bool shouldPatrol = false;
-        public float maxChaseDistance = 20f;
 
         [Header("Movement Settings")]
         public float moveSpeed = 5f;

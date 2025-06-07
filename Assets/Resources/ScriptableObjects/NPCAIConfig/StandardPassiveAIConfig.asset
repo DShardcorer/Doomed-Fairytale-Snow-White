@@ -10,7 +10,7 @@ MonoBehaviour:
   m_Enabled: 1
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: c495202b3bc644dd88cdbac418518dd4, type: 3}
-  m_Name: StandardNPCMeleeAIConfig
+  m_Name: StandardPassiveAIConfig
   m_EditorClassIdentifier: 
   detectionRadius: 10
   fieldOfViewAngle: 90
@@ -27,4 +27,4 @@ MonoBehaviour:
   preferredDistance: 5
   fleeDistance: 10
   fleeTime: 5
-  healthFleeThreshold: 0.5
+  healthFleeThreshold: 0.25
