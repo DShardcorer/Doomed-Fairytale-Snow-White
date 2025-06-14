@@ -18,6 +18,9 @@ namespace Item
         public ItemType itemType;
         public string itemName;
         public Sprite icon;
+        public string description = "No description available.";
+        public int maxStackSize = 99;
+        public int value = 1;
         public float weight =1;
     }
 }

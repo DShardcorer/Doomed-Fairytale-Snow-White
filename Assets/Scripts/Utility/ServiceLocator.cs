@@ -20,18 +20,14 @@ namespace DefaultNamespace.Utility
         /// Task that completes when core initialization is done
         /// </summary>
         public static Task InitializationTask => _initializationTask.Task;
-
-        /// <summary>
-        /// Registers a service that can be accessed by other objects
-        /// </summary>
         public static void RegisterService<T>(T service) where T : class
         {
             services[typeof(T)] = service;
         }
-
-        /// <summary>
-        /// Gets a service of the specified type
-        /// </summary>
+        public static void ClearServices()
+        {
+            services.Clear();
+        }
         public static T GetService<T>() where T : class
         {
             if (services.TryGetValue(typeof(T), out var service))
@@ -86,12 +82,6 @@ namespace DefaultNamespace.Utility
             _initializationTask = new TaskCompletionSource<bool>();
         }
 
-        /// <summary>
-        /// Clears all registered services
-        /// </summary>
-        public static void ClearServices()
-        {
-            services.Clear();
-        }
+
     }
 }

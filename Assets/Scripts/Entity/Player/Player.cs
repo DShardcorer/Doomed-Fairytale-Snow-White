@@ -17,7 +17,9 @@ namespace Entity.Player
     {
         private PlayerManager _parent;
         private InputManager _inputManager;
+
         public InputManager InputManager => _inputManager;
+
         //
         // private PlayerProfile _profile;
         // public PlayerProfile Profile => _profile;
@@ -53,12 +55,14 @@ namespace Entity.Player
             ActiveSkillSystem activeSkillSystem, PassiveSkillSystem passiveSkillSystem,
             PlayerLevelSystem levelSystem, PlayerHealthSystem healthSystem,
             PlayerManaSystem manaSystem, PlayerStaminaSystem staminaSystem,
-            EntityStateMachine stateMachine, PlayerInventorySystem inventory)
+            EntityStateMachine stateMachine, PlayerInventorySystem inventory, 
+            PlayerBuffSystem buffSystem)
             : base(
                 profile,
                 view, properties, statSystem, equipmentSystem,
-                activeSkillSystem, passiveSkillSystem, levelSystem, healthSystem, manaSystem, staminaSystem,
-                stateMachine, inventory)
+                activeSkillSystem, passiveSkillSystem, levelSystem, 
+                healthSystem, manaSystem, staminaSystem,
+                stateMachine, inventory, buffSystem)
         {
             _playerView = view;
             _playerProperties = properties;

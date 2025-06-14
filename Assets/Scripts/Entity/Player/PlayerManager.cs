@@ -94,6 +94,7 @@ namespace Entity.Player
                 new PlayerStaminaSystem((int)statSystem.CombatStatBoard.Stamina.ModifiedValue);
 
             PlayerInventorySystem inventory = new PlayerInventorySystem();
+            PlayerBuffSystem buffSystem = new PlayerBuffSystem();
 
             _player = new Player(playerProfile,
                 playerView, playerProperties,
@@ -101,7 +102,7 @@ namespace Entity.Player
                 statSystem, equipmentSystem,
                 activeSkillSystem, passiveSkillSystem,
                 levelSystem, healthSystem, manaSystem, staminaSystem,
-                stateMachine, inventory);
+                stateMachine, inventory, buffSystem);
             _player.Initialize(this);
         }
 

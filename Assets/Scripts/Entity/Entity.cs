@@ -1,3 +1,4 @@
+using DefaultNamespace.EntitySystems.Buff;
 using Entity.AttackCheck;
 using EntitySystems.Equipment;
 using EntitySystems.Level;
@@ -35,6 +36,8 @@ namespace Entity
         public ManaSystem ManaSystem => manaSystem;
         private StaminaSystem staminaSystem;
         public StaminaSystem StaminaSystem => staminaSystem;
+        protected BuffSystem buffSystem;
+        public BuffSystem BuffSystem => buffSystem;
 
 
         public EntityStateMachine StateMachine => stateMachine;
@@ -58,7 +61,7 @@ namespace Entity
             ActiveSkillSystem activeSkillSystem, PassiveSkillSystem passiveSkillSystem,
             LevelSystem levelSystem,
             HealthSystem healthSystem, ManaSystem manaSystem, StaminaSystem staminaSystem,
-            EntityStateMachine stateMachine, InventorySystem inventorySystem)
+            EntityStateMachine stateMachine, InventorySystem inventorySystem, BuffSystem buffSystem)
         {
             this.profile = profile;
             this.view = view;
@@ -75,6 +78,7 @@ namespace Entity
             this.staminaSystem = staminaSystem;
             this.stateMachine = stateMachine;
             this.inventorySystem = inventorySystem;
+            this.buffSystem = buffSystem;
         }
 
 
@@ -107,8 +111,11 @@ namespace Entity
         {
             if (properties.lastAttacker != null)
             {
-                properties.lastAttacker.LevelSystem.AddExperience(50);
+                properties.lastAttacker.LevelSystem.AddExperience(properties.ExperienceDrop);
             }
+            inventorySystem.DropAllItems();
+            view.PlayDeathAnimation();
+            Dispose();
         }
 
         public virtual void Dispose()

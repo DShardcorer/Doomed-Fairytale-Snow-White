@@ -37,7 +37,7 @@ namespace Entity.NPC.StandardAI
             NPCState state = GetState(HelperNPCStateName.Idle);
             if (state == null)
             {
-                Debug.LogError("Initial state 'Idle' not found in EnhancedMeleeNPCAIController.");
+                Debug.LogError("Initial state 'Idle' not found");
                 return null;
             }
             return state;

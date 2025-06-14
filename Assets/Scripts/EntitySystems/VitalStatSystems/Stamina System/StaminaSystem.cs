@@ -1,3 +1,5 @@
+using System.Collections.Generic;
+using DefaultNamespace.EntitySystems.VitalStatSystems;
 using GeneralManagers;
 using UnityEngine;
 
@@ -14,6 +16,10 @@ namespace EntitySystems.VitalStatSystems.Stamina_System
         protected float currentStamina;
         public float CurrentStamina => currentStamina;
 
+
+        // Collection of active recovery effects
+        protected List<RecoveryOverTimeEffect> activeRecoveryEffects = new List<RecoveryOverTimeEffect>(4);
+
         public StaminaSystem(int maxStamina)
         {
             this.maxStamina = maxStamina;
@@ -23,30 +29,28 @@ namespace EntitySystems.VitalStatSystems.Stamina_System
         public virtual void Initialize(Entity.Entity parent)
         {
             entity = parent;
-            // Register with the update manager
             GameManager.Instance.UpdateManager.AddUpdatable(this);
-        }
-    
-        // Virtual method for derived classes to override with event invocation
-        protected virtual void OnStaminaChanged() { }
-    
-        public virtual void InvokeInitialEvents()
-        {
-            // Base implementation does nothing.
         }
     
         public virtual void Dispose()
         {
             entity = null;
-            // Remove from update manager
             GameManager.Instance.UpdateManager.RemoveUpdatable(this);
+            activeRecoveryEffects.Clear();
         }
     
         public virtual void UpdateLogic()
         {
-            // Recover 5% of max stamina every second
+            // Process recovery effects first
+            ProcessRecoveryEffects(Time.deltaTime);
+            
+            // Then apply natural stamina regeneration (5% per second)
             RestoreStamina(maxStamina / 20 * Time.deltaTime);
         }
+    
+        protected virtual void OnStaminaChanged() { }
+    
+        public virtual void InvokeInitialEvents() { }
     
         public virtual bool TryUseStamina(float stamina)
         {
@@ -63,23 +67,59 @@ namespace EntitySystems.VitalStatSystems.Stamina_System
         {
             currentStamina -= stamina;
             if (currentStamina < 0)
-            {
                 currentStamina = 0;
-            }
         }
     
         public virtual void RestoreStamina(float stamina)
         {
-            if (currentStamina >= maxStamina)
-            {
-                return;
-            }
+            if (stamina <= 0 || currentStamina >= maxStamina) return;
+
             currentStamina += stamina;
             if (currentStamina > maxStamina)
-            {
                 currentStamina = maxStamina;
-            }
+            
             OnStaminaChanged();
+        }
+
+        // Add a recovery over time effect
+        public virtual void RecoverOvertime(float amount, float duration)
+        {
+            if (amount <= 0 || duration <= 0 || currentStamina >= maxStamina) return;
+
+            activeRecoveryEffects.Add(new RecoveryOverTimeEffect(amount, duration));
+        }
+
+        // Process all active recovery effects
+        protected virtual void ProcessRecoveryEffects(float deltaTime)
+        {
+            if (activeRecoveryEffects.Count == 0 || currentStamina >= maxStamina) return;
+
+            float totalRecoveryThisFrame = 0;
+
+            for (int i = activeRecoveryEffects.Count - 1; i >= 0; i--)
+            {
+                var effect = activeRecoveryEffects[i];
+
+                float recoveryThisFrame = effect.RecoveryRate * deltaTime;
+                if (recoveryThisFrame > effect.RemainingAmount)
+                    recoveryThisFrame = effect.RemainingAmount;
+
+                totalRecoveryThisFrame += recoveryThisFrame;
+                effect.RemainingAmount -= recoveryThisFrame;
+                effect.RemainingTime -= deltaTime;
+
+                if (effect.RemainingTime <= 0 || effect.RemainingAmount <= 0)
+                {
+                    // Swap and pop for efficient removal
+                    int lastIndex = activeRecoveryEffects.Count - 1;
+                    if (i < lastIndex)
+                        activeRecoveryEffects[i] = activeRecoveryEffects[lastIndex];
+                    activeRecoveryEffects.RemoveAt(lastIndex);
+                }
+            }
+
+            if (totalRecoveryThisFrame > 0)
+                RestoreStamina(totalRecoveryThisFrame);
         }
     }
 }

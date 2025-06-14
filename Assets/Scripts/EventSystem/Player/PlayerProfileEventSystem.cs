@@ -2,7 +2,7 @@ using System;
 
 namespace EventSystem.Player
 {
-    public class PlayerProfileEventSystem
+    public static class PlayerProfileEventSystem
     {
         public class PlayerNameChangedEventArgs : EventArgs
         {
@@ -15,9 +15,9 @@ namespace EventSystem.Player
         }
         public static Action<PlayerNameChangedEventArgs> OnPlayerNameChanged;
         
-        public static void InvokePlayerNameChanged(string newName)
+        public static void InvokePlayerNameChanged(PlayerNameChangedEventArgs eventArgs)
         {
-            OnPlayerNameChanged?.Invoke(new PlayerNameChangedEventArgs(newName));
+            OnPlayerNameChanged?.Invoke(eventArgs);
         }
     }
 }

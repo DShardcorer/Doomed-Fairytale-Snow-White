@@ -2,7 +2,7 @@ using EventSystem.Player;
 
 namespace Entity.Player
 {
-    public class PlayerProfile:EntityProfile
+    public class PlayerProfile : EntityProfile
     {
         public PlayerProfile(string name, string description) : base(name, description)
         {
@@ -11,7 +11,8 @@ namespace Entity.Player
         public override void SetName(string name)
         {
             base.SetName(name);
-            PlayerProfileEventSystem.InvokePlayerNameChanged(name);
+            PlayerProfileEventSystem.InvokePlayerNameChanged(
+                new PlayerProfileEventSystem.PlayerNameChangedEventArgs(name));
         }
     }
 }

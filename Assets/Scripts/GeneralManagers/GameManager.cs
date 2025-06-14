@@ -76,6 +76,7 @@ namespace GeneralManagers
             _updateManager.Initialize(this);
             _fixedUpdateManager.Initialize(this);
             _gameTimeManager.Initialize(this);
+            _dayCycleLightingManager.Initialize(this);
             _cameraManager.Initialize(this);
             _enemyManager.Initialize(this);
             _questManager.Initialize(this);

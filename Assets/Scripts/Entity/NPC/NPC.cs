@@ -1,3 +1,4 @@
+using DefaultNamespace.EntitySystems.Buff;
 using Entity.Detectors;
 using Entity.NPC.AI;
 using EntitySystems.Equipment;
@@ -47,6 +48,7 @@ namespace Entity.NPC
             StaminaSystem staminaSystem,
             EntityStateMachine stateMachine,
             InventorySystem inventory,
+            BuffSystem buffSystem,
             NPCAIController aiController
         ) : base(
             profile,
@@ -57,7 +59,7 @@ namespace Entity.NPC
             activeSkillSystem, passiveSkillSystem,
             levelSystem, healthSystem,
             manaSystem,
-            staminaSystem, stateMachine, inventory)
+            staminaSystem, stateMachine, inventory, buffSystem)
         {
             _npcView = view;
             _npcProperties = properties;

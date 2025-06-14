@@ -23,7 +23,8 @@ namespace DialogueSystem
         private InkDialogueVariables inkDialogueVariables;
         private bool isDialoguePlaying = false;
         private int currentChoiceIndex = -1;
-
+		
+#region Tags
         private const string SPEAKER_TAG = "speaker";
         private const string SPRITE_TAG = "sprite";
         private const string LAYOUT_TAG = "layout";
@@ -34,7 +35,7 @@ namespace DialogueSystem
         private const string TEXT_SPEED_TAG = "textspeed";
         private const string DELAY_TAG = "delay";
         private bool canContinueToNextLine = false;
-
+#endregion
 
         private void Awake()
         {

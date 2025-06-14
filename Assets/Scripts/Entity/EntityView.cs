@@ -77,6 +77,10 @@ namespace Entity
             StartCoroutine(ResetMaterial());
 
         }
+        public void PlayDeathAnimation()
+        {
+            // _animator.SetTrigger("Death");
+        }
         private IEnumerator ResetMaterial()
         {
             yield return new WaitForSeconds(0.1f);

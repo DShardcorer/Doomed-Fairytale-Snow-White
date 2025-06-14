@@ -332,5 +332,10 @@ namespace Item.Inventory
                 DecrementCurrentWeight(itemDataSo.weight);
             }
         }
+
+        public virtual void DropAllItems()
+        {
+            
+        }
     }
 }

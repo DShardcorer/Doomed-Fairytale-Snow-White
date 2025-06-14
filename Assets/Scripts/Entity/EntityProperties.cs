@@ -14,7 +14,8 @@ namespace Entity
         public Vector2 currentPosition;
         protected float moveSpeed;
         public float MoveSpeed => moveSpeed;
-
+        private int experienceDrop = 50;
+        public int ExperienceDrop => experienceDrop;
         public EntityProperties(EntityFaction entityFaction, float moveSpeed)
         {
             this.entityFaction = entityFaction;

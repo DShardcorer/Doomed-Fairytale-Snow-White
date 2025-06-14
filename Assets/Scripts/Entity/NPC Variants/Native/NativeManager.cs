@@ -1,4 +1,5 @@
 using System.Collections.Generic;
+using DefaultNamespace.EntitySystems.Buff;
 using Entity.Faction;
 using Entity.NPC;
 using Entity.NPC.AI;
@@ -62,6 +63,8 @@ namespace Entity.NPC_Variants.Native
                 new PatrolNormalNPCAIController(
                     UnityEngine.Resources.Load<NPCAIConfiguration>(HelperResourcePath.NPCAIConfigPath +
                                                                    "StandardNPCMeleeAIConfig"));
+            
+            BuffSystem buffSystem= new BuffSystem();
             NPC.NPC npc = new NPC.NPC(
                 entityProfile,
                 nativeView,
@@ -72,7 +75,7 @@ namespace Entity.NPC_Variants.Native
                 levelSystem,
                 healthSystem, manaSystem, staminaSystem,
                 stateMachine,
-                inventory,
+                inventory, buffSystem,
                 enhancedMeleeAIController);
             npc.Initialize();
             // npc.NPCView.transform.position = position;

@@ -20,7 +20,7 @@ namespace DefaultNamespace.LightingSystem
     /// etc..)
     /// </summary>
     // [DefaultExecutionOrder(10)]
-    public class DayCycleLightingManager : MonoBehaviour
+    public class DayCycleLightingManager : MonoBehaviour, ILifecycle<GameManager>
     {
         public Transform LightsRoot;
 
@@ -49,10 +49,30 @@ namespace DefaultNamespace.LightingSystem
 
 
         private GameTimeManager _gameTimeManager;
-        
-        private void Awake()
+        public void Initialize(GameManager parent)
         {
             TimeEventSystem.OnTimeChanged += OnTimeChanged;
+            _gameTimeManager = parent.GameTimeManager;
+        }
+
+        public void Dispose()
+        {
+            TimeEventSystem.OnTimeChanged -= OnTimeChanged;
+
+            // Unregister all shadows and light blenders
+            _shadows.Clear();
+            
+            _lightBlenders.Clear();
+
+            // Clear references to lights
+            DayLight = null;
+            NightLight = null;
+            AmbientLight = null;
+            SunRimLight = null;
+            MoonRimLight = null;
+
+            LightsRoot = null;
+            
         }
 
         private void OnTimeChanged(TimeEventSystem.TimeChangedEventArgs obj)
@@ -209,6 +229,8 @@ namespace DefaultNamespace.LightingSystem
             }
 #endif
         }
+
+
     }
 
 

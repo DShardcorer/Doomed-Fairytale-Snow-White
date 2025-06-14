@@ -9,14 +9,32 @@ namespace EntitySystems.Skill
     {
         private Entity.Entity _parent;
         public Entity.Entity Parent => _parent;
-
         private StatSystem _statSystem;
-
         protected Dictionary<string, PassiveSkill> passiveSkillsDict;
         protected List<PassiveSkill> passiveSkills;
-
         public IReadOnlyList<PassiveSkill> PassiveSkills => passiveSkills.AsReadOnly();
 
+        public virtual void Initialize(Entity.Entity parent)
+        {
+            _parent = parent;
+            _statSystem = parent.StatSystem;
+
+            foreach (var skill in passiveSkills)
+            {
+                skill.Initialize(this);
+                skill.ApplyEffect();
+            }
+
+            _statSystem.RecalculateStats();
+        }
+
+        public virtual void Dispose()
+        {
+            _parent = null;
+            _statSystem = null;
+            passiveSkillsDict.Clear();
+            passiveSkills.Clear();
+        }
         public PassiveSkillSystem(List<PassiveSkill> skills)
         {
             passiveSkillsDict = new Dictionary<string, PassiveSkill>();
@@ -36,24 +54,7 @@ namespace EntitySystems.Skill
             }
         }
 
-        public virtual void Initialize(Entity.Entity parent)
-        {
-            _parent = parent;
-            _statSystem = parent.StatSystem;
 
-            foreach (var skill in passiveSkills)
-            {
-                skill.Initialize(this);
-                skill.ApplyEffect();
-            }
-
-            _statSystem.RecalculateStats();
-        }
-
-        public virtual void Dispose()
-        {
-            _parent = null;
-        }
 
         public virtual void InvokeInitialEvents()
         {

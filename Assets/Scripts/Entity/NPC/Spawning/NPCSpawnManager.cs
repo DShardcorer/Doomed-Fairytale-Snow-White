@@ -2,6 +2,7 @@ using System;
 using System.Collections.Generic;
 using System.Threading.Tasks;
 using AssetManagement;
+using DefaultNamespace.EntitySystems.Buff;
 using Entity.NPC.AI;
 using Entity.NPC.StandardAI;
 using EntitySystems.Equipment;
@@ -22,15 +23,18 @@ namespace Entity.NPC.Spawning
 {
     public class NPCSpawnManager : MonoBehaviour, ILifecycle<GameManager>
     {
+        private GameManager _parent;
         protected AddressablesManager addressablesManager;
 
         public void Initialize(GameManager parent)
         {
+            _parent = parent;
             addressablesManager = AddressablesManager.Instance;
         }
 
         public void Dispose()
         {
+            _parent = null;
             addressablesManager = null;
         }
 
@@ -169,9 +173,12 @@ namespace Entity.NPC.Spawning
             // Create inventory and add starting items
             InventorySystem inventory = new InventorySystem();
             AddStartingInventory(inventory, npcData.startingInventory);
+            
+            BuffSystem buffSystem = new BuffSystem();
 
             // Create AI controller
             NPCAIController aiController = CreateAIController(npcData);
+            
 
             // Create and return NPC
             return new NPC(
@@ -188,6 +195,7 @@ namespace Entity.NPC.Spawning
                 staminaSystem,
                 stateMachine,
                 inventory,
+                buffSystem,
                 aiController
             );
         }
