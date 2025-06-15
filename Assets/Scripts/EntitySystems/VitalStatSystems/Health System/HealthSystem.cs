@@ -18,6 +18,7 @@ namespace EntitySystems.VitalStatSystems.Health_System
         public float LastCurrentHealth => lastCurrentHealth;
         protected float currentHealth;
         public float CurrentHealth => currentHealth;
+        protected float recoveryUpdateTimer = 0f;
         
 
         // Collection of active recovery effects - using Queue for FIFO behavior
@@ -96,29 +97,20 @@ namespace EntitySystems.VitalStatSystems.Health_System
         }
 
         // Process all active recovery effects
+       
+        // Modified ProcessRecoveryEffects to update once per second
         protected virtual void ProcessRecoveryEffects(float deltaTime)
         {
             if (activeRecoveryEffects.Count == 0 || currentHealth >= maxHealth) return;
 
-            float totalHealingThisFrame = 0;
-
+            // Update effect timers every frame for accurate duration tracking
             for (int i = activeRecoveryEffects.Count - 1; i >= 0; i--)
             {
                 var effect = activeRecoveryEffects[i];
-
-                // Calculate healing amount for this frame
-                float healingThisFrame = effect.RecoveryRate * deltaTime;
-
-                // Don't heal more than what's remaining
-                if (healingThisFrame > effect.RemainingAmount)
-                    healingThisFrame = effect.RemainingAmount;
-
-                totalHealingThisFrame += healingThisFrame;
-                effect.RemainingAmount -= healingThisFrame;
                 effect.RemainingTime -= deltaTime;
 
-                // Remove completed effects
-                if (effect.RemainingTime <= 0 || effect.RemainingAmount <= 0)
+                // Remove expired effects
+                if (effect.RemainingTime <= 0)
                 {
                     // Swap and pop for efficient removal
                     int lastIndex = activeRecoveryEffects.Count - 1;
@@ -128,16 +120,53 @@ namespace EntitySystems.VitalStatSystems.Health_System
                 }
             }
 
-            // Apply the total healing only once per frame
-            if (totalHealingThisFrame > 0)
+            // Increment the timer
+            recoveryUpdateTimer += deltaTime;
+
+            // Only apply healing once per second
+            if (recoveryUpdateTimer >= 1.0f)
             {
-                // Skip OnHealthChanged event to apply direct healing
-                lastCurrentHealth = currentHealth;
-                currentHealth += totalHealingThisFrame;
-                if (currentHealth > maxHealth)
-                    currentHealth = maxHealth;
-                
-                OnHealthChanged();
+                float totalHealing = 0f;
+
+                // Calculate and accumulate healing for the 1-second interval
+                for (int i = activeRecoveryEffects.Count - 1; i >= 0; i--)
+                {
+                    var effect = activeRecoveryEffects[i];
+
+                    // Calculate healing for this interval
+                    float intervalHealing = effect.RecoveryRate * recoveryUpdateTimer;
+
+                    // Don't heal more than what's remaining
+                    if (intervalHealing > effect.RemainingAmount)
+                        intervalHealing = effect.RemainingAmount;
+
+                    totalHealing += intervalHealing;
+                    effect.RemainingAmount -= intervalHealing;
+
+                    // Remove effects that have depleted their healing amount
+                    if (effect.RemainingAmount <= 0)
+                    {
+                        // Swap and pop for efficient removal
+                        int lastIndex = activeRecoveryEffects.Count - 1;
+                        if (i < lastIndex)
+                            activeRecoveryEffects[i] = activeRecoveryEffects[lastIndex];
+                        activeRecoveryEffects.RemoveAt(lastIndex);
+                    }
+                }
+
+                // Apply the accumulated healing
+                if (totalHealing > 0)
+                {
+                    lastCurrentHealth = currentHealth;
+                    currentHealth += totalHealing;
+                    if (currentHealth > maxHealth)
+                        currentHealth = maxHealth;
+
+                    OnHealthChanged();
+                }
+
+                // Reset timer
+                recoveryUpdateTimer = 0f;
             }
         }
 

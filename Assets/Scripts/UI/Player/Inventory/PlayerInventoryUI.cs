@@ -8,7 +8,7 @@ namespace UI.Player.Inventory
     public class PlayerInventoryUI : IngameMenuPageUI
     {
         public List<PlayerInventoryTabUI> playerInventoryTabs;
-        public List<PlayerInventoryPageUI> playerInventoryPages;
+        public List<InventoryPageUI> playerInventoryPages;
         public TextMeshProUGUI weightText;
 
         public override void Initialize(IngameMenuUI ingameMenuUI)
@@ -23,9 +23,9 @@ namespace UI.Player.Inventory
             PlayerInventoryEventSystem.OnMiscellaneousItemListChanged += Inventory_OnMiscellaneousItemListChanged;
             PlayerInventoryEventSystem.OnWeightChanged += Inventory_OnWeightChanged;
 
-            foreach (PlayerInventoryPageUI page in playerInventoryPages)
+            foreach (InventoryPageUI page in playerInventoryPages)
             {
-                page.Initialize(this);
+                page.Initialize();
             }
 
             foreach (PlayerInventoryTabUI tab in playerInventoryTabs)
@@ -36,7 +36,7 @@ namespace UI.Player.Inventory
 
             // Select the first tab and show the first page
             playerInventoryTabs[0].SelectTab();
-            foreach (PlayerInventoryPageUI page in playerInventoryPages)
+            foreach (InventoryPageUI page in playerInventoryPages)
             {
                 page.gameObject.SetActive(false);
             }
@@ -86,7 +86,7 @@ namespace UI.Player.Inventory
 
         public void UpdateAllUI(List<InventoryItem> items)
         {
-            foreach (PlayerInventoryPageUI page in playerInventoryPages)
+            foreach (InventoryPageUI page in playerInventoryPages)
             {
                 page.UpdateUI(items);
             }
@@ -94,7 +94,7 @@ namespace UI.Player.Inventory
 
         public void UpdateInventoryUI(PlayerInventoryType playerInventoryType, List<InventoryItem> items)
         {
-            foreach (PlayerInventoryPageUI page in playerInventoryPages)
+            foreach (InventoryPageUI page in playerInventoryPages)
             {
                 if (page.playerInventoryType == playerInventoryType)
                 {
@@ -117,7 +117,7 @@ namespace UI.Player.Inventory
                 }
             }
 
-            foreach (PlayerInventoryPageUI page in playerInventoryPages)
+            foreach (InventoryPageUI page in playerInventoryPages)
             {
                 page.gameObject.SetActive(page.playerInventoryType == playerInventoryType);
             }

@@ -17,14 +17,18 @@ namespace General
         public void Initialize(DamagePopupUIManager parent, float damage)
         {
             _damagePopupUIManager = parent;
-            damageText.text = damage.ToString();
+            //Round the damage to the nearest 1 precision float
+            damage = Mathf.Round(damage * 10f) / 10f;
+
             canvasGroup.alpha = 1f;
             if (damage > 0)
             {
+                damageText.text = damage.ToString();
                 damageText.color = Color.red;
             }
             else
             {
+                damageText.text = (-damage).ToString();
                 damageText.color = Color.green;
             }
             StopAllCoroutines();
@@ -34,7 +38,8 @@ namespace General
         private IEnumerator FloatUpAndFade()
         {
             float elapsed = 0f;
-            Vector3 startPos = transform.position;
+            Vector3 offset = new Vector3(0, 0.5f, 0);
+            Vector3 startPos = transform.position + offset;
             Vector3 endPos = startPos + new Vector3(0, floatDistance, 0);
 
             while (elapsed < floatDuration)

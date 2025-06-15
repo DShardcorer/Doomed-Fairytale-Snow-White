@@ -12,6 +12,7 @@ namespace Pool
         private List<PoolSO> uiElementsPoolSOList;
         private List<PoolSO> npcPoolSOList;
         private List<PoolSO> environmentPoolSOList;
+        private List<PoolSO> fieldItemsPoolSOList;
 
         private Dictionary<string, ObjectPool> pools = new Dictionary<string, ObjectPool>();
 
@@ -20,6 +21,7 @@ namespace Pool
             uiElementsPoolSOList = UnityEngine.Resources.LoadAll<PoolSO>("PoolSO/UI").ToList();
             npcPoolSOList = UnityEngine.Resources.LoadAll<PoolSO>("PoolSO/NPC").ToList();
             environmentPoolSOList = UnityEngine.Resources.LoadAll<PoolSO>("PoolSO/Environment").ToList();
+            fieldItemsPoolSOList = UnityEngine.Resources.LoadAll<PoolSO>("PoolSO/FieldItem").ToList();
         }
 
         public void Initialize(GameManager parent)
@@ -28,6 +30,7 @@ namespace Pool
             CreatePoolsFromList(uiElementsPoolSOList);
             CreatePoolsFromList(npcPoolSOList);
             CreatePoolsFromList(environmentPoolSOList);
+            CreatePoolsFromList(fieldItemsPoolSOList);
         }
 
         public void Dispose()

@@ -1,4 +1,10 @@
+using System;
 using System.Collections.Generic;
+using GeneralManagers;
+using Helpers;
+using Pool;
+using UnityEngine;
+using Random = UnityEngine.Random;
 
 namespace Item.Inventory
 {
@@ -11,8 +17,9 @@ namespace Item.Inventory
         public float Capacity => capacity;
         public float currentWeight;
         public float CurrentWeight => currentWeight;
+        private PoolManager _poolManager;
 
-        public List<InventoryItem> items;
+        public List<InventoryItem> ItemList;
         public Dictionary<ItemDataSO, InventoryItem> itemDictionary;
 
         public List<InventoryItem> materialItems;
@@ -26,10 +33,12 @@ namespace Item.Inventory
 
         public List<InventoryItem> miscellaneousItems;
         public Dictionary<ItemDataSO, InventoryItem> miscellaneousItemDictionary;
-
+        
+        //Action hooks for item list changes
+        public Action<List<InventoryItem>> OnItemListChangedAction;
         public InventorySystem()
         {
-            items = new List<InventoryItem>();
+            ItemList = new List<InventoryItem>();
             itemDictionary = new Dictionary<ItemDataSO, InventoryItem>();
             materialItems = new List<InventoryItem>();
             materialItemDictionary = new Dictionary<ItemDataSO, InventoryItem>();
@@ -43,7 +52,7 @@ namespace Item.Inventory
 
         public void ClearAll()
         {
-            items.Clear();
+            ItemList.Clear();
             itemDictionary.Clear();
             materialItems.Clear();
             materialItemDictionary.Clear();
@@ -57,6 +66,7 @@ namespace Item.Inventory
 
         public virtual void Initialize(Entity.Entity entity)
         {
+            _poolManager = GameManager.Instance.PoolManager;
             _entity = entity;
             capacity = entity.StatSystem.AbilityStatBoard.Strength.ModifiedValue * 10;
             UpdateCurrentWeight();
@@ -67,6 +77,15 @@ namespace Item.Inventory
             _entity = null;
         }
 
+        public void HookOnToBarterEventSystem()
+        {
+            
+        }
+        public void UnHookFromBarterEventSystem()
+        {
+            
+        }
+
         public virtual void InvokeInitialEvents()
         {
             // Base inventory system does not trigger events by default.
@@ -75,6 +94,7 @@ namespace Item.Inventory
         // Virtual hooks for notifying changes; default implementations do nothing.
         protected virtual void OnItemListChanged(List<InventoryItem> items)
         {
+            OnItemListChangedAction?.Invoke(items);
         }
 
         protected virtual void OnMaterialItemListChanged(List<InventoryItem> materialItems)
@@ -100,7 +120,7 @@ namespace Item.Inventory
         public virtual void UpdateCurrentWeight()
         {
             currentWeight = 0;
-            foreach (InventoryItem item in items)
+            foreach (InventoryItem item in ItemList)
             {
                 currentWeight += item.itemDataSo.weight * item.stackSize;
             }
@@ -124,6 +144,13 @@ namespace Item.Inventory
         {
             AddItem(inventoryItem.itemDataSo, inventoryItem.stackSize);
         }
+        public virtual void AddItems(List<InventoryItem> inventoryItems)
+        {
+            foreach (var item in inventoryItems)
+            {
+                AddItem(item);
+            }
+        }
 
         public virtual void AddItem(ItemDataSO itemDataSo, int amount)
         {
@@ -133,7 +160,7 @@ namespace Item.Inventory
             if (isNewItem)
             {
                 item = InventoryItemFactory.CreateItem(itemDataSo);
-                items.Add(item);
+                ItemList.Add(item);
                 itemDictionary[itemDataSo] = item;
             }
 
@@ -163,7 +190,7 @@ namespace Item.Inventory
                     break;
             }
 
-            OnItemListChanged(items);
+            OnItemListChanged(ItemList);
             IncrementCurrentWeight(itemDataSo.weight * amount);
         }
 
@@ -176,7 +203,7 @@ namespace Item.Inventory
             if (isNewItem)
             {
                 item = InventoryItemFactory.CreateItem(itemDataSo);
-                items.Add(item);
+                ItemList.Add(item);
                 itemDictionary[itemDataSo] = item;
             }
 
@@ -206,13 +233,18 @@ namespace Item.Inventory
                     break;
             }
 
-            OnItemListChanged(items);
+            OnItemListChanged(ItemList);
             IncrementCurrentWeight(itemDataSo.weight);
         }
 
         public virtual void RemoveItem(InventoryItem inventoryItem)
         {
             RemoveItem(inventoryItem.itemDataSo, inventoryItem.stackSize);
+        }
+
+        public virtual void RemoveItem(InventoryItem inventoryItem, int amount)
+        {
+            RemoveItem(inventoryItem.itemDataSo, amount);
         }
 
         public virtual void RemoveItem(ItemDataSO itemDataSo, int amount)
@@ -242,7 +274,7 @@ namespace Item.Inventory
 
                 if (itemDictionary[itemDataSo].stackSize <= 0)
                 {
-                    items.Remove(itemDictionary[itemDataSo]);
+                    ItemList.Remove(itemDictionary[itemDataSo]);
                     itemDictionary.Remove(itemDataSo);
                     switch (itemDataSo.itemType)
                     {
@@ -269,7 +301,7 @@ namespace Item.Inventory
                     }
                 }
 
-                OnItemListChanged(items);
+                OnItemListChanged(ItemList);
                 DecrementCurrentWeight(itemDataSo.weight * amount);
             }
         }
@@ -301,7 +333,7 @@ namespace Item.Inventory
 
                 if (itemDictionary[itemDataSo].stackSize <= 0)
                 {
-                    items.Remove(itemDictionary[itemDataSo]);
+                    ItemList.Remove(itemDictionary[itemDataSo]);
                     itemDictionary.Remove(itemDataSo);
                     switch (itemDataSo.itemType)
                     {
@@ -328,14 +360,32 @@ namespace Item.Inventory
                     }
                 }
 
-                OnItemListChanged(items);
+                OnItemListChanged(ItemList);
                 DecrementCurrentWeight(itemDataSo.weight);
             }
         }
 
-        public virtual void DropAllItems()
+        public virtual void DropAllItemsOnTheGround()
         {
-            
+            foreach (var item in ItemList)
+            {
+                if (item.stackSize > 0)
+                {
+                    // Logic to drop the item on the ground
+                    // This could involve instantiating a prefab or similar
+                    // For now, we will just log it
+                    UnityEngine.Debug.Log($"Dropping {item.stackSize} of {item.itemDataSo.itemName} on the ground.");
+                    GameObject fieldItemObject = _poolManager.GetObject(HelperPoolKey.FieldItem);
+                    fieldItemObject.TryGetComponent<FieldItem>(out var fieldItem);
+                    Vector3 randomOffset = new Vector3(
+                        Random.Range(-1f, 1f),
+                        Random.Range(-1f, 1f),
+                        0);
+                    fieldItem.Setup(item, _entity.View.transform.position + randomOffset);
+                }
+            }
+            ClearAll();
+            UpdateCurrentWeight();
         }
     }
 }

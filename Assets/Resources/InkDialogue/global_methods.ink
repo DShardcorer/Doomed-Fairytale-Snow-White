@@ -20,3 +20,7 @@ EXTERNAL Fade(fadeInDuration, fadeOutDuration)
 EXTERNAL StartQuest(questId)
 EXTERNAL AdvanceQuest(questId)
 EXTERNAL FinishQuest(questId)
+
+
+//Barter
+EXTERNAL StartBarter()

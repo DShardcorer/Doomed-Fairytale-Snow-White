@@ -1,7 +1,9 @@
 using EntitySystems.Stats;
+using UnityEngine;
 
 namespace Item
 {
+    [CreateAssetMenu(fileName = "Consumable Recovery ItemDataSO", menuName = "ItemData/Consumable Recovery")]
     public class ItemDataSOConsumableRecovery: ItemDataSOConsumable
     {
         public VitalStatType recoveryVitalStatType;

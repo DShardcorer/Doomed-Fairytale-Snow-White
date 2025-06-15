@@ -1,6 +1,7 @@
 using AudioSystem;
 using DateDayNightSystem;
 using DateTimeDayNightSystem;
+using DefaultNamespace.BarterSystem;
 using DefaultNamespace.LightingSystem;
 using DialogueSystem;
 using Entity.NPC.Spawning;
@@ -22,6 +23,7 @@ namespace GeneralManagers
         [SerializeField] public Camera UIMainCamera;
 
         [Header("Managers")]
+        [SerializeField] private BarterManager _barterManager;
         [SerializeField] private NPCSpawnManager _npcSpawnManager;
         [SerializeField] private AudioManager _audioManager;
         [SerializeField] private InputManager _inputManager;
@@ -37,7 +39,7 @@ namespace GeneralManagers
         [SerializeField] private DialogueManager _dialogueManager;
 
         #region Public Accessors
-
+        public BarterManager BarterManager => _barterManager;
         public NPCSpawnManager NPCSpawnManager => _npcSpawnManager;
         public AudioManager AudioManager => _audioManager;
         public InputManager InputManager => _inputManager;
@@ -68,6 +70,7 @@ namespace GeneralManagers
 
         public void Initialize()
         {
+            _barterManager.Initialize(this);
             _npcSpawnManager.Initialize(this);
             _audioManager.Initialize(this);
             _inputManager.Initialize(this);

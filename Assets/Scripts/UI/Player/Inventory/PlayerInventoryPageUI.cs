@@ -7,21 +7,17 @@ using UnityEngine;
 
 namespace UI.Player.Inventory
 {
-    public class PlayerInventoryPageUI : MonoBehaviour, ILifecycle<PlayerInventoryUI>
+    public class InventoryPageUI : MonoBehaviour
     {
         public PlayerInventoryType playerInventoryType;
-        private PlayerInventoryUI _playerInventoryUI;
-        public PlayerInventoryUI PlayerInventoryUI => _playerInventoryUI;
-    
 
 
         private List<ItemSlotUI> _itemSlots = new List<ItemSlotUI>();
 
         private PoolManager _poolManager;
 
-        public void Initialize(PlayerInventoryUI playerInventoryUI)
+        public void Initialize()
         {
-            _playerInventoryUI = playerInventoryUI;
             _poolManager = GameManager.Instance.PoolManager;
         }
 
@@ -64,7 +60,6 @@ namespace UI.Player.Inventory
 
         public void Dispose()
         {
-            _playerInventoryUI = null;
             _itemSlots.Clear();
             _itemSlots = null;
             _poolManager = null;

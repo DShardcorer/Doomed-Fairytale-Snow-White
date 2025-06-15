@@ -45,7 +45,7 @@ namespace Entity.NPC.Spawning
         public float speed = 2f;
         public float aggroRange = 3f;
         
-        [Header("Spawn Settings")]
+        [Header("Spawn Settings")]      
         public int poolSize = 5;
         public float spawnWeight = 1f; // For weighted random spawning
         

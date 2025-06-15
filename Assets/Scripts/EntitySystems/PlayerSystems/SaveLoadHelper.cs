@@ -13,7 +13,7 @@ namespace EntitySystems.PlayerSystems
             {
                 capacity = inventory.Capacity,
                 currentWeight = inventory.CurrentWeight,
-                items = ConvertItems(inventory.items),
+                items = ConvertItems(inventory.ItemList),
                 materialItems = ConvertItems(inventory.materialItems),
                 consumableItems = ConvertItems(inventory.consumableItems),
                 equipmentItems = ConvertItems(inventory.equipmentItems),
@@ -30,7 +30,7 @@ namespace EntitySystems.PlayerSystems
             inventory.capacity = saveData.capacity;
             inventory.currentWeight = saveData.currentWeight;
 
-            inventory.items = CreateItems(saveData.items, inventory.itemDictionary);
+            inventory.ItemList = CreateItems(saveData.items, inventory.itemDictionary);
             inventory.materialItems = CreateItems(saveData.materialItems, inventory.materialItemDictionary);
             inventory.consumableItems = CreateItems(saveData.consumableItems, inventory.consumableItemDictionary);
             inventory.equipmentItems = CreateItems(saveData.equipmentItems, inventory.equipmentItemDictionary);

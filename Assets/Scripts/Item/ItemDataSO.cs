@@ -18,6 +18,7 @@ namespace Item
         public ItemType itemType;
         public string itemName;
         public Sprite icon;
+        [TextArea(3, 10)]
         public string description = "No description available.";
         public int maxStackSize = 99;
         public int value = 1;

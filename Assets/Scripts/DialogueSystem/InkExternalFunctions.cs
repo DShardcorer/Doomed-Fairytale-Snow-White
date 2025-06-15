@@ -1,5 +1,7 @@
 using System;
+using DefaultNamespace.EventSystem.Barter;
 using DefaultNamespace.EventSystem.Input;
+using Entity.NPC;
 using EntitySystems.Skill;
 using EntitySystems.Skill.SkillRegistry;
 using EntitySystems.Stats;
@@ -9,6 +11,7 @@ using GeneralManagers;
 using Helpers;
 using Ink.InkLibs.InkRuntime;
 using Item;
+using Item.Inventory;
 using UnityEngine;
 
 namespace DialogueSystem
@@ -37,11 +40,39 @@ namespace DialogueSystem
             UnbindAudioFunctions(story);
             UnbindTextInputFunctions(story);
         }
+
+        private NPC GetNPCCurrentlyInteractingWith()
+        {
+            return GameManager.Instance.PlayerManager.Player.PlayerProperties.NPCInteractingWith;
+        }
+
+        #region BARTER
+
+        private InventorySystem GetPlayerInventorySystem()
+        {
+            return GameManager.Instance.PlayerManager.Player.InventorySystem;
+        }
+
+        private void BindBarterFunctions(Story story)
+        {
+            story.BindExternalFunction("StartBarter", () => BarterEventSystem.InvokeBarterStart(
+                new BarterEventSystem.BarterStartEventArgs(
+                    GetPlayerInventorySystem(),
+                    GetNPCCurrentlyInteractingWith().InventorySystem
+                )
+            ));
+        }
+
+        #endregion
+
         #region TEXTINPUT
+
         private void BindTextInputFunctions(Story story)
         {
-            story.BindExternalFunction("OpenTextInputter", (string placeholderText, string inputPurpose) => OpenTextInputter(placeholderText, inputPurpose));
+            story.BindExternalFunction("OpenTextInputter",
+                (string placeholderText, string inputPurpose) => OpenTextInputter(placeholderText, inputPurpose));
         }
+
         private void UnbindTextInputFunctions(Story story)
         {
             story.UnbindExternalFunction("OpenTextInputter");
@@ -51,21 +82,26 @@ namespace DialogueSystem
         {
             TextInputEventSystem.InvokeOpenTextInputter(placeholderText, inputPurpose);
         }
+
         #endregion
+
         #region AUDIO
+
         private void BindAudioFunctions(Story story)
         {
             story.BindExternalFunction("PlaySFX", (string sfxName) => PlaySFX(sfxName));
         }
+
         private void UnbindAudioFunctions(Story story)
         {
             story.UnbindExternalFunction("PlaySFX");
         }
+
         private void PlaySFX(string sfxName)
         {
             GameManager.Instance.AudioManager.PlaySFXFromResources(HelperResourcePath.SFXPath + sfxName);
         }
-        
+
         #endregion
 
         #region PLAYER

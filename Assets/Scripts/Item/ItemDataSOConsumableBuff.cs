@@ -4,6 +4,7 @@ using UnityEngine;
 
 namespace Item
 {
+    [CreateAssetMenu(fileName = "Consumable Buff ItemDataSO", menuName = "ItemData/Consumable Buff")]
     public class ItemDataSOConsumableBuff: ItemDataSOConsumable
     {
         public float buffDuration = 10f;

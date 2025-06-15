@@ -112,8 +112,12 @@ namespace Entity
             if (properties.lastAttacker != null)
             {
                 properties.lastAttacker.LevelSystem.AddExperience(properties.ExperienceDrop);
+                if (properties.lastAttacker is NPC.NPC npc)
+                {
+                    npc.NPCProperties.target = null; // Clear target on death
+                }
             }
-            inventorySystem.DropAllItems();
+            inventorySystem.DropAllItemsOnTheGround();
             view.PlayDeathAnimation();
             Dispose();
         }

@@ -10,9 +10,10 @@ namespace Item.Inventory
         public ItemDataSO itemDataSo;
         public int stackSize;
 
-        public InventoryItem(ItemDataSO itemDataSo)
+        public InventoryItem(ItemDataSO itemDataSo, int stackSize = 1)
         {
             this.itemDataSo = itemDataSo;
+            this.stackSize = stackSize;
         }
         public void AddToStack(int amount)
         {

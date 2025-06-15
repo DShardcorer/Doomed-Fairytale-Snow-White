@@ -1,5 +1,5 @@
 using System;
-
+using DefaultNamespace.UI.Barter;
 using DefaultNamespace.UI.Time;
 using EntitySystems.VitalStatSystems.Health_System;
 using EntitySystems.VitalStatSystems.Mana_System;
@@ -35,6 +35,11 @@ namespace GeneralManagers
         [SerializeField] private TimeUI _timeUI;
         public TimeUI TimeUI => _timeUI;
 
+        [SerializeField] private GameObject popupContainer;
+        public GameObject PopupContainer => popupContainer;
+        
+        [SerializeField] private BarterUI _barterUI;
+        public BarterUI BarterUI => _barterUI;
         public void DisableOnScreenUI()
         {
             _timeUI.gameObject.SetActive(false);
@@ -73,6 +78,19 @@ namespace GeneralManagers
             _manaUI.Initialize(this);
             _staminaUI.Initialize(this);
             _damagePopupUIManager.Initialize(this);
+            _barterUI.Initialize(this);
+        }
+
+        public void Dispose()
+        {
+            _ingameMenuUI.Dispose();
+            _healthUI.Dispose();
+            _manaUI.Dispose();
+            _staminaUI.Dispose();
+            _damagePopupUIManager.Dispose();
+            _barterUI.Dispose();
+            GameManager.Instance.InputManager.openMenuInputted -= InputManager_openMenuInputted;
+            Instance = null;
         }
 
 

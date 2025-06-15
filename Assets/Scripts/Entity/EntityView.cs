@@ -62,6 +62,12 @@ namespace Entity
         public void Dispose()
         {
             _controller = null;
+            _spriteRenderer = null;
+            _rigidbody2D = null;
+            _animator = null;
+            _originalMaterial = null;
+            _flashOnHitMaterial = null;
+            Destroy(gameObject);
         }
         public void Damaged()
         {

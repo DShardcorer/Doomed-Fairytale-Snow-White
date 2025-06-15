@@ -1,5 +1,8 @@
 using Entity.Player;
+using GeneralManagers;
+using Helpers;
 using InteractInterface;
+using Item.Inventory;
 using QuestSystem;
 using UnityEngine;
 using UnityEngine.Serialization;
@@ -11,10 +14,11 @@ namespace Item
         private SpriteRenderer spriteRenderer;
 
         [FormerlySerializedAs("itemData")] [SerializeField]
-        private ItemDataSO itemDataSo;
+        protected ItemDataSO itemDataSo;
 
         public ItemDataSO ItemDataSo { get => itemDataSo; }
-
+        protected int stackSize = 1;
+        public int StackSize => stackSize;
         public int Priority => 99;
 
         private void Awake()
@@ -23,23 +27,26 @@ namespace Item
             spriteRenderer.sprite = itemDataSo.icon;
         }
 
-
-        public void SetItemData(ItemDataSO itemDataSo)
+        
+        public void Setup(ItemDataSO itemDataSo, Vector3 position, int stackSize = 1)
         {
             this.itemDataSo = itemDataSo;
+            this.stackSize = stackSize;
             spriteRenderer.sprite = itemDataSo.icon;
+            transform.position = position;
+        }
+
+        public void Setup(InventoryItem inventoryItem, Vector3 position)
+        {
+            transform.position = position;
+            Setup(inventoryItem.itemDataSo, position, inventoryItem.stackSize);
         }
 
 
-        public void Interact(Player player)
+        public virtual void Interact(Player player)
         {
             player.InventorySystem.AddItem(itemDataSo);
-            ItemQuestEventTrigger itemQuestEventTrigger = GetComponent<ItemQuestEventTrigger>();
-            if (itemQuestEventTrigger != null)
-            {
-                itemQuestEventTrigger.TriggerEvent();
-            }
-            Destroy(gameObject);
+            GameManager.Instance.PoolManager.ReturnObject(HelperPoolKey.FieldItem, this.gameObject);
         }
     }
 }

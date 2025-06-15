@@ -18,7 +18,7 @@ namespace EntitySystems.PlayerSystems
 
         public override void InvokeInitialEvents()
         {
-            PlayerInventoryEventSystem.InvokeItemListChanged(items);
+            PlayerInventoryEventSystem.InvokeItemListChanged(ItemList);
             PlayerInventoryEventSystem.InvokeMaterialItemListChanged(materialItems);
             PlayerInventoryEventSystem.InvokeConsumableItemListChanged(consumableItems);
             PlayerInventoryEventSystem.InvokeEquipmentItemListChanged(equipmentItems);
@@ -28,31 +28,37 @@ namespace EntitySystems.PlayerSystems
 
         protected override void OnItemListChanged(List<InventoryItem> items)
         {
+            base.OnItemListChanged(items);
             PlayerInventoryEventSystem.InvokeItemListChanged(items);
         }
 
         protected override void OnMaterialItemListChanged(List<InventoryItem> materialItems)
         {
+            base.OnMaterialItemListChanged(materialItems);
             PlayerInventoryEventSystem.InvokeMaterialItemListChanged(materialItems);
         }
 
         protected override void OnConsumableItemListChanged(List<InventoryItem> consumableItems)
         {
+            base.OnConsumableItemListChanged(consumableItems);
             PlayerInventoryEventSystem.InvokeConsumableItemListChanged(consumableItems);
         }
 
         protected override void OnEquipmentItemListChanged(List<InventoryItem> equipmentItems)
         {
+            base.OnEquipmentItemListChanged(equipmentItems);
             PlayerInventoryEventSystem.InvokeEquipmentItemListChanged(equipmentItems);
         }
 
         protected override void OnMiscellaneousItemListChanged(List<InventoryItem> miscellaneousItems)
         {
+            base.OnMiscellaneousItemListChanged(miscellaneousItems);
             PlayerInventoryEventSystem.InvokeMiscellaneousItemListChanged(miscellaneousItems);
         }
 
         protected override void OnWeightChanged(float currentWeight, float capacity)
         {
+            base.OnWeightChanged(currentWeight, capacity);
             PlayerInventoryEventSystem.InvokeWeightChanged(currentWeight, capacity);
         }
 

@@ -16,16 +16,16 @@ MonoBehaviour:
     _name: Random Villager
     _description: He's standing still !
   viewAssetReferencePrefab:
-    m_AssetGUID: e18510a9eeb760e4583a435e068f9ec2
+    m_AssetGUID: d0160253beeea4f4c9f8aad82175a06a
     m_SubObjectName: 
     m_SubObjectGUID: 
     m_SubObjectType: 
     m_EditorAssetChanged: 1
-  viewPrefab: {fileID: 6419308707183161573, guid: e18510a9eeb760e4583a435e068f9ec2, type: 3}
+  viewPrefab: {fileID: 6419308707183161573, guid: d0160253beeea4f4c9f8aad82175a06a, type: 3}
   abilityStatboard: {fileID: 11400000, guid: 9f4b68311fbc458418dae28980976955, type: 2}
   level: 1
   faction: 1
-  enemyFactions: 00000000
+  enemyFactions: 02000000
   aiType: 3
   aiConfiguration: {fileID: 11400000, guid: e89df6cb4ad219b45a2c25a8abe0332d, type: 2}
   activeSkills: []
