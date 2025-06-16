@@ -17,7 +17,7 @@ namespace Item
         protected ItemDataSO itemDataSo;
 
         public ItemDataSO ItemDataSo { get => itemDataSo; }
-        protected int stackSize = 1;
+        [SerializeField] protected int stackSize = 1;
         public int StackSize => stackSize;
         public int Priority => 99;
 
@@ -45,7 +45,7 @@ namespace Item
 
         public virtual void Interact(Player player)
         {
-            player.InventorySystem.AddItem(itemDataSo);
+            player.InventorySystem.AddItem(itemDataSo, StackSize);
             GameManager.Instance.PoolManager.ReturnObject(HelperPoolKey.FieldItem, this.gameObject);
         }
     }

@@ -3,7 +3,7 @@ using System.Collections.Generic;
 
 namespace EventSystem.UI
 {
-    public static class FadeEventSystem
+    public static class CGFadeEventSystem
     {
         public class FadeEventArgs : EventArgs
         {

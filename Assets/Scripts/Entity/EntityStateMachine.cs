@@ -16,6 +16,14 @@ namespace Entity
             _currentState = initialState;
             _currentState.EnterState();
         }
+        public void Dispose()
+        {
+            if (_currentState != null)
+            {
+                _currentState = null;
+            }
+            
+        }
 
         public void ChangeState(EntityState newState)
         {

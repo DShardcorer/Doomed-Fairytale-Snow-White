@@ -8,6 +8,7 @@ using EntitySystems.VitalStatSystems.Health_System;
 using EntitySystems.VitalStatSystems.Mana_System;
 using EntitySystems.VitalStatSystems.Stamina_System;
 using Item.Inventory;
+using UnityEngine;
 
 namespace Entity
 {
@@ -104,7 +105,6 @@ namespace Entity
         {
             view.PlayDamagedAnimation();
             healthSystem.TakeDamage((int)damage);
-            
         }
 
         public virtual void Die()
@@ -117,6 +117,7 @@ namespace Entity
                     npc.NPCProperties.target = null; // Clear target on death
                 }
             }
+
             inventorySystem.DropAllItemsOnTheGround();
             view.PlayDeathAnimation();
             Dispose();
@@ -124,15 +125,99 @@ namespace Entity
 
         public virtual void Dispose()
         {
-            view.Dispose();
-            equipmentSystem.Dispose();
-            inventorySystem.Dispose();
-            attackHitbox.Dispose();
-            animationTriggers.Dispose();
-            statSystem.Dispose();
-            healthSystem.Dispose();
-            manaSystem.Dispose();
-            staminaSystem.Dispose();
+            try
+            {
+                // Dispose systems with null checks
+                if (view != null)
+                {
+                    view.Dispose();
+                    view = null;
+                }
+
+                if (equipmentSystem != null)
+                {
+                    equipmentSystem.Dispose();
+                    equipmentSystem = null;
+                }
+
+                if (inventorySystem != null)
+                {
+                    inventorySystem.Dispose();
+                    inventorySystem = null;
+                }
+
+                if (attackHitbox != null)
+                {
+                    attackHitbox.Dispose();
+                    attackHitbox = null;
+                }
+
+                if (animationTriggers != null)
+                {
+                    animationTriggers.Dispose();
+                    animationTriggers = null;
+                }
+
+                if (statSystem != null)
+                {
+                    statSystem.Dispose();
+                    statSystem = null;
+                }
+
+                if (healthSystem != null)
+                {
+                    healthSystem.Dispose();
+                    healthSystem = null;
+                }
+
+                if (manaSystem != null)
+                {
+                    manaSystem.Dispose();
+                    manaSystem = null;
+                }
+
+                if (staminaSystem != null)
+                {
+                    staminaSystem.Dispose();
+                    staminaSystem = null;
+                }
+
+                if (activeSkillSystem != null)
+                {
+                    activeSkillSystem.Dispose();
+                    activeSkillSystem = null;
+                }
+
+                if (passiveSkillSystem != null)
+                {
+                    passiveSkillSystem.Dispose();
+                    passiveSkillSystem = null;
+                }
+
+                if (buffSystem != null)
+                {
+                    buffSystem.Dispose();
+                    buffSystem = null;
+                }
+
+                if (stateMachine != null)
+                {
+                    stateMachine.Dispose();
+                    stateMachine = null;
+                }
+
+                // Clean up remaining references
+                properties = null;
+                profile = null;
+                levelSystem = null;
+                IsBusy = false;
+
+                Debug.LogWarning("Entity disposed: " + this.GetType().Name);
+            }
+            catch (System.Exception ex)
+            {
+                Debug.LogError($"Error in Entity.Dispose(): {ex.Message}");
+            }
         }
     }
 }

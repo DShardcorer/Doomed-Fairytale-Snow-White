@@ -372,6 +372,12 @@ namespace Entity.NPC.AI
             _config = null;
             _npcStateStateMachine = null;
             _changeRequests.Clear();
+            states.Clear();
+            subAIControllers.Clear();
+            seeker = null;
+            astarAI = null;
+            _npcSubAIStateMachine.Dispose();
+            _npcSubAIStateMachine = null;
         }
 
         public void SetTarget(Entity target)

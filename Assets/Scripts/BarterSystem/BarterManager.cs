@@ -26,6 +26,7 @@ namespace DefaultNamespace.BarterSystem
             _parent = parent;
             // Initialization logic for barter system
             BarterEventSystem.OnBarterStart += OnBarterStart;
+            BarterEventSystem.OnBarterComplete += CompleteBarter;
         }
 
         private void OnBarterStart(BarterEventSystem.BarterStartEventArgs obj)
@@ -38,8 +39,12 @@ namespace DefaultNamespace.BarterSystem
             this.playerInventory = playerInventory;
             this.npcInventory = npcInventory;
 
-            // Logic to start barter process
-            Debug.Log("Barter started between player and NPC.");
+            //Debug.log every item in npc inventory
+            Debug.LogWarning("Starting barter with NPC. NPC Inventory Items:");
+            foreach (var item in npcInventory.ItemList)
+            {
+                Debug.LogWarning($"Item: {item.itemDataSo.itemName}, Value: {item.itemDataSo.value}, Stack Size: {item.stackSize}");
+            }
         }
         public void AddPlayerBarteredItem(InventoryItem item)
         {
@@ -66,11 +71,11 @@ namespace DefaultNamespace.BarterSystem
         public void CompleteBarter()
         {
             //Only complete barter if player bartered items have higher value than NPC bartered items
-            if (playerBarteredItemsHolder.TotalValue > npcBarteredItemsHolder.TotalValue)
+            if (playerBarteredItemsHolder.TotalValue >= npcBarteredItemsHolder.TotalValue)
             {
                 // Logic to complete barter
-                playerInventory.AddItems(playerBarteredItemsHolder.BarteredItems);
-                npcInventory.AddItems(npcBarteredItemsHolder.BarteredItems);
+                npcInventory.AddItems(playerBarteredItemsHolder.BarteredItems);
+                playerInventory.AddItems(npcBarteredItemsHolder.BarteredItems);
                 playerBarteredItemsHolder.ClearItems();
                 npcBarteredItemsHolder.ClearItems();
                 Debug.Log("Barter completed successfully.");

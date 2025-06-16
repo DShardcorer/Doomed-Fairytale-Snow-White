@@ -8,16 +8,18 @@ namespace DefaultNamespace.UI.Barter
 {
     public class BarterUI : MonoBehaviour, ILifecycle<UIManager>
     {
-        [Header("NPC Components")]
-        [SerializeField] private Image npcBartererImage;
-        
-        [Header("Barter UI Components")]
-        [SerializeField] private BartererInventoryPageUI playerBartererInventoryPageUI;
+        [Header("NPC Components")] [SerializeField]
+        private Image npcBartererImage;
+
+        [Header("Barter UI Components")] [SerializeField]
+        private BartererInventoryPageUI playerBartererInventoryPageUI;
+
         [SerializeField] private BartererInventoryPageUI npcBartererInventoryPageUI;
         [SerializeField] private BarteredItemsHolderUI playerBarteredItemsHolderUI;
         [SerializeField] private BarteredItemsHolderUI npcBarteredItemsHolderUI;
         [SerializeField] private StackSplitInputterUI stackSplitInputterUI;
         [SerializeField] private Button togglePlayerNpcInventoryButton;
+        [SerializeField] private Button completeBarterButton;
 
         #region public getters
 
@@ -35,15 +37,23 @@ namespace DefaultNamespace.UI.Barter
             //Initialize the barterer inventory pages
             playerBartererInventoryPageUI.Initialize(this, BartererType.Player);
             npcBartererInventoryPageUI.Initialize(this, BartererType.NPC);
-            //Hook onto inventory events
+
+            playerBarteredItemsHolderUI.Initialize(this, BartererType.Player);
+            npcBarteredItemsHolderUI.Initialize(this, BartererType.NPC);
 
 
-            
             togglePlayerNpcInventoryButton.onClick.AddListener(ToggleBartererInventory);
+            completeBarterButton.onClick.AddListener(CompleteBarter);
             BarterEventSystem.OnBarterStart += OnBarterStart;
-            
+
             //Disable all UI elements initially
             playerBartererInventoryPageUI.gameObject.SetActive(false);
+            gameObject.SetActive(false);
+        }
+
+        private void CompleteBarter()
+        {
+            BarterEventSystem.InvokeBarterComplete();
             gameObject.SetActive(false);
         }
 
@@ -57,7 +67,8 @@ namespace DefaultNamespace.UI.Barter
             playerBartererInventoryPageUI.UpdateUI(GameManager.Instance.BarterManager.PlayerInventory.ItemList);
             npcBartererInventoryPageUI.UpdateUI(GameManager.Instance.BarterManager.NpcInventory.ItemList);
             //Update the bartered items holders
-            playerBarteredItemsHolderUI.UpdateUI(GameManager.Instance.BarterManager.PlayerBarteredItemsHolder.BarteredItems);
+            playerBarteredItemsHolderUI.UpdateUI(GameManager.Instance.BarterManager.PlayerBarteredItemsHolder
+                .BarteredItems);
             npcBarteredItemsHolderUI.UpdateUI(GameManager.Instance.BarterManager.NpcBarteredItemsHolder.BarteredItems);
             GameManager.Instance.BarterManager.PlayerInventory.OnItemListChangedAction +=
                 playerBartererInventoryPageUI.UpdateUI;
@@ -75,6 +86,7 @@ namespace DefaultNamespace.UI.Barter
             playerBartererInventoryPageUI.gameObject.SetActive(!playerBartererInventoryPageUI.gameObject.activeSelf);
             npcBartererInventoryPageUI.gameObject.SetActive(!npcBartererInventoryPageUI.gameObject.activeSelf);
         }
+
         public void Dispose()
         {
             //Unhook from inventory events
@@ -89,7 +101,7 @@ namespace DefaultNamespace.UI.Barter
 
             togglePlayerNpcInventoryButton.onClick.RemoveListener(ToggleBartererInventory);
             BarterEventSystem.OnBarterStart -= OnBarterStart;
-            
+
             //Clean up references
             playerBartererInventoryPageUI = null;
             npcBartererInventoryPageUI = null;

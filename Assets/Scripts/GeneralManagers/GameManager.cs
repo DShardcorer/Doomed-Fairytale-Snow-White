@@ -29,6 +29,7 @@ namespace GeneralManagers
         [SerializeField] private InputManager _inputManager;
         [SerializeField] private PoolManager _poolManager;
         [SerializeField] private PlayerManager _playerManager;
+        [SerializeField] private PlayerViewManager _playerViewManager;
         [SerializeField] private UpdateManager _updateManager;
         [SerializeField] private FixedUpdateManager _fixedUpdateManager;
         [SerializeField] private GameTimeManager _gameTimeManager;
@@ -45,6 +46,7 @@ namespace GeneralManagers
         public InputManager InputManager => _inputManager;
         public PoolManager PoolManager => _poolManager;
         public PlayerManager PlayerManager => _playerManager;
+        public PlayerViewManager PlayerViewManager => _playerViewManager;
         public UpdateManager UpdateManager => _updateManager;
         public FixedUpdateManager FixedUpdateManager => _fixedUpdateManager;
         public DayCycleLightingManager DayCycleLightingManager => _dayCycleLightingManager;
@@ -76,6 +78,7 @@ namespace GeneralManagers
             _inputManager.Initialize(this);
             _poolManager.Initialize(this);
             _playerManager.Initialize(this);
+            _playerViewManager.Initialize(this);
             _updateManager.Initialize(this);
             _fixedUpdateManager.Initialize(this);
             _gameTimeManager.Initialize(this);

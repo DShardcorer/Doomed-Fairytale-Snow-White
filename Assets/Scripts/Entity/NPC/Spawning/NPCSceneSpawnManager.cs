@@ -15,10 +15,9 @@ namespace Entity.NPC.Spawning
     /// </summary>
     public class NPCSceneSpawnManager : MonoBehaviour
     {
-
-        [Header("Scene Configuration")]
-        [OdinSerialize, SerializeReference, SubclassSelector]
+        [Header("Scene Configuration")] [OdinSerialize, SerializeReference, SubclassSelector]
         private List<SceneNPCData> sceneNPCs = new List<SceneNPCData>();
+
         [SerializeField] private bool spawnAllOnStart = true;
         [SerializeField] private float staggeredSpawnDelay = 0.1f;
         private NPCSpawnManager spawnManager;
@@ -39,6 +38,7 @@ namespace Entity.NPC.Spawning
                 SpawnAllSceneNPCs();
             }
         }
+
 
         public async void SpawnAllSceneNPCs()
         {
@@ -112,18 +112,14 @@ namespace Entity.NPC.Spawning
                         spawnedNPCsByName[npcName] = spawnedNPC;
                     }
                 }
-
-                // Set DontDestroyOnLoad if this NPC should persist
-                if (npcData.isPersistent && spawnedNPC.NPCView != null)
-                {
-                    DontDestroyOnLoad(spawnedNPC.NPCView.gameObject);
-                }
+                
             }
+
             spawnedNPC.Initialize();
             npcData.Setup(spawnedNPC);
             return spawnedNPC;
         }
-        
+
         public NPC SpawnSceneNPC(string npcKey)
         {
             if (spawnManager == null)
@@ -181,14 +177,9 @@ namespace Entity.NPC.Spawning
                         spawnedNPCsByName[npcName] = spawnedNPC;
                     }
                 }
-
-                // Set DontDestroyOnLoad if this NPC should persist
-                if (npcData.isPersistent && spawnedNPC.NPCView != null)
-                {
-                    DontDestroyOnLoad(spawnedNPC.NPCView.gameObject);
-                }
+                
             }
-            
+
             spawnedNPC.Initialize();
             npcData.Setup(spawnedNPC);
             return spawnedNPC;
@@ -198,18 +189,17 @@ namespace Entity.NPC.Spawning
         {
             if (spawnedNPCs.TryGetValue(npcKey, out var npc))
             {
-                // Remove from name-based dictionary as well
                 string npcName = FindNPCNameInDictionary(npc);
                 if (npcName != null)
                 {
                     spawnedNPCsByName.Remove(npcName);
                 }
-
+        
+                npc.Dispose();  // Add this to properly dispose
                 Destroy(npc.NPCView.gameObject);
                 spawnedNPCs.Remove(npcKey);
             }
         }
-
         // Helper method to find NPC name in the dictionary
         private string FindNPCNameInDictionary(NPC npc)
         {
@@ -279,14 +269,32 @@ namespace Entity.NPC.Spawning
 
         private void OnDestroy()
         {
+            int npcCount = spawnedNPCs.Values.Count;
+            // Debug.LogWarning($"NPCSceneSpawnManager OnDestroy - Disposing {npcCount} NPCs");
+    
+            int disposedCount = 0;
             foreach (var npc in spawnedNPCs.Values.ToList())
             {
-                if (npc != null && npc.NPCView != null)
+                try
                 {
-                    Destroy(npc.NPCView.gameObject);
+                    if (npc != null && npc.Profile != null)
+                    {
+                        // Debug.LogWarning($"NPC {npc.Profile.Name} disposed ({disposedCount+1}/{npcCount})");
+                        npc.Dispose();
+                        disposedCount++;
+                    }
+                    else
+                    {
+                        // Debug.LogWarning($"Skipping null NPC or NPC with null profile ({disposedCount+1}/{npcCount})");
+                    }
+                }
+                catch (System.Exception ex)
+                {
+                    Debug.LogError($"Error disposing NPC: {ex.Message}");
                 }
             }
 
+            // Debug.LogWarning($"Successfully disposed {disposedCount}/{npcCount} NPCs");
             spawnedNPCs.Clear();
             spawnedNPCsByName.Clear();
         }

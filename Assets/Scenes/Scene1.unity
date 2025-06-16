@@ -651,22 +651,20 @@ MonoBehaviour:
     - rid: 55395762093687063
       type: {class: PatrolSceneNPCData, ns: Entity.NPC.Spawning.SceneNPCDataVariants, asm: Assembly-CSharp}
       data:
-        npcKey: Villager1
+        npcKey: A random villager
         npcData: {fileID: 11400000, guid: 56a90780f98d7754da63302be17e60e5, type: 2}
         spawnPoint: {fileID: 516230603}
         spawnOnStart: 1
-        isPersistent: 0
         patrolPoints:
         - {fileID: 1353656988}
         - {fileID: 1851384408}
     - rid: 55395768653578329
       type: {class: SceneNPCData, ns: Entity.NPC.Spawning, asm: Assembly-CSharp}
       data:
-        npcKey: Villager2
+        npcKey: Next random villager
         npcData: {fileID: 11400000, guid: bde0757290f46454ca48c8bbdc9fd62f, type: 2}
         spawnPoint: {fileID: 880719560}
         spawnOnStart: 1
-        isPersistent: 0
     - rid: 55395947871207518
       type: {class: SceneNPCData, ns: Entity.NPC.Spawning, asm: Assembly-CSharp}
       data:
@@ -674,7 +672,6 @@ MonoBehaviour:
         npcData: {fileID: 11400000, guid: 58500ee500034784a8c35e7c4de4b9aa, type: 2}
         spawnPoint: {fileID: 767573150}
         spawnOnStart: 1
-        isPersistent: 0
 --- !u!4 &248302576 stripped
 Transform:
   m_CorrespondingSourceObject: {fileID: 3647097997995099346, guid: 47bb0c42f17740f40bd43d3aa92bc524, type: 3}
@@ -1590,6 +1587,10 @@ PrefabInstance:
     - target: {fileID: 1397265708829054893, guid: 965a74791d5923c49afb1a9a8347e0cd, type: 3}
       propertyPath: m_Name
       value: Coin
+      objectReference: {fileID: 0}
+    - target: {fileID: 2621242028644766950, guid: 965a74791d5923c49afb1a9a8347e0cd, type: 3}
+      propertyPath: stackSize
+      value: 300
       objectReference: {fileID: 0}
     - target: {fileID: 6439817705840953806, guid: 965a74791d5923c49afb1a9a8347e0cd, type: 3}
       propertyPath: m_Radius
@@ -16255,7 +16256,7 @@ GameObject:
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
-  m_IsActive: 0
+  m_IsActive: 1
 --- !u!61 &1809785307
 BoxCollider2D:
   m_ObjectHideFlags: 0

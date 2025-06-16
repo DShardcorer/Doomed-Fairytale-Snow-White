@@ -34,7 +34,7 @@ namespace UI.Fade
         {
             typewriter.onTextShowed.AddListener(OnTextShowed);
             typewriter.onTextDisappeared.AddListener(OnTextDissapeared);
-            FadeEventSystem.OnFade += OnFade;
+            CGFadeEventSystem.OnFade += OnFade;
             _originalColor = fadePanel.color;
             fadePanel.gameObject.SetActive(false);
         }
@@ -43,10 +43,10 @@ namespace UI.Fade
         {
             typewriter.onTextShowed.RemoveListener(OnTextShowed);
             typewriter.onTextDisappeared.RemoveListener(OnTextDissapeared);
-            FadeEventSystem.OnFade -= OnFade;
+            CGFadeEventSystem.OnFade -= OnFade;
         }
 
-        private void OnFade(FadeEventSystem.FadeEventArgs obj)
+        private void OnFade(CGFadeEventSystem.FadeEventArgs obj)
         {
             fadePanel.gameObject.SetActive(true);
             Setup(obj.FadeOutDuration, obj.FadeInDuration, obj.OnComplete, obj.OnTextStartDissapearing, 

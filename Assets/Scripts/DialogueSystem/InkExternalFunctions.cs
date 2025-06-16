@@ -12,6 +12,7 @@ using Helpers;
 using Ink.InkLibs.InkRuntime;
 using Item;
 using Item.Inventory;
+using SceneSwitch;
 using UnityEngine;
 
 namespace DialogueSystem
@@ -20,6 +21,8 @@ namespace DialogueSystem
     {
         public void StartListening(Story story)
         {
+            BindSceneSwitchingFunctions(story);
+            BindBarterFunctions(story);
             BindQuestFunctions(story);
             BindPlayerFunctions(story);
             BindAudioFunctions(story);
@@ -27,18 +30,16 @@ namespace DialogueSystem
             BindMiscFunctions(story);
         }
 
-        private void BindMiscFunctions(Story story)
-        {
-            story.BindExternalFunction("Fade", (float fadeInDuration, float fadeOutDuration) =>
-                FadeEventSystem.InvokeFade(fadeInDuration, fadeOutDuration));
-        }
 
         public void StopListening(Story story)
         {
+            UnbindSceneSwitchingFunctions(story);
+            UnbindBarterFunctions(story);
             UnbindQuestFunctions(story);
             UnbindPlayerFunctions(story);
             UnbindAudioFunctions(story);
             UnbindTextInputFunctions(story);
+            UnbindMiscFunctions(story);
         }
 
         private NPC GetNPCCurrentlyInteractingWith()
@@ -61,6 +62,32 @@ namespace DialogueSystem
                     GetNPCCurrentlyInteractingWith().InventorySystem
                 )
             ));
+        }
+
+        private void UnbindBarterFunctions(Story story)
+        {
+            story.UnbindExternalFunction("StartBarter");
+        }
+
+        #endregion
+
+        #region SCENESWITCHING
+
+        private void BindSceneSwitchingFunctions(Story story)
+        {
+            story.BindExternalFunction("SwitchScene", (string sceneToLoad, string portalToSpawnAt) =>
+                SwitchScene(sceneToLoad, portalToSpawnAt)
+            );
+        }
+        private void UnbindSceneSwitchingFunctions(Story story)
+        {
+            story.UnbindExternalFunction("SwitchScene");
+        }
+
+        private void SwitchScene(string sceneToLoad, string portalToSpawnAt = "")
+        {
+            Enum.TryParse<SceneSwitchPortal.PortalToSpawnAt>(portalToSpawnAt, out var portalToSpawnAtEnum);
+            SceneSwitchManager.Instance.SwitchSceneToPortal(sceneToLoad, portalToSpawnAtEnum);
         }
 
         #endregion
@@ -199,6 +226,21 @@ namespace DialogueSystem
         {
             // Finish the quest with the given ID
             QuestEventSystem.InvokeQuestFinished(questId);
+        }
+
+        #endregion
+
+        #region MISC
+
+        private void BindMiscFunctions(Story story)
+        {
+            story.BindExternalFunction("Fade", (float fadeInDuration, float fadeOutDuration) =>
+                CGFadeEventSystem.InvokeFade(fadeInDuration, fadeOutDuration));
+        }
+
+        private void UnbindMiscFunctions(Story story)
+        {
+            story.UnbindExternalFunction("Fade");
         }
 
         #endregion

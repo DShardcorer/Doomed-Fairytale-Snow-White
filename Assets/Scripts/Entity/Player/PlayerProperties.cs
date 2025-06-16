@@ -1,4 +1,5 @@
 using Entity.Faction;
+using UnityEngine;
 
 namespace Entity.Player
 {
@@ -12,6 +13,7 @@ namespace Entity.Player
         
         public void SetEntityInteractingWith(NPC.NPC npc)
         {
+            Debug.LogWarning("Set Entity Interacting With: " + npc.Profile.Name);
             npcInteractingWith = npc;
         }
         public void ClearEntityInteractingWith()

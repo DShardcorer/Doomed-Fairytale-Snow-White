@@ -64,6 +64,15 @@ namespace EntitySystems.Skill
         public void Dispose()
         {
             _parent = null;
+            _stateMachine = null;
+            //Call Dispose on each skill
+            foreach (var skill in activeSkills)
+            {
+                skill.Dispose();
+            }
+            activeSkillsDict.Clear();
+            activeSkills.Clear();
+            Debug.LogWarning("ActiveSkillSystem disposed.");
         }
 
         public ActiveSkill GetSkill(string skillName)

@@ -6,6 +6,8 @@ EXTERNAL AddPlayerActiveSkill(skillId)
 EXTERNAL AddPlayerPassiveSkill(skillId)
 EXTERNAL AddPlayerItem(itemId, amount)
 
+//Barter
+EXTERNAL StartBarter()
 
 //TextInputter
 EXTERNAL OpenTextInputter(placeholderText, inputPurpose)
@@ -16,11 +18,12 @@ EXTERNAL PlaySFX(sfxName)
 //Fade
 EXTERNAL Fade(fadeInDuration, fadeOutDuration)
 
+//Switch Scene
+EXTERNAL SwitchScene(sceneToLoad, portalToSpawnAt)
+
 //Quest stuff
 EXTERNAL StartQuest(questId)
 EXTERNAL AdvanceQuest(questId)
 EXTERNAL FinishQuest(questId)
 
 
-//Barter
-EXTERNAL StartBarter()

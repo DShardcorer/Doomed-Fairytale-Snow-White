@@ -1,6 +1,8 @@
 using System.Collections;
+using DefaultNamespace.Utility;
 using Entity.Player;
 using GeneralManagers;
+using Tile;
 using UnityEngine;
 using UnityEngine.SceneManagement;
 
@@ -17,7 +19,7 @@ namespace SceneSwitch
         private Vector3 _portalSpawnPosition;
         private Vector3 _overworldSpawnPosition = new Vector3(0, 0, 0);
         [SerializeField] private SceneField _overworldScene;
-
+        private PlayerViewManager _playerViewManager;
 
         private void Awake()
         {
@@ -31,32 +33,61 @@ namespace SceneSwitch
             }
         }
 
+
+// Update Initialize method
         public void Initialize()
         {
             _playerView = GameManager.Instance.PlayerManager.Player.PlayerView;
         }
 
+
         private void OnEnable()
         {
             SceneManager.sceneLoaded += OnSceneLoaded;
         }
-
-        private void OnSceneLoaded(Scene scene, LoadSceneMode mode)
+        
+        private async void OnSceneLoaded(Scene scene, LoadSceneMode mode)
         {
             SceneFadeManager.Instance.StartFadeIn();
-            Debug.Log("Scene Loaded");
-            if (_loadToPortal)
+
+            // Check if this is an overworld scene
+            if (_playerViewManager == null)
             {
-                //warp player to correct location
-                FindPortal(_portalToSpawnTo);
-                _playerView.transform.position = _portalSpawnPosition;
-                _loadToPortal = false;
+                _playerViewManager = GameManager.Instance.PlayerViewManager;
             }
 
-            if (_loadToOverworld)
+            bool isOverworld = _playerViewManager.IsOverworldScene(scene.name);
+
+
+            if (isOverworld)
             {
-                _playerView.transform.position = _overworldSpawnPosition;
-                _loadToOverworld = false;
+
+                if (_loadToOverworld)
+                {
+                    _playerViewManager.SwitchToOverworldView(_overworldSpawnPosition);
+                    _loadToOverworld = false;
+                }
+                else if (_loadToPortal)
+                {
+                    FindPortal(_portalToSpawnTo);
+                    _playerViewManager.SwitchToOverworldView(_portalSpawnPosition);
+                    _loadToPortal = false;
+                }
+            }
+            else
+            {
+                // For non-overworld scenes, use the normal player view
+                if (_loadToOverworld)
+                {
+                    _playerViewManager.SwitchToNormalView(_overworldSpawnPosition);
+                    _loadToOverworld = false;
+                }
+                else if (_loadToPortal)
+                {
+                    FindPortal(_portalToSpawnTo);
+                    _playerViewManager.SwitchToNormalView(_portalSpawnPosition);
+                    _loadToPortal = false;
+                }
             }
         }
 
@@ -88,6 +119,55 @@ namespace SceneSwitch
             StartCoroutine(FadeOutThenChangeScene(_overworldScene));
         }
 
+        public void SwitchSceneSpecial(SceneField sceneToLoad)
+        {
+            // Disable player movement/interaction
+            if (_playerView != null)
+            {
+                _playerView.gameObject.SetActive(false);
+            }
+
+            StartCoroutine(FadeOutThenLoadSpecialScene(sceneToLoad));
+        }
+
+        private IEnumerator FadeOutThenLoadSpecialScene(SceneField sceneToLoad)
+        {
+            SceneFadeManager.Instance.StartFadeOut();
+            if (SceneFadeManager.Instance.IsFadingOut)
+            {
+                yield return null;
+            }
+
+            // No need to set portal or position variables
+            SceneManager.LoadScene(sceneToLoad);
+        }
+
+// Add this method to re-enable the player when leaving a special scene
+        public void ExitSpecialScene(SceneField destinationScene, Vector3 spawnPosition)
+        {
+            // Re-enable the player
+            if (_playerView != null)
+            {
+                _playerView.gameObject.SetActive(true);
+            }
+
+            // Use existing scene switch method to return to a normal scene
+            SwitchSceneToOverworld(spawnPosition);
+        }
+
+        public void ExitSpecialScene(SceneField destinationScene,
+            SceneSwitchPortal.PortalToSpawnAt portalToSpawnAt = SceneSwitchPortal.PortalToSpawnAt.None)
+        {
+            // Re-enable the player
+            if (_playerView != null)
+            {
+                _playerView.gameObject.SetActive(true);
+            }
+
+            // Use existing scene switch method to return to a normal scene
+            SwitchSceneToPortal(destinationScene, portalToSpawnAt);
+        }
+
         public void SwitchSceneToOverworld(Vector3 overworldSpawnPosition)
         {
             _loadToOverworld = true;
@@ -107,6 +187,96 @@ namespace SceneSwitch
             _portalToSpawnTo = portalToSpawnAt;
             SceneManager.LoadScene(sceneToLoad);
         }
+
+        #region STRING OVERLOADS
+
+        // String-based overload for SwitchSceneToPortal
+        public void SwitchSceneToPortal(string sceneName,
+            SceneSwitchPortal.PortalToSpawnAt portalToSpawnAt = SceneSwitchPortal.PortalToSpawnAt.None)
+        {
+            _loadToPortal = true;
+            StartCoroutine(FadeOutThenChangeScene(sceneName, portalToSpawnAt));
+        }
+
+// String-based overload for SwitchSceneFromOverworldToPortal
+        public void SwitchSceneFromOverworldToPortal(string sceneName,
+            Vector3 overworldEnterPosition,
+            SceneSwitchPortal.PortalToSpawnAt portalToSpawnAt = SceneSwitchPortal.PortalToSpawnAt.None)
+        {
+            _loadToPortal = true;
+            _overworldSpawnPosition = overworldEnterPosition;
+            StartCoroutine(FadeOutThenChangeScene(sceneName, portalToSpawnAt));
+        }
+
+// String-based overload for SwitchSceneToOverworld
+        public void SwitchSceneToOverworld(string overworldSceneName)
+        {
+            _loadToOverworld = true;
+            StartCoroutine(FadeOutThenChangeScene(overworldSceneName));
+        }
+
+// String-based overload for SwitchSceneSpecial
+        public void SwitchSceneSpecial(string sceneName)
+        {
+            if (_playerView != null)
+            {
+                _playerView.gameObject.SetActive(false);
+            }
+
+            StartCoroutine(FadeOutThenLoadSpecialScene(sceneName));
+        }
+
+// String-based overload for ExitSpecialScene with position
+        public void ExitSpecialScene(string destinationScene, Vector3 spawnPosition)
+        {
+            if (_playerView != null)
+            {
+                _playerView.gameObject.SetActive(true);
+            }
+
+            _loadToOverworld = true;
+            _overworldSpawnPosition = spawnPosition;
+            StartCoroutine(FadeOutThenChangeScene(destinationScene));
+        }
+
+// String-based overload for ExitSpecialScene with portal
+        public void ExitSpecialScene(string destinationScene,
+            SceneSwitchPortal.PortalToSpawnAt portalToSpawnAt = SceneSwitchPortal.PortalToSpawnAt.None)
+        {
+            if (_playerView != null)
+            {
+                _playerView.gameObject.SetActive(true);
+            }
+
+            SwitchSceneToPortal(destinationScene, portalToSpawnAt);
+        }
+
+// Additional helper methods for string-based scene loading
+        private IEnumerator FadeOutThenLoadSpecialScene(string sceneName)
+        {
+            SceneFadeManager.Instance.StartFadeOut();
+            if (SceneFadeManager.Instance.IsFadingOut)
+            {
+                yield return null;
+            }
+
+            SceneManager.LoadScene(sceneName);
+        }
+
+        private IEnumerator FadeOutThenChangeScene(string sceneName,
+            SceneSwitchPortal.PortalToSpawnAt portalToSpawnAt = SceneSwitchPortal.PortalToSpawnAt.None)
+        {
+            SceneFadeManager.Instance.StartFadeOut();
+            if (SceneFadeManager.Instance.IsFadingOut)
+            {
+                yield return null;
+            }
+
+            _portalToSpawnTo = portalToSpawnAt;
+            SceneManager.LoadScene(sceneName);
+        }
+
+        #endregion
 
 
         private void FindPortal(SceneSwitchPortal.PortalToSpawnAt portalToSpawnAt)

@@ -11,6 +11,7 @@ using EntitySystems.VitalStatSystems.Stamina_System;
 using GeneralManagers;
 using Helpers;
 using Item.Inventory;
+using UnityEngine;
 
 // The refactored NPC class remains mostly unchanged.
 namespace Entity.NPC
@@ -100,8 +101,8 @@ namespace Entity.NPC
 
         public override void FixedUpdateLogic()
         {
-            base.FixedUpdateLogic();
             if (IsBusy) return;
+            base.FixedUpdateLogic();
             _npcAIController.FixedUpdateLogic();
         }
 
@@ -109,12 +110,19 @@ namespace Entity.NPC
         {
             GameManager.Instance.UpdateManager.RemoveUpdatable(this);
             GameManager.Instance.FixedUpdateManager.RemoveFixedUpdatable(this);
-            // Nullify references
+    
+            // These dispose calls should happen before nulling references
+            _npcAIController?.Dispose();
+            _npcInteractSystem?.Dispose();
+    
+            // Set each reference to null only once
             _npcView = null;
             _npcProperties = null;
             _fovDetector = null;
             _proximityDetector = null;
-
+            _npcAIController = null;
+            _npcInteractSystem = null;
+    
             base.Dispose();
         }
     }

@@ -14,9 +14,6 @@ namespace Entity.NPC.Spawning
         public Transform spawnPoint;
         [BoxGroup("Base")]
         public bool spawnOnStart = true;
-        [BoxGroup("Base"), Tooltip("Set to true if this NPC should persist when changing scenes")]
-        public bool isPersistent = false;
-
         public virtual void Setup(NPC npc)
         {
             // This method should be overridden in derived classes to set up the NPC

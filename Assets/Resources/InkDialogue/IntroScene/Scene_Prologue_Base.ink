@@ -14,7 +14,7 @@ Oh? Finally, you're awake. I almost feel bad interrupting your sound sleep.
 * [Where am I?]
 
 -Shhh. Questions are for later. All I can say is that you’re in a place where you should be.
-
+~SwitchScene("Scene1", "NONE")
 It doesn't matter, not as much as who you are...
 Do you remember who you are?
 

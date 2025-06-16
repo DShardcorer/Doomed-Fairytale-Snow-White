@@ -1,8 +1,9 @@
+using GeneralManagers;
 using UnityEngine;
 
 namespace Entity.NPC.AI
 {
-    public class NPCSubAIStateMachine
+    public class NPCSubAIStateMachine: ILifecycle<NPCSubAIController>
     {
         private NPCSubAIController _currentNPCSubAIController;
         public NPCSubAIController CurrentNpcSubAIController => _currentNPCSubAIController;
@@ -12,6 +13,11 @@ namespace Entity.NPC.AI
         {
             _currentNPCSubAIController = initialState;
             _currentNPCSubAIController.OnEnter();
+        }
+
+        public void Dispose()
+        {
+            _currentNPCSubAIController = null;
         }
 
         public void ChangeNPCSubAIController(NPCSubAIController newState)

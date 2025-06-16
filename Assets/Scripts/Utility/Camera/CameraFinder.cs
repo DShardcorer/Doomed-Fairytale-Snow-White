@@ -38,7 +38,7 @@ namespace DefaultNamespace.Utitlity.Camera
 
         private IEnumerator FindCamera()
         {
-            yield return new WaitForSecondsRealtime(0.5f);
+            yield return new WaitForEndOfFrame();
             switch (cameraType)
             {
                 case CameraType.MainCamera:

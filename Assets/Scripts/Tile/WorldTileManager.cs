@@ -1,5 +1,6 @@
 using System;
 using System.Collections.Generic;
+using DefaultNamespace.Utility;
 using Entity.Player;
 using GeneralManagers;
 using SceneSwitch;
@@ -12,6 +13,10 @@ namespace Tile
     {
         [SerializeField] private Tilemap groundTilemap;
         [SerializeField] private Tilemap walkInfrontTilemap;
+        [SerializeField] private Tilemap collisionTilemap;
+        public Tilemap GroundTilemap => groundTilemap;
+        public Tilemap WalkInfrontTilemap => walkInfrontTilemap;
+        public Tilemap CollisionTilemap => collisionTilemap;
 
         [SerializeField] private List<WorldTileData> groundTileDataList;
         [SerializeField] private List<WorldTileData> walkInfrontTileDataList;
@@ -20,6 +25,11 @@ namespace Tile
         private Dictionary<TileBase, WorldTileData> _walkInfrontTileDataDictionary;
 
         private PlayerView _playerView;
+
+        public (Tilemap ground, Tilemap collision) GetTilemaps()
+        {
+            return (groundTilemap, collisionTilemap);
+        }
 
         private void Awake()
         {
@@ -47,7 +57,9 @@ namespace Tile
                     }
                 }
             }
+            ServiceLocator.RegisterService(this);
         }
+
 
         private void Update()
         {
@@ -81,9 +93,11 @@ namespace Tile
                 //     Debug.Log("No ground tile data found.");
                 // }
 
-                if (tileWalkInFront != null && _walkInfrontTileDataDictionary.TryGetValue(tileWalkInFront, out WorldTileData walkInfrontTileData))
+                if (tileWalkInFront != null &&
+                    _walkInfrontTileDataDictionary.TryGetValue(tileWalkInFront, out WorldTileData walkInfrontTileData))
                 {
-                    SceneSwitchManager.Instance.SwitchSceneFromOverworldToPortal(walkInfrontTileData.sceneToLoad, playerPosition, SceneSwitchPortal.PortalToSpawnAt.One);
+                    SceneSwitchManager.Instance.SwitchSceneFromOverworldToPortal(walkInfrontTileData.sceneToLoad,
+                        playerPosition, SceneSwitchPortal.PortalToSpawnAt.One);
                 }
                 else
                 {

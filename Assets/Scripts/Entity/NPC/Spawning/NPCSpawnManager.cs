@@ -265,12 +265,11 @@ namespace Entity.NPC.Spawning
 
         protected virtual void AddStartingInventory(InventorySystem inventory, List<InventoryItem> items)
         {
-            foreach (var itemData in items)
+            foreach (var item in items)
             {
-                if (itemData != null)
+                if (item != null)
                 {
-                    
-                    inventory.AddItem(itemData);
+                    inventory.AddItem(item);
                 }
             }
         }

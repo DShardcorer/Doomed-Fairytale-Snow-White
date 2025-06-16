@@ -34,6 +34,23 @@ namespace Entity
             _animator = _entity.View.Animator;
             _entityStateProperties.Initialize(this);
         }
+
+        public virtual void Dispose()
+        {
+            
+            _entity = null;
+            _stateMachine = null;
+            ActiveSkillSystem = null;
+            _properties = null;
+            _view = null;
+            _rigidbody = null;
+            _animator = null;
+            _entityStateProperties.Dispose();
+            _entityStateProperties = null;
+            _isAnimationEnded = false;
+            _animationBoolName = null;
+            
+        }
         public virtual void EnterState()
         {
             _entity.AnimationTriggers.OnTakingEffect += OnTakingEffect;

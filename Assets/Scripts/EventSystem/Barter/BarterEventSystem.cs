@@ -22,20 +22,11 @@ namespace DefaultNamespace.EventSystem.Barter
         {
             OnBarterStart?.Invoke(args);
         }
-        public class BarterCompleteEventArgs : EventArgs
+        
+        public static Action OnBarterComplete;
+        public static void InvokeBarterComplete()
         {
-            public BarteredItemsHolder PlayerBarteredItemsHolder;
-            public BarteredItemsHolder NpcBarteredItemsHolder;
-            public BarterCompleteEventArgs(BarteredItemsHolder playerBarteredItemsHolder, BarteredItemsHolder npcBarteredItemsHolder)
-            {
-                PlayerBarteredItemsHolder = playerBarteredItemsHolder;
-                NpcBarteredItemsHolder = npcBarteredItemsHolder;
-            }
-        }
-        public static Action<BarterCompleteEventArgs> OnBarterComplete;
-        public static void InvokeBarterComplete(BarterCompleteEventArgs args)
-        {
-            OnBarterComplete?.Invoke(args);
+            OnBarterComplete?.Invoke();
         }
     }
 }

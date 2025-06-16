@@ -45,6 +45,11 @@ namespace EntitySystems.Skill
             parent = null;
             GameManager.Instance.FixedUpdateManager.RemoveFixedUpdatable(this);
             GameManager.Instance.UpdateManager.RemoveUpdatable(this);
+            healthSystem = null;
+            manaSystem = null;
+            staminaSystem = null;
+            activeSkillInfo = null;
+            cooldownTimer = 0;
         }
 
         public virtual void UpdateLogic()

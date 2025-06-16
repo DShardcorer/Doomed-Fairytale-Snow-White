@@ -38,14 +38,14 @@ namespace SceneSpecificScript.Scene_Prologue
             GameManager.Instance.InputManager.DisableOpenMenuInput();
             GameManager.Instance.AudioManager.PlayMusic(introMusic);
             GameManager.Instance.PlayerManager.DisablePlayer();
-            FadeEventSystem.InvokeFade(
+            CGFadeEventSystem.InvokeFade(
                 fadeOutDuration,
                 fadeInDuration,
                 null,
                 InvokeEnterIntroSceneDialogue,
                 new List<string> { floatingTextString, floatingTextString2 },
                 new List<float> { 0.05f, 0.05f },
-                true
+                false
             );
         }
 

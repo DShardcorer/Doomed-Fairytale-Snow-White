@@ -1542,7 +1542,7 @@ TilemapRenderer:
   m_RenderingLayerMask: 1
   m_RendererPriority: 0
   m_Materials:
-  - {fileID: 2100000, guid: a97c105638bdf8b4a8650670310a4cd3, type: 2}
+  - {fileID: 2100000, guid: 009a4ed6ce756c94f930909be6d7a090, type: 2}
   m_StaticBatchInfo:
     firstSubMesh: 0
     subMeshCount: 0
@@ -5903,6 +5903,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   groundTilemap: {fileID: 532544084}
   walkInfrontTilemap: {fileID: 353499395}
+  collisionTilemap: {fileID: 853536815}
   groundTileDataList: []
   walkInfrontTileDataList:
   - {fileID: 11400000, guid: 9b0bf89840df33b4f8603f34dc4c0b26, type: 2}
