@@ -1,0 +1,29 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: dc073f018375f4f419f2f84b047889b1, type: 3}
+  m_Name: Iron Armor
+  m_EditorClassIdentifier: 
+  itemType: 0
+  itemName: Iron Armor
+  icon: {fileID: -673257631, guid: 1cdeade6368c6cf4bac8b847b58f7c5c, type: 3}
+  description: Your average Iron Armor. What did you expect ?
+  value: 170
+  weight: 10
+  equipmentSlotType: 0
+  equipmentItemType: 4
+  StatModifiers:
+  - StatType: 10
+    statModifierType: 0
+    Value: 3
+  - StatType: 2
+    statModifierType: 0
+    Value: 2

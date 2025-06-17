@@ -14,7 +14,7 @@ Oh? Finally, you're awake. I almost feel bad interrupting your sound sleep.
 * [Where am I?]
 
 -Shhh. Questions are for later. All I can say is that you’re in a place where you should be.
-~SwitchScene("Scene1", "NONE")
+
 It doesn't matter, not as much as who you are...
 Do you remember who you are?
 
@@ -255,6 +255,6 @@ One final thing.
 ...No matter how desperate it gets...
 Please don't lose hope. #speaker:Mysterious Woman #cg:Sad
 ~Fade(4,5)
-
+~SwitchScene("Scene_Town", "NONE")
 
 -> END

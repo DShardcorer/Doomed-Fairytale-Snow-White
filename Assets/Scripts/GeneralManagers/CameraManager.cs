@@ -13,11 +13,17 @@ namespace GeneralManagers
         {
             _gameManager = gameManager;
             SceneManager.sceneLoaded += OnSceneLoaded;
+            FollowPlayer();
         }
 
         private void OnSceneLoaded(Scene arg0, LoadSceneMode arg1)
         {
             //find the cinemachine camera in the scene
+            FollowPlayer();
+        }
+
+        private void FollowPlayer()
+        {
             cinemachineCamera = FindAnyObjectByType<CinemachineCamera>();
             SetFollowTarget(GameManager.Instance.PlayerManager.Player.View.transform);
         }
