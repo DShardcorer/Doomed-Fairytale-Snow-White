@@ -1,4 +1,5 @@
 using System.Collections.Generic;
+using DataPersistence.Data;
 using DefaultNamespace.EntitySystems.VitalStatSystems;
 using GeneralManagers;
 using UnityEngine;
@@ -21,6 +22,54 @@ namespace EntitySystems.VitalStatSystems.Mana_System
         // Collection of active recovery effects
         protected List<RecoveryOverTimeEffect> activeRecoveryEffects = new List<RecoveryOverTimeEffect>(4);
 
+        #region Set apis
+
+        public void SetMaxMana(float value)
+        {
+            if (value <= 0) return;
+            maxMana = value;
+            if (currentMana > maxMana)
+            {
+                currentMana = maxMana;
+                OnManaChanged();
+            }
+        }
+        public void SetCurrentMana(float value)
+        {
+            if (value < 0) return;
+            currentMana = value;
+            if (currentMana > maxMana)
+                currentMana = maxMana;
+
+            OnManaChanged();
+        }
+        public void ClearRecoveryEffects()
+        {
+            activeRecoveryEffects.Clear();
+        }
+        public void AddRecoveryEffect(RecoveryOverTimeEffect effect)
+        {
+            if (effect == null || effect.RecoveryRate <= 0 || effect.Duration <= 0) return;
+            activeRecoveryEffects.Add(effect);
+        }
+        public void AddRecoveryEffect(RecoveryEffectSaveData effectData)
+        {
+            // Create a new RecoveryOverTimeEffect from the save data
+            var effect = new RecoveryOverTimeEffect(effectData.totalAmount, effectData.duration)
+            {
+                RemainingAmount = effectData.remainingAmount,
+                RemainingTime = effectData.remainingTime
+            };
+            activeRecoveryEffects.Add(effect);
+            
+        }
+
+        #endregion
+        
+        public List<RecoveryOverTimeEffect> GetActiveRecoveryEffects()
+        {
+            return activeRecoveryEffects;
+        }
         public ManaSystem(float maxMana)
         {
             this.maxMana = maxMana;

@@ -1,4 +1,5 @@
 using System.Collections.Generic;
+using DataPersistence.Data;
 using DefaultNamespace.EntitySystems.VitalStatSystems;
 using GeneralManagers;
 using UnityEngine;
@@ -25,6 +26,49 @@ namespace EntitySystems.VitalStatSystems.Stamina_System
             this.maxStamina = maxStamina;
             currentStamina = maxStamina;
         }
+
+        #region Public APIs
+
+        public void SetMaxStamina(float value)
+        {
+            if (value <= 0) return;
+            maxStamina = value;
+            if (currentStamina > maxStamina)
+            {
+                currentStamina = maxStamina;
+                OnStaminaChanged();
+            }
+        }
+        public void SetCurrentStamina(float value)
+        {
+            if (value < 0) return;
+            currentStamina = value;
+            if (currentStamina > maxStamina)
+                currentStamina = maxStamina;
+
+            OnStaminaChanged();
+        }
+        public List<RecoveryOverTimeEffect> GetActiveRecoveryEffects()
+        {
+            return activeRecoveryEffects;
+        }
+        public void ClearRecoveryEffects()
+        {
+            activeRecoveryEffects.Clear();
+        }
+        public void AddRecoveryEffect(RecoveryEffectSaveData effectData)
+        {
+            // Create a new RecoveryOverTimeEffect from the save data
+            var effect = new RecoveryOverTimeEffect(effectData.totalAmount, effectData.duration)
+            {
+                RemainingAmount = effectData.remainingAmount,
+                RemainingTime = effectData.remainingTime
+            };
+            activeRecoveryEffects.Add(effect);
+            
+        }
+
+        #endregion
     
         public virtual void Initialize(Entity.Entity parent)
         {

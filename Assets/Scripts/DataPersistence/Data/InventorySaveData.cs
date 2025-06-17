@@ -1,8 +1,6 @@
-using System;
 using System.Collections.Generic;
-using UnityEngine.Serialization;
 
-namespace Item.Inventory
+namespace DataPersistence.Data
 {
 [System.Serializable]
 public class InventoryItemSaveData

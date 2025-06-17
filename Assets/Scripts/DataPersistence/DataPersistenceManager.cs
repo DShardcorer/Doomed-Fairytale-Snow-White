@@ -32,7 +32,11 @@ namespace DataPersistence
         public void Initialize()
         {
             fileDataHandler = new FileDataHandler(Application.persistentDataPath, fileName, useEncryption);
-            // LoadGame();
+        }
+        public void WipeData()
+        {
+            gameData = new GameData();
+
         }
 
         public void NewGame()
@@ -59,6 +63,11 @@ namespace DataPersistence
         
         public void SaveGame()
         {
+            if (gameData == null)
+            {
+                Debug.LogWarning("Game data is null. Initializing new game data.");
+                gameData = new GameData();
+            }
             foreach (IDataPersistence persistence in dataPersistenceObjects)
             {
                 persistence.SaveData(ref gameData);
@@ -66,10 +75,10 @@ namespace DataPersistence
             fileDataHandler.Save(gameData);
         }
 
-        private void OnApplicationQuit()
-        {
-            SaveGame(); 
-        }
+        // private void OnApplicationQuit()
+        // {
+        //     SaveGame(); 
+        // }
 
         public void AddDataPersistenceObject(IDataPersistence persistenceObject)
         {

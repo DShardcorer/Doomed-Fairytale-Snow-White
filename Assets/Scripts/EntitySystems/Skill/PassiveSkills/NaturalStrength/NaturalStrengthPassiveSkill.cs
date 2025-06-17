@@ -8,7 +8,7 @@ namespace EntitySystems.Skill.PassiveSkills
         private StatModifier modifier;
         public NaturalStrengthPassiveSkill(SkillInfoSO skillInfo) : base(skillInfo)
         {
-            modifier = new StatModifier(StatType.Strength, ModifierType.Flat, strengthIncrease);
+            modifier = new StatModifier(StatType.Strength, StatModifierType.Flat, strengthIncrease);
         }
 
         public override void ApplyEffect()

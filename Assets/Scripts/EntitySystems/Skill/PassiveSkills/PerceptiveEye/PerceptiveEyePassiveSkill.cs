@@ -8,7 +8,7 @@ namespace EntitySystems.Skill.PassiveSkills.PerceptiveEye
         private StatModifier modifier;
         public PerceptiveEyePassiveSkill(SkillInfoSO skillInfo) : base(skillInfo)
         {
-            modifier = new StatModifier(StatType.Wisdom, ModifierType.Flat, wisdomIncrease);
+            modifier = new StatModifier(StatType.Wisdom, StatModifierType.Flat, wisdomIncrease);
         }
 
         public override void ApplyEffect()

@@ -159,7 +159,7 @@ namespace Item.Inventory
 
             if (isNewItem)
             {
-                item = InventoryItemFactory.CreateItem(itemDataSo);
+                item = ItemRegistry.CreateInventoryItem(itemDataSo.itemName, amount);
                 ItemList.Add(item);
                 itemDictionary[itemDataSo] = item;
             }
@@ -202,7 +202,7 @@ namespace Item.Inventory
 
             if (isNewItem)
             {
-                item = InventoryItemFactory.CreateItem(itemDataSo);
+                item = ItemRegistry.CreateInventoryItem(itemDataSo.itemName);
                 ItemList.Add(item);
                 itemDictionary[itemDataSo] = item;
             }

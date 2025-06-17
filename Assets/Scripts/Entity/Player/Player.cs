@@ -33,6 +33,7 @@ namespace Entity.Player
         public PlayerInteraction PlayerInteraction => _playerInteraction;
 
 
+
         //Idling
         private PlayerIdleState _playerIdleState;
         public PlayerIdleState PlayerIdleState => _playerIdleState;
@@ -45,6 +46,9 @@ namespace Entity.Player
         //Attacking
         private PlayerAttackState _playerAttackState;
         public PlayerAttackState PlayerAttackState => _playerAttackState;
+        
+        private PlayerEquippedSkillSystem _equippedSkillSystem;
+        public PlayerEquippedSkillSystem EquippedSkillSystem => _equippedSkillSystem;
 
         public Player(
             PlayerProfile profile,
@@ -56,7 +60,7 @@ namespace Entity.Player
             PlayerLevelSystem levelSystem, PlayerHealthSystem healthSystem,
             PlayerManaSystem manaSystem, PlayerStaminaSystem staminaSystem,
             EntityStateMachine stateMachine, PlayerInventorySystem inventory, 
-            PlayerBuffSystem buffSystem)
+            PlayerBuffSystem buffSystem, PlayerEquippedSkillSystem equippedSkillSystem)
             : base(
                 profile,
                 view, properties, statSystem, equipmentSystem,
@@ -64,6 +68,7 @@ namespace Entity.Player
                 healthSystem, manaSystem, staminaSystem,
                 stateMachine, inventory, buffSystem)
         {
+            _equippedSkillSystem = equippedSkillSystem;
             _playerView = view;
             _playerProperties = properties;
             _playerIdleState = playerIdleState;

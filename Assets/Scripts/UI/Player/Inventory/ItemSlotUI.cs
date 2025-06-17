@@ -86,9 +86,10 @@ namespace UI.Player.Inventory
             Vector2 screenPosition = RectTransformUtility.WorldToScreenPoint(null, slotRectTransform.position);
 
             // Calculate offset in screen space
-            float offsetX = 3f; // Right offset in pixels
+            float offsetX = 4.5f; // Right offset in pixels
+            float offsetY = -3f;
             screenPosition.x += offsetX;
-
+            screenPosition.y += offsetY;
             // Convert screen position to popup's local space in its new parent
             Vector2 localPosition;
             RectTransformUtility.ScreenPointToLocalPointInRectangle(
@@ -136,8 +137,8 @@ namespace UI.Player.Inventory
             // Ensure it's visible
             itemInfoGameObject.SetActive(true);
 
-            // Force refresh layout if needed
-            LayoutRebuilder.ForceRebuildLayoutImmediate(popupRectTransform);
+            // // Force refresh layout if needed
+            // LayoutRebuilder.ForceRebuildLayoutImmediate(popupRectTransform);
         }
 
         public void OnPointerExit(PointerEventData eventData)

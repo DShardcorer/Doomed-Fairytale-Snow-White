@@ -257,7 +257,7 @@ namespace Entity.NPC.Spawning
             {
                 if (itemData != null)
                 {
-                    EquipmentInventoryItem item = new EquipmentInventoryItem(itemData);
+                    EquipmentInventoryItem item = new EquipmentInventoryItem(itemData, 1);
                     equipmentSystem.EquipItem(item);
                 }
             }

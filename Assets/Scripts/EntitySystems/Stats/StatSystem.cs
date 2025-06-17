@@ -37,6 +37,31 @@ namespace EntitySystems.Stats
             // Base system does not fire any UI events.
         }
 
+        #region APIS
+
+        public List<StatModifier> GetAbilityModifiers()
+        {
+            return new List<StatModifier>(_abilityModifiers);
+        }
+
+        public List<StatModifier> GetCombatModifiers()
+        {
+            return new List<StatModifier>(_combatModifiers);
+        }
+
+        public void ClearAllModifiers()
+        {
+            _abilityModifiers.Clear();
+            _combatModifiers.Clear();
+        }
+
+        public void SetUnallocatedAbilityStatPoints(int points)
+        {
+            _unallocatedAbilityStatPoints = points;
+        }
+
+        #endregion
+        
         public virtual void Dispose()
         {
             _parent = null;

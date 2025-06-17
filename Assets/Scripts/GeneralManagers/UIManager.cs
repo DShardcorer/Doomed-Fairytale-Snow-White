@@ -6,6 +6,7 @@ using EntitySystems.VitalStatSystems.Mana_System;
 using EntitySystems.VitalStatSystems.Stamina_System;
 using General;
 using UI.Player;
+using UI.Player.Skill;
 using UnityEngine;
 
 namespace GeneralManagers
@@ -16,9 +17,11 @@ namespace GeneralManagers
 
         public Transform uiContainer;
 
+
         [SerializeField] private IngameMenuUI _ingameMenuUI;
         public IngameMenuUI IngameMenuUI => _ingameMenuUI;
-
+        [SerializeField] private VolumeSettingsUI _volumeSettingsUI;
+        public VolumeSettingsUI VolumeSettingsUI => _volumeSettingsUI;
 
         [SerializeField] private HealthUI _healthUI;
         public HealthUI HealthUI => _healthUI;
@@ -32,14 +35,18 @@ namespace GeneralManagers
         [SerializeField] private DamagePopupUIManager _damagePopupUIManager;
         public DamagePopupUIManager DamagePopupUIManager => _damagePopupUIManager;
 
+        [SerializeField] private PlayerHotbarUI _playerHotbarUI;
+        public PlayerHotbarUI PlayerHotbarUI => _playerHotbarUI;
+
         [SerializeField] private TimeUI _timeUI;
         public TimeUI TimeUI => _timeUI;
 
         [SerializeField] private GameObject popupContainer;
         public GameObject PopupContainer => popupContainer;
-        
+
         [SerializeField] private BarterUI _barterUI;
         public BarterUI BarterUI => _barterUI;
+
         public void DisableOnScreenUI()
         {
             _timeUI.gameObject.SetActive(false);
@@ -74,11 +81,13 @@ namespace GeneralManagers
             GameManager.Instance.InputManager.openMenuInputted += InputManager_openMenuInputted;
             _ingameMenuUI.Initialize(this);
             _ingameMenuUI.gameObject.SetActive(false);
+            _volumeSettingsUI.Initialize(this);
             _healthUI.Initialize(this);
             _manaUI.Initialize(this);
             _staminaUI.Initialize(this);
             _damagePopupUIManager.Initialize(this);
             _barterUI.Initialize(this);
+            _playerHotbarUI.Initialize(this);
         }
 
         public void Dispose()

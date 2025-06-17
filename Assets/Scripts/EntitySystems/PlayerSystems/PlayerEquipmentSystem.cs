@@ -1,10 +1,14 @@
+using System.Collections.Generic;
+using DataPersistence;
+using DataPersistence.Data;
 using EntitySystems.Equipment;
 using EventSystem.Player;
 using Item.Inventory;
+using UnityEngine;
 
 namespace EntitySystems.PlayerSystems
 {
-    public class PlayerEquipmentSystem : EquipmentSystem
+    public class PlayerEquipmentSystem : EquipmentSystem, IDataPersistence
     {
         public override void Initialize(Entity.Entity parent)
         {
@@ -12,6 +16,7 @@ namespace EntitySystems.PlayerSystems
             _parent = parent;
             PlayerEquipmentEventSystem.OnEquipmentEquipped += EquipmentInventoryUI_OnItemEquipped;
             PlayerEquipmentEventSystem.OnEquipmentUnequippedUnequipped += PlayerEquipmentUI_OnItemUnequipped;
+            ((IDataPersistence)this).AddDataPersistenceObject();
         }
 
         public override void InvokeInitialEvents()
@@ -50,6 +55,24 @@ namespace EntitySystems.PlayerSystems
         protected void PlayerEquipmentUI_OnItemUnequipped(object sender, EquipmentInventoryItem e)
         {
             UnequipItem(e);
+        }
+
+        public void LoadData(GameData saveData)
+        {
+            if (saveData.PlayerEquipmentSystemSaveData != null)
+            {
+                PlayerInventorySystem inventorySystem = _parent.InventorySystem as PlayerInventorySystem;
+                if (inventorySystem != null)
+                {
+                    SaveLoadHelper.LoadFromSaveData(this, saveData.PlayerEquipmentSystemSaveData, inventorySystem);
+                }
+            }
+            InvokeInitialEvents();
+        }
+
+        public void SaveData(ref GameData data)
+        {
+            data.PlayerEquipmentSystemSaveData = SaveLoadHelper.CreateSaveData(this);
         }
     }
 }

@@ -47,9 +47,26 @@ namespace Entity.Player
             PlayerProfile playerProfile = new PlayerProfile("Player", "The main player character");
             DontDestroyOnLoad(playerView);
             //ActiveSkillSystem creation
-            PlayerActiveSkillSystem activeSkillSystem = new PlayerActiveSkillSystem(new List<ActiveSkill>());
+            DashActiveSkill dashActiveSkill =
+                SkillRegistry.CreateActiveSkill(HelperSkillName.DashSkill) as DashActiveSkill;
+            ShootActiveSkill shootActiveSkill =
+                SkillRegistry.CreateActiveSkill(HelperSkillName.ShootSkill) as ShootActiveSkill;
 
-            PlayerPassiveSkillSystem passiveSkillSystem = new PlayerPassiveSkillSystem(new List<PassiveSkill>());
+
+            PlayerActiveSkillSystem activeSkillSystem = new PlayerActiveSkillSystem(new List<ActiveSkill>
+                {
+                    dashActiveSkill,
+                    shootActiveSkill
+                }
+            );
+
+            PlayerPassiveSkillSystem passiveSkillSystem = new PlayerPassiveSkillSystem(new List<PassiveSkill>
+            {
+                SkillRegistry.CreatePassiveSkill(HelperSkillName.NaturalStrength),
+                SkillRegistry.CreatePassiveSkill(HelperSkillName.Flirt),
+                SkillRegistry.CreatePassiveSkill(HelperSkillName.PerceptiveEye)
+            });
+
 
             //States creation
             PlayerIdlingProperties playerIdlingProperties = new PlayerIdlingProperties();
@@ -96,13 +113,15 @@ namespace Entity.Player
             PlayerInventorySystem inventory = new PlayerInventorySystem();
             PlayerBuffSystem buffSystem = new PlayerBuffSystem();
 
+            PlayerEquippedSkillSystem playerEquippedSkillSystem = new PlayerEquippedSkillSystem();
+
             _player = new Player(playerProfile,
                 playerView, playerProperties,
                 playerIdleState, playerMoveState, playerAttackState,
                 statSystem, equipmentSystem,
                 activeSkillSystem, passiveSkillSystem,
                 levelSystem, healthSystem, manaSystem, staminaSystem,
-                stateMachine, inventory, buffSystem);
+                stateMachine, inventory, buffSystem, playerEquippedSkillSystem);
             _player.Initialize(this);
         }
 

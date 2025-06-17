@@ -18,6 +18,26 @@ namespace EntitySystems.Level
             _experienceToNextLevel = CalculateExperienceToNextLevel(_level);
         }
 
+        #region APIS RESERVED FOR SAVE/LOAD
+
+        public virtual void SetLevel(int level)
+        {
+            _level = level;
+        }
+
+        public virtual void SetExperience(int experience) 
+        {
+            _experience = experience;
+        }
+
+        public virtual void SetExperienceToNextLevel(int experienceToNextLevel)
+        {
+            _experienceToNextLevel = experienceToNextLevel;
+        }
+
+        #endregion
+        
+
         public virtual void AddExperience(int amount)
         {
             _experience += amount;

@@ -1,8 +1,10 @@
 using System.Collections.Generic;
+using DataPersistence;
+using DataPersistence.Data;
 
 namespace EntitySystems.Skill
 {
-    public class PlayerPassiveSkillSystem : PassiveSkillSystem
+    public class PlayerPassiveSkillSystem : PassiveSkillSystem, IDataPersistence
     {
         public PlayerPassiveSkillSystem(List<PassiveSkill> skills) : base(skills)
         {
@@ -11,6 +13,7 @@ namespace EntitySystems.Skill
         public override void Initialize(Entity.Entity parent)
         {
             base.Initialize(parent);
+            ((IDataPersistence)this).AddDataPersistenceObject();
             InvokeInitialEvents();
         }
 
@@ -39,6 +42,20 @@ namespace EntitySystems.Skill
                 return true;
             }
             return false;
+        }
+
+        public void LoadData(GameData saveData)
+        {
+            if (saveData.PlayerPassiveSkillSystemSaveData != null)
+            {
+                SaveLoadHelper.LoadFromSaveData(this, saveData.PlayerPassiveSkillSystemSaveData);
+            }
+            InvokeInitialEvents();
+        }
+
+        public void SaveData(ref GameData data)
+        {
+            data.PlayerPassiveSkillSystemSaveData = SaveLoadHelper.CreateSaveData(this);
         }
     }
 }

@@ -32,15 +32,19 @@ namespace EntitySystems.PlayerSystems
             PlayerVitalStatsEventSystem.InvokeStaminaChanged(this, 
                 new StaminaChangedEventArgs(currentStamina, maxStamina));
         }
-
+        
         public void LoadData(GameData saveData)
         {
-            this.currentStamina = saveData.stamina;
+            if (saveData.PlayerStaminaSystemSaveData != null)
+            {
+                SaveLoadHelper.LoadFromSaveData(this, saveData.PlayerStaminaSystemSaveData);
+            }
+            InvokeInitialEvents();
         }
 
         public void SaveData(ref GameData data)
         {
-            data.stamina = currentStamina;
+            data.PlayerStaminaSystemSaveData = SaveLoadHelper.CreateSaveData(this);
         }
     }
 }

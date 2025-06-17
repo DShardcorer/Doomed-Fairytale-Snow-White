@@ -12,9 +12,9 @@ namespace EntitySystems.Skill.PassiveSkills
         private StatModifier constitutionModifier;
         public BodyControlPassiveSkill(SkillInfoSO skillInfo) : base(skillInfo)
         {
-            strengthModifier = new StatModifier(StatType.Strength, ModifierType.Flat, strengthIncrease);
-            dexterityModifier = new StatModifier(StatType.Dexterity, ModifierType.Flat, dexterityIncrease);
-            constitutionModifier = new StatModifier(StatType.Constitution, ModifierType.Flat, constitutionIncrease);
+            strengthModifier = new StatModifier(StatType.Strength, StatModifierType.Flat, strengthIncrease);
+            dexterityModifier = new StatModifier(StatType.Dexterity, StatModifierType.Flat, dexterityIncrease);
+            constitutionModifier = new StatModifier(StatType.Constitution, StatModifierType.Flat, constitutionIncrease);
         }
 
         public override void ApplyEffect()

@@ -107,9 +107,9 @@ namespace EntitySystems.Stats
                 {
                     if (mod.StatType == statType)
                     {
-                        if (mod.ModifierType == ModifierType.Flat)
+                        if (mod.statModifierType == StatModifierType.Flat)
                             finalValue += mod.Value;
-                        else if (mod.ModifierType == ModifierType.Percentage)
+                        else if (mod.statModifierType == StatModifierType.Percentage)
                             percentIncrease += mod.Value;
                     }
                 }

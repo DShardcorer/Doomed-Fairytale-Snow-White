@@ -16,9 +16,10 @@ public class Bootstrapper : MonoBehaviour
         UIManager.Instance.Initialize();
         InvokeInitialEvents();
 
-        DataPersistenceManager.Instance.Initialize();
         SceneSwitchManager.Instance.Initialize();
         ServiceLocator.SetInitialized();
+
+        DataPersistenceManager.Instance.Initialize();
     }
 
     private void InvokeInitialEvents()

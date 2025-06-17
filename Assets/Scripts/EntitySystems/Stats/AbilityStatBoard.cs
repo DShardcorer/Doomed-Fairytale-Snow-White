@@ -96,22 +96,22 @@ namespace EntitySystems.Stats
                 switch (mod.StatType)
                 {
                     case StatType.Constitution:
-                        newCon += mod.ModifierType == ModifierType.Flat ? mod.Value : newCon * mod.Value / 100f;
+                        newCon += mod.statModifierType == StatModifierType.Flat ? mod.Value : newCon * mod.Value / 100f;
                         break;
                     case StatType.Strength:
-                        newStr += mod.ModifierType == ModifierType.Flat ? mod.Value : newStr * mod.Value / 100f;
+                        newStr += mod.statModifierType == StatModifierType.Flat ? mod.Value : newStr * mod.Value / 100f;
                         break;
                     case StatType.Dexterity:
-                        newDex += mod.ModifierType == ModifierType.Flat ? mod.Value : newDex * mod.Value / 100f;
+                        newDex += mod.statModifierType == StatModifierType.Flat ? mod.Value : newDex * mod.Value / 100f;
                         break;
                     case StatType.Intelligence:
-                        newInt += mod.ModifierType == ModifierType.Flat ? mod.Value : newInt * mod.Value / 100f;
+                        newInt += mod.statModifierType == StatModifierType.Flat ? mod.Value : newInt * mod.Value / 100f;
                         break;
                     case StatType.Wisdom:
-                        newWis += mod.ModifierType == ModifierType.Flat ? mod.Value : newWis * mod.Value / 100f;
+                        newWis += mod.statModifierType == StatModifierType.Flat ? mod.Value : newWis * mod.Value / 100f;
                         break;
                     case StatType.Charisma:
-                        newCha += mod.ModifierType == ModifierType.Flat ? mod.Value : newCha * mod.Value / 100f;
+                        newCha += mod.statModifierType == StatModifierType.Flat ? mod.Value : newCha * mod.Value / 100f;
                         break;
 
                 }

@@ -1,5 +1,7 @@
 using System;
 using System.Collections.Generic;
+using EntitySystems.Skill.ActiveSkills.Player.Dash;
+using EntitySystems.Skill.ActiveSkills.Player.Shoot;
 using EntitySystems.Skill.PassiveSkills;
 using EntitySystems.Skill.PassiveSkills.Flirt;
 using EntitySystems.Skill.PassiveSkills.PerceptiveEye;
@@ -41,6 +43,10 @@ namespace EntitySystems.Skill.SkillRegistry
 
         private static void RegisterDefaultCreators()
         {
+            RegisterActiveSkill<DashActiveSkillInfoSO>(HelperSkillName.DashSkill,
+                info => new DashActiveSkill(info));
+            RegisterActiveSkill<ShootActiveSkillInfoSO>(HelperSkillName.ShootSkill,
+                info => new ShootActiveSkill(info));
             RegisterPassiveSkill(HelperSkillName.NaturalStrength,
                 info => new NaturalStrengthPassiveSkill(info));
             RegisterPassiveSkill(HelperSkillName.BodyControl,
@@ -51,16 +57,45 @@ namespace EntitySystems.Skill.SkillRegistry
                 info => new PerceptiveEyePassiveSkill(info));
         }
 
-        public static void RegisterActiveSkill(string skillName, Func<ActiveSkillInfoSO, ActiveSkill> creator)
+        public static void RegisterActiveSkill<T>(string skillName, Func<T, ActiveSkill> creator) where T : ActiveSkillInfoSO
         {
             if (_activeSkillCreators.ContainsKey(skillName))
             {
                 Debug.LogWarning($"[SkillRegistry] Overwriting creator for active skill '{skillName}'");
             }
 
-            _activeSkillCreators[skillName] = creator;
+            _activeSkillCreators[skillName] = info => 
+            {
+                if (info is T typedInfo)
+                {
+                    return creator(typedInfo);
+                }
+                
+                Debug.LogError($"[SkillRegistry] Expected {typeof(T).Name} for skill '{skillName}' but got {info.GetType().Name}");
+                return null;
+            };
         }
 
+        public static void RegisterPassiveSkill<T>(string skillName, Func<T, PassiveSkill> creator) where T : PassiveSkillInfoSO
+        {
+            if (_passiveSkillCreators.ContainsKey(skillName))
+            {
+                Debug.LogWarning($"[SkillRegistry] Overwriting creator for passive skill '{skillName}'");
+            }
+
+            _passiveSkillCreators[skillName] = info => 
+            {
+                if (info is T typedInfo)
+                {
+                    return creator(typedInfo);
+                }
+                
+                Debug.LogError($"[SkillRegistry] Expected {typeof(T).Name} for skill '{skillName}' but got {info.GetType().Name}");
+                return null;
+            };
+        }
+
+        // Keep the non-generic version for backward compatibility
         public static void RegisterPassiveSkill(string skillName, Func<PassiveSkillInfoSO, PassiveSkill> creator)
         {
             if (_passiveSkillCreators.ContainsKey(skillName))

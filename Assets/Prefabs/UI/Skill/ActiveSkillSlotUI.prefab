@@ -170,6 +170,7 @@ GameObject:
   - component: {fileID: 1881326401731930250}
   - component: {fileID: 1598112881088745971}
   - component: {fileID: 2254252674783488355}
+  - component: {fileID: 448448123612035741}
   m_Layer: 5
   m_Name: ActiveSkillSlotUI
   m_TagString: Untagged
@@ -279,6 +280,18 @@ MonoBehaviour:
   cooldownText: {fileID: 8952059706770759945}
   vitalStatsCostText: {fileID: 8351910971710307626}
   descriptionText: {fileID: 8564546440429101229}
+--- !u!225 &448448123612035741
+CanvasGroup:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1962285921621089244}
+  m_Enabled: 1
+  m_Alpha: 1
+  m_Interactable: 1
+  m_BlocksRaycasts: 1
+  m_IgnoreParentGroups: 0
 --- !u!1 &2608126318525943433
 GameObject:
   m_ObjectHideFlags: 0

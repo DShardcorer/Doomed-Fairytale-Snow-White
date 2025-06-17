@@ -15,6 +15,7 @@ namespace EntitySystems.Skill
 
         protected Dictionary<string, ActiveSkill> activeSkillsDict = new Dictionary<string, ActiveSkill>();
         protected List<ActiveSkill> activeSkills = new List<ActiveSkill>();
+        public List<ActiveSkill> ActiveSkills => activeSkills;
         
 
         public ActiveSkillSystem(List<ActiveSkill> skills)

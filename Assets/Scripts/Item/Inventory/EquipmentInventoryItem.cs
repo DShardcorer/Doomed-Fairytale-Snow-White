@@ -5,9 +5,10 @@ namespace Item.Inventory
         private ItemDataSOEquipment _soEquipmentDataSo;
         public ItemDataSOEquipment SoEquipmentDataSo => _soEquipmentDataSo;
         public bool isEquipped = false;
-        public EquipmentInventoryItem(ItemDataSOEquipment itemDataSo) : base(itemDataSo)
+        public EquipmentInventoryItem(ItemDataSOEquipment itemDataSo, int quantity) : base(itemDataSo, quantity)
         {
             _soEquipmentDataSo = itemDataSo;
         }
+        
     }
 }

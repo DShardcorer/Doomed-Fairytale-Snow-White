@@ -18,6 +18,7 @@ namespace SceneSwitch
         private PlayerView _playerView;
         private Vector3 _portalSpawnPosition;
         private Vector3 _overworldSpawnPosition = new Vector3(0, 0, 0);
+        public Vector3 OverworldSpawnPosition => _overworldSpawnPosition;
         [SerializeField] private SceneField _overworldScene;
         private PlayerViewManager _playerViewManager;
 
@@ -95,7 +96,10 @@ namespace SceneSwitch
         {
             SceneManager.sceneLoaded -= OnSceneLoaded;
         }
-
+        public void SetLastOverworldSpawnPosition(Vector3 position)
+        {
+            _overworldSpawnPosition = position;
+        }
 
         public void SwitchSceneToPortal(SceneField sceneToLoad,
             SceneSwitchPortal.PortalToSpawnAt portalToSpawnAt = SceneSwitchPortal.PortalToSpawnAt.None)

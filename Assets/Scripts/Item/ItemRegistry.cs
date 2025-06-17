@@ -1,9 +1,10 @@
 using UnityEngine;
 using System.Collections.Generic;
+using Item.Inventory;
 
 namespace Item
 {
-    public static class ItemDataRegistry
+    public static class ItemRegistry
     {
         // Dictionary to hold all ItemData keyed by a unique identifier (here we're using itemName)
         private static Dictionary<string, ItemDataSO> itemDataDictionary;
@@ -47,6 +48,25 @@ namespace Item
 
             Debug.LogError("ItemData not found in registry for name: " + name);
             return null;
+        }
+        public static InventoryItem CreateInventoryItem(string itemName, int quantity = 1)
+        {
+            ItemDataSO itemData = GetItemDataByName(itemName);
+            if (itemData == null)
+            {
+                Debug.LogError("ItemData not found for itemName: " + itemName);
+                return null;
+            }
+
+            // Create the appropriate type of InventoryItem based on the ItemData type
+            if (itemData is ItemDataSOEquipment equipmentData)
+            {
+                return new EquipmentInventoryItem(equipmentData, quantity);
+            }
+            else
+            {
+                return new InventoryItem(itemData, quantity);
+            }
         }
     }
 }

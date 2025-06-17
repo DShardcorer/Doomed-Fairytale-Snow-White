@@ -1,4 +1,5 @@
 using System.Collections.Generic;
+using DataPersistence.Data;
 using DefaultNamespace.EntitySystems.VitalStatSystems;
 using EventSystem.Entity;
 using EventSystem.Player;
@@ -30,6 +31,57 @@ namespace EntitySystems.VitalStatSystems.Health_System
             currentHealth = maxHealth;
             lastCurrentHealth = maxHealth;
         }
+
+        #region APIS
+        public List<RecoveryOverTimeEffect> GetActiveRecoveryEffects()
+        {
+            return activeRecoveryEffects;
+        }
+        public void SetMaxHealth(float value)
+        {
+            if (value <= 0) return;
+            maxHealth = value;
+            if (currentHealth > maxHealth)
+            {
+                currentHealth = maxHealth;
+                OnHealthChanged();
+            }
+        }
+        public void SetCurrentHealth(float value)
+        {
+            if (value < 0) return;
+            lastCurrentHealth = currentHealth;
+            currentHealth = value;
+            if (currentHealth > maxHealth)
+                currentHealth = maxHealth;
+
+            OnHealthChanged();
+        }
+        public void ClearRecoveryEffects()
+        {
+            activeRecoveryEffects.Clear();
+            recoveryUpdateTimer = 0f;
+        }
+        public void AddRecoveryEffect(RecoveryOverTimeEffect effect)
+        {
+            if (effect == null || effect.RecoveryRate <= 0 || effect.Duration <= 0) return;
+            activeRecoveryEffects.Add(effect);
+        }
+        public void AddRecoveryEffect(RecoveryEffectSaveData effectData)
+        {
+            // Create a new RecoveryOverTimeEffect from the save data
+            var effect = new RecoveryOverTimeEffect(effectData.totalAmount, effectData.duration)
+            {
+                RemainingAmount = effectData.remainingAmount,
+                RemainingTime = effectData.remainingTime
+            };
+            activeRecoveryEffects.Add(effect);
+            
+        }
+        
+
+        #endregion
+        
 
         public virtual void Initialize(Entity.Entity parent)
         {

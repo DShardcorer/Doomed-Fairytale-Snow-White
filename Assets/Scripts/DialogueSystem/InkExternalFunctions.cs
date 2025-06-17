@@ -147,7 +147,7 @@ namespace DialogueSystem
 
         private void AddPlayerItem(string itemId, int amount)
         {
-            ItemDataSO itemDataSo = ItemDataRegistry.GetItemDataByName(itemId);
+            ItemDataSO itemDataSo = ItemRegistry.GetItemDataByName(itemId);
             GameManager.Instance.PlayerManager.AddItemToInventory(itemDataSo, amount);
         }
 

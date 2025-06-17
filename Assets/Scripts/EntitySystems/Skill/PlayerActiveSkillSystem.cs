@@ -1,10 +1,12 @@
 using System.Collections.Generic;
+using DataPersistence;
+using DataPersistence.Data;
 using EventSystem.Player;
 using UnityEngine;
 
 namespace EntitySystems.Skill
 {
-    public class PlayerActiveSkillSystem : ActiveSkillSystem
+    public class PlayerActiveSkillSystem : ActiveSkillSystem, IDataPersistence
     {
         public PlayerActiveSkillSystem(List<ActiveSkill> skills) : base(skills)
         {
@@ -13,6 +15,7 @@ namespace EntitySystems.Skill
         public override void Initialize(Entity.Entity parent)
         {
             base.Initialize(parent);
+            ((IDataPersistence)this).AddDataPersistenceObject();
             InvokeInitialEvents();
         }
 
@@ -43,6 +46,20 @@ namespace EntitySystems.Skill
             }
 
             return false;
+        }
+
+        public void LoadData(GameData saveData)
+        {
+            if (saveData.PlayerActiveSkillSystemSaveData != null)
+            {
+                SaveLoadHelper.LoadFromSaveData(this, saveData.PlayerActiveSkillSystemSaveData);
+            }
+            InvokeInitialEvents();
+        }
+
+        public void SaveData(ref GameData data)
+        {
+            data.PlayerActiveSkillSystemSaveData = SaveLoadHelper.CreateSaveData(this);
         }
     }
 }

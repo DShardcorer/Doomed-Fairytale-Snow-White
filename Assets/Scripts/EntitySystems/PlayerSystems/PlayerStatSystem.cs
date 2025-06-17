@@ -1,4 +1,6 @@
 using System.Collections.Generic;
+using DataPersistence;
+using DataPersistence.Data;
 using EntitySystems.Equipment;
 using EntitySystems.Stats;
 using EventSystem.Player;
@@ -6,7 +8,7 @@ using Item.Inventory;
 
 namespace EntitySystems.PlayerSystems
 {
-    public class PlayerStatSystem : StatSystem
+    public class PlayerStatSystem : StatSystem, IDataPersistence
     {
         public PlayerStatSystem(AbilityStatBoard baseStats, AttackStatType preferredAttackStat)
             : base(baseStats, preferredAttackStat)
@@ -16,6 +18,7 @@ namespace EntitySystems.PlayerSystems
         public override void Initialize(Entity.Entity parent)
         {
             base.Initialize(parent);
+            ((IDataPersistence)this).AddDataPersistenceObject();
             PlayerEquipmentEventSystem.OnEquipmentChanged += PlayerEquipmentEventSystem_OnEquipmentChanged;
             PlayerLevelEventSystem.OnLevelChanged += PlayerLevelEventSystem_OnLevelChanged;
             PlayerStatsEventSystem.OnStatPointAllocated += PlayerStatsEventSystem_OnStatPointAllocated;
@@ -79,6 +82,17 @@ namespace EntitySystems.PlayerSystems
                 }
             }
             RecalculateStats();
+        }
+
+        public void LoadData(GameData saveData)
+        {
+            SaveLoadHelper.LoadFromSaveData(this, saveData.PlayerStatSystemSaveData);
+            InvokeInitialEvents();
+        }
+
+        public void SaveData(ref GameData data)
+        {
+            data.PlayerStatSystemSaveData = SaveLoadHelper.CreateSaveData(this);
         }
     }
 }

@@ -8,7 +8,7 @@ namespace EntitySystems.Skill.PassiveSkills.Flirt
         private StatModifier modifier;
         public FlirtPassiveSkill(SkillInfoSO skillInfo) : base(skillInfo)
         {
-            modifier = new StatModifier(StatType.Charisma, ModifierType.Flat, charismaIncrease);
+            modifier = new StatModifier(StatType.Charisma, StatModifierType.Flat, charismaIncrease);
         }
 
         public override void ApplyEffect()

@@ -5,10 +5,22 @@ namespace DataPersistence.Data
 {
     public class GameData
     {
-        //Currently testing out the saving system so we will only work with saving the stamina point for now
-        public float stamina;
         
-        public InventorySaveData playerInventorySaveData;
+        public InventorySaveData PlayerInventorySaveData;
+        public StatSystemSaveData PlayerStatSystemSaveData;
+        public LevelSystemSaveData PlayerLevelSystemSaveData;
+        public EquipmentSystemSaveData PlayerEquipmentSystemSaveData;
+        public ActiveSkillSystemSaveData PlayerActiveSkillSystemSaveData;
+        public PassiveSkillSystemSaveData PlayerPassiveSkillSystemSaveData;
+        public EquippedSkillSystemSaveData PlayerEquippedSkillSystemSaveData;
+        
+        
+        public HealthSystemSaveData PlayerHealthSystemSaveData;
+        public ManaSystemSaveData PlayerManaSystemSaveData;
+        public StaminaSystemSaveData PlayerStaminaSystemSaveData;
+        
+        public PlayerPositionSaveData PlayerPositionSaveData;
+        
         public GameData()
         {
             
