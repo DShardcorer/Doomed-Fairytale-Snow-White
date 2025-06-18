@@ -1,6 +1,6 @@
 using System;
 using DG.Tweening;
-using EventSystem.Player;
+using EventBus.Player;
 using UnityEngine;
 
 namespace UI.Popup

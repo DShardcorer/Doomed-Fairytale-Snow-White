@@ -1,7 +1,7 @@
 using DataPersistence;
 using DataPersistence.Data;
 using EntitySystems.VitalStatSystems.Stamina_System;
-using EventSystem.Player;
+using EventBus.Player;
 namespace EntitySystems.PlayerSystems
 {
     public class PlayerStaminaSystem : StaminaSystem, IDataPersistence

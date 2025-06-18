@@ -9,7 +9,7 @@ using UnityEngine.Rendering.Universal;
 using UnityEngine.SceneManagement;
 using UnityEngine.UIElements;
 using System.Collections;
-using EventSystem.Time;
+using EventBus.Time;
 
 namespace DefaultNamespace.LightingSystem
 {

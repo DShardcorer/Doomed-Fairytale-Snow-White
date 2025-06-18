@@ -11,7 +11,7 @@ using EntitySystems.Skill.PassiveSkills;
 using EntitySystems.Skill.SkillRegistry;
 using EntitySystems.States.Movement;
 using EntitySystems.Stats;
-using EventSystem.Player;
+using EventBus.Player;
 using GeneralManagers;
 using Helpers;
 using Item;
@@ -148,6 +148,10 @@ namespace Entity.Player
             {
                 PassiveSkill skill = SkillRegistry.CreatePassiveSkill(HelperSkillName.NaturalStrength);
                 AddPassiveSkill(skill);
+            }
+            if (UnityEngine.Input.GetKeyDown(KeyCode.O))
+            {
+                _player.LevelSystem.AddExperience(50);
             }
         }
 

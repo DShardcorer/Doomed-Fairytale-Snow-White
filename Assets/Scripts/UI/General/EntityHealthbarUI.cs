@@ -1,6 +1,6 @@
 using Entity;
-using EventSystem.Entity;
-using EventSystem.Player;
+using EventBus.Entity;
+using EventBus.Player;
 using GeneralManagers;
 using UnityEngine;
 using UnityEngine.UI;

@@ -1,7 +1,7 @@
 using System;
 using InteractInterface;
 
-namespace EventSystem.Player
+namespace EventBus.Player
 {
     public static class PlayerInteractEventSystem
     {

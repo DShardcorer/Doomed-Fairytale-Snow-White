@@ -1,8 +1,8 @@
 using System;
 using Entity.Faction;
 using Entity.NPC.AI;
-using EventSystem.Dialogue;
-using EventSystem.Player;
+using EventBus.Dialogue;
+using EventBus.Player;
 using GeneralManagers;
 using Helpers;
 using InteractInterface;

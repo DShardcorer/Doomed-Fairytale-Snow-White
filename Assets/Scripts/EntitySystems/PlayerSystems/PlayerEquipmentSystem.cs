@@ -2,7 +2,7 @@ using System.Collections.Generic;
 using DataPersistence;
 using DataPersistence.Data;
 using EntitySystems.Equipment;
-using EventSystem.Player;
+using EventBus.Player;
 using Item.Inventory;
 using UnityEngine;
 

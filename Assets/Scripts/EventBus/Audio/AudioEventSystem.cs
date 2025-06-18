@@ -1,7 +1,7 @@
 using System;
 using UnityEngine;
 
-namespace EventSystem.Audio
+namespace EventBus.Audio
 {
     public static class AudioEventSystem
     {

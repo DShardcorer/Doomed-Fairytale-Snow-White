@@ -1,7 +1,7 @@
 using System.Collections.Generic;
 using DataPersistence;
 using DataPersistence.Data;
-using EventSystem.Player;
+using EventBus.Player;
 using Item;
 using Item.Inventory;
 

@@ -1,7 +1,7 @@
 using System;
 using System.Collections;
 using System.Collections.Generic;
-using EventSystem.UI;
+using EventBus.UI;
 using Febucci.UI;
 using GeneralManagers;
 using UnityEngine;

@@ -1,4 +1,4 @@
-namespace EventSystem.Entity
+namespace EventBus.Entity
 {
     public class InventoryEventSystem
     {

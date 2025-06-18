@@ -1,4 +1,4 @@
-using EventSystem.Player;
+using EventBus.Player;
 
 namespace Entity.Player
 {

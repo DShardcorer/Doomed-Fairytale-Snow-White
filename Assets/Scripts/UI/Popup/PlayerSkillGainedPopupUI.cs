@@ -17,8 +17,8 @@ namespace UI.Popup
         {
             _rectTransform = GetComponent<RectTransform>();
 
-            EventSystem.Player.PlayerSkillEventSystem.OnActiveSkillGained += OnActiveSkillGained;
-            EventSystem.Player.PlayerSkillEventSystem.OnPassiveSkillGained += OnPassiveSkillGained;
+            EventBus.Player.PlayerSkillEventSystem.OnActiveSkillGained += OnActiveSkillGained;
+            EventBus.Player.PlayerSkillEventSystem.OnPassiveSkillGained += OnPassiveSkillGained;
 
             gameObject.SetActive(false);
         }
@@ -26,18 +26,18 @@ namespace UI.Popup
 
         private void OnDestroy()
         {
-            EventSystem.Player.PlayerSkillEventSystem.OnActiveSkillGained -= OnActiveSkillGained;
-            EventSystem.Player.PlayerSkillEventSystem.OnPassiveSkillGained -= OnPassiveSkillGained;
+            EventBus.Player.PlayerSkillEventSystem.OnActiveSkillGained -= OnActiveSkillGained;
+            EventBus.Player.PlayerSkillEventSystem.OnPassiveSkillGained -= OnPassiveSkillGained;
         }
         
 
-        private void OnActiveSkillGained(EventSystem.Player.PlayerSkillEventSystem.ActiveSkillGainedEventArgs args)
+        private void OnActiveSkillGained(EventBus.Player.PlayerSkillEventSystem.ActiveSkillGainedEventArgs args)
         {
             Debug.LogWarning("Active skill gained: " + args.activeSkill.activeSkillInfo.SkillName);
             ShowPopup(args.activeSkill.activeSkillInfo);
         }
 
-        private void OnPassiveSkillGained(EventSystem.Player.PlayerSkillEventSystem.PassiveSkillGainedEventArgs args)
+        private void OnPassiveSkillGained(EventBus.Player.PlayerSkillEventSystem.PassiveSkillGainedEventArgs args)
         {
             Debug.LogWarning("Passive skill gained: " + args.passiveSkill.SkillInfo.SkillName);
             ShowPopup(args.passiveSkill.SkillInfo);

@@ -1,7 +1,7 @@
 using System;
 using System.Collections.Generic;
 using DateDayNightSystem;
-using EventSystem.Time;
+using EventBus.Time;
 using GeneralManagers;
 using UnityEngine;
 using UnityEngine.Events;

@@ -1,6 +1,6 @@
 using System;
 
-namespace EventSystem.Player
+namespace EventBus.Player
 {
     public class OnExperienceChangedEventArgs : EventArgs
     {

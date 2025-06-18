@@ -1,5 +1,5 @@
 using System.Collections.Generic;
-using EventSystem.Entity;
+using EventBus.Entity;
 using GeneralManagers;
 
 namespace EntitySystems.Stats

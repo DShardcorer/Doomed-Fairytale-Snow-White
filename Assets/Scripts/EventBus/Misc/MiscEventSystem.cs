@@ -1,6 +1,6 @@
 using System;
 
-namespace EventSystem.Misc
+namespace EventBus.Misc
 {
     public static class MiscEventSystem
     {

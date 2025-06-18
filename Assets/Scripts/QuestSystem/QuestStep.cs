@@ -1,4 +1,4 @@
-using EventSystem.Quest;
+using EventBus.Quest;
 using UnityEngine;
 
 namespace QuestSystem

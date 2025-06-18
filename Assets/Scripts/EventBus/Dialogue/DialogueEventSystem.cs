@@ -4,7 +4,7 @@ using Ink.InkLibs.InkRuntime;
 using UnityEngine;
 using Object = Ink.InkLibs.InkRuntime.Object;
 
-namespace EventSystem.Dialogue
+namespace EventBus.Dialogue
 {
     public static class DialogueEventSystem
     {

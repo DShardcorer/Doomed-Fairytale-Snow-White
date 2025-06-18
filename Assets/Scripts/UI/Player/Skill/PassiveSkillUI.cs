@@ -1,6 +1,6 @@
 using System.Collections.Generic;
 using EntitySystems.Skill;
-using EventSystem.Player;
+using EventBus.Player;
 using GeneralManagers;
 using Helpers;
 using Pool;

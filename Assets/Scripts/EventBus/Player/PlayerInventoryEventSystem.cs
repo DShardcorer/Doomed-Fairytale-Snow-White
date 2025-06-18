@@ -2,7 +2,7 @@ using System;
 using System.Collections.Generic;
 using Item.Inventory;
 
-namespace EventSystem.Player
+namespace EventBus.Player
 {
     public class WeightEventArgs : EventArgs
     {

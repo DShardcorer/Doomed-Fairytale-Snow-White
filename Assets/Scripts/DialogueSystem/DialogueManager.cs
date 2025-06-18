@@ -1,15 +1,15 @@
 using System;
 using System.Collections.Generic;
 using EntitySystems.Stats;
-using EventSystem.Dialogue;
-using EventSystem.Player;
-using EventSystem.Quest;
+using EventBus.Dialogue;
+using EventBus.Player;
+using EventBus.Quest;
 using GeneralManagers;
 using Ink.InkLibs.InkRuntime;
 using Input;
 using QuestSystem;
 using UnityEngine;
-using static EventSystem.Dialogue.DialogueEventSystem;
+using static EventBus.Dialogue.DialogueEventSystem;
 
 namespace DialogueSystem
 {

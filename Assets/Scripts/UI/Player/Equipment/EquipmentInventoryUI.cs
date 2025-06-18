@@ -1,6 +1,6 @@
 using System.Collections.Generic;
 using EntitySystems.Equipment;
-using EventSystem.Player;
+using EventBus.Player;
 using GeneralManagers;
 using Helpers;
 using Item.Inventory;

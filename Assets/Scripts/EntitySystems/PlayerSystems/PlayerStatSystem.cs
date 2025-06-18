@@ -3,7 +3,7 @@ using DataPersistence;
 using DataPersistence.Data;
 using EntitySystems.Equipment;
 using EntitySystems.Stats;
-using EventSystem.Player;
+using EventBus.Player;
 using Item.Inventory;
 
 namespace EntitySystems.PlayerSystems

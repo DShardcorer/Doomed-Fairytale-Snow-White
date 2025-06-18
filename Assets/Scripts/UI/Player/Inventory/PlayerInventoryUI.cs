@@ -1,5 +1,5 @@
 using System.Collections.Generic;
-using EventSystem.Player;
+using EventBus.Player;
 using Item.Inventory;
 using TMPro;
 

@@ -1,8 +1,8 @@
 using System;
-using EventSystem.Player;
+using EventBus.Player;
 using UnityEngine;
 
-namespace EventSystem.Entity
+namespace EventBus.Entity
 {
     public class EntityVitalStatsEventSystem : MonoBehaviour
     {

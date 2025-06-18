@@ -1,7 +1,7 @@
 using System.Collections;
 using System.Collections.Generic;
-using EventSystem.Player;
-using EventSystem.Quest;
+using EventBus.Player;
+using EventBus.Quest;
 using GeneralManagers;
 using Helpers;
 using UnityEngine;

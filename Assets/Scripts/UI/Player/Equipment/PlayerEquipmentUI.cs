@@ -1,6 +1,6 @@
 using System.Collections.Generic;
 using EntitySystems.Equipment;
-using EventSystem.Player;
+using EventBus.Player;
 using Item.Inventory;
 using UnityEngine;
 

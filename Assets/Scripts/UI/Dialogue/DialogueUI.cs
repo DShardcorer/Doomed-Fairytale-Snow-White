@@ -3,7 +3,7 @@ using System.Collections;
 using System.Collections.Generic;
 using AssetManagement;
 using DG.Tweening;
-using EventSystem.Dialogue;
+using EventBus.Dialogue;
 using Febucci.UI;
 using GeneralManagers;
 using Helpers;

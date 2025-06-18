@@ -1,7 +1,7 @@
 using DateTimeDayNightSystem;
 using GeneralManagers;
 using UnityEngine;
-using EventSystem.Time;
+using EventBus.Time;
 using UnityEngine.SceneManagement;
 
 namespace DateDayNightSystem

@@ -1,4 +1,4 @@
-using EventSystem.Player;
+using EventBus.Player;
 using GeneralManagers;
 using UnityEngine;
 using UnityEngine.UI;

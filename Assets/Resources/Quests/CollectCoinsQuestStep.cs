@@ -1,4 +1,4 @@
-using EventSystem.Misc;
+using EventBus.Misc;
 using QuestSystem;
 
 namespace Resources.Quests

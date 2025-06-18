@@ -3,7 +3,7 @@ using System.Collections.Generic;
 using EntitySystems.Skill;
 using Unity.VisualScripting;
 
-namespace EventSystem.Player
+namespace EventBus.Player
 {
     public static class PlayerSkillEventSystem
     {

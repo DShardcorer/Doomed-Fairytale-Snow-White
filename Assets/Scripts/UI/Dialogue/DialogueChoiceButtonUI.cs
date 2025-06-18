@@ -1,5 +1,5 @@
 using System;
-using EventSystem.Dialogue;
+using EventBus.Dialogue;
 using TMPro;
 using UnityEngine;
 using UnityEngine.EventSystems;

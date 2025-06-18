@@ -1,7 +1,7 @@
 using System;
 using System.Collections.Generic;
 
-namespace EventSystem.UI
+namespace EventBus.UI
 {
     public static class CGFadeEventSystem
     {

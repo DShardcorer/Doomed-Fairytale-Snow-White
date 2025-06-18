@@ -1,7 +1,7 @@
 using System;
 using EntitySystems.Stats;
 
-namespace EventSystem.Player
+namespace EventBus.Player
 {
     public static class PlayerStatsEventSystem
     {

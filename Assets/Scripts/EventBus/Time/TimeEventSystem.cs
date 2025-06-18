@@ -3,7 +3,7 @@ using DateDayNightSystem;
 using DateTimeDayNightSystem;
 using UnityEngine;
 
-namespace EventSystem.Time
+namespace EventBus.Time
 {
     public static class TimeEventSystem
     {

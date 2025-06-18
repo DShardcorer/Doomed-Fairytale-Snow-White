@@ -1,6 +1,6 @@
 using System;
 using DateTimeDayNightSystem;
-using EventSystem.Time;
+using EventBus.Time;
 using Febucci.UI;
 using GeneralManagers;
 using UnityEngine;

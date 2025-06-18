@@ -1,5 +1,5 @@
 using EntitySystems.Stats;
-using EventSystem.Player;
+using EventBus.Player;
 using TMPro;
 using UnityEngine;
 using UnityEngine.UI;
@@ -43,9 +43,10 @@ namespace UI.Player.Status
             PlayerLevelEventSystem.OnExperienceChanged += PlayerLevelEventSystem_OnExperienceChanged;
             PlayerLevelEventSystem.OnInitialLevelSet += PlayerLevelEventSystem_OnInitialLevelSet;
             PlayerLevelEventSystem.OnInitialExperienceSet += PlayerLevelEventSystem_OnInitialExperienceSet;
-
+            Debug.LogWarning("PlayerStatusUI initialized");
             increaseStrengthButton.onClick.AddListener(() => { 
                 PlayerStatsEventSystem.InvokeStatPointAllocated(StatType.Strength); 
+                Debug.LogWarning("Strength stat point allocated");
                 DecrementStatPoint();
             });
             increaseDexterityButton.onClick.AddListener(() => { 

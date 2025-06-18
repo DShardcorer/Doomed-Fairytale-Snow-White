@@ -1,7 +1,7 @@
 using DialogueSystem;
 using Entity.Player;
-using EventSystem.Dialogue;
-using EventSystem.Quest;
+using EventBus.Dialogue;
+using EventBus.Quest;
 using InteractInterface;
 using UnityEngine;
 

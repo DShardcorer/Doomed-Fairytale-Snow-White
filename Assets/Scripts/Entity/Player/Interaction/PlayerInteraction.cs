@@ -1,7 +1,7 @@
 using System.Collections;
 using Entity.NPC;
-using EventSystem.Dialogue;
-using EventSystem.Player;
+using EventBus.Dialogue;
+using EventBus.Player;
 using GeneralManagers;
 using Input;
 using InteractInterface;

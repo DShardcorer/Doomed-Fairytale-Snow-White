@@ -1,7 +1,7 @@
 using DataPersistence;
 using DataPersistence.Data;
 using EntitySystems.Level;
-using EventSystem.Player;
+using EventBus.Player;
 
 namespace EntitySystems.PlayerSystems
 {

@@ -3,7 +3,7 @@ using System.Collections.Generic;
 using EntitySystems.Equipment;
 using Item.Inventory;
 
-namespace EventSystem.Player
+namespace EventBus.Player
 {
     public static class PlayerEquipmentEventSystem
     {

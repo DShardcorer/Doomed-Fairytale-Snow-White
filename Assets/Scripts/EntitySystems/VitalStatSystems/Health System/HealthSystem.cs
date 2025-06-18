@@ -2,8 +2,8 @@ using System;
 using System.Collections.Generic;
 using DataPersistence.Data;
 using DefaultNamespace.EntitySystems.VitalStatSystems;
-using EventSystem.Entity;
-using EventSystem.Player;
+using EventBus.Entity;
+using EventBus.Player;
 using GeneralManagers;
 
 namespace EntitySystems.VitalStatSystems.Health_System

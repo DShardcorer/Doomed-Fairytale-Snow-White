@@ -1,6 +1,6 @@
 using System;
 using DefaultNamespace.EventSystem.Input;
-using EventSystem.Dialogue;
+using EventBus.Dialogue;
 using GeneralManagers;
 using TMPro;
 using UnityEngine;

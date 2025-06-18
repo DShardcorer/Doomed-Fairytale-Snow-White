@@ -1,7 +1,7 @@
 using System;
 using QuestSystem;
 
-namespace EventSystem.Quest
+namespace EventBus.Quest
 {
     public static class QuestEventSystem
     {

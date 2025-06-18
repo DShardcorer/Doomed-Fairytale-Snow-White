@@ -1,6 +1,6 @@
 using System;
 
-namespace EventSystem.Narrative
+namespace EventBus.Narrative
 {
     public class NarrativeEventSystem
     {

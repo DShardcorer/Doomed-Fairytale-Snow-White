@@ -1,6 +1,6 @@
 using System;
 using EntitySystems.Stats;
-using EventSystem.Entity;
+using EventBus.Entity;
 using GeneralManagers;
 
 namespace Entity

@@ -1,5 +1,5 @@
-using EventSystem.Entity;
-using EventSystem.Player;
+using EventBus.Entity;
+using EventBus.Player;
 using GeneralManagers;
 using Helpers;
 using Pool;

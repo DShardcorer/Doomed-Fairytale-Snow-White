@@ -20,15 +20,15 @@ namespace EntitySystems.Skill
         public override void InvokeInitialEvents()
         {
             base.InvokeInitialEvents();
-            EventSystem.Player.PlayerSkillEventSystem.InvokePassiveSkillListChanged(passiveSkills);
+            EventBus.Player.PlayerSkillEventSystem.InvokePassiveSkillListChanged(passiveSkills);
         }
 
         public override bool AddSkill(PassiveSkill skill)
         {
             if (base.AddSkill(skill))
             {
-                EventSystem.Player.PlayerSkillEventSystem.InvokePassiveSkillListChanged(passiveSkills);
-                EventSystem.Player.PlayerSkillEventSystem.InvokePassiveSkillGained(skill);
+                EventBus.Player.PlayerSkillEventSystem.InvokePassiveSkillListChanged(passiveSkills);
+                EventBus.Player.PlayerSkillEventSystem.InvokePassiveSkillGained(skill);
                 return true;
             }
             return false;
@@ -38,7 +38,7 @@ namespace EntitySystems.Skill
         {
             if (base.RemoveSkill(skill))
             {
-                EventSystem.Player.PlayerSkillEventSystem.InvokePassiveSkillListChanged(passiveSkills);
+                EventBus.Player.PlayerSkillEventSystem.InvokePassiveSkillListChanged(passiveSkills);
                 return true;
             }
             return false;
