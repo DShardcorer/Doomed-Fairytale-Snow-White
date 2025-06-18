@@ -16,6 +16,7 @@ using GeneralManagers;
 using Helpers;
 using Item;
 using Item.Inventory;
+using SceneSwitch;
 using UnityEngine;
 
 namespace Entity.Player
@@ -35,6 +36,8 @@ namespace Entity.Player
         public void Initialize(GameManager gameManager)
         {
             _gameManager = gameManager;
+            //Find object by name
+            GameObject spawnPortal = GameObject.Find("Portal_Spawn");
             CreatePlayer(new Vector3(0, 0, 0));
         }
 

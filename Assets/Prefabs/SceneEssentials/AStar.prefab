@@ -1,0 +1,120 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!1 &6816005346864446870
+GameObject:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  serializedVersion: 6
+  m_Component:
+  - component: {fileID: 6820881085574843361}
+  - component: {fileID: 1453471267505648500}
+  m_Layer: 0
+  m_Name: AStar
+  m_TagString: Untagged
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!4 &6820881085574843361
+Transform:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 6816005346864446870}
+  serializedVersion: 2
+  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
+  m_LocalPosition: {x: 0, y: 0, z: 0}
+  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_ConstrainProportionsScale: 0
+  m_Children: []
+  m_Father: {fileID: 0}
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!114 &1453471267505648500
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 6816005346864446870}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 78396926cbbfc4ac3b48fc5fc34a87d1, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  version: 1073741824
+  data:
+    dataString: UEsDBBQAAAgIAAA4IezxIyldtQIAAPEFAAALACQAZ3JhcGgwLmpzb24KACAAAAAAAAEAGAAAgD7V3rGdAQCAPtXesZ0BAIA+1d6xnQF1VE1vGjEQ/SvI51IB3TS0txYI6SEJCqlyKDk49ixrYeyVPwIk4r93xrvLLlSVIuG8eTPz5ms/mDK+BBGsmzsl76wE9r3H6M0+9VrjLez52pqleoeG86xkKIjEE+eRB2URH5Kbt1sITokfZq2JPEAwGpVbt53JNUysDx7hnGsPaHI2kLdB6KPH9vjT/0YuB3yNrun1jq9vg94RnwJMANdSG2JDq1jRCM23JUiS3JKzhp1VNIPF1IwRxbZaK18rYeFQpkonvPQR60CCVBwrS+mp0ALUugiXzg957iHUkhw/TJXDBlVR2U9bdW3L/abS9cZ1pDxZNk6aqqB3/9j7w2TOnd3eNnmHA8oRCiU2j/wguA+dtnbh6bnwaHZcb/irhucCzL2dOxuNRGNwkVyjh9G0/fdU2qQAsWnxSuoFGMv/D4dqOKbq98sA5amOweesRX978EttU/PrmGSpkbQZ4HBwv7CetDe+zoAoiUT/J77uLlhtuFHOBzTVTahR4i5wQiDBCKj73ieCIXmvNjqKxWZJK3Ujhol1BhJcCyzBcB0OC4wYLlfgwtbRdWG54XRrtbra1pzQhUuCW/5gcGFa2N1p2A6X16eNbl5/XmgIvrC7O/DFQwxamU63yXCPDZ5YY6rN7TazcVtGl3PRcQuwD9HBlAeesqEcXDDZdcVeJg8TtaZdTgUkRVgA/b1QfwuOeXWC2b016fLOfpP8dVTy/EKYyK/HXyUXXHy5yrI863MxHg7G8krmo9HVWAqWTkgZbDfXi6pf9ZRwu0xbi8Fzab6EvbnjZTpa6fhurt63tjN5ZXK7FA7APFQRTsWCwyT4cZEzqbDMJYSgTNpL9rFi2ooNyNUp0Co1drYPjq/aKCtWqjcbCFmxSfr0rRjBp5PE1X1TsKPkZ8FA4+hAPikNW16SaXBkx79QSwMEFAAACAgAADgh7JWjmL9sAAAAdwAAAAkAJABtZXRhLmpzb24KACAAAAAAAAEAGAAAgD7V3rGdAQCAPtXesZ0BAIA+1d6xnQGrVipLLSrOzM9TslIw1TPWM9ZRUEovSizIKAYKGII4pZkpIHa0UnKauYVZSmJyYrKxqYlJmoluYrKFoYFFimlKmpGRqUVKslIsUH1JZUGqX2JuKkRPQGJJRlpmXkpmXrqee1FmijvIaKXYWgBQSwECLQAUAAAICAAAOCHs8SMpXbUCAADxBQAACwAkAAAAAAAAAAAAAAAAAAAAZ3JhcGgwLmpzb24KACAAAAAAAAEAGAAAgD7V3rGdAQCAPtXesZ0BAIA+1d6xnQFQSwECLQAUAAAICAAAOCHslaOYv2wAAAB3AAAACQAkAAAAAAAAAAAAAAACAwAAbWV0YS5qc29uCgAgAAAAAAABABgAAIA+1d6xnQEAgD7V3rGdAQCAPtXesZ0BUEsFBgAAAAACAAIAuAAAALkDAAAAAA==
+    file_cachedStartup: {fileID: 0}
+    cacheStartup: 0
+  showNavGraphs: 1
+  showUnwalkableNodes: 0
+  debugMode: 0
+  debugFloor: 0
+  debugRoof: 1
+  manualDebugFloorRoof: 0
+  showSearchTree: 0
+  unwalkableNodeDebugSize: 0.3
+  logPathResults: 0
+  maxNearestNodeDistance: 100
+  scanOnStartup: 1
+  fullGetNearestSearch: 0
+  prioritizeGraphs: 0
+  prioritizeGraphsLimit: 1
+  colorSettings:
+    _SolidColor: {r: 0.11764706, g: 0.4, b: 0.7882353, a: 0}
+    _UnwalkableNode: {r: 1, g: 0, b: 0, a: 0.5}
+    _BoundsHandles: {r: 0.29, g: 0.454, b: 0.741, a: 0.9}
+    _ConnectionLowLerp: {r: 0, g: 1, b: 0, a: 0.5}
+    _ConnectionHighLerp: {r: 1, g: 0, b: 0, a: 0.5}
+    _MeshEdgeColor: {r: 0, g: 0, b: 0, a: 0.5}
+    _AreaColors: []
+  tagNames:
+  - Basic Ground
+  - 1
+  - 2
+  - 3
+  - 4
+  - 5
+  - 6
+  - 7
+  - 8
+  - 9
+  - 10
+  - 11
+  - 12
+  - 13
+  - 14
+  - 15
+  - 16
+  - 17
+  - 18
+  - 19
+  - 20
+  - 21
+  - 22
+  - 23
+  - 24
+  - 25
+  - 26
+  - 27
+  - 28
+  - 29
+  - 30
+  - 31
+  heuristic: 2
+  heuristicScale: 1
+  threadCount: 1
+  maxFrameTime: 10
+  batchGraphUpdates: 0
+  graphUpdateBatchingInterval: 0.2
+  navmeshUpdates:
+    updateInterval: 0
+  euclideanEmbedding:
+    mode: 0
+    seed: 0
+    pivotPointRoot: {fileID: 0}
+    spreadOutCount: 1
+  showGraphs: 1

@@ -1,4 +1,5 @@
 using System.Collections;
+using DateDayNightSystem;
 using Entity.Player;
 using GeneralManagers;
 using Input;
@@ -12,11 +13,9 @@ namespace Entity.Player.Overworld
 {
     public class OverworldPlayerView : MonoBehaviour
     {
-        [Header("Sprites")]
-        [SerializeField] private SpriteRenderer spriteRenderer;
+        [Header("Sprites")] [SerializeField] private SpriteRenderer spriteRenderer;
 
-        [Header("Movement")]
-        [SerializeField] private float moveSpeed = 5f;
+        [Header("Movement")] [SerializeField] private float moveSpeed = 5f;
         private float moveDelay = 0.5f;
 
         private Player _player;
@@ -27,27 +26,30 @@ namespace Entity.Player.Overworld
         private bool _isMoving = false;
         private float _lastMoveTime;
 
+        private GameTimeManager _gameTimeManager;
+        
         public void Initialize(Player player)
         {
             _player = player;
             _inputManager = player.InputManager;
-            
+
             DontDestroyOnLoad(this);
             SceneManager.sceneLoaded += OnSceneLoaded;
             
-            // Get tilemaps immediately after initialization
             RefreshTilemaps();
+
+            _gameTimeManager = GameManager.Instance.GameTimeManager;
         }
 
         private async void RefreshTilemaps()
         {
             var tileManager = await ServiceLocator.GetServiceAsync<WorldTileManager>(5f);
-            
+
             if (tileManager != null)
             {
                 _groundTilemap = tileManager.GroundTilemap;
                 _collisionTilemap = tileManager.CollisionTilemap;
-                
+
                 // Update position based on new tilemaps
                 if (_groundTilemap != null)
                 {
@@ -64,7 +66,6 @@ namespace Entity.Player.Overworld
 
         private void OnSceneLoaded(Scene scene, LoadSceneMode mode)
         {
-            //Check if the scene is an overworld scene
             if (scene.name == "Scene_Overworld")
             {
                 RefreshTilemaps();
@@ -90,7 +91,7 @@ namespace Entity.Player.Overworld
         {
             // Skip if tilemaps aren't available yet
             if (_groundTilemap == null) return;
-            
+
             if (_isMoving || Time.time - _lastMoveTime < moveDelay)
                 return;
 
@@ -109,7 +110,8 @@ namespace Entity.Player.Overworld
                     moveDirection = new Vector2(0, Mathf.Sign(input.y));
                 }
 
-                Vector3Int targetGridPosition = _currentGridPosition + new Vector3Int((int)moveDirection.x, (int)moveDirection.y, 0);
+                Vector3Int targetGridPosition =
+                    _currentGridPosition + new Vector3Int((int)moveDirection.x, (int)moveDirection.y, 0);
 
                 if (IsWalkable(targetGridPosition))
                 {
@@ -121,7 +123,7 @@ namespace Entity.Player.Overworld
         private bool IsWalkable(Vector3Int gridPosition)
         {
             return _groundTilemap.HasTile(gridPosition) &&
-                  (_collisionTilemap == null || !_collisionTilemap.HasTile(gridPosition));
+                   (_collisionTilemap == null || !_collisionTilemap.HasTile(gridPosition));
         }
 
         private IEnumerator MoveToGridPosition(Vector3Int gridPosition)
@@ -144,6 +146,12 @@ namespace Entity.Player.Overworld
             transform.position = targetPosition;
             _player.PlayerView.transform.position = targetPosition;
             _isMoving = false;
+    
+            // Advance game time by 30 minutes whenever player completes a move
+            if (_gameTimeManager != null)
+            {
+                _gameTimeManager.AdvanceTimeByMinutes(30);
+            }
         }
 
         private Vector3 GetTileCenter(Vector3Int gridPosition)

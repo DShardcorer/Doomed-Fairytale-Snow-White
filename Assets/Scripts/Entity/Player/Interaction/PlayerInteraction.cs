@@ -12,13 +12,13 @@ namespace Entity.Player.Interaction
     public class PlayerInteraction : MonoBehaviour, ILifecycle<Player>
     {
         private Player player;
-        private float interactRadius = 0.5f;
+        private float interactRadius = 1f;
         [SerializeField] private LayerMask interactableLayer;
         public Transform interactPoint;
 
         [SerializeField] private GameObject arrowPrefab;
         private GameObject currentArrow;
-        private Vector3 arrowOffset = new Vector3(0, 1f, 0);
+        private Vector3 arrowOffset = new Vector3(0, 2f, 0);
 
         private Coroutine arrowCoroutine;
         private IInteractable currentInteractable;

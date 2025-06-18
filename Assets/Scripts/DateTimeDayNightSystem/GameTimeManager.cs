@@ -8,65 +8,53 @@ namespace DateDayNightSystem
 {
     public class GameTimeManager : MonoBehaviour, ILifecycle<GameManager>
     {
-        [Header("Time Settings")] [SerializeField]
-        private int startDay = 1;
-
-        [Range(0f, 24f)] private float startTimeOfDay = 0f;
+        [Header("Time Settings")]
+        [SerializeField] private int startDay = 1;
+        [SerializeField] [Range(0f, 24f)] private float startTimeOfDay = 0f;
         [SerializeField] private float secondsPerGameDay = 1200f;
         [SerializeField] private bool startPaused = false;
         [SerializeField] private float timeScale = 200f;
 
-        [Header("Time Reversal")] [SerializeField]
-        private bool enableTimeReversal = true;
-
-        [SerializeField] private float timeReversalScale = 1f; // How fast time reverses (multiplier)
-
-        // New property for time reversal
+        [Header("Time Reversal")]
+        [SerializeField] private bool enableTimeReversal = true;
+        [SerializeField] private float timeReversalScale = 1f;
         [SerializeField] private bool _isReversing = false;
 
+        [Header("Update Intervals")]
+        [SerializeField] private float timeAdvanceInterval = 0.5f;
+        [SerializeField] private const float EVENT_CHECK_INTERVAL = 1f;
+        [SerializeField] private const float LIGHTING_UPDATE_INTERVAL = 1f;
+
+        // Properties
         public bool IsReversing
         {
             get => _isReversing;
-            set
-            {
-                if (_isReversing != value)
-                {
-                    _isReversing = value;
-                    // Notify the system that time direction has changed
-                    // if (_isReversing)
-                    //     TimeEventSystem.InvokeTimeReversalStarted();
-                    // else
-                    //     TimeEventSystem.InvokeTimeReversalStopped();
-                }
-            }
+            set => _isReversing = enableTimeReversal && value;
         }
 
         public int CurrentDay { get; private set; }
         public TimePoint CurrentTime { get; private set; }
         public float NormalizedTime => CurrentTime.Normalized;
-
         public bool IsDaytime => CurrentTime.hourOfDay > DayPhases.Dawn.hourOfDay &&
                                  CurrentTime.hourOfDay < DayPhases.Dusk.hourOfDay;
-
         public bool IsNighttime => !IsDaytime;
         public DayPhase CurrentPhase { get; private set; }
         public bool IsPaused { get; private set; }
         public GameDateTime CurrentDateTime => new GameDateTime(CurrentDay, CurrentTime);
+        public GameTimeEvents TimeEvents => _timeEvents;
+
+        // Private fields
         private DayPhase _lastPhase;
         private float _timeAccumulator = 0f;
-        [SerializeField] private float TIME_ADVANCE_INTERVAL = 0.5f;
         private float _lastEventCheckTime;
-        [SerializeField] private const float EVENT_CHECK_INTERVAL = 1f;
         private float _lastLightingUpdateTime;
-        [SerializeField] private const float LIGHTING_UPDATE_INTERVAL = 1f;
-
         private GameManager _parent;
         private GameTimeEvents _timeEvents;
-        public GameTimeEvents TimeEvents => _timeEvents;
 
         public void Initialize(GameManager parent)
         {
             _parent = parent;
+            _timeEvents = new GameTimeEvents();
             CurrentDay = startDay;
             CurrentTime = new TimePoint { hourOfDay = startTimeOfDay };
             IsPaused = startPaused;
@@ -94,9 +82,8 @@ namespace DateDayNightSystem
             if (IsPaused) return;
 
             _timeAccumulator += Time.deltaTime;
-            if (_timeAccumulator >= TIME_ADVANCE_INTERVAL)
+            if (_timeAccumulator >= timeAdvanceInterval)
             {
-                // The key change: if reversing, we use a negative time delta
                 float timeDelta = _timeAccumulator * timeScale;
                 if (IsReversing)
                     timeDelta = -timeDelta * timeReversalScale;
@@ -104,25 +91,61 @@ namespace DateDayNightSystem
                 AdvanceTime(timeDelta);
                 _timeAccumulator = 0f;
                 UpdateDayPhase();
-                _lastEventCheckTime = 0f;
             }
         }
 
-        // Toggle time reversal on/off
+        #region Time Advance APIS
+
+        /// <summary>
+        /// Advances time by the specified number of in-game minutes
+        /// </summary>
+        public void AdvanceTimeByMinutes(float minutes)
+        {
+            // 1 day = 1440 minutes
+            float dayFraction = minutes / 1440f;
+            AdvanceTime(dayFraction * secondsPerGameDay);
+        }
+
+        /// <summary>
+        /// Advances time by the specified number of in-game hours
+        /// </summary>
+        public void AdvanceTimeByHours(float hours)
+        {
+            // 1 day = 24 hours
+            float dayFraction = hours / 24f;
+            AdvanceTime(dayFraction * secondsPerGameDay);
+        }
+
+        /// <summary>
+        /// Advances time by the specified number of in-game days
+        /// </summary>
+        public void AdvanceTimeByDays(float days)
+        {
+            AdvanceTime(days * secondsPerGameDay);
+        }
+
+        /// <summary>
+        /// Advances time by the specified number of game seconds
+        /// (where secondsPerGameDay represents a full day)
+        /// </summary>
+        public void AdvanceTimeByGameSeconds(float gameSeconds)
+        {
+            AdvanceTime(gameSeconds);
+        }
+
+        #endregion
+
         public void ToggleTimeReversal()
         {
             if (!enableTimeReversal) return;
             IsReversing = !IsReversing;
         }
 
-        // Start reversing time
         public void StartTimeReversal()
         {
-            if (!enableTimeReversal) return;
             IsReversing = true;
         }
 
-        // Stop reversing time
         public void StopTimeReversal()
         {
             IsReversing = false;
@@ -192,11 +215,7 @@ namespace DateDayNightSystem
         public void ResumeTime() => IsPaused = false;
         public void TogglePause() => IsPaused = !IsPaused;
         public void SetTimeScale(float scale) => timeScale = Mathf.Max(0f, scale);
-
-        public void SetDayLength(float seconds)
-        {
-            if (seconds > 0f) secondsPerGameDay = seconds;
-        }
+        public void SetDayLength(float seconds) => secondsPerGameDay = Mathf.Max(0f, seconds);
 
         public void AdvanceTime(float deltaSeconds)
         {

@@ -1,28 +1,43 @@
+using Entity;
 using EventSystem.Entity;
 using EventSystem.Player;
+using GeneralManagers;
 using UnityEngine;
 using UnityEngine.UI;
 
 namespace UI.General
 {
-    public class EntityHealthbarUI : MonoBehaviour
+    public class EntityHealthbarUI : MonoBehaviour, ILifecycle<EntityView>
     {
+        private EntityView _parent;
         [SerializeField] private Image healthbarFill;
 
 
-        public void OnEnable()
+
+        public void Initialize(EntityView parent)
         {
-            EntityVitalStatsEventSystem.HealthChanged += OnHealthChanged;
+            _parent = parent;
             healthbarFill.fillAmount = 1f;
-        }
-        public void OnDisable()
-        {
-            EntityVitalStatsEventSystem.HealthChanged -= OnHealthChanged;
+            _parent.Parent.HealthSystem.OnHealthChangedHook += OnHealthChanged;
         }
 
-        private void OnHealthChanged(Entity.Entity entity, HealthChangedEventArgs args)
+        private void OnHealthChanged(HealthChangedEventArgs args)
         {
             healthbarFill.fillAmount = args.CurrentHealth / args.MaxHealth;
+        }
+
+        public void Dispose()
+        {
+            _parent = null;
+            if (healthbarFill != null)
+            {
+                healthbarFill.fillAmount = 0f; // Reset the fill amount when disposing
+            }
+            if (_parent != null && _parent.Parent != null && _parent.Parent.HealthSystem != null)
+            {
+                _parent.Parent.HealthSystem.OnHealthChangedHook -= OnHealthChanged; // Unsubscribe from the event
+            }
+            
         }
     }
 }

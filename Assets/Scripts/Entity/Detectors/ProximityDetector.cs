@@ -29,10 +29,10 @@ namespace Entity.Detectors
             if (collision.TryGetComponent(out EntityView entityView))
             {
                 //Check if the entity in hostile to factions
-                if (_parent.NPCProperties.HostileToFactions.Contains(entityView.Controller.Properties.EntityFaction))
+                if (_parent.NPCProperties.HostileToFactions.Contains(entityView.Parent.Properties.EntityFaction))
                 {
                     //Invoke the event
-                    OnEntityFromDifferentFactionSpottedInProximity?.Invoke(this, entityView.Controller);
+                    OnEntityFromDifferentFactionSpottedInProximity?.Invoke(this, entityView.Parent);
                     Debug.Log("Entity Spotted in Proximity");
                 }
             }

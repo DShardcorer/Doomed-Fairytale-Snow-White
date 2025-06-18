@@ -53,13 +53,13 @@ namespace Entity.Detectors
                 if (col.TryGetComponent<EntityView>(out EntityView entityView))
                 {
                     // Filter out non-hostile entities factions
-                    if (npc.NPCProperties.HostileToFactions.Contains(entityView.Controller.Properties.EntityFaction))
+                    if (npc.NPCProperties.HostileToFactions.Contains(entityView.Parent.Properties.EntityFaction))
                     {
                         float distance = Vector2.Distance(npc.View.transform.position, entityView.transform.position);
                         if (distance < minDistance)
                         {
                             minDistance = distance;
-                            closestEntity = entityView.Controller;
+                            closestEntity = entityView.Parent;
                         }
                     }
                 }

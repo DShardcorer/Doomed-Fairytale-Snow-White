@@ -27427,13 +27427,14 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   startDay: 1
+  startTimeOfDay: 0
   secondsPerGameDay: 1200
-  startPaused: 1
+  startPaused: 0
   timeScale: 1
   enableTimeReversal: 0
   timeReversalScale: 1
   _isReversing: 0
-  TIME_ADVANCE_INTERVAL: 1
+  timeAdvanceInterval: 0.5
 --- !u!1 &9166661139214146913
 GameObject:
   m_ObjectHideFlags: 0

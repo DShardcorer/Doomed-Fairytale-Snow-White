@@ -1,3 +1,4 @@
+using System;
 using System.Collections.Generic;
 using DataPersistence.Data;
 using DefaultNamespace.EntitySystems.VitalStatSystems;
@@ -25,6 +26,7 @@ namespace EntitySystems.VitalStatSystems.Health_System
         // Collection of active recovery effects - using Queue for FIFO behavior
         protected List<RecoveryOverTimeEffect> activeRecoveryEffects = new List<RecoveryOverTimeEffect>(4); // Pre-allocate for common case
 
+        public Action<HealthChangedEventArgs> OnHealthChangedHook;
         public HealthSystem(float maxHealth)
         {
             this.maxHealth = maxHealth;
@@ -44,7 +46,7 @@ namespace EntitySystems.VitalStatSystems.Health_System
             if (currentHealth > maxHealth)
             {
                 currentHealth = maxHealth;
-                OnHealthChanged();
+                InvokeHealthChanged();
             }
         }
         public void SetCurrentHealth(float value)
@@ -55,7 +57,7 @@ namespace EntitySystems.VitalStatSystems.Health_System
             if (currentHealth > maxHealth)
                 currentHealth = maxHealth;
 
-            OnHealthChanged();
+            InvokeHealthChanged();
         }
         public void ClearRecoveryEffects()
         {
@@ -119,7 +121,7 @@ namespace EntitySystems.VitalStatSystems.Health_System
             if (currentHealth < 0)
                 currentHealth = 0;
 
-            OnHealthChanged();
+            InvokeHealthChanged();
 
             if (currentHealth <= 0)
             {
@@ -137,7 +139,7 @@ namespace EntitySystems.VitalStatSystems.Health_System
             if (currentHealth > maxHealth)
                 currentHealth = maxHealth;
 
-            OnHealthChanged();
+            InvokeHealthChanged();
         }
 
         // Add a recovery over time effect to the stack
@@ -214,7 +216,7 @@ namespace EntitySystems.VitalStatSystems.Health_System
                     if (currentHealth > maxHealth)
                         currentHealth = maxHealth;
 
-                    OnHealthChanged();
+                    InvokeHealthChanged();
                 }
 
                 // Reset timer
@@ -223,9 +225,10 @@ namespace EntitySystems.VitalStatSystems.Health_System
         }
 
         // Virtual hook for derived classes to override when health changes.
-        protected virtual void OnHealthChanged()
+        protected virtual void InvokeHealthChanged()
         {
-            EntityVitalStatsEventSystem.InvokeHealthChanged(_entity, new HealthChangedEventArgs(lastCurrentHealth, currentHealth, maxHealth));
+            // EntityVitalStatsEventSystem.InvokeHealthChanged(_entity, new HealthChangedEventArgs(lastCurrentHealth, currentHealth, maxHealth));
+            OnHealthChangedHook?.Invoke(new HealthChangedEventArgs(lastCurrentHealth, currentHealth, maxHealth));
         }
     }
 }

@@ -23,9 +23,9 @@ namespace EntitySystems.PlayerSystems
             PlayerVitalStatsEventSystem.InvokeHealthChanged(this, new HealthChangedEventArgs(lastCurrentHealth, currentHealth, maxHealth));
         }
 
-        protected override void OnHealthChanged()
+        protected override void InvokeHealthChanged()
         {
-            base.OnHealthChanged();
+            base.InvokeHealthChanged();
             PlayerVitalStatsEventSystem.InvokeHealthChanged(this, new HealthChangedEventArgs(lastCurrentHealth, currentHealth, maxHealth));
         }
         
