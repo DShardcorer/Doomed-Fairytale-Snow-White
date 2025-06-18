@@ -8,10 +8,10 @@ namespace SceneSwitch
         public enum PortalToSpawnAt
         {
             None,
-            One,
-            Two,
-            Three,
-            Four,
+            Left,
+            Right,
+            Up,
+            Down,
         }
 
         [Header("Is Portal to Overworld?")] [SerializeField]

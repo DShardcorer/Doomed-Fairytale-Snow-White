@@ -38,7 +38,16 @@ namespace Entity.Player
             _gameManager = gameManager;
             //Find object by name
             GameObject spawnPortal = GameObject.Find("Portal_Spawn");
-            CreatePlayer(new Vector3(0, 0, 0));
+            if (spawnPortal != null)
+            {
+                Vector3 spawnPosition = spawnPortal.transform.position;
+                CreatePlayer(spawnPosition);
+            }
+            else
+            {
+                Debug.LogWarning("Spawn portal not found, creating player at default position.");
+                CreatePlayer(new Vector3(0, 0, 0));
+            }
         }
 
         public void CreatePlayer(Vector3 position)
