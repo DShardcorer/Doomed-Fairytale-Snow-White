@@ -35,7 +35,7 @@ namespace Entity.Player
         public void Initialize(GameManager gameManager)
         {
             _gameManager = gameManager;
-            CreatePlayer(new Vector3(70, 4, 0));
+            CreatePlayer(new Vector3(0, 0, 0));
         }
 
         public void CreatePlayer(Vector3 position)

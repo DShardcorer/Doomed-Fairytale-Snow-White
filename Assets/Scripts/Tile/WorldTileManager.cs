@@ -97,7 +97,7 @@ namespace Tile
                     _walkInfrontTileDataDictionary.TryGetValue(tileWalkInFront, out WorldTileData walkInfrontTileData))
                 {
                     SceneSwitchManager.Instance.SwitchSceneFromOverworldToPortal(walkInfrontTileData.sceneToLoad,
-                        playerPosition, SceneSwitchPortal.PortalToSpawnAt.One);
+                        playerPosition);
                 }
                 else
                 {
