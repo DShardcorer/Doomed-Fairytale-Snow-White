@@ -1,9 +1,11 @@
+using System;
 using AudioSystem;
 using DateDayNightSystem;
 using DateTimeDayNightSystem;
 using DefaultNamespace.BarterSystem;
 using DefaultNamespace.LightingSystem;
 using DialogueSystem;
+using Entity.Faction;
 using Entity.NPC.Spawning;
 using Entity.NPC_Variants.Native;
 using Entity.Player;
@@ -23,6 +25,7 @@ namespace GeneralManagers
         [SerializeField] public Camera UIMainCamera;
 
         [Header("Managers")]
+        [SerializeField] private FactionManager _factionManager;
         [SerializeField] private BarterManager _barterManager;
         [SerializeField] private NPCSpawnManager _npcSpawnManager;
         [SerializeField] private AudioManager _audioManager;
@@ -40,6 +43,7 @@ namespace GeneralManagers
         [SerializeField] private DialogueManager _dialogueManager;
 
         #region Public Accessors
+        public FactionManager FactionManager => _factionManager;
         public BarterManager BarterManager => _barterManager;
         public NPCSpawnManager NPCSpawnManager => _npcSpawnManager;
         public AudioManager AudioManager => _audioManager;
@@ -72,6 +76,7 @@ namespace GeneralManagers
 
         public void Initialize()
         {
+            _factionManager.Initialize(this);
             _barterManager.Initialize(this);
             _npcSpawnManager.Initialize(this);
             _audioManager.Initialize(this);
@@ -89,8 +94,23 @@ namespace GeneralManagers
             _cameraManager.Initialize(this);
         }
 
+        private void OnDestroy()
+        {
+            if (Instance == this)
+            {
+                Instance = null;
+            }
+            Dispose();
+        }
+
         public void Dispose()
         {
+            
+            _factionManager.Dispose();
+            _barterManager.Dispose();
+            _audioManager.Dispose();
+            _dayCycleLightingManager.Dispose();
+            _playerViewManager.Dispose();
             _npcSpawnManager.Dispose();
             _gameTimeManager.Dispose();
             _inputManager.Dispose();

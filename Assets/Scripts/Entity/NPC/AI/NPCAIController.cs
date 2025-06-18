@@ -59,8 +59,8 @@ namespace Entity.NPC.AI
             this.npc = npc;
             _npcStateStateMachine = npc.StateMachine;
 
-            this.npc.FOVDetector.OnClosestEntityFromDifferentFactionSpottedInFOV += OnTargetSpottedInFOV;
-            this.npc.ProximityDetector.OnEntityFromDifferentFactionSpottedInProximity += OnTargetSpottedInProximity;
+            this.npc.FOVDetector.OnClosestEntityFromEnemyFactionSpottedInFOV += OnTargetSpottedInFOV;
+            this.npc.ProximityDetector.OnEntityFromEnemyFactionSpottedInProximity += OnTargetSpottedInProximity;
 
             if (seeker == null)
                 seeker = npc.View.GetComponent<Seeker>();
@@ -364,8 +364,8 @@ namespace Entity.NPC.AI
         {
             if (npc != null)
             {
-                npc.FOVDetector.OnClosestEntityFromDifferentFactionSpottedInFOV -= OnTargetSpottedInFOV;
-                npc.ProximityDetector.OnEntityFromDifferentFactionSpottedInProximity -= OnTargetSpottedInProximity;
+                npc.FOVDetector.OnClosestEntityFromEnemyFactionSpottedInFOV -= OnTargetSpottedInFOV;
+                npc.ProximityDetector.OnEntityFromEnemyFactionSpottedInProximity -= OnTargetSpottedInProximity;
             }
 
             npc = null;

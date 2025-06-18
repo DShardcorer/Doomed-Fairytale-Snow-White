@@ -70,7 +70,7 @@ namespace Entity.NPC
 
         public void Interact(Player.Player player)
         {
-            if (npc.NPCProperties.HostileToFactions.Contains(EntityFaction.Player))
+            if (FactionRegistry.AreEnemies(player.PlayerProperties.EntityFaction, npc.Properties.EntityFaction))
             {
                 return;
             }

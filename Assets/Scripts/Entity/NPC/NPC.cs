@@ -1,5 +1,6 @@
 using DefaultNamespace.EntitySystems.Buff;
 using Entity.Detectors;
+using Entity.Faction;
 using Entity.NPC.AI;
 using EntitySystems.Equipment;
 using EntitySystems.Level;
@@ -67,6 +68,7 @@ namespace Entity.NPC
             _npcAIController = aiController;
             IdleState = aiController.GetState(HelperNPCStateName.Idle);
         }
+
         public override void Initialize()
         {
             // Subscribe to update managers
@@ -106,15 +108,29 @@ namespace Entity.NPC
             _npcAIController.FixedUpdateLogic();
         }
 
+        public override void TakeDamage(float damage, Entity damageSource)
+        {
+            base.TakeDamage(damage, damageSource);
+            if (damageSource != null)
+            {
+                EntityFaction damageSourceFaction = damageSource.Properties.EntityFaction;
+                if (FactionRegistry.AreAllies(Properties.EntityFaction, damageSourceFaction))
+                {
+                    GameManager.Instance.FactionManager.AddTemporaryEnemy(Properties.EntityFaction, damageSourceFaction,
+                        10);
+                }
+            }
+        }
+
         public override void Dispose()
         {
             GameManager.Instance.UpdateManager.RemoveUpdatable(this);
             GameManager.Instance.FixedUpdateManager.RemoveFixedUpdatable(this);
-    
+
             // These dispose calls should happen before nulling references
             _npcAIController?.Dispose();
             _npcInteractSystem?.Dispose();
-    
+
             // Set each reference to null only once
             _npcView = null;
             _npcProperties = null;
@@ -122,7 +138,7 @@ namespace Entity.NPC
             _proximityDetector = null;
             _npcAIController = null;
             _npcInteractSystem = null;
-    
+
             base.Dispose();
         }
     }

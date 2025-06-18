@@ -1,4 +1,6 @@
 
+using System.Collections.Generic;
+
 namespace Entity.Faction
 {
     public enum EntityFaction
@@ -9,8 +11,6 @@ namespace Entity.Faction
         Native,
         Monsters,
         Animals,
-
-
-
     }
+    
 }

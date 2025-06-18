@@ -6,7 +6,7 @@ using UnityEngine.Tilemaps;
 
 namespace Entity.Player
 {
-    public class PlayerViewManager : MonoBehaviour
+    public class PlayerViewManager : MonoBehaviour, ILifecycle<GameManager>
     {
         [SerializeField] private GameObject overworldPlayerPrefab;
         private List<string> overworldSceneNames = new List<string> { "Scene_Overworld" };
@@ -20,6 +20,13 @@ namespace Entity.Player
         {
             _player = parent.PlayerManager.Player;
             _normalPlayerView = parent.PlayerManager.Player.PlayerView;
+        }
+        public void Dispose()
+        {
+            _player = null;
+            _normalPlayerView = null;
+            _overworldPlayerView = null;
+            Destroy(gameObject);
         }
 
         public void SwitchToOverworldView(Vector3 position)
@@ -63,5 +70,7 @@ namespace Entity.Player
         {
             return overworldSceneNames.Contains(sceneName);
         }
+
+
     }
 }

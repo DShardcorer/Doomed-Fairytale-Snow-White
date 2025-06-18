@@ -127,7 +127,7 @@ namespace Entity.AttackCheck
         {
             if (entity.TryGetComponent<EntityView>(out EntityView e))
             {
-                e.Parent.TakeDamage(damage);
+                e.Parent.TakeDamage(damage, _parent);
                 e.Parent.Properties.lastAttacker = _parent;
             }
         }

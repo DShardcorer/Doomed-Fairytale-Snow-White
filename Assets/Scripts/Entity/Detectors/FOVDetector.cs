@@ -1,5 +1,6 @@
 using System;
 using System.Collections;
+using Entity.Faction;
 using Helpers;
 using UnityEngine;
 
@@ -13,7 +14,7 @@ namespace Entity.Detectors
         public PolygonCollider2D Collider2D => _collider;
 
         // Event to send the closest detected entity every cycle.
-        public event EventHandler<Entity> OnClosestEntityFromDifferentFactionSpottedInFOV;
+        public event EventHandler<Entity> OnClosestEntityFromEnemyFactionSpottedInFOV;
 
         public void Initialize(NPC.NPC npc)
         {
@@ -52,8 +53,9 @@ namespace Entity.Detectors
                 Collider2D col = results[i];
                 if (col.TryGetComponent<EntityView>(out EntityView entityView))
                 {
+                    EntityFaction entityFaction = entityView.Parent.Properties.EntityFaction;
                     // Filter out non-hostile entities factions
-                    if (npc.NPCProperties.HostileToFactions.Contains(entityView.Parent.Properties.EntityFaction))
+                    if (FactionRegistry.AreEnemies(npc.Properties.EntityFaction, entityFaction))
                     {
                         float distance = Vector2.Distance(npc.View.transform.position, entityView.transform.position);
                         if (distance < minDistance)
@@ -67,7 +69,7 @@ namespace Entity.Detectors
 
             if (closestEntity != null)
             {
-                OnClosestEntityFromDifferentFactionSpottedInFOV?.Invoke(this, closestEntity);
+                OnClosestEntityFromEnemyFactionSpottedInFOV?.Invoke(this, closestEntity);
             }
         }
 

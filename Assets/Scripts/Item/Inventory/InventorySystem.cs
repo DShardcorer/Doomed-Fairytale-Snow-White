@@ -33,9 +33,10 @@ namespace Item.Inventory
 
         public List<InventoryItem> miscellaneousItems;
         public Dictionary<ItemDataSO, InventoryItem> miscellaneousItemDictionary;
-        
+
         //Action hooks for item list changes
         public Action<List<InventoryItem>> OnItemListChangedAction;
+
         public InventorySystem()
         {
             ItemList = new List<InventoryItem>();
@@ -79,11 +80,10 @@ namespace Item.Inventory
 
         public void HookOnToBarterEventSystem()
         {
-            
         }
+
         public void UnHookFromBarterEventSystem()
         {
-            
         }
 
         public virtual void InvokeInitialEvents()
@@ -144,6 +144,7 @@ namespace Item.Inventory
         {
             AddItem(inventoryItem.itemDataSo, inventoryItem.stackSize);
         }
+
         public virtual void AddItems(List<InventoryItem> inventoryItems)
         {
             foreach (var item in inventoryItems)
@@ -159,41 +160,62 @@ namespace Item.Inventory
 
             if (isNewItem)
             {
+                // Create item with correct initial amount
                 item = ItemRegistry.CreateInventoryItem(itemDataSo.itemName, amount);
                 ItemList.Add(item);
                 itemDictionary[itemDataSo] = item;
+
+                // Add to type-specific collections (without incrementing stack again)
+                switch (itemDataSo.itemType)
+                {
+                    case ItemType.Material:
+                        materialItems.Add(item);
+                        materialItemDictionary[itemDataSo] = item;
+                        OnMaterialItemListChanged(materialItems);
+                        break;
+                    case ItemType.Consumable:
+                        consumableItems.Add(item);
+                        consumableItemDictionary[itemDataSo] = item;
+                        OnConsumableItemListChanged(consumableItems);
+                        break;
+                    case ItemType.Equipment:
+                        equipmentItems.Add(item);
+                        equipmentItemDictionary[itemDataSo] = item;
+                        OnEquipmentItemListChanged(equipmentItems);
+                        break;
+                    case ItemType.Miscellaneous:
+                        miscellaneousItems.Add(item);
+                        miscellaneousItemDictionary[itemDataSo] = item;
+                        OnMiscellaneousItemListChanged(miscellaneousItems);
+                        break;
+                }
             }
-
-            item.AddToStack(amount);
-
-            switch (itemDataSo.itemType)
+            else
             {
-                case ItemType.Material:
-                    if (isNewItem) materialItems.Add(item);
-                    materialItemDictionary[itemDataSo] = item;
-                    OnMaterialItemListChanged(materialItems);
-                    break;
-                case ItemType.Consumable:
-                    if (isNewItem) consumableItems.Add(item);
-                    consumableItemDictionary[itemDataSo] = item;
-                    OnConsumableItemListChanged(consumableItems);
-                    break;
-                case ItemType.Equipment:
-                    if (isNewItem) equipmentItems.Add(item);
-                    equipmentItemDictionary[itemDataSo] = item;
-                    OnEquipmentItemListChanged(equipmentItems);
-                    break;
-                case ItemType.Miscellaneous:
-                    if (isNewItem) miscellaneousItems.Add(item);
-                    miscellaneousItemDictionary[itemDataSo] = item;
-                    OnMiscellaneousItemListChanged(miscellaneousItems);
-                    break;
+                // For existing items, just update the stack
+                item.AddToStack(amount);
+
+                // Trigger appropriate events
+                switch (itemDataSo.itemType)
+                {
+                    case ItemType.Material:
+                        OnMaterialItemListChanged(materialItems);
+                        break;
+                    case ItemType.Consumable:
+                        OnConsumableItemListChanged(consumableItems);
+                        break;
+                    case ItemType.Equipment:
+                        OnEquipmentItemListChanged(equipmentItems);
+                        break;
+                    case ItemType.Miscellaneous:
+                        OnMiscellaneousItemListChanged(miscellaneousItems);
+                        break;
+                }
             }
 
             OnItemListChanged(ItemList);
             IncrementCurrentWeight(itemDataSo.weight * amount);
         }
-
 
         public virtual void AddItem(ItemDataSO itemDataSo)
         {
@@ -202,35 +224,57 @@ namespace Item.Inventory
 
             if (isNewItem)
             {
-                item = ItemRegistry.CreateInventoryItem(itemDataSo.itemName);
+                // Create item with count 1
+                item = ItemRegistry.CreateInventoryItem(itemDataSo.itemName, 1);
                 ItemList.Add(item);
                 itemDictionary[itemDataSo] = item;
+
+                // Add to type-specific collections
+                switch (itemDataSo.itemType)
+                {
+                    case ItemType.Material:
+                        materialItems.Add(item);
+                        materialItemDictionary[itemDataSo] = item;
+                        OnMaterialItemListChanged(materialItems);
+                        break;
+                    case ItemType.Consumable:
+                        consumableItems.Add(item);
+                        consumableItemDictionary[itemDataSo] = item;
+                        OnConsumableItemListChanged(consumableItems);
+                        break;
+                    case ItemType.Equipment:
+                        equipmentItems.Add(item);
+                        equipmentItemDictionary[itemDataSo] = item;
+                        OnEquipmentItemListChanged(equipmentItems);
+                        break;
+                    case ItemType.Miscellaneous:
+                        miscellaneousItems.Add(item);
+                        miscellaneousItemDictionary[itemDataSo] = item;
+                        OnMiscellaneousItemListChanged(miscellaneousItems);
+                        break;
+                }
             }
-
-            item.AddToStack();
-
-            switch (itemDataSo.itemType)
+            else
             {
-                case ItemType.Material:
-                    if (isNewItem) materialItems.Add(item);
-                    materialItemDictionary[itemDataSo] = item;
-                    OnMaterialItemListChanged(materialItems);
-                    break;
-                case ItemType.Consumable:
-                    if (isNewItem) consumableItems.Add(item);
-                    consumableItemDictionary[itemDataSo] = item;
-                    OnConsumableItemListChanged(consumableItems);
-                    break;
-                case ItemType.Equipment:
-                    if (isNewItem) equipmentItems.Add(item);
-                    equipmentItemDictionary[itemDataSo] = item;
-                    OnEquipmentItemListChanged(equipmentItems);
-                    break;
-                case ItemType.Miscellaneous:
-                    if (isNewItem) miscellaneousItems.Add(item);
-                    miscellaneousItemDictionary[itemDataSo] = item;
-                    OnMiscellaneousItemListChanged(miscellaneousItems);
-                    break;
+                // For existing items, just increment by 1
+                item.AddToStack(1);
+
+                // Trigger appropriate events
+                switch (itemDataSo.itemType)
+                {
+                    case ItemType.Material:
+                        OnMaterialItemListChanged(materialItems);
+                        break;
+                    case ItemType.Consumable:
+                        OnConsumableItemListChanged(consumableItems);
+                        break;
+                    case ItemType.Equipment:
+                        OnEquipmentItemListChanged(equipmentItems);
+                        break;
+                    case ItemType.Miscellaneous:
+                        OnMiscellaneousItemListChanged(miscellaneousItems);
+                        break;
+                }
             }
 
             OnItemListChanged(ItemList);
@@ -384,6 +428,7 @@ namespace Item.Inventory
                     fieldItem.Setup(item, _entity.View.transform.position + randomOffset);
                 }
             }
+
             ClearAll();
             UpdateCurrentWeight();
         }

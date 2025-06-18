@@ -101,7 +101,7 @@ namespace Entity
             staminaSystem.Initialize(this);
         }
 
-        public void TakeDamage(float damage)
+        public virtual void TakeDamage(float damage, Entity damageSource)
         {
             view.PlayDamagedAnimation();
             healthSystem.TakeDamage((int)damage);
