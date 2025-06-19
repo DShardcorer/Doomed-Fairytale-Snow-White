@@ -86,6 +86,7 @@ namespace SceneSwitch
                 else if (_loadToPortal)
                 {
                     FindPortal(_portalToSpawnTo);
+                    Debug.Log("Portal spawn position: " + _portalSpawnPosition);
                     _playerViewManager.SwitchToNormalView(_portalSpawnPosition);
                     _loadToPortal = false;
                 }
@@ -288,9 +289,11 @@ namespace SceneSwitch
             SceneSwitchPortal[] portals = FindObjectsByType<SceneSwitchPortal>(FindObjectsSortMode.None);
             foreach (SceneSwitchPortal portal in portals)
             {
+                //Log out the two portal types
                 if (portalToSpawnAt == portal.CurrentPortal)
                 {
                     _portalSpawnPosition = portal.transform.position + (Vector3)portal.PlayerSpawnOffset;
+                    Debug.LogWarning("Portal spawn position: " + _portalSpawnPosition);
                     break;
                 }
             }

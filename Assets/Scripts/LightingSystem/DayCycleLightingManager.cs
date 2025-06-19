@@ -2,12 +2,9 @@ using System.Collections.Generic;
 using DateDayNightSystem;
 using DateTimeDayNightSystem;
 using GeneralManagers;
-using UnityEditor;
-using UnityEditor.UIElements;
 using UnityEngine;
 using UnityEngine.Rendering.Universal;
 using UnityEngine.SceneManagement;
-using UnityEngine.UIElements;
 using System.Collections;
 using EventBus.Time;
 
@@ -19,7 +16,6 @@ namespace DefaultNamespace.LightingSystem
     /// The ticking of that system can be stopped, this is useful e.g. if the game is put in pause (or need to do cutscene
     /// etc..)
     /// </summary>
-    // [DefaultExecutionOrder(10)]
     public class DayCycleLightingManager : MonoBehaviour, ILifecycle<GameManager>
     {
         public Transform LightsRoot;
@@ -47,7 +43,6 @@ namespace DefaultNamespace.LightingSystem
         private List<ShadowInstance> _shadows = new();
         private List<LightInterpolator> _lightBlenders = new();
 
-
         private GameTimeManager _gameTimeManager;
         public void Initialize(GameManager parent)
         {
@@ -61,7 +56,6 @@ namespace DefaultNamespace.LightingSystem
 
             // Unregister all shadows and light blenders
             _shadows.Clear();
-            
             _lightBlenders.Clear();
 
             // Clear references to lights
@@ -70,9 +64,7 @@ namespace DefaultNamespace.LightingSystem
             AmbientLight = null;
             SunRimLight = null;
             MoonRimLight = null;
-
             LightsRoot = null;
-            
         }
 
         private void OnTimeChanged(TimeEventSystem.TimeChangedEventArgs obj)
@@ -84,23 +76,14 @@ namespace DefaultNamespace.LightingSystem
         {
             DayLight.color = DayLightGradient.Evaluate(ratio);
             NightLight.color = NightLightGradient.Evaluate(ratio);
-
-#if UNITY_EDITOR
-            //the test between the define will only happen in editor and not in build, as it is assumed those will be set
-            //in build. But in editor we may want to test without those set. (those were added later in development so
-            //some test scene didn't have those set and we wanted to be able to still test those)
+            
             if (AmbientLight)
-#endif
                 AmbientLight.color = AmbientLightGradient.Evaluate(ratio);
-
-#if UNITY_EDITOR
+                
             if (SunRimLight)
-#endif
                 SunRimLight.color = SunRimLightGradient.Evaluate(ratio);
-
-#if UNITY_EDITOR
+                
             if (MoonRimLight)
-#endif
                 MoonRimLight.color = MoonRimLightGradient.Evaluate(ratio);
 
             LightsRoot.rotation = Quaternion.Euler(0, 0, 360.0f * ratio);
@@ -120,7 +103,6 @@ namespace DefaultNamespace.LightingSystem
             foreach (var shadow in _shadows)
             {
                 var t = shadow.transform;
-                //use 1.0-angle so that the angle goes clo
                 t.eulerAngles = new Vector3(0, 0, currentShadowAngle * 360.0f);
                 t.localScale = new Vector3(1, 1f * shadow.BaseLength * currentShadowLength, 1);
             }
@@ -131,150 +113,24 @@ namespace DefaultNamespace.LightingSystem
             }
         }
 
-        // public void Save(ref DayCycleHandlerSaveData data)
-        // {
-        //     //data.TimeOfTheDay = m_CurrentTimeOfTheDay;
-        // }
-        //
-        // public void Load(DayCycleHandlerSaveData data)
-        // {
-        //     //m_CurrentTimeOfTheDay = data.TimeOfTheDay;
-        //     //StartingTime = m_CurrentTimeOfTheDay;
-        // }
-
         public void RegisterShadow(ShadowInstance shadow)
         {
-#if UNITY_EDITOR
-            //in the editor when not running, we find the instance manually. Less efficient but not a problem at edit time
-            //allow to be able to previz shadow in editor 
-            if (!Application.isPlaying)
-            {
-                var instance = GameObject.FindFirstObjectByType<DayCycleLightingManager>();
-                if (instance != null)
-                {
-                    instance._shadows.Add(shadow);
-                }
-            }
-            else
-            {
-#endif
-                _shadows.Add(shadow);
-#if UNITY_EDITOR
-            }
-#endif
+            _shadows.Add(shadow);
         }
 
         public void UnregisterShadow(ShadowInstance shadow)
         {
-#if UNITY_EDITOR
-            //in the editor when not running, we find the instance manually. Less efficient but not a problem at edit time
-            //allow to be able to previz shadow in editor 
-            if (!Application.isPlaying)
-            {
-                var instance = GameObject.FindFirstObjectByType<DayCycleLightingManager>();
-                if (instance != null)
-                {
-                    instance._shadows.Remove(shadow);
-                }
-            }
-            else
-            {
-#endif
-                _shadows.Remove(shadow);
-#if UNITY_EDITOR
-            }
-#endif
+            _shadows.Remove(shadow);
         }
 
         public void RegisterLightBlender(LightInterpolator interpolator)
         {
-#if UNITY_EDITOR
-            //in the editor when not running, we find the instance manually. Less efficient but not a problem at edit time
-            //allow to be able to previz shadow in editor 
-            if (!Application.isPlaying)
-            {
-                var instance = FindFirstObjectByType<DayCycleLightingManager>();
-                if (instance != null)
-                {
-                    instance._lightBlenders.Add(interpolator);
-                }
-            }
-            else
-            {
-#endif
-                _lightBlenders.Add(interpolator);
-#if UNITY_EDITOR
-            }
-#endif
+            _lightBlenders.Add(interpolator);
         }
 
         public void UnregisterLightBlender(LightInterpolator interpolator)
         {
-#if UNITY_EDITOR
-            //in the editor when not running, we find the instance manually. Less efficient but not a problem at edit time
-            //allow to be able to previz shadow in editor 
-            if (!Application.isPlaying)
-            {
-                var instance = FindFirstObjectByType<DayCycleLightingManager>();
-                if (instance != null)
-                {
-                    instance._lightBlenders.Remove(interpolator);
-                }
-            }
-            else
-            {
-#endif
-                _lightBlenders.Remove(interpolator);
-#if UNITY_EDITOR
-            }
-#endif
-        }
-
-
-    }
-
-
-#if UNITY_EDITOR
-    // Wrapping a custom editor between UNITY_EDITOR define check allow to keep it in the same 
-    // file as this part will be stripped when building for standalone (where Editor class doesn't exist).
-    // Don't forget to also wrap the UnityEditor using at the top of the file between those define check too.
-
-    // Show a slider that allow to test a specific time to help define colors.
-    [CustomEditor(typeof(DayCycleLightingManager))]
-    class DayCycleEditor : Editor
-    {
-        private DayCycleLightingManager m_Target;
-
-        public override VisualElement CreateInspectorGUI()
-        {
-            m_Target = target as DayCycleLightingManager;
-
-            var root = new VisualElement();
-
-            InspectorElement.FillDefaultInspector(root, serializedObject, this);
-
-            var slider = new Slider(0.0f, 1.0f);
-            slider.label = "Test time 0:00";
-            slider.RegisterValueChangedCallback(evt =>
-            {
-                m_Target.UpdateLight(evt.newValue);
-
-                slider.label =
-                    $"Test Time {GameTimeUtility.NormalizedToFormatTime24Hour(evt.newValue)} ({evt.newValue:F2})";
-                SceneView.RepaintAll();
-            });
-
-            //registering click event, it's very catch all but not way to do a change check for control change
-            root.RegisterCallback<ClickEvent>(evt =>
-            {
-                m_Target.UpdateLight(slider.value);
-                SceneView.RepaintAll();
-            });
-
-            root.Add(slider);
-
-            return root;
+            _lightBlenders.Remove(interpolator);
         }
     }
-#endif
 }

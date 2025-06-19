@@ -8,7 +8,7 @@ namespace Entity.Player
 {
     public class PlayerViewManager : MonoBehaviour, ILifecycle<GameManager>
     {
-        [SerializeField] private GameObject overworldPlayerPrefab;
+        [SerializeField] private GameObject overworldPlayerObject;
         private List<string> overworldSceneNames = new List<string> { "Scene_Overworld" };
 
         private Player _player;
@@ -20,7 +20,18 @@ namespace Entity.Player
         {
             _player = parent.PlayerManager.Player;
             _normalPlayerView = parent.PlayerManager.Player.PlayerView;
+            
+            if (overworldPlayerObject != null)
+            {
+                _overworldPlayerView = overworldPlayerObject.GetComponent<OverworldPlayerView>();
+                overworldPlayerObject.SetActive(false); // Hide it initially
+            }
+            else
+            {
+                Debug.LogWarning("Overworld player GameObject reference is missing.");
+            }
         }
+
         public void Dispose()
         {
             _player = null;
@@ -31,31 +42,35 @@ namespace Entity.Player
 
         public void SwitchToOverworldView(Vector3 position)
         {
-            if (_isInOverworld) return;
+            // if (_isInOverworld) return;
 
             _normalPlayerView.gameObject.SetActive(false);
 
             if (_overworldPlayerView == null)
             {
-                GameObject overworldPlayerObj = Instantiate(overworldPlayerPrefab, position, Quaternion.identity);
-                _overworldPlayerView = overworldPlayerObj.GetComponent<OverworldPlayerView>();
-                _overworldPlayerView.Initialize(_player);
+                Debug.LogError("Overworld player view is not set. Please assign a reference in the inspector.");
+                return;
             }
-            else
-            {
-                _overworldPlayerView.gameObject.SetActive(true);
-                _overworldPlayerView.transform.position = position;
-            }
+            
+            _overworldPlayerView.gameObject.SetActive(true);
+            _overworldPlayerView.transform.position = position;
+            _overworldPlayerView.Initialize(_player);
 
             _isInOverworld = true;
         }
 
         public void SwitchToNormalView(Vector3 position)
         {
-            if (!_isInOverworld) return;
+            // if (!_isInOverworld) return;
+            if(_overworldPlayerView == null)
+            {
+                Debug.LogWarning("Overworld player view is null, cannot switch to normal view.");
+                return;
+            }
 
             _overworldPlayerView.gameObject.SetActive(false);
             _normalPlayerView.gameObject.SetActive(true);
+            Debug.LogWarning("Current Pos:" + position);
             _normalPlayerView.transform.position = position;
 
             _isInOverworld = false;
@@ -70,7 +85,5 @@ namespace Entity.Player
         {
             return overworldSceneNames.Contains(sceneName);
         }
-
-
     }
 }

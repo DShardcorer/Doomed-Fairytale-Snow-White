@@ -17,6 +17,10 @@ namespace SceneSwitch
 
         public bool IsFadingOut { get; private set; }
         public bool IsFadingIn { get; private set; }
+        
+        private string _targetSceneName;
+        private int _targetSceneIndex = -1;
+        private bool _useSceneName = true;
 
         private void Awake()
         {
@@ -32,7 +36,6 @@ namespace SceneSwitch
             _fadeOutStartColor.a = 0f;
         }
 
-
         private void Update()
         {
             if (IsFadingOut)
@@ -45,6 +48,14 @@ namespace SceneSwitch
                 else
                 {
                     IsFadingOut = false;
+                    // Change scene when fully black
+                    if (_useSceneName)
+                        SceneManager.LoadScene(_targetSceneName);
+                    else
+                        SceneManager.LoadScene(_targetSceneIndex);
+                    
+                    // Start fade in automatically
+                    StartFadeIn();
                 }
             }
 
@@ -63,6 +74,20 @@ namespace SceneSwitch
             }
         }
 
+        public void FadeToScene(string sceneName)
+        {
+            _targetSceneName = sceneName;
+            _useSceneName = true;
+            StartFadeOut();
+        }
+
+        public void FadeToScene(int sceneIndex)
+        {
+            _targetSceneIndex = sceneIndex;
+            _useSceneName = false;
+            StartFadeOut();
+        }
+
         public void StartFadeOut()
         {
             _fadeOutImage.color = _fadeOutStartColor;
@@ -72,16 +97,7 @@ namespace SceneSwitch
 
         public void StartFadeIn()
         {
-            StartCoroutine(FadeInCoroutine());
-        }
-
-        private IEnumerator FadeInCoroutine()
-        {
-            while (_fadeOutImage.color.a < 1)
-            {
-                yield return null;
-            }
-
+            _fadeOutStartColor.a = 1f;
             _fadeOutImage.color = _fadeOutStartColor;
             IsFadingIn = true;
         }

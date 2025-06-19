@@ -1,5 +1,6 @@
 using System.Collections.Generic;
 using DataPersistence.Data;
+using DateDayNightSystem;
 using DefaultNamespace.EntitySystems.VitalStatSystems;
 using Entity.Player;
 using EntitySystems.PlayerSystems;
@@ -513,10 +514,34 @@ namespace DataPersistence
         }
 
         #endregion
+        #region Game Time
 
-    }
+        public static GameTimeSaveData CreateSaveData(GameTimeManager timeManager)
+        {
+            return new GameTimeSaveData
+            {
+                currentDay = timeManager.CurrentDay,
+                currentTimeOfDay = timeManager.CurrentTime.hourOfDay,
+                isPaused = timeManager.IsPaused,
+                isReversing = timeManager.IsReversing
+            };
+        }
 
-    public static partial class SaveLoadHelper
-    {
+        public static void LoadFromSaveData(GameTimeManager timeManager, GameTimeSaveData saveData)
+        {
+            timeManager.SetDateTime(saveData.currentDay, saveData.currentTimeOfDay);
+    
+            // Set pause state
+            if (saveData.isPaused)
+                timeManager.PauseTime();
+            else
+                timeManager.ResumeTime();
+        
+            // Set time reversal state
+            timeManager.IsReversing = saveData.isReversing;
+        }
+
+        #endregion
     }
+    
 }

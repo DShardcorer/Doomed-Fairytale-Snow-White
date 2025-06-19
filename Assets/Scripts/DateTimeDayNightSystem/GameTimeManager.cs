@@ -1,3 +1,5 @@
+using DataPersistence;
+using DataPersistence.Data;
 using DateTimeDayNightSystem;
 using GeneralManagers;
 using UnityEngine;
@@ -6,7 +8,7 @@ using UnityEngine.SceneManagement;
 
 namespace DateDayNightSystem
 {
-    public class GameTimeManager : MonoBehaviour, ILifecycle<GameManager>
+    public class GameTimeManager : MonoBehaviour, ILifecycle<GameManager>, IDataPersistence
     {
         [Header("Time Settings")]
         [SerializeField] private int startDay = 1;
@@ -51,6 +53,7 @@ namespace DateDayNightSystem
         private GameManager _parent;
         private GameTimeEvents _timeEvents;
 
+
         public void Initialize(GameManager parent)
         {
             _parent = parent;
@@ -61,6 +64,8 @@ namespace DateDayNightSystem
             IsReversing = false;
             UpdateDayPhase();
             _lastPhase = CurrentPhase;
+            
+            ((IDataPersistence)this).AddDataPersistenceObject();
         }
 
         public void InvokeInitialEvents()
@@ -263,6 +268,21 @@ namespace DateDayNightSystem
                 CurrentPhase = DayPhase.Dusk;
             else
                 CurrentPhase = DayPhase.Evening;
+        }
+
+ 
+        public void LoadData(GameData saveData)
+        {
+            if (saveData.GameTimeSaveData != null)
+            {
+                SaveLoadHelper.LoadFromSaveData(this, saveData.GameTimeSaveData);
+                // Events will be invoked by the SetDateTime call in LoadFromSaveData
+            }
+        }
+
+        public void SaveData(ref GameData data)
+        {
+            data.GameTimeSaveData = SaveLoadHelper.CreateSaveData(this);
         }
     }
 }

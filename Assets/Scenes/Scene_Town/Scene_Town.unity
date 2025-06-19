@@ -52906,6 +52906,18 @@ PrefabInstance:
       propertyPath: m_Name
       value: Portal_Spawn
       objectReference: {fileID: 0}
+    - target: {fileID: 2426156509909486176, guid: 8af0134d932ce294482240d279eff08a, type: 3}
+      propertyPath: _currentPortal
+      value: 5
+      objectReference: {fileID: 0}
+    - target: {fileID: 2426156509909486176, guid: 8af0134d932ce294482240d279eff08a, type: 3}
+      propertyPath: _isPortalToOverworld
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 2426156509909486176, guid: 8af0134d932ce294482240d279eff08a, type: 3}
+      propertyPath: _sceneToLoad.m_SceneAsset
+      value: 
+      objectReference: {fileID: 0}
     - target: {fileID: 6649345583779234490, guid: 8af0134d932ce294482240d279eff08a, type: 3}
       propertyPath: m_LocalPosition.x
       value: 60.1

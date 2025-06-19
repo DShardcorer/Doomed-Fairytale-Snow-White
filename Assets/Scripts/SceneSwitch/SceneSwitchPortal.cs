@@ -12,6 +12,7 @@ namespace SceneSwitch
             Right,
             Up,
             Down,
+            Spawn
         }
 
         [Header("Is Portal to Overworld?")] [SerializeField]

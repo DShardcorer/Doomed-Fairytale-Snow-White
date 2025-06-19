@@ -84,9 +84,11 @@ namespace DialogueSystem
             story.UnbindExternalFunction("SwitchScene");
         }
 
-        private void SwitchScene(string sceneToLoad, string portalToSpawnAt = "")
+        private void SwitchScene(string sceneToLoad, string portalToSpawnAt)
         {
             Enum.TryParse<SceneSwitchPortal.PortalToSpawnAt>(portalToSpawnAt, out var portalToSpawnAtEnum);
+            //Log the enum
+            Debug.Log($"Switching scene to {sceneToLoad} at portal {portalToSpawnAtEnum}");
             SceneSwitchManager.Instance.SwitchSceneToPortal(sceneToLoad, portalToSpawnAtEnum);
         }
 

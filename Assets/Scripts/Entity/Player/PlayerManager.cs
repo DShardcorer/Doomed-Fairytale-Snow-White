@@ -74,9 +74,9 @@ namespace Entity.Player
 
             PlayerPassiveSkillSystem passiveSkillSystem = new PlayerPassiveSkillSystem(new List<PassiveSkill>
             {
-                SkillRegistry.CreatePassiveSkill(HelperSkillName.NaturalStrength),
-                SkillRegistry.CreatePassiveSkill(HelperSkillName.Flirt),
-                SkillRegistry.CreatePassiveSkill(HelperSkillName.PerceptiveEye)
+                // SkillRegistry.CreatePassiveSkill(HelperSkillName.NaturalStrength),
+                // SkillRegistry.CreatePassiveSkill(HelperSkillName.Flirt),
+                // SkillRegistry.CreatePassiveSkill(HelperSkillName.PerceptiveEye)
             });
 
 

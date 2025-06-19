@@ -21,6 +21,8 @@ namespace DataPersistence.Data
         
         public PlayerPositionSaveData PlayerPositionSaveData;
         
+        public GameTimeSaveData GameTimeSaveData;
+        
         public GameData()
         {
             

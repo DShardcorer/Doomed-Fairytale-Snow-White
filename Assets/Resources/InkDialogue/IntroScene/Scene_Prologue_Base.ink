@@ -7,6 +7,7 @@ INCLUDE ../global_methods.ink
 =begin
 
 of them all~~ #cgpath:Scene_Prologue/Base #cg:Default #delay:5 #speaker:Mysterious Woman
+
 Oh? Finally, you're awake. I almost feel bad interrupting your sound sleep. 
 
 * [Who are you?]
@@ -254,7 +255,6 @@ One final thing.
 
 ...No matter how desperate it gets...
 Please don't lose hope. #speaker:Mysterious Woman #cg:Sad
-~Fade(4,5)
-~SwitchScene("Scene_Town", "NONE")
+~SwitchScene("Scene_Town", "Spawn")
 
 -> END
