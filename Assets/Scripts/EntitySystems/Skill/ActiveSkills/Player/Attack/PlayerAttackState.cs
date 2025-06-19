@@ -8,7 +8,8 @@ namespace EntitySystems.Skill.ActiveSkills.Player.Attack
     {
         private PlayerAttackingProperties _playerAttackProperties;
 
-        public PlayerAttackState(string animationBoolName, PlayerAttackingProperties entityStateProperties) : base(animationBoolName, entityStateProperties)
+        public PlayerAttackState(string animationBoolName, PlayerAttackingProperties entityStateProperties) : base(
+            animationBoolName, entityStateProperties)
         {
             _playerAttackProperties = entityStateProperties;
         }
@@ -17,8 +18,10 @@ namespace EntitySystems.Skill.ActiveSkills.Player.Attack
         {
             base.EnterState();
             _player.IsBusy = true;
-            _rigidbody.linearVelocity = _playerAttackProperties.AttackVelocity * _player.PlayerProperties.lastMovementVector;
+            _rigidbody.linearVelocity =
+                _playerAttackProperties.AttackVelocity * _player.PlayerProperties.lastMovementVector;
         }
+
         public override void FixedUpdateState()
         {
             base.FixedUpdateState();
@@ -40,15 +43,8 @@ namespace EntitySystems.Skill.ActiveSkills.Player.Attack
 
         protected override void OnTakingEffect(object sender, EventArgs e)
         {
-            _entity.AttackHitbox.PerformAttack(AttackType.OverlapCircle, _playerAttackProperties.AttackDamage);
+            _entity.AttackHitbox.PerformAttack(AttackType.OverlapCircle,
+                _player.StatSystem.CombatStatBoard.PhysicalAttack.ModifiedValue);
         }
-
-
-
-
-
-
-
-
     }
 }
