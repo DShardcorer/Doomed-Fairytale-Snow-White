@@ -22,11 +22,11 @@ namespace Entity.NPC.StandardAI.Attack
         }
 
         private float attackCooldownTimer;
+
         public override void EnterState()
         {
             base.EnterState();
             npcAIController.SetCurrentSubControllerBusy(true);
-            
         }
 
         public override void ExitState()
@@ -48,13 +48,13 @@ namespace Entity.NPC.StandardAI.Attack
         {
             base.FixedUpdateState();
         }
-        
+
 
         protected override void OnTakingEffect(object sender, EventArgs e)
         {
             base.OnTakingEffect(sender, e);
             _entity.AttackHitbox.PerformAttack(NpcMeleeAttackProperties.AttackType,
-                NpcMeleeAttackProperties.AttackDamage);
+                npc.StatSystem.CombatStatBoard.PhysicalAttack.ModifiedValue);
         }
     }
 }
