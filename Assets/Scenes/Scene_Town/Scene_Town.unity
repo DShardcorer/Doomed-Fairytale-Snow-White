@@ -12510,6 +12510,10 @@ PrefabInstance:
       propertyPath: m_LocalEulerAnglesHint.z
       value: 0
       objectReference: {fileID: 0}
+    - target: {fileID: 6744307732843244190, guid: 3b78c928f2cfaf0438125b85cc1bd258, type: 3}
+      propertyPath: m_Enabled
+      value: 0
+      objectReference: {fileID: 0}
     - target: {fileID: 9191929558164303501, guid: 3b78c928f2cfaf0438125b85cc1bd258, type: 3}
       propertyPath: m_Name
       value: Ambient Light 2D
@@ -40239,7 +40243,7 @@ Tilemap:
   - first: {x: 39, y: 3, z: 0}
     second:
       serializedVersion: 2
-      m_TileIndex: 237
+      m_TileIndex: 272
       m_TileSpriteIndex: 188
       m_TileMatrixIndex: 0
       m_TileColorIndex: 47
@@ -42152,8 +42156,8 @@ Tilemap:
     m_Data: {fileID: 11400000, guid: a1c60aa26394214438332c1f1900fe0a, type: 2}
   - m_RefCount: 1
     m_Data: {fileID: 11400000, guid: 08cffeca1a2d6cf449d9162ab7cad7b9, type: 2}
-  - m_RefCount: 1
-    m_Data: {fileID: 11400000, guid: 3f1f5a43078833143a739d1b8043a751, type: 2}
+  - m_RefCount: 0
+    m_Data: {fileID: 0}
   - m_RefCount: 1
     m_Data: {fileID: 11400000, guid: dfdd0e6571893404c84eb5ffed8d4ad9, type: 2}
   - m_RefCount: 1
@@ -42222,7 +42226,7 @@ Tilemap:
     m_Data: {fileID: 11400000, guid: 8dcee0d7c83b0be4984c4333174883d6, type: 2}
   - m_RefCount: 1
     m_Data: {fileID: 11400000, guid: 40448d49240cf88428a12ecd7b461958, type: 2}
-  - m_RefCount: 1
+  - m_RefCount: 2
     m_Data: {fileID: 11400000, guid: d9d62c395973a69488b06253c2631bbe, type: 2}
   - m_RefCount: 3
     m_Data: {fileID: 11400000, guid: 05fa343abecafb244bbb38215f9bc84e, type: 2}
@@ -42966,7 +42970,7 @@ Tilemap:
   - m_RefCount: 0
     m_Data: {r: 1.3055061e-18, g: 1.3055061e-18, b: 1.3055061e-18, a: 1.3055061e-18}
   - m_RefCount: 0
-    m_Data: {r: 1.305516e-18, g: 1.305516e-18, b: 1.305516e-18, a: 1.305516e-18}
+    m_Data: {r: 5.581006e-28, g: 5.581006e-28, b: 5.581006e-28, a: 5.581006e-28}
   - m_RefCount: 481
     m_Data: {r: 1, g: 1, b: 1, a: 1}
   m_TileObjectToInstantiateArray: []
