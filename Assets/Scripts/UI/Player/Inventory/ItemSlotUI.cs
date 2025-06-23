@@ -21,7 +21,7 @@ namespace UI.Player.Inventory
 
         public InventoryItem item;
         private GameObject itemInfoGameObject;
-        private Entity.Player.Player _player => GameManager.Instance.PlayerManager.Player;
+        private EntityBase.Player.Player _player => GameManager.Instance.PlayerManager.Player;
 
         public virtual void UpdateUI(InventoryItem item)
         {

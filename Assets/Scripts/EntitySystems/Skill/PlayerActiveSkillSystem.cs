@@ -12,7 +12,7 @@ namespace EntitySystems.Skill
         {
         }
 
-        public override void Initialize(Entity.Entity parent)
+        public override void Initialize(EntityBase.Entity parent)
         {
             base.Initialize(parent);
             ((IDataPersistence)this).AddDataPersistenceObject();

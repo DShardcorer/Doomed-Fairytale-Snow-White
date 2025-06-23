@@ -9,7 +9,7 @@ namespace Item
         public VitalStatType recoveryVitalStatType;
         public float recoveryAmount = 100f;
         public float recoveryDuration = 10f; // Duration in seconds
-        public override void UseItem(Entity.Entity entity)
+        public override void UseItem(EntityBase.Entity entity)
         {
             switch (recoveryVitalStatType)
             {

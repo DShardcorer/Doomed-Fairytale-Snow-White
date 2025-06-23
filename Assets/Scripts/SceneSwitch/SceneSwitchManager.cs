@@ -1,6 +1,6 @@
 using System.Collections;
 using DefaultNamespace.Utility;
-using Entity.Player;
+using EntityBase.Player;
 using GeneralManagers;
 using Tile;
 using UnityEngine;

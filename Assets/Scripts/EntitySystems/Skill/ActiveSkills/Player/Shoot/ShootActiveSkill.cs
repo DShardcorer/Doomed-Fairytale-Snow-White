@@ -1,4 +1,4 @@
-using Entity.Player;
+using EntityBase.Player;
 using UnityEngine;
 
 namespace EntitySystems.Skill.ActiveSkills.Player.Shoot
@@ -17,7 +17,7 @@ namespace EntitySystems.Skill.ActiveSkills.Player.Shoot
         public override void Initialize(ActiveSkillSystem parent)
         {
             base.Initialize(parent);
-            if (base.parent.Parent is Entity.Player.Player player)
+            if (base.parent.Parent is EntityBase.Player.Player player)
             {
                 _shootingState.Initialize(player);
             }

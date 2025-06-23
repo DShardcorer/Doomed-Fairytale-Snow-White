@@ -9,7 +9,7 @@ namespace Item
     {
         public float buffDuration = 10f;
         public StatModifier statModifier;
-        public override void UseItem(Entity.Entity entity)
+        public override void UseItem(EntityBase.Entity entity)
         {
             // Create a new buff instance
             var buff = new Buff(statModifier, buffDuration);

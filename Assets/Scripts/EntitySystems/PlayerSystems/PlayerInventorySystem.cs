@@ -10,7 +10,7 @@ namespace EntitySystems.PlayerSystems
 
     public class PlayerInventorySystem : InventorySystem, IDataPersistence
     {
-        public override void Initialize(Entity.Entity entity)
+        public override void Initialize(EntityBase.Entity entity)
         {
             base.Initialize(entity);
             ((IDataPersistence)this).AddDataPersistenceObject();

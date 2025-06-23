@@ -4,15 +4,15 @@ using Item.Inventory;
 
 namespace EntitySystems.Equipment
 {
-    public class EquipmentSystem : ILifecycle<Entity.Entity>
+    public class EquipmentSystem : ILifecycle<EntityBase.Entity>
     {
-        protected Entity.Entity _parent;
-        public Entity.Entity Entity => _parent;
+        protected EntityBase.Entity _parent;
+        public EntityBase.Entity Entity => _parent;
     
         protected Dictionary<EquipmentSlotType, EquipmentInventoryItem> _equippedItems = new Dictionary<EquipmentSlotType, EquipmentInventoryItem>();
         public IReadOnlyDictionary<EquipmentSlotType, EquipmentInventoryItem> EquippedItems => _equippedItems;
 
-        public virtual void Initialize(Entity.Entity parent)
+        public virtual void Initialize(EntityBase.Entity parent)
         {
             _parent = parent;
 

@@ -5,16 +5,16 @@ using UnityEngine;
 
 namespace EntitySystems.Skill
 {
-    public class PassiveSkillSystem : ILifecycle<Entity.Entity>
+    public class PassiveSkillSystem : ILifecycle<EntityBase.Entity>
     {
-        private Entity.Entity _parent;
-        public Entity.Entity Parent => _parent;
+        private EntityBase.Entity _parent;
+        public EntityBase.Entity Parent => _parent;
         private StatSystem _statSystem;
         protected Dictionary<string, PassiveSkill> passiveSkillsDict;
         protected List<PassiveSkill> passiveSkills;
         public IReadOnlyList<PassiveSkill> PassiveSkills => passiveSkills.AsReadOnly();
 
-        public virtual void Initialize(Entity.Entity parent)
+        public virtual void Initialize(EntityBase.Entity parent)
         {
             _parent = parent;
             _statSystem = parent.StatSystem;

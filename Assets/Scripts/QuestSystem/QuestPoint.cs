@@ -1,5 +1,5 @@
 using DialogueSystem;
-using Entity.Player;
+using EntityBase.Player;
 using EventBus.Dialogue;
 using EventBus.Quest;
 using InteractInterface;

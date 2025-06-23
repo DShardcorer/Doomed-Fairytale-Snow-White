@@ -37,7 +37,7 @@ namespace General
                 Debug.Log("Damage Popup is null");
             }
 
-            damagePopup.transform.position = ((Entity.Entity)sender).View.transform.position + (Vector3)offset;
+            damagePopup.transform.position = ((EntityBase.Entity)sender).View.transform.position + (Vector3)offset;
             damagePopup.Initialize(this, e.LastCurrentHealth - e.CurrentHealth);
         }
 

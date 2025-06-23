@@ -8,9 +8,9 @@ namespace EventBus.Player
         public class EnterInteractionEventArgs : EventArgs
         {
             public IInteractable Interactable { get; private set; }
-            public global::Entity.Player.Player Player { get; private set; }
+            public global::EntityBase.Player.Player Player { get; private set; }
 
-            public EnterInteractionEventArgs(IInteractable interactable, global::Entity.Player.Player player)
+            public EnterInteractionEventArgs(IInteractable interactable, global::EntityBase.Player.Player player)
             {
                 Interactable = interactable;
                 Player = player;
@@ -26,9 +26,9 @@ namespace EventBus.Player
         public class ExitInteractionEventArgs : EventArgs
         {
             public IInteractable Interactable { get; private set; }
-            public global::Entity.Player.Player Player { get; private set; }
+            public global::EntityBase.Player.Player Player { get; private set; }
 
-            public ExitInteractionEventArgs(IInteractable interactable, global::Entity.Player.Player player)
+            public ExitInteractionEventArgs(IInteractable interactable, global::EntityBase.Player.Player player)
             {
                 Interactable = interactable;
                 Player = player;

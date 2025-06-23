@@ -10,7 +10,7 @@ namespace EntitySystems.PlayerSystems
 {
     public class PlayerEquipmentSystem : EquipmentSystem, IDataPersistence
     {
-        public override void Initialize(Entity.Entity parent)
+        public override void Initialize(EntityBase.Entity parent)
         {
             // For the player, set the parent and subscribe to equipment UI events.
             _parent = parent;

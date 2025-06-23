@@ -1,5 +1,5 @@
 using System;
-using Entity;
+using EntityBase;
 
 namespace EntitySystems.Skill.ActiveSkills.Player.Attack
 {

@@ -3,10 +3,10 @@ using GeneralManagers;
 
 namespace DefaultNamespace.EntitySystems.Buff
 {
-    public class BuffSystem: ILifecycle<Entity.Entity>
+    public class BuffSystem: ILifecycle<EntityBase.Entity>
     {
-        protected Entity.Entity parent;
-        public Entity.Entity Parent => parent;
+        protected EntityBase.Entity parent;
+        public EntityBase.Entity Parent => parent;
         
         protected List<Buff> buffs = new List<Buff>();
         public IReadOnlyList<Buff> Buffs => buffs;
@@ -29,7 +29,7 @@ namespace DefaultNamespace.EntitySystems.Buff
             }
         }
         
-        public void Initialize(Entity.Entity parent)
+        public void Initialize(EntityBase.Entity parent)
         {
             this.parent = parent;
         }

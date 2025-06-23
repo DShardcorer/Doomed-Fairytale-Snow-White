@@ -8,10 +8,10 @@ using GeneralManagers;
 
 namespace EntitySystems.VitalStatSystems.Health_System
 {
-    public class HealthSystem : ILifecycle<Entity.Entity>, IUpdatable
+    public class HealthSystem : ILifecycle<EntityBase.Entity>, IUpdatable
     {
-        protected Entity.Entity _entity;
-        public Entity.Entity Entity => _entity;
+        protected EntityBase.Entity _entity;
+        public EntityBase.Entity Entity => _entity;
 
         protected float maxHealth;
         public float MaxHealth => maxHealth;
@@ -85,7 +85,7 @@ namespace EntitySystems.VitalStatSystems.Health_System
         #endregion
         
 
-        public virtual void Initialize(Entity.Entity parent)
+        public virtual void Initialize(EntityBase.Entity parent)
         {
             _entity = parent;
             GameManager.Instance.UpdateManager.AddUpdatable(this);

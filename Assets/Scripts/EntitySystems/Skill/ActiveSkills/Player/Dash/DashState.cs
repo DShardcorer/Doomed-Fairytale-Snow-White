@@ -1,6 +1,6 @@
-using Entity;
-using Entity.NPC;
-using Entity.Player;
+using EntityBase;
+using EntityBase.NPC;
+using EntityBase.Player;
 using EntitySystems.Skill.ActiveSkills.Player.Dash;
 using Helpers;
 using UnityEngine;

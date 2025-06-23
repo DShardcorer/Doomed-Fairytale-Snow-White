@@ -1,4 +1,4 @@
-using Entity.Player;
+using EntityBase.Player;
 using QuestSystem;
 
 namespace Item

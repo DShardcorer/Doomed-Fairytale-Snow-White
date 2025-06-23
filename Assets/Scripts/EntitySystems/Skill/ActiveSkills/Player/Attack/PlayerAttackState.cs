@@ -1,11 +1,12 @@
 using System;
-using Entity.AttackCheck;
-using Entity.Player.State;
+using EntityBase.AttackCheck;
+using EntityBase.Player.State;
 
 namespace EntitySystems.Skill.ActiveSkills.Player.Attack
 {
     public class PlayerAttackState : PlayerState
     {
+        
         private PlayerAttackingProperties _playerAttackProperties;
 
         public PlayerAttackState(string animationBoolName, PlayerAttackingProperties entityStateProperties) : base(

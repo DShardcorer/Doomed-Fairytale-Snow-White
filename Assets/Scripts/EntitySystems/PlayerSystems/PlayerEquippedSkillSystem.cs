@@ -3,7 +3,7 @@ using System.Collections.Generic;
 using DataPersistence;
 using DataPersistence.Data;
 using EntitySystems.Skill;
-using Entity.Player;
+using EntityBase.Player;
 using GeneralManagers;
 using UnityEngine;
 

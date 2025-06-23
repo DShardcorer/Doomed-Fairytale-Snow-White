@@ -1,7 +1,7 @@
 using System;
 using DefaultNamespace.EventSystem.Barter;
 using DefaultNamespace.EventSystem.Input;
-using Entity.NPC;
+using EntityBase.NPC;
 using EntitySystems.Skill;
 using EntitySystems.Skill.SkillRegistry;
 using EntitySystems.Stats;

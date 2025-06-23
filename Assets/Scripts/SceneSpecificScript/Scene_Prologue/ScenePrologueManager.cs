@@ -2,7 +2,7 @@ using System;
 using System.Collections;
 using System.Collections.Generic;
 using AssetManagement;
-using Entity;
+using EntityBase;
 using EventBus.Dialogue;
 using EventBus.UI;
 using Febucci.UI;

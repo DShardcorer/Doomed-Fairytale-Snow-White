@@ -1,14 +1,14 @@
 using System.Collections.Generic;
-using Entity;
+using EntityBase;
 using GeneralManagers;
 using UnityEngine;
 
 namespace EntitySystems.Skill
 {
-    public class ActiveSkillSystem : ILifecycle<Entity.Entity>
+    public class ActiveSkillSystem : ILifecycle<EntityBase.Entity>
     {
-        private Entity.Entity _parent;
-        public Entity.Entity Parent => _parent;
+        private EntityBase.Entity _parent;
+        public EntityBase.Entity Parent => _parent;
 
         private EntityStateMachine _stateMachine;
         public EntityStateMachine StateMachine => _stateMachine;
@@ -39,7 +39,7 @@ namespace EntitySystems.Skill
             }
         }
 
-        public virtual void Initialize(Entity.Entity parent)
+        public virtual void Initialize(EntityBase.Entity parent)
         {
             _parent = parent;
 

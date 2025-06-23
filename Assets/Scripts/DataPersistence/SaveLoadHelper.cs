@@ -2,7 +2,7 @@ using System.Collections.Generic;
 using DataPersistence.Data;
 using DateDayNightSystem;
 using DefaultNamespace.EntitySystems.VitalStatSystems;
-using Entity.Player;
+using EntityBase.Player;
 using EntitySystems.PlayerSystems;
 using EntitySystems.Skill;
 using EntitySystems.Skill.SkillRegistry;

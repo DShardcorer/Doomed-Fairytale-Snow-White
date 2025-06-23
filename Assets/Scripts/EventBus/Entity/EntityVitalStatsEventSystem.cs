@@ -6,9 +6,9 @@ namespace EventBus.Entity
 {
     public class EntityVitalStatsEventSystem : MonoBehaviour
     {
-        public static Action<global::Entity.Entity, HealthChangedEventArgs> HealthChanged { get; internal set; }
+        public static Action<global::EntityBase.Entity, HealthChangedEventArgs> HealthChanged { get; internal set; }
 
-        public static void InvokeHealthChanged(global::Entity.Entity sender, HealthChangedEventArgs e)
+        public static void InvokeHealthChanged(global::EntityBase.Entity sender, HealthChangedEventArgs e)
         {
             HealthChanged?.Invoke(sender, e);
         }

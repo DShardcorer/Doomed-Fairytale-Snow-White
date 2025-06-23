@@ -1,4 +1,4 @@
-using Entity;
+using EntityBase;
 using EventBus.Entity;
 using EventBus.Player;
 using GeneralManagers;

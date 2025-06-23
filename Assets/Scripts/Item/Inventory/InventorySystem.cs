@@ -10,8 +10,8 @@ namespace Item.Inventory
 {
     public class InventorySystem
     {
-        protected Entity.Entity _entity;
-        public Entity.Entity Entity => _entity;
+        protected EntityBase.Entity _entity;
+        public EntityBase.Entity Entity => _entity;
 
         public float capacity;
         public float Capacity => capacity;
@@ -65,7 +65,7 @@ namespace Item.Inventory
             miscellaneousItemDictionary.Clear();
         }
 
-        public virtual void Initialize(Entity.Entity entity)
+        public virtual void Initialize(EntityBase.Entity entity)
         {
             _poolManager = GameManager.Instance.PoolManager;
             _entity = entity;

@@ -7,11 +7,11 @@ namespace EntitySystems.PlayerSystems
 {
     public class PlayerLevelSystem : LevelSystem, IDataPersistence
     {
-        protected Entity.Entity _entity;
+        protected EntityBase.Entity _entity;
         
         public PlayerLevelSystem(int level = 1) : base(level) { }
         
-        public void Initialize(Entity.Entity parent)
+        public void Initialize(EntityBase.Entity parent)
         {
             _entity = parent;
             ((IDataPersistence)this).AddDataPersistenceObject();

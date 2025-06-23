@@ -1,5 +1,5 @@
 using System;
-using Entity.Player.State;
+using EntityBase.Player.State;
 using Helpers;
 
 namespace EntitySystems.Skill.ActiveSkills.Player.Shoot

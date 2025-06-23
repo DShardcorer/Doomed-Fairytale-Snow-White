@@ -11,7 +11,7 @@ namespace EntitySystems.PlayerSystems
         {
         }
 
-        public override void Initialize(Entity.Entity parent)
+        public override void Initialize(EntityBase.Entity parent)
         {
             base.Initialize(parent);
             // Additional player-specific initialization can be done here if needed.

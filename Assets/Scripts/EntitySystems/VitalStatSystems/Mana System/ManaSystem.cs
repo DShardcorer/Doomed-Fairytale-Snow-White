@@ -6,10 +6,10 @@ using UnityEngine;
 
 namespace EntitySystems.VitalStatSystems.Mana_System
 {
-    public class ManaSystem : ILifecycle<Entity.Entity>, IUpdatable
+    public class ManaSystem : ILifecycle<EntityBase.Entity>, IUpdatable
     {
-        protected Entity.Entity _entity;
-        public Entity.Entity Entity => _entity;
+        protected EntityBase.Entity _entity;
+        public EntityBase.Entity Entity => _entity;
     
         protected float maxMana;
         public float MaxMana => maxMana;
@@ -76,7 +76,7 @@ namespace EntitySystems.VitalStatSystems.Mana_System
             currentMana = maxMana;
         }
 
-        public virtual void Initialize(Entity.Entity parent)
+        public virtual void Initialize(EntityBase.Entity parent)
         {
             _entity = parent;
             GameManager.Instance.UpdateManager.AddUpdatable(this);

@@ -1,7 +1,7 @@
 using System;
 using System.Collections.Generic;
 using DefaultNamespace.Utility;
-using Entity.Player;
+using EntityBase.Player;
 using GeneralManagers;
 using SceneSwitch;
 using UnityEngine;

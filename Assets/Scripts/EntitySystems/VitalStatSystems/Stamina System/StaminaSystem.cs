@@ -6,10 +6,10 @@ using UnityEngine;
 
 namespace EntitySystems.VitalStatSystems.Stamina_System
 {
-    public class StaminaSystem : ILifecycle<Entity.Entity>, IUpdatable
+    public class StaminaSystem : ILifecycle<EntityBase.Entity>, IUpdatable
     {
-        protected Entity.Entity entity;
-        public Entity.Entity Entity => entity;
+        protected EntityBase.Entity entity;
+        public EntityBase.Entity Entity => entity;
     
         protected float maxStamina;
         public float MaxStamina => maxStamina;
@@ -70,7 +70,7 @@ namespace EntitySystems.VitalStatSystems.Stamina_System
 
         #endregion
     
-        public virtual void Initialize(Entity.Entity parent)
+        public virtual void Initialize(EntityBase.Entity parent)
         {
             entity = parent;
             GameManager.Instance.UpdateManager.AddUpdatable(this);

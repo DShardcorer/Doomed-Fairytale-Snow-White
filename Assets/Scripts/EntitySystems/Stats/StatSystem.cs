@@ -4,10 +4,10 @@ using GeneralManagers;
 
 namespace EntitySystems.Stats
 {
-    public class StatSystem : ILifecycle<Entity.Entity>
+    public class StatSystem : ILifecycle<EntityBase.Entity>
     {
-        protected Entity.Entity _parent;
-        public Entity.Entity Entity => _parent;
+        protected EntityBase.Entity _parent;
+        public EntityBase.Entity Entity => _parent;
     
         public AbilityStatBoard AbilityStatBoard { get; private set; }
         public CombatStatBoard CombatStatBoard { get; private set; }
@@ -27,7 +27,7 @@ namespace EntitySystems.Stats
             RecalculateStats();
         }
 
-        public virtual void Initialize(Entity.Entity parent)
+        public virtual void Initialize(EntityBase.Entity parent)
         {
             _parent = parent;
         }
