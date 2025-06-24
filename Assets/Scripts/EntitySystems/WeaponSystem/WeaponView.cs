@@ -1,5 +1,6 @@
 using EntitySystems.WeaponSystem;
 using GeneralManagers;
+using Helpers;
 using UnityEngine;
 
 namespace EntitySystems.WeaponSystem
@@ -7,33 +8,36 @@ namespace EntitySystems.WeaponSystem
     public class WeaponView: MonoBehaviour, ILifecycle<Weapon>
     {
         private Weapon _parent;
-        private const string IS_ATTACKING = "isAttacking";
         
-        [SerializeField] private Animator animator;
-        public Animator Animator => animator;
+        [SerializeField] private Animator _animator;
+        public Animator Animator => _animator;
+        private Vector2 _lastMovementVector;
 
 
         public void Initialize(Weapon parent)
         {
             _parent = parent;
+            if (_animator == null)
+                _animator = GetComponent<Animator>();
         }
 
         public void Dispose()
         {
             _parent = null;
-            animator = null;
+            _animator = null;
         }
         public void SetIsAttacking(bool isAttacking)
         {
-            if (animator != null)
-            {
-                animator.SetBool(IS_ATTACKING, isAttacking);
-            }
-            else
-            {
-                Debug.LogError("Animator is not assigned in WeaponView.");
-            }
+            _animator.SetBool(HelperAnimationStateName.IS_ATTACKING, isAttacking);
         }
-        
+        public virtual void SetAnimationDirection(Vector2 movement)
+        {
+            Debug.Log("Set Animation Direction: " + movement);
+            if(_lastMovementVector == movement)
+                return;
+            _lastMovementVector = movement;
+            _animator.SetFloat(HelperAnimationStateName.MOVEMENT_X ,movement.x);
+            _animator.SetFloat(HelperAnimationStateName.MOVEMENT_Y, movement.y);
+        }
     }
 }

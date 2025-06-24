@@ -1,4 +1,5 @@
 using EntityBase.Player.State;
+using Helpers;
 using UnityEngine;
 
 namespace EntityBase.Player.Move
@@ -7,7 +8,13 @@ namespace EntityBase.Player.Move
     {
         private PlayerMovingProperties _playerMovingProperties;
 
-        public PlayerMoveState(string animationBoolName, PlayerMovingProperties entityStateProperties) : base(animationBoolName, entityStateProperties)
+        public PlayerMoveState(PlayerMovingProperties entityStateProperties) : this(HelperAnimationStateName.IS_MOVING,
+            entityStateProperties)
+        {
+        }
+
+        public PlayerMoveState(string animationBoolName, PlayerMovingProperties entityStateProperties) : base(
+            animationBoolName, entityStateProperties)
         {
             _playerMovingProperties = entityStateProperties;
         }
@@ -15,22 +22,19 @@ namespace EntityBase.Player.Move
         public override void FixedUpdateState()
         {
             base.FixedUpdateState();
-            if(_inputManager.GetMovementVector() != Vector2.zero)
+            if (_inputManager.GetMovementVector() != Vector2.zero)
             {
                 _rigidbody.linearVelocity = _inputManager.GetMovementVector() * _playerMovingProperties.MoveSpeed;
                 _player.PlayerProperties.lastMovementVector = _inputManager.GetMovementVector();
                 _player.AttackHitbox.SetAttackHitBoxRotation(_player.PlayerProperties.lastMovementVector);
                 _player.PlayerInteraction.SetInteractRotation(_player.PlayerProperties.lastMovementVector);
-            
             }
             else
             {
                 _stateMachine.ChangeState(_entity.IdleState);
             }
+
             base.FixedUpdateState();
-
         }
-
-
     }
 }

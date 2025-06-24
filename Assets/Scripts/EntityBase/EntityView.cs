@@ -1,6 +1,7 @@
 using System.Collections;
 using EntitySystems.WeaponSystem;
 using GeneralManagers;
+using Helpers;
 using UI.General;
 using UnityEngine;
 
@@ -36,11 +37,8 @@ namespace EntityBase
         public Material FlashOnHitMaterial => _flashOnHitMaterial;
         public WeaponView PrimaryWeaponView => _primaryWeaponView;
         public WeaponView SecondaryWeaponView => _secondaryWeaponView;
-
-        // Animation parameters
-        private const string MOVEMENT_X = "MovementX";
-        private const string MOVEMENT_Y = "MovementY";
-        private const string DEATH_TRIGGER = "Death";
+        
+        private Vector2 _lastMovementVector;
 
         public virtual void Initialize(Entity controller)
         {
@@ -75,7 +73,7 @@ namespace EntityBase
 
         public virtual void StartStateAnimation(string stateAnimation)
         {
-            StopStateAnimation(stateAnimation);
+            // StopStateAnimation(stateAnimation);
             _animator.SetBool(stateAnimation, true);
         }
 
@@ -86,8 +84,11 @@ namespace EntityBase
 
         public virtual void SetAnimationDirection(Vector2 movement)
         {
-            _animator.SetFloat(MOVEMENT_X, movement.x);
-            _animator.SetFloat(MOVEMENT_Y, movement.y);
+            if(_lastMovementVector == movement)
+                return;
+            _lastMovementVector = movement;
+            _animator.SetFloat(HelperAnimationStateName.MOVEMENT_X ,movement.x);
+            _animator.SetFloat(HelperAnimationStateName.MOVEMENT_Y, movement.y);
         }
 
         public void PlayDamagedAnimation()

@@ -28,6 +28,24 @@ namespace EntitySystems.WeaponSystem
             }
         }
 
+        public void Enter()
+        {
+            _view.SetIsAttacking(true);
+        }
+        public void Update()
+        {
+            _view.SetAnimationDirection(_parent.Parent.Properties.lastMovementVector);
+        }
+        public void FixedUpdate()
+        {
+            //Fixed update weapon state if needed
+        }
+        
+        public void Exit()
+        {
+            _view.SetIsAttacking(false);
+        }
+
 
         public void Dispose()
         {

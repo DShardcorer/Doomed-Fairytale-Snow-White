@@ -610,8 +610,12 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   _rigidbody2D: {fileID: 4771811002992867852}
   _animator: {fileID: 4545833827162117862}
+  _spriteRenderer: {fileID: 0}
+  _primaryWeaponView: {fileID: 0}
+  _secondaryWeaponView: {fileID: 0}
   _originalMaterial: {fileID: 2100000, guid: a97c105638bdf8b4a8650670310a4cd3, type: 2}
   _flashOnHitMaterial: {fileID: 2100000, guid: e8b163277ebd4d34389958d088bdf66a, type: 2}
+  _hitFlashDuration: 0.1
   _healthbarUI: {fileID: 0}
 --- !u!114 &933864833126632102
 MonoBehaviour:

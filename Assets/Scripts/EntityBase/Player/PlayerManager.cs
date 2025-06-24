@@ -82,17 +82,14 @@ namespace EntityBase.Player
 
             //States creation
             PlayerIdlingProperties playerIdlingProperties = new PlayerIdlingProperties();
-            PlayerIdleState playerIdleState =
-                new PlayerIdleState(HelperAnimationStateName.IS_IDLING, playerIdlingProperties);
+            PlayerIdleState playerIdleState = new PlayerIdleState(playerIdlingProperties);
 
 
             PlayerMovingProperties playerMovingProperties = new PlayerMovingProperties();
-            PlayerMoveState playerMoveState =
-                new PlayerMoveState(HelperAnimationStateName.IS_MOVING, playerMovingProperties);
+            PlayerMoveState playerMoveState = new PlayerMoveState(playerMovingProperties);
 
             PlayerAttackingProperties playerAttackingProperties = new PlayerAttackingProperties();
-            PlayerAttackState playerAttackState =
-                new PlayerAttackState(HelperAnimationStateName.IS_ATTACKING, playerAttackingProperties);
+            PlayerAttackState playerAttackState = new PlayerAttackState(playerAttackingProperties);
 
             EntityStateMachine stateMachine = new EntityStateMachine();
 
@@ -149,6 +146,7 @@ namespace EntityBase.Player
                 PassiveSkill skill = SkillRegistry.CreatePassiveSkill(HelperSkillName.NaturalStrength);
                 AddPassiveSkill(skill);
             }
+
             if (UnityEngine.Input.GetKeyDown(KeyCode.O))
             {
                 _player.LevelSystem.AddExperience(50);

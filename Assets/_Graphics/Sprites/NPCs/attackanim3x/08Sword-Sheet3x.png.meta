@@ -48,7 +48,7 @@ TextureImporter:
   spriteMeshType: 1
   alignment: 0
   spritePivot: {x: 0.5, y: 0.5}
-  spritePixelsToUnits: 16
+  spritePixelsToUnits: 48
   spriteBorder: {x: 0, y: 0, z: 0, w: 0}
   spriteGenerateFallbackPhysicsShape: 1
   alphaUsage: 1
@@ -84,12 +84,12 @@ TextureImporter:
     buildTarget: Standalone
     maxTextureSize: 2048
     resizeAlgorithm: 0
-    textureFormat: -1
+    textureFormat: 12
     textureCompression: 1
     compressionQuality: 50
     crunchedCompression: 0
     allowsAlphaSplitting: 0
-    overridden: 0
+    overridden: 1
     ignorePlatformSupport: 0
     androidETC2FallbackOverride: 0
     forceMaximumCompressionQuality_BC6H_BC7: 0
@@ -97,177 +97,353 @@ TextureImporter:
     serializedVersion: 2
     sprites:
     - serializedVersion: 2
-      name: Idle_Down_0
+      name: 08Sword-Sheet3x_0
       rect:
         serializedVersion: 2
-        x: 18
-        y: 20
-        width: 14
-        height: 25
+        x: 0
+        y: 864
+        width: 288
+        height: 288
       alignment: 0
       pivot: {x: 0, y: 0}
       border: {x: 0, y: 0, z: 0, w: 0}
       customData: 
       outline: []
       physicsShape: []
-      tessellationDetail: -1
+      tessellationDetail: 0
       bones: []
-      spriteID: 2e49394d6a76de150800000000000000
-      internalID: 5903488652781262050
+      spriteID: e946141414500dd45a118c01a40b40fe
+      internalID: 949990892
       vertices: []
       indices: 
       edges: []
       weights: []
     - serializedVersion: 2
-      name: Idle_Down_1
+      name: 08Sword-Sheet3x_1
       rect:
         serializedVersion: 2
-        x: 66
-        y: 20
-        width: 14
-        height: 24
+        x: 288
+        y: 864
+        width: 288
+        height: 288
       alignment: 0
       pivot: {x: 0, y: 0}
       border: {x: 0, y: 0, z: 0, w: 0}
       customData: 
       outline: []
       physicsShape: []
-      tessellationDetail: -1
+      tessellationDetail: 0
       bones: []
-      spriteID: 6284370fa7a68eb90800000000000000
-      internalID: -7212397726981208026
+      spriteID: d9e0a3cc3f3336b48aca8aee76b831c8
+      internalID: -1743343419
       vertices: []
       indices: 
       edges: []
       weights: []
     - serializedVersion: 2
-      name: Idle_Down_2
+      name: 08Sword-Sheet3x_2
       rect:
         serializedVersion: 2
-        x: 114
-        y: 20
-        width: 14
-        height: 24
+        x: 576
+        y: 864
+        width: 288
+        height: 288
       alignment: 0
       pivot: {x: 0, y: 0}
       border: {x: 0, y: 0, z: 0, w: 0}
       customData: 
       outline: []
       physicsShape: []
-      tessellationDetail: -1
+      tessellationDetail: 0
       bones: []
-      spriteID: f433d288c0860b840800000000000000
-      internalID: 5237800769665446735
+      spriteID: b287defff349b2f4aace4f5be228b586
+      internalID: 1480059548
       vertices: []
       indices: 
       edges: []
       weights: []
     - serializedVersion: 2
-      name: Idle_Down_3
+      name: 08Sword-Sheet3x_3
       rect:
         serializedVersion: 2
-        x: 162
-        y: 20
-        width: 14
-        height: 25
+        x: 864
+        y: 864
+        width: 288
+        height: 288
       alignment: 0
       pivot: {x: 0, y: 0}
       border: {x: 0, y: 0, z: 0, w: 0}
       customData: 
       outline: []
       physicsShape: []
-      tessellationDetail: -1
+      tessellationDetail: 0
       bones: []
-      spriteID: 83fb6951a30e76360800000000000000
-      internalID: 7162940272430989112
+      spriteID: 853ebca6b478b4a46aa6d6016a249bee
+      internalID: 360286683
       vertices: []
       indices: 
       edges: []
       weights: []
     - serializedVersion: 2
-      name: Idle_Down_4
+      name: 08Sword-Sheet3x_4
       rect:
         serializedVersion: 2
-        x: 210
-        y: 20
-        width: 14
-        height: 25
+        x: 0
+        y: 576
+        width: 288
+        height: 288
       alignment: 0
       pivot: {x: 0, y: 0}
       border: {x: 0, y: 0, z: 0, w: 0}
       customData: 
       outline: []
       physicsShape: []
-      tessellationDetail: -1
+      tessellationDetail: 0
       bones: []
-      spriteID: 31903bee1fcd764e0800000000000000
-      internalID: -1988377778810844909
+      spriteID: 05093a5956c844549950c64fea82d408
+      internalID: -1732264090
       vertices: []
       indices: 
       edges: []
       weights: []
     - serializedVersion: 2
-      name: Idle_Down_5
+      name: 08Sword-Sheet3x_5
       rect:
         serializedVersion: 2
-        x: 258
-        y: 20
-        width: 14
-        height: 24
+        x: 288
+        y: 576
+        width: 288
+        height: 288
       alignment: 0
       pivot: {x: 0, y: 0}
       border: {x: 0, y: 0, z: 0, w: 0}
       customData: 
       outline: []
       physicsShape: []
-      tessellationDetail: -1
+      tessellationDetail: 0
       bones: []
-      spriteID: 7a47c88f557b994f0800000000000000
-      internalID: -821423877148347225
+      spriteID: 3a3d859e237395649ac36d170fc6a9a0
+      internalID: -1188293752
       vertices: []
       indices: 
       edges: []
       weights: []
     - serializedVersion: 2
-      name: Idle_Down_6
+      name: 08Sword-Sheet3x_6
       rect:
         serializedVersion: 2
-        x: 306
-        y: 20
-        width: 14
-        height: 24
+        x: 576
+        y: 576
+        width: 288
+        height: 288
       alignment: 0
       pivot: {x: 0, y: 0}
       border: {x: 0, y: 0, z: 0, w: 0}
       customData: 
       outline: []
       physicsShape: []
-      tessellationDetail: -1
+      tessellationDetail: 0
       bones: []
-      spriteID: 27da2fd65c00f57c0800000000000000
-      internalID: -4080541889421202062
+      spriteID: 2ac31fcaf41c18d4c8f056f84450e06f
+      internalID: -468459235
       vertices: []
       indices: 
       edges: []
       weights: []
     - serializedVersion: 2
-      name: Idle_Down_7
+      name: 08Sword-Sheet3x_7
       rect:
         serializedVersion: 2
-        x: 354
-        y: 20
-        width: 14
-        height: 25
+        x: 864
+        y: 576
+        width: 288
+        height: 288
       alignment: 0
       pivot: {x: 0, y: 0}
       border: {x: 0, y: 0, z: 0, w: 0}
       customData: 
       outline: []
       physicsShape: []
-      tessellationDetail: -1
+      tessellationDetail: 0
       bones: []
-      spriteID: af69be84f969b7b90800000000000000
-      internalID: -7243029964827945222
+      spriteID: 88fc4e99fe304bb42be14ab8901a4c58
+      internalID: -517045796
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: 08Sword-Sheet3x_8
+      rect:
+        serializedVersion: 2
+        x: 0
+        y: 288
+        width: 288
+        height: 288
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: 579b00ac6ff6d5846925183642b23e1f
+      internalID: -383211827
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: 08Sword-Sheet3x_9
+      rect:
+        serializedVersion: 2
+        x: 288
+        y: 288
+        width: 288
+        height: 288
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: 7811dcd0e28308845b88615b56988ea2
+      internalID: 1453770641
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: 08Sword-Sheet3x_10
+      rect:
+        serializedVersion: 2
+        x: 576
+        y: 288
+        width: 288
+        height: 288
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: 9f3637e47906ad3469747eec57f134f6
+      internalID: -1834362727
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: 08Sword-Sheet3x_11
+      rect:
+        serializedVersion: 2
+        x: 864
+        y: 288
+        width: 288
+        height: 288
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: 54d83e4e6460fd74384ab5a1facaad93
+      internalID: 742857495
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: 08Sword-Sheet3x_12
+      rect:
+        serializedVersion: 2
+        x: 0
+        y: 0
+        width: 288
+        height: 288
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: 41231d79fe3eb544c9601fa51c05d186
+      internalID: 463654934
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: 08Sword-Sheet3x_13
+      rect:
+        serializedVersion: 2
+        x: 288
+        y: 0
+        width: 288
+        height: 288
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: 2af820fa69be155448130238a1c02b80
+      internalID: -1629342526
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: 08Sword-Sheet3x_14
+      rect:
+        serializedVersion: 2
+        x: 576
+        y: 0
+        width: 288
+        height: 288
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: 6a1a0ddab2dc60542a436b783924829d
+      internalID: 603146324
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: 08Sword-Sheet3x_15
+      rect:
+        serializedVersion: 2
+        x: 864
+        y: 0
+        width: 288
+        height: 288
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: 6b1e86b6887ce8b4dae03fb4227aa7ac
+      internalID: -1259601707
       vertices: []
       indices: 
       edges: []
@@ -276,7 +452,7 @@ TextureImporter:
     customData: 
     physicsShape: []
     bones: []
-    spriteID: 
+    spriteID: d24438e2e204e0d4285167417160657f
     internalID: 0
     vertices: []
     indices: 
@@ -286,14 +462,22 @@ TextureImporter:
     spriteCustomMetadata:
       entries: []
     nameFileIdTable:
-      Idle_Down_0: 5903488652781262050
-      Idle_Down_1: -7212397726981208026
-      Idle_Down_2: 5237800769665446735
-      Idle_Down_3: 7162940272430989112
-      Idle_Down_4: -1988377778810844909
-      Idle_Down_5: -821423877148347225
-      Idle_Down_6: -4080541889421202062
-      Idle_Down_7: -7243029964827945222
+      08Sword-Sheet3x_0: 949990892
+      08Sword-Sheet3x_1: -1743343419
+      08Sword-Sheet3x_10: -1834362727
+      08Sword-Sheet3x_11: 742857495
+      08Sword-Sheet3x_12: 463654934
+      08Sword-Sheet3x_13: -1629342526
+      08Sword-Sheet3x_14: 603146324
+      08Sword-Sheet3x_15: -1259601707
+      08Sword-Sheet3x_2: 1480059548
+      08Sword-Sheet3x_3: 360286683
+      08Sword-Sheet3x_4: -1732264090
+      08Sword-Sheet3x_5: -1188293752
+      08Sword-Sheet3x_6: -468459235
+      08Sword-Sheet3x_7: -517045796
+      08Sword-Sheet3x_8: -383211827
+      08Sword-Sheet3x_9: 1453770641
   mipmapLimitGroupName: 
   pSDRemoveMatte: 0
   userData: 

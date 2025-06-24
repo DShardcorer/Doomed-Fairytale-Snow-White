@@ -118,7 +118,6 @@ namespace EntityBase.Player
 
             //SkillSystem initialization
             activeSkillSystem.Initialize(this);
-            
             _weaponSystem.Initialize(this);
         }
 

@@ -15,9 +15,9 @@ namespace EntityBase.Player.State
         {
         }
 
-        public virtual void Initialize(Player controller)
+        public virtual void Initialize(Player parent)
         {
-            _player = controller;
+            _player = parent;
             _inputManager = _player.InputManager;
             if (_player == null)
             {
@@ -27,7 +27,7 @@ namespace EntityBase.Player.State
             {
                 Debug.LogError("InputManager is null");
             }
-            base.Initialize(controller);
+            base.Initialize(parent);
         }
 
 
