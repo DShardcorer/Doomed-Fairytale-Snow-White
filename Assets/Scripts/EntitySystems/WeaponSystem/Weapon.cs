@@ -8,6 +8,7 @@ namespace EntitySystems.WeaponSystem
         private WeaponView _view;
         public WeaponView View => _view;
         private WeaponSystem _parent;
+        public WeaponSystem Parent => _parent;
 
         public void Initialize(WeaponSystem parent, WeaponView view)
         {

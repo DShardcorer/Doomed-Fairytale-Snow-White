@@ -12,6 +12,9 @@ namespace EntitySystems.WeaponSystem
         [SerializeField] private Animator _animator;
         public Animator Animator => _animator;
         private Vector2 _lastMovementVector;
+        
+        [SerializeField] private SpriteRenderer weaponSpriteRenderer;
+        public SpriteRenderer WeaponSpriteRenderer => weaponSpriteRenderer;
 
 
         public void Initialize(Weapon parent)

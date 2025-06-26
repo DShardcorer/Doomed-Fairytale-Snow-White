@@ -15773,6 +15773,10 @@ PrefabInstance:
       value: Scene-Specific Managers
       objectReference: {fileID: 0}
     - target: {fileID: 9070332262092784415, guid: 569bbb50f9bc87949a06c8f13a47fa9c, type: 3}
+      propertyPath: sceneNPCs.Array.size
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 9070332262092784415, guid: 569bbb50f9bc87949a06c8f13a47fa9c, type: 3}
       propertyPath: managedReferences[55395762093687063].spawnPoint
       value: 
       objectReference: {fileID: 0}

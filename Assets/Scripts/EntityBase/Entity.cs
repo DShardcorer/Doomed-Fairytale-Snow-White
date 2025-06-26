@@ -1,3 +1,4 @@
+using System;
 using DefaultNamespace.EntitySystems.Buff;
 using EntityBase.AttackCheck;
 using EntitySystems.Equipment;
@@ -54,6 +55,15 @@ namespace EntityBase
 
         // Default states that any entity should have
         public EntityState IdleState { get; protected set; }
+        
+        // Abstract methods for weapon convenience
+        public abstract bool IsAttacking();
+        public abstract int CurrentAttackCounter();
+        public event Action OnAttackStarts;
+        public virtual void InvokeOnAttackStarts()
+        {
+            OnAttackStarts?.Invoke();
+        }
 
 
         public Entity(EntityProfile profile,

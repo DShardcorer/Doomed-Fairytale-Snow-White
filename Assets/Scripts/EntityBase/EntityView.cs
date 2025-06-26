@@ -90,6 +90,10 @@ namespace EntityBase
             _animator.SetFloat(HelperAnimationStateName.MOVEMENT_X ,movement.x);
             _animator.SetFloat(HelperAnimationStateName.MOVEMENT_Y, movement.y);
         }
+        public void SetAttackCounter(int attackCounter)
+        {
+            _animator.SetInteger(HelperAnimationStateName.ATTACK_COUNTER, attackCounter);
+        }
 
         public void PlayDamagedAnimation()
         {

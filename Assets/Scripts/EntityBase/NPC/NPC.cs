@@ -101,6 +101,15 @@ namespace EntityBase.NPC
             _npcAIController.UpdateLogic();
         }
 
+        public override bool IsAttacking()
+        {
+            return HelperNPCStateName.Attack == _npcAIController.CurrentStateId;
+        }
+        public override int CurrentAttackCounter()
+        {
+            return 0;
+        }
+
         public override void FixedUpdateLogic()
         {
             if (IsBusy) return;

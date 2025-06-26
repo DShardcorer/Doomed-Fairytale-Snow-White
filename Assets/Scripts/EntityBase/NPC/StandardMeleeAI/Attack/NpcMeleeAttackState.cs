@@ -27,6 +27,7 @@ namespace EntityBase.NPC.StandardAI.Attack
         {
             base.EnterState();
             npcAIController.SetCurrentSubControllerBusy(true);
+            npc.InvokeOnAttackStarts();
         }
 
         public override void ExitState()
@@ -42,11 +43,6 @@ namespace EntityBase.NPC.StandardAI.Attack
             {
                 npcAIController.ChangeState(HelperNPCStateName.Idle);
             }
-        }
-
-        public override void FixedUpdateState()
-        {
-            base.FixedUpdateState();
         }
 
 

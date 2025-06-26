@@ -4,15 +4,41 @@ using EntityBase.Player.State;
 using EntitySystems.WeaponSystem;
 using Helpers;
 using UnityEngine;
+using Utility;
 
 namespace EntitySystems.Skill.ActiveSkills.Player.Attack
 {
     public class PlayerAttackState : PlayerState
     {
-        
+           
         private PlayerAttackingProperties _playerAttackProperties;
         private WeaponSystem.WeaponSystem _weaponSystem;
         private Weapon _activeWeapon => _weaponSystem?.PrimaryWeapon;
+        
+        
+        //Counter fields
+        private int numberOfAttacks = 2;
+        private int currentAttackCounter = 0;
+        public int CurrentAttackCounter
+        {
+            get => currentAttackCounter;
+            private set
+            {
+                currentAttackCounter = value;
+                if (currentAttackCounter >= numberOfAttacks)
+                {
+                    currentAttackCounter = 0;
+                }
+            }
+        }
+        public Timer AttackCounterResetTimer { get; private set; } = new Timer(0.5f);
+        
+        private void ResetAttackCounter()
+        {
+            CurrentAttackCounter = 0;
+        }
+        
+        
         public PlayerAttackState(PlayerAttackingProperties entityStateProperties) : this(
             HelperAnimationStateName.IS_ATTACKING, entityStateProperties)
         {
@@ -27,22 +53,31 @@ namespace EntitySystems.Skill.ActiveSkills.Player.Attack
         {
             base.Initialize(parent);
             _weaponSystem = parent.WeaponSystem;
+            AttackCounterResetTimer.OnTimerEnded += ResetAttackCounter;
+        }
+
+        public override void Dispose()
+        {
+            base.Dispose();
+            _weaponSystem = null;
+            AttackCounterResetTimer.OnTimerEnded -= ResetAttackCounter;
         }
 
         public override void EnterState()
         {
             base.EnterState();
+            _view.SetAttackCounter(CurrentAttackCounter);
             _player.IsBusy = true;
-            _rigidbody.linearVelocity =
-                _playerAttackProperties.AttackVelocity * _player.PlayerProperties.lastMovementVector;
             _activeWeapon.Enter();
-
+            AttackCounterResetTimer.StopTimer();
+            _player.InvokeOnAttackStarts();
         }
 
         public override void UpdateState()
         {
             base.UpdateState();
             _activeWeapon.Update();
+            AttackCounterResetTimer.Tick(Time.deltaTime);
             if(_isAnimationEnded)
             {
                 _stateMachine.ChangeState(_entity.IdleState);
@@ -54,8 +89,11 @@ namespace EntitySystems.Skill.ActiveSkills.Player.Attack
         public override void ExitState()
         {
             _player.IsBusy = false;
-            base.ExitState();
+            CurrentAttackCounter++;
+            _view.SetAttackCounter(CurrentAttackCounter);
             _activeWeapon.Exit();
+            AttackCounterResetTimer.StartTimer();
+            base.ExitState();
         }
 
         protected override void OnTakingEffect(object sender, EventArgs e)

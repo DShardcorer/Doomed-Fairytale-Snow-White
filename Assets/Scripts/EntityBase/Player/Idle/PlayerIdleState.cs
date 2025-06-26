@@ -21,7 +21,7 @@ namespace EntityBase.Player.Idle
         {
             if (_inputManager.GetMovementVector() != Vector2.zero)
             {
-                _stateMachine.ChangeState(_player.PlayerMoveState);
+                _stateMachine.ChangeState(_player.GetState(PlayerStateType.Move));
             }
 
             base.FixedUpdateState();

@@ -16,5 +16,10 @@ namespace Helpers
         public const string IS_CHASING = "IsChasing";
         public const string IS_IDLING = "IsIdling";
         public const string IS_SHOOTING = "IsShooting";
+        
+        //Attack
+        public const string ATTACK_COUNTER = "AttackCounter";
+        public const string WEAPON_TYPE = "WeaponType";
+        public const string ATTACK_STYLE = "AttackStyle";
     }
 }
