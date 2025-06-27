@@ -118,5 +118,19 @@ namespace EntityBase
             if (_spriteRenderer != null && _originalMaterial != null)
                 _spriteRenderer.material = _originalMaterial;
         }
+        public void AddVelocity(Vector2 velocity)
+        {
+            if (_rigidbody2D != null)
+            {
+                _rigidbody2D.linearVelocity += velocity;
+            }
+        }
+        public void RemoveVelocity()
+        {
+            if (_rigidbody2D != null)
+            {
+                _rigidbody2D.linearVelocity = Vector2.zero;
+            }
+        }
     }
 }

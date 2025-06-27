@@ -28,11 +28,11 @@ namespace EntityBase
             {
                 Debug.LogError("AttackHitbox is not assigned!");
             }
+
             if (_stateMachine == null)
             {
                 Debug.LogError("StateMachine is not assigned!");
             }
-
         }
 
         public void OnAnimationEnd()
@@ -43,14 +43,19 @@ namespace EntityBase
         public void PerformAttack()
         {
             OnTakingEffect?.Invoke(this, EventArgs.Empty);
-
         }
 
+        public event Action OnAttackMovementStart;
+        public event Action OnAttackMovementEnd;
 
+        public void StartAttackMovement()
+        {
+            OnAttackMovementStart?.Invoke();
+        }
 
-
-
-
-
+        public void EndAttackMovement()
+        {
+            OnAttackMovementEnd?.Invoke();
+        }
     }
 }

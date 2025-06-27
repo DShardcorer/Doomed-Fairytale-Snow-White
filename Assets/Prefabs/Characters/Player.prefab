@@ -98,7 +98,7 @@ Animator:
   m_GameObject: {fileID: 229715096697707419}
   m_Enabled: 1
   m_Avatar: {fileID: 0}
-  m_Controller: {fileID: 9100000, guid: 2800fa79932da5c46a013674f1fa7835, type: 2}
+  m_Controller: {fileID: 0}
   m_CullingMode: 0
   m_UpdateMode: 0
   m_ApplyRootMotion: 0
@@ -219,6 +219,8 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   _animator: {fileID: 8028199487964127431}
+  weaponSpriteRenderer: {fileID: 3705655878185332441}
+  weaponData: {fileID: 11400000, guid: 92d569a944a00d441b2cf3252f21fd9a, type: 2}
 --- !u!1 &2170970304347424379
 GameObject:
   m_ObjectHideFlags: 0
@@ -476,6 +478,8 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   _animator: {fileID: 903455030089438672}
+  weaponSpriteRenderer: {fileID: 2223923952139528912}
+  weaponData: {fileID: 11400000, guid: 92d569a944a00d441b2cf3252f21fd9a, type: 2}
 --- !u!1 &6553904771540524225
 GameObject:
   m_ObjectHideFlags: 0
@@ -574,7 +578,7 @@ Animator:
   m_GameObject: {fileID: 6553904771540524225}
   m_Enabled: 1
   m_Avatar: {fileID: 0}
-  m_Controller: {fileID: 9100000, guid: 2800fa79932da5c46a013674f1fa7835, type: 2}
+  m_Controller: {fileID: 0}
   m_CullingMode: 0
   m_UpdateMode: 0
   m_ApplyRootMotion: 0
