@@ -11,6 +11,7 @@ GameObject:
   - component: {fileID: 7096493286206818880}
   - component: {fileID: 2223923952139528912}
   - component: {fileID: 903455030089438672}
+  - component: {fileID: 6804025254716969710}
   m_Layer: 7
   m_Name: SecondaryWeaponVisuals
   m_TagString: Untagged
@@ -74,9 +75,9 @@ SpriteRenderer:
   m_AutoUVMaxDistance: 0.5
   m_AutoUVMaxAngle: 89
   m_LightmapParameters: {fileID: 0}
-  m_SortingLayerID: 584125351
-  m_SortingLayer: 4
-  m_SortingOrder: 0
+  m_SortingLayerID: -1474879815
+  m_SortingLayer: 3
+  m_SortingOrder: 1
   m_Sprite: {fileID: 0}
   m_Color: {r: 1, g: 1, b: 1, a: 1}
   m_FlipX: 0
@@ -110,6 +111,18 @@ Animator:
   m_AllowConstantClipSamplingOptimization: 1
   m_KeepAnimatorStateOnDisable: 0
   m_WriteDefaultValuesOnDisable: 0
+--- !u!114 &6804025254716969710
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 229715096697707419}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 8fe341048d834b3b9ad5ce62aeb89f86, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
 --- !u!1 &233078138989900891
 GameObject:
   m_ObjectHideFlags: 0
@@ -220,6 +233,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   _animator: {fileID: 8028199487964127431}
   weaponSpriteRenderer: {fileID: 3705655878185332441}
+  weaponAnimationTriggers: {fileID: 402422602383125965}
   weaponData: {fileID: 11400000, guid: 92d569a944a00d441b2cf3252f21fd9a, type: 2}
 --- !u!1 &2170970304347424379
 GameObject:
@@ -305,6 +319,7 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 2789117326116267666}
+  - component: {fileID: 4478082218526880621}
   m_Layer: 7
   m_Name: Visuals
   m_TagString: Untagged
@@ -330,6 +345,18 @@ Transform:
   - {fileID: 7096493286206818880}
   m_Father: {fileID: 5074692221472078517}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!210 &4478082218526880621
+SortingGroup:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 2194182663899270127}
+  m_Enabled: 1
+  m_SortingLayerID: -1474879815
+  m_SortingLayer: 3
+  m_SortingOrder: 0
+  m_SortAtRoot: 1
 --- !u!1 &5682049094489749620
 GameObject:
   m_ObjectHideFlags: 0
@@ -479,6 +506,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   _animator: {fileID: 903455030089438672}
   weaponSpriteRenderer: {fileID: 2223923952139528912}
+  weaponAnimationTriggers: {fileID: 6804025254716969710}
   weaponData: {fileID: 11400000, guid: 92d569a944a00d441b2cf3252f21fd9a, type: 2}
 --- !u!1 &6553904771540524225
 GameObject:
@@ -491,6 +519,7 @@ GameObject:
   - component: {fileID: 2696747270588600125}
   - component: {fileID: 3705655878185332441}
   - component: {fileID: 8028199487964127431}
+  - component: {fileID: 402422602383125965}
   m_Layer: 7
   m_Name: PrimaryWeaponVisuals
   m_TagString: Untagged
@@ -554,9 +583,9 @@ SpriteRenderer:
   m_AutoUVMaxDistance: 0.5
   m_AutoUVMaxAngle: 89
   m_LightmapParameters: {fileID: 0}
-  m_SortingLayerID: 584125351
-  m_SortingLayer: 4
-  m_SortingOrder: 0
+  m_SortingLayerID: -1474879815
+  m_SortingLayer: 3
+  m_SortingOrder: 1
   m_Sprite: {fileID: 0}
   m_Color: {r: 1, g: 1, b: 1, a: 1}
   m_FlipX: 0
@@ -578,7 +607,7 @@ Animator:
   m_GameObject: {fileID: 6553904771540524225}
   m_Enabled: 1
   m_Avatar: {fileID: 0}
-  m_Controller: {fileID: 0}
+  m_Controller: {fileID: 9100000, guid: d24d0988ddeb57b4f83288fa3892645f, type: 2}
   m_CullingMode: 0
   m_UpdateMode: 0
   m_ApplyRootMotion: 0
@@ -590,6 +619,18 @@ Animator:
   m_AllowConstantClipSamplingOptimization: 1
   m_KeepAnimatorStateOnDisable: 0
   m_WriteDefaultValuesOnDisable: 0
+--- !u!114 &402422602383125965
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 6553904771540524225}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 8fe341048d834b3b9ad5ce62aeb89f86, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
 --- !u!1 &6941810403611232582
 GameObject:
   m_ObjectHideFlags: 0
@@ -806,6 +847,7 @@ MonoBehaviour:
   _rigidbody2D: {fileID: 2493114286647210097}
   _animator: {fileID: 5489439651947330017}
   _spriteRenderer: {fileID: 5412007118806126440}
+  _animationTriggers: {fileID: 4178310813913214122}
   _primaryWeaponView: {fileID: 3333284368822619465}
   _secondaryWeaponView: {fileID: 1116429992951524458}
   _originalMaterial: {fileID: 2100000, guid: a97c105638bdf8b4a8650670310a4cd3, type: 2}
@@ -832,7 +874,7 @@ MonoBehaviour:
   m_CastsShadows: 1
   m_SelfShadows: 0
   m_AlphaCutoff: 0.1
-  m_ApplyToSortingLayers: 0000000061004ce4c38ef32bb91e17a8a70bd122f3e2ca9e37eadba677a8574b
+  m_ApplyToSortingLayers: 0000000061004ce4c38ef32bb91e17a8f3e2ca9e37eadba677a8574b
   m_ShapePath:
   - {x: -0.5, y: -0.5, z: 0}
   - {x: -0.5, y: 0.5, z: 0}
@@ -1065,8 +1107,8 @@ SpriteRenderer:
   m_AutoUVMaxDistance: 0.5
   m_AutoUVMaxAngle: 89
   m_LightmapParameters: {fileID: 0}
-  m_SortingLayerID: 584125351
-  m_SortingLayer: 4
+  m_SortingLayerID: -1474879815
+  m_SortingLayer: 3
   m_SortingOrder: 0
   m_Sprite: {fileID: 487730058, guid: a33e8f8cdbf19674ea788a078bd2990b, type: 3}
   m_Color: {r: 1, g: 1, b: 1, a: 1}
@@ -1238,6 +1280,38 @@ PrefabInstance:
       propertyPath: m_Icon
       value: 
       objectReference: {fileID: -964228994112308473, guid: 0000000000000000d000000000000000, type: 0}
+    - target: {fileID: 4457846380110540658, guid: 3154484e43d90644b8e969b02ef3a297, type: 3}
+      propertyPath: m_ApplyToSortingLayers.Array.size
+      value: 7
+      objectReference: {fileID: 0}
+    - target: {fileID: 4457846380110540658, guid: 3154484e43d90644b8e969b02ef3a297, type: 3}
+      propertyPath: 'm_ApplyToSortingLayers.Array.data[4]'
+      value: -1630870797
+      objectReference: {fileID: 0}
+    - target: {fileID: 4457846380110540658, guid: 3154484e43d90644b8e969b02ef3a297, type: 3}
+      propertyPath: 'm_ApplyToSortingLayers.Array.data[5]'
+      value: -1495537097
+      objectReference: {fileID: 0}
+    - target: {fileID: 4457846380110540658, guid: 3154484e43d90644b8e969b02ef3a297, type: 3}
+      propertyPath: 'm_ApplyToSortingLayers.Array.data[6]'
+      value: 1264035959
+      objectReference: {fileID: 0}
+    - target: {fileID: 5745308098977659993, guid: 3154484e43d90644b8e969b02ef3a297, type: 3}
+      propertyPath: m_ApplyToSortingLayers.Array.size
+      value: 7
+      objectReference: {fileID: 0}
+    - target: {fileID: 5745308098977659993, guid: 3154484e43d90644b8e969b02ef3a297, type: 3}
+      propertyPath: 'm_ApplyToSortingLayers.Array.data[4]'
+      value: -1630870797
+      objectReference: {fileID: 0}
+    - target: {fileID: 5745308098977659993, guid: 3154484e43d90644b8e969b02ef3a297, type: 3}
+      propertyPath: 'm_ApplyToSortingLayers.Array.data[5]'
+      value: -1495537097
+      objectReference: {fileID: 0}
+    - target: {fileID: 5745308098977659993, guid: 3154484e43d90644b8e969b02ef3a297, type: 3}
+      propertyPath: 'm_ApplyToSortingLayers.Array.data[6]'
+      value: 1264035959
+      objectReference: {fileID: 0}
     - target: {fileID: 6055218533694485406, guid: 3154484e43d90644b8e969b02ef3a297, type: 3}
       propertyPath: BaseLength
       value: 2

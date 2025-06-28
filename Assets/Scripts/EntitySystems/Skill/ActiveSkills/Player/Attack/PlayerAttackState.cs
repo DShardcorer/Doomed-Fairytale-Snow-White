@@ -96,7 +96,7 @@ namespace EntitySystems.Skill.ActiveSkills.Player.Attack
             base.ExitState();
         }
 
-        protected override void OnTakingEffect(object sender, EventArgs e)
+        protected override void OnTakingEffect()
         {
             _entity.AttackHitbox.PerformAttack(AttackType.OverlapCircle,
                 _player.StatSystem.CombatStatBoard.PhysicalAttack.ModifiedValue);

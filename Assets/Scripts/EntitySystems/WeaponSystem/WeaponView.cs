@@ -1,3 +1,4 @@
+using System;
 using EntitySystems.WeaponSystem;
 using GeneralManagers;
 using Helpers;
@@ -15,6 +16,10 @@ namespace EntitySystems.WeaponSystem
 
         [SerializeField] private SpriteRenderer weaponSpriteRenderer;
         public SpriteRenderer WeaponSpriteRenderer => weaponSpriteRenderer;
+        
+        [SerializeField] private WeaponAnimationTriggers weaponAnimationTriggers;
+        public WeaponAnimationTriggers WeaponAnimationTriggers => weaponAnimationTriggers;
+        
         [SerializeField] private WeaponDataSO weaponData;
         public WeaponDataSO WeaponData => weaponData;
 
@@ -25,6 +30,8 @@ namespace EntitySystems.WeaponSystem
             if (_animator == null)
                 _animator = GetComponent<Animator>();
             _animator.runtimeAnimatorController = weaponData.WeaponAnimatorController;
+            if(weaponAnimationTriggers == null)
+                weaponAnimationTriggers = GetComponentInChildren<WeaponAnimationTriggers>();
         }
 
         public void Dispose()
@@ -46,6 +53,11 @@ namespace EntitySystems.WeaponSystem
             _lastMovementVector = movement;
             _animator.SetFloat(HelperAnimationStateName.MOVEMENT_X, movement.x);
             _animator.SetFloat(HelperAnimationStateName.MOVEMENT_Y, movement.y);
+        }
+
+        private void OnDrawGizmosSelected()
+        {
+            
         }
     }
 }

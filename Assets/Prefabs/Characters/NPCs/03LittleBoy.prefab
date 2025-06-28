@@ -108,7 +108,7 @@ SpriteRenderer:
   m_AutoUVMaxAngle: 89
   m_LightmapParameters: {fileID: 0}
   m_SortingLayerID: 584125351
-  m_SortingLayer: 4
+  m_SortingLayer: 0
   m_SortingOrder: 1
   m_Sprite: {fileID: 1298242036, guid: ed248e17f1b23b54f8579185ab68fbb9, type: 3}
   m_Color: {r: 1, g: 1, b: 1, a: 1}
@@ -719,6 +719,7 @@ MonoBehaviour:
   _rigidbody2D: {fileID: 4771811002992867852}
   _animator: {fileID: 4545833827162117862}
   _spriteRenderer: {fileID: 0}
+  _animationTriggers: {fileID: 0}
   _primaryWeaponView: {fileID: 0}
   _secondaryWeaponView: {fileID: 0}
   _originalMaterial: {fileID: 2100000, guid: a97c105638bdf8b4a8650670310a4cd3, type: 2}
@@ -1143,8 +1144,8 @@ SpriteRenderer:
   m_AutoUVMaxDistance: 0.5
   m_AutoUVMaxAngle: 89
   m_LightmapParameters: {fileID: 0}
-  m_SortingLayerID: 584125351
-  m_SortingLayer: 4
+  m_SortingLayerID: -1474879815
+  m_SortingLayer: 3
   m_SortingOrder: 0
   m_Sprite: {fileID: 1298242036, guid: d72a191c66133744493fdab09b359463, type: 3}
   m_Color: {r: 1, g: 1, b: 1, a: 1}

@@ -13,3 +13,38 @@ MonoBehaviour:
   m_Name: IronSword_WeaponDataSO
   m_EditorClassIdentifier: 
   <WeaponAnimatorController>k__BackingField: {fileID: 9100000, guid: d24d0988ddeb57b4f83288fa3892645f, type: 2}
+  <ComponentDataList>k__BackingField:
+  - rid: 55396219995291741
+  - rid: 55396243830997080
+  references:
+    version: 2
+    RefIds:
+    - rid: 55396219995291741
+      type: {class: WeaponMovementData, ns: EntitySystems.WeaponSystem.Components.ComponentData, asm: Assembly-CSharp}
+      data:
+        Movements:
+        - <DirectionCompareToEntityLastMovementVector2>k__BackingField: 0
+          <Velocity>k__BackingField: 2
+        - <DirectionCompareToEntityLastMovementVector2>k__BackingField: 0
+          <Velocity>k__BackingField: 3
+    - rid: 55396243830997080
+      type: {class: WeaponHitboxData, ns: EntitySystems.WeaponSystem.Components.ComponentData, asm: Assembly-CSharp}
+      data:
+        <Hitboxes>k__BackingField:
+        - DrawGizmo: 1
+          <HitboxRect>k__BackingField:
+            serializedVersion: 2
+            x: 0
+            y: 1
+            width: 2.53
+            height: 3
+        - DrawGizmo: 0
+          <HitboxRect>k__BackingField:
+            serializedVersion: 2
+            x: 0
+            y: 0
+            width: 0
+            height: 0
+        <HitboxLayers>k__BackingField:
+          serializedVersion: 2
+          m_Bits: 128

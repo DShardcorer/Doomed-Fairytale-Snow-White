@@ -17,6 +17,9 @@ namespace EntityBase
         [SerializeField] private Animator _animator;
         [SerializeField] private SpriteRenderer _spriteRenderer;
         
+        [Header("Animation")]
+        [SerializeField] private AnimationTriggers _animationTriggers;
+        
         [Header("Weapons")]
         [SerializeField] private WeaponView _primaryWeaponView;
         [SerializeField] private WeaponView _secondaryWeaponView;
@@ -33,6 +36,7 @@ namespace EntityBase
         public Rigidbody2D Rigidbody2D => _rigidbody2D;
         public Animator Animator => _animator;
         public SpriteRenderer SpriteRenderer => _spriteRenderer;
+        public AnimationTriggers AnimationTriggers => _animationTriggers;
         public Material OriginalMaterial => _originalMaterial;
         public Material FlashOnHitMaterial => _flashOnHitMaterial;
         public WeaponView PrimaryWeaponView => _primaryWeaponView;
@@ -52,6 +56,8 @@ namespace EntityBase
                 
             if (_healthbarUI == null)
                 _healthbarUI = GetComponentInChildren<EntityHealthbarUI>();
+            if (_animationTriggers == null)
+                _animationTriggers = GetComponentInChildren<AnimationTriggers>();
                 
             _healthbarUI.Initialize(this);
         }

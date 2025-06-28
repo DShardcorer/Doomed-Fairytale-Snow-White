@@ -611,6 +611,7 @@ MonoBehaviour:
   _rigidbody2D: {fileID: 4771811002992867852}
   _animator: {fileID: 4545833827162117862}
   _spriteRenderer: {fileID: 0}
+  _animationTriggers: {fileID: 0}
   _primaryWeaponView: {fileID: 0}
   _secondaryWeaponView: {fileID: 0}
   _originalMaterial: {fileID: 2100000, guid: a97c105638bdf8b4a8650670310a4cd3, type: 2}
@@ -1034,8 +1035,8 @@ SpriteRenderer:
   m_AutoUVMaxDistance: 0.5
   m_AutoUVMaxAngle: 89
   m_LightmapParameters: {fileID: 0}
-  m_SortingLayerID: 584125351
-  m_SortingLayer: 4
+  m_SortingLayerID: -1474879815
+  m_SortingLayer: 3
   m_SortingOrder: 0
   m_Sprite: {fileID: 1678168388, guid: a952291f9d1988d46af7f885b0236a19, type: 3}
   m_Color: {r: 1, g: 1, b: 1, a: 1}

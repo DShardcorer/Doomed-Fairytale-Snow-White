@@ -2,6 +2,7 @@ using EntityBase;
 using EntitySystems.WeaponSystem.Components.ComponentData;
 using EntitySystems.WeaponSystem.Components.ComponentData.AttackData;
 using UnityEngine;
+using Utility;
 
 namespace EntitySystems.WeaponSystem.Components
 {
@@ -28,13 +29,9 @@ namespace EntitySystems.WeaponSystem.Components
 
         private void HandleAttackMovementStart()
         {
-            Vector2 entityLastMovementVector = _entity.Properties.lastMovementVector;
-            //Normalize the last movement vector into the 4 cardinal directions
-            Vector2 cardinalizedMovementVector = new Vector2(
-                Mathf.Round(entityLastMovementVector.x),
-                Mathf.Round(entityLastMovementVector.y)
-            ).normalized;
-            MovementDirection movementDirectionComparedToCardinalizedMovementVector =
+            Vector2 cardinalizedMovementVector = _entity.Properties.CardinalizedLastMovementVector();
+
+            Direction movementDirectionComparedToCardinalizedMovementVector =
                 _weaponMovementData.Movements[_entity.CurrentAttackCounter()].DirectionCompareToEntityLastMovementVector2;
     
             // Calculate movement vector based on direction and entity's last movement
@@ -47,17 +44,17 @@ namespace EntitySystems.WeaponSystem.Components
             _entity.View.AddVelocity(movementVector * movementSpeed);
         }
 
-        private Vector2 CalculateMovementVector(Vector2 baseDirection, MovementDirection direction)
+        private Vector2 CalculateMovementVector(Vector2 baseDirection, Direction direction)
         {
             switch (direction)
             {
-                case MovementDirection.Forward:
+                case Direction.Forward:
                     return baseDirection;
-                case MovementDirection.Backward:
+                case Direction.Backward:
                     return -baseDirection;
-                case MovementDirection.Left:
+                case Direction.Left:
                     return new Vector2(-baseDirection.y, baseDirection.x);
-                case MovementDirection.Right:
+                case Direction.Right:
                     return new Vector2(baseDirection.y, -baseDirection.x);
                 default:
                     return Vector2.zero;

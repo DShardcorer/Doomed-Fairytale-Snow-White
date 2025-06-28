@@ -46,9 +46,9 @@ namespace EntityBase.NPC.StandardAI.Attack
         }
 
 
-        protected override void OnTakingEffect(object sender, EventArgs e)
+        protected override void OnTakingEffect()
         {
-            base.OnTakingEffect(sender, e);
+            base.OnTakingEffect();
             _entity.AttackHitbox.PerformAttack(NpcMeleeAttackProperties.AttackType,
                 npc.StatSystem.CombatStatBoard.PhysicalAttack.ModifiedValue);
         }

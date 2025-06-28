@@ -9,6 +9,16 @@ namespace EntityBase
         public EntityFaction EntityFaction => entityFaction;
 
         public Vector2 lastMovementVector = Vector2.down;
+        private Vector2 _cardinalizedLastMovementVector = Vector2.down;
+        public Vector2 CardinalizedLastMovementVector()
+        {
+            _cardinalizedLastMovementVector.Set(
+                Mathf.Round(lastMovementVector.x),
+                Mathf.Round(lastMovementVector.y)
+            );
+            return _cardinalizedLastMovementVector;
+        }
+
         public Entity lastAttacker;
         public Entity target;
         public Vector2 currentPosition;

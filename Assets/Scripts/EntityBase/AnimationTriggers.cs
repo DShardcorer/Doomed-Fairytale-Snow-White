@@ -11,7 +11,7 @@ namespace EntityBase
         private AttackHitbox _attackHitbox;
         private EntityStateMachine _stateMachine;
 
-        public event EventHandler OnTakingEffect;
+        public event Action OnTakingEffect;
 
         public void Dispose()
         {
@@ -42,7 +42,7 @@ namespace EntityBase
 
         public void PerformAttack()
         {
-            OnTakingEffect?.Invoke(this, EventArgs.Empty);
+            OnTakingEffect?.Invoke();
         }
 
         public event Action OnAttackMovementStart;

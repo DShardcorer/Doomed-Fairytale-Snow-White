@@ -10,7 +10,7 @@ namespace EntitySystems.WeaponSystem
     {
         [field:SerializeField] public RuntimeAnimatorController WeaponAnimatorController { get; private set; }
         
-        [field:SerializeField] public List<WeaponComponentData> ComponentDataList { get; private set; }
+        [field:SerializeReference] public List<WeaponComponentData> ComponentDataList { get; private set; }
         
         public T GetComponentData<T>() where T : WeaponComponentData
         {

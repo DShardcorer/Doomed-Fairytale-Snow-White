@@ -1,21 +1,15 @@
 using System;
 using UnityEngine;
-using Vector2 = System.Numerics.Vector2;
+using Utility;
 
 namespace EntitySystems.WeaponSystem.Components.ComponentData.AttackData
 {
     [Serializable]
-    public class MovementPerAttack
+    public class MovementPerAttack: AttackData
     {
-        [field: SerializeField] public MovementDirection DirectionCompareToEntityLastMovementVector2 { get; private set; }
+        [field: SerializeField] public Direction DirectionCompareToEntityLastMovementVector2 { get; private set; }
 
         [field: SerializeField] public float Velocity { get; private set; }
     }
-    public enum MovementDirection
-    {
-        Forward,
-        Backward,
-        Left,
-        Right
-    }
+
 }

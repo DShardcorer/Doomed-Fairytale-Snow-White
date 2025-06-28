@@ -58,7 +58,7 @@ namespace EntityBase
             _view.StartStateAnimation(_animationBoolName);
         }
 
-        protected virtual void OnTakingEffect(object sender, EventArgs e){
+        protected virtual void OnTakingEffect(){
             Debug.LogWarning("Taking effect triggered from animation frame");
         }
 

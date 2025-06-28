@@ -36,7 +36,7 @@ namespace EntitySystems.Skill.ActiveSkills.Player.Shoot
                 _stateMachine.ChangeState(_entity.IdleState);
             }
         }
-        protected override void OnTakingEffect(object sender, EventArgs e)
+        protected override void OnTakingEffect()
         {
             _entity.AttackHitbox.PerformRaycastAttack(_shootProperties.ShootDamage, _shootProperties.ShootRange);
         }
