@@ -7,5 +7,10 @@ namespace EntitySystems.WeaponSystem.Components.ComponentData
     {
         [field:SerializeField] public HitboxPerAttack[] Hitboxes { get; private set; }
         [field:SerializeField] public LayerMask HitboxLayers { get; private set; }
+        
+        public WeaponHitboxData()
+        {
+            DependencyType = typeof(WeaponHitbox);
+        }
     }
 }

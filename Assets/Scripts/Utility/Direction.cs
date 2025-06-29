@@ -1,13 +1,10 @@
-using System;
-
 namespace Utility
 {
-    [Serializable]
     public enum Direction
     {
-        Forward,
-        Backward,
+        Down,
         Left,
-        Right
+        Right,
+        Up,
     }
 }

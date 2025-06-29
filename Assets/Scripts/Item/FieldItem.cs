@@ -1,7 +1,7 @@
 using EntityBase.Player;
 using GeneralManagers;
 using Helpers;
-using InteractInterface;
+using GeneralInterfaces;
 using Item.Inventory;
 using QuestSystem;
 using UnityEngine;

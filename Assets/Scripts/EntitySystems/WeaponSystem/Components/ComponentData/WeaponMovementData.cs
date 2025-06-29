@@ -8,5 +8,10 @@ namespace EntitySystems.WeaponSystem.Components.ComponentData
     public class WeaponMovementData: WeaponComponentData
     {
         [field: SerializeField] public MovementPerAttack[] Movements;
+        
+        public WeaponMovementData()
+        {
+            DependencyType = typeof(WeaponMovement);
+        }
     }
 }

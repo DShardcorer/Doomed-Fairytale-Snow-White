@@ -1,5 +1,7 @@
 using System;
+using System.Collections.Generic;
 using EntitySystems.WeaponSystem.Components.ComponentData;
+using EntitySystems.WeaponSystem.Components.ComponentData.AttackData;
 using UnityEngine;
 using Utility;
 
@@ -14,7 +16,6 @@ namespace EntitySystems.WeaponSystem.Components
         {
             base.Initialize(parent);
             _data = parent.View.WeaponData.GetComponentData<WeaponHitboxData>();
-
             _entityAnimationTriggers.OnTakingEffect += HandleAttackTakingEffect;
             GizmoDrawer.Instance.AddDrawGizmoObject(this);
         }
@@ -27,30 +28,75 @@ namespace EntitySystems.WeaponSystem.Components
             GizmoDrawer.Instance.RemoveDrawGizmoObject(this);
         }
 
-        private Vector2 offset;
-
         private void HandleAttackTakingEffect()
         {
-            offset.Set(
-                _entityView.transform.position.x + (_data.Hitboxes[_entity.CurrentAttackCounter()].HitboxRect.x *
-                                                    _entity.Properties.CardinalizedLastMovementVector().x),
-                _entityView.transform.position.y + (_data.Hitboxes[_entity.CurrentAttackCounter()].HitboxRect.y *
-                                                    _entity.Properties.CardinalizedLastMovementVector().y)
-            );
-
-            Collider2D[] colliders = Physics2D.OverlapBoxAll(
-                offset,
-                _data.Hitboxes[_entity.CurrentAttackCounter()].HitboxRect.size,
-                0f,
-                _data.HitboxLayers
-            );
-            if (colliders.Length == 0)
+            if (!_entity.IsAttacking())
             {
                 return;
             }
-            // OnDamagableHitboxesDetected.Invoke(colliders);
-            //print out all hit colliders names
-            Debug.LogWarning("Hitbox detected: " + colliders[0].gameObject.name);
+            if (!_weapon.IsActive)
+            {
+                return;
+            }
+            Debug.LogWarning("WeaponHitbox: HandleAttackTakingEffect called");
+            int attackIndex = _entity.CurrentAttackCounter();
+            Vector2 movementVector = _entity.Properties.CardinalizedLastMovementVector();
+            Direction playerFacingDirection = GetDirectionFromVector(movementVector);
+            
+            // Use HashSet to store unique colliders
+            HashSet<Collider2D> uniqueColliders = new HashSet<Collider2D>();
+
+            // Find hitboxes matching current player direction
+            foreach (HitboxPerAttackDirection hitboxDirection in _data.Hitboxes[attackIndex].DirectionalHitboxes)
+            {
+                if (hitboxDirection.Direction != playerFacingDirection)
+                    continue;
+
+                // Calculate position based on player position and hitbox rect
+                Vector2 position = new Vector2(
+                    _entityView.transform.position.x + hitboxDirection.HitboxRect.x,
+                    _entityView.transform.position.y + hitboxDirection.HitboxRect.y
+                );
+
+                // Check for collisions using the angle property
+                Collider2D[] colliders = Physics2D.OverlapBoxAll(
+                    position,
+                    hitboxDirection.HitboxRect.size,
+                    hitboxDirection.Angle,
+                    _data.HitboxLayers
+                );
+
+                // Add all colliders to the HashSet (duplicates will be automatically ignored)
+                foreach (Collider2D collider in colliders)
+                {
+                    uniqueColliders.Add(collider);
+                }
+            }
+
+            // If we found any colliders, invoke the callback with the unique colliders
+            if (uniqueColliders.Count > 0)
+            {
+                Collider2D[] uniqueCollidersArray = new Collider2D[uniqueColliders.Count];
+                uniqueColliders.CopyTo(uniqueCollidersArray);
+                
+                OnDamagableHitboxesDetected?.Invoke(uniqueCollidersArray);
+                
+                if (uniqueCollidersArray.Length > 0)
+                {
+                    Debug.LogWarning("Hitbox detected: " + uniqueCollidersArray[0].gameObject.name);
+                }
+            }
+        }
+
+        private Direction GetDirectionFromVector(Vector2 vector)
+        {
+            if (vector.y < 0) return Direction.Down;
+            if (vector.y > 0) return Direction.Up;
+            if (vector.x < 0) return Direction.Left;
+            if (vector.x > 0) return Direction.Right;
+
+            // Default to Down if no movement
+            return Direction.Down;
         }
 
         public void DrawGizmoSelected()
@@ -60,26 +106,52 @@ namespace EntitySystems.WeaponSystem.Components
 
         public void DrawGizmo()
         {
-            if (_data == null)
+            if (_data == null || _entity == null)
             {
                 return;
             }
 
-            foreach (var item in _data.Hitboxes)
+            Vector2 movementVector = _entity.Properties.CardinalizedLastMovementVector();
+            Direction playerFacingDirection = GetDirectionFromVector(movementVector);
+
+            foreach (var hitboxPerAttack in _data.Hitboxes)
             {
-                if (!item.DrawGizmo)
+                foreach (var hitboxDirection in hitboxPerAttack.DirectionalHitboxes)
                 {
-                    return;
+                    if (!hitboxDirection.DrawGizmo)
+                        continue;
+
+                    // Only draw hitboxes for current direction
+                    if (hitboxDirection.Direction == playerFacingDirection)
+                    {
+                        Vector2 position = new Vector2(
+                            _entityView.transform.position.x + hitboxDirection.HitboxRect.x,
+                            _entityView.transform.position.y + hitboxDirection.HitboxRect.y
+                        );
+
+                        // Draw rotated hitbox
+                        DrawRotatedGizmoCube(position, hitboxDirection.HitboxRect.size, hitboxDirection.Angle);
+                    }
                 }
-                Vector2 offset = new Vector2(
-                    _entityView.transform.position.x + (item.HitboxRect.x * _entity.Properties.CardinalizedLastMovementVector().x),
-                    _entityView.transform.position.y + (item.HitboxRect.y * _entity.Properties.CardinalizedLastMovementVector().y)
-                );
-                Gizmos.DrawWireCube(
-                    offset,
-                    item.HitboxRect.size
-                );
             }
+        }
+
+        private void DrawRotatedGizmoCube(Vector2 center, Vector2 size, float angle)
+        {
+            Matrix4x4 originalMatrix = Gizmos.matrix;
+
+            // Create rotation matrix
+            Gizmos.matrix = Matrix4x4.TRS(
+                center,
+                Quaternion.Euler(0, 0, angle),
+                Vector3.one
+            );
+
+            // Draw the cube with rotation applied
+            Gizmos.DrawWireCube(Vector3.zero, size);
+
+            // Restore original matrix
+            Gizmos.matrix = originalMatrix;
         }
     }
 }

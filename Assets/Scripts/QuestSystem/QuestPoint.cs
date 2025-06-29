@@ -2,7 +2,7 @@ using DialogueSystem;
 using EntityBase.Player;
 using EventBus.Dialogue;
 using EventBus.Quest;
-using InteractInterface;
+using GeneralInterfaces;
 using UnityEngine;
 
 namespace QuestSystem

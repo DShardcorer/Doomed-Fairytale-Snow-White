@@ -5,7 +5,7 @@ using EventBus.Dialogue;
 using EventBus.Player;
 using GeneralManagers;
 using Helpers;
-using InteractInterface;
+using GeneralInterfaces;
 using UnityEngine;
 
 namespace EntityBase.NPC

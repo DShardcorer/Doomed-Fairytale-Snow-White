@@ -1,5 +1,5 @@
 using System;
-using InteractInterface;
+using GeneralInterfaces;
 
 namespace EventBus.Player
 {

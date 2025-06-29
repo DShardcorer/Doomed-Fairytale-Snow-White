@@ -29,9 +29,18 @@ namespace EntitySystems.WeaponSystem.Components
 
         private void HandleAttackMovementStart()
         {
+            if (!_entity.IsAttacking())
+            {
+                return;
+            }
+
+            if (!_weapon.IsActive)
+            {
+                return;
+            }
             Vector2 cardinalizedMovementVector = _entity.Properties.CardinalizedLastMovementVector();
 
-            Direction movementDirectionComparedToCardinalizedMovementVector =
+            DirectionComparedToFacingDirection movementDirectionComparedToCardinalizedMovementVector =
                 _weaponMovementData.Movements[_entity.CurrentAttackCounter()].DirectionCompareToEntityLastMovementVector2;
     
             // Calculate movement vector based on direction and entity's last movement
@@ -44,17 +53,17 @@ namespace EntitySystems.WeaponSystem.Components
             _entity.View.AddVelocity(movementVector * movementSpeed);
         }
 
-        private Vector2 CalculateMovementVector(Vector2 baseDirection, Direction direction)
+        private Vector2 CalculateMovementVector(Vector2 baseDirection, DirectionComparedToFacingDirection directionComparedToFacingDirection)
         {
-            switch (direction)
+            switch (directionComparedToFacingDirection)
             {
-                case Direction.Forward:
+                case DirectionComparedToFacingDirection.Forward:
                     return baseDirection;
-                case Direction.Backward:
+                case DirectionComparedToFacingDirection.Backward:
                     return -baseDirection;
-                case Direction.Left:
+                case DirectionComparedToFacingDirection.Left:
                     return new Vector2(-baseDirection.y, baseDirection.x);
-                case Direction.Right:
+                case DirectionComparedToFacingDirection.Right:
                     return new Vector2(baseDirection.y, -baseDirection.x);
                 default:
                     return Vector2.zero;

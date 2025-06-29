@@ -1,5 +1,5 @@
 using System.Linq;
-using InteractInterface;
+using GeneralInterfaces;
 using UnityEngine;
 
 namespace EntityBase.NPC

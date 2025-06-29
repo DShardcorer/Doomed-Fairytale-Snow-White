@@ -16,6 +16,7 @@ MonoBehaviour:
   <ComponentDataList>k__BackingField:
   - rid: 55396219995291741
   - rid: 55396243830997080
+  - rid: 55396264888238163
   references:
     version: 2
     RefIds:
@@ -31,20 +32,86 @@ MonoBehaviour:
       type: {class: WeaponHitboxData, ns: EntitySystems.WeaponSystem.Components.ComponentData, asm: Assembly-CSharp}
       data:
         <Hitboxes>k__BackingField:
-        - DrawGizmo: 1
-          <HitboxRect>k__BackingField:
-            serializedVersion: 2
-            x: 0
-            y: 1
-            width: 2.53
-            height: 3
-        - DrawGizmo: 0
-          <HitboxRect>k__BackingField:
-            serializedVersion: 2
-            x: 0
-            y: 0
-            width: 0
-            height: 0
+        - <DirectionalHitboxes>k__BackingField:
+          - DrawGizmo: 1
+            <Direction>k__BackingField: 0
+            <Angle>k__BackingField: 0
+            <HitboxRect>k__BackingField:
+              serializedVersion: 2
+              x: 0.5
+              y: -0.25
+              width: 2
+              height: 1.5
+          - DrawGizmo: 1
+            <Direction>k__BackingField: 1
+            <Angle>k__BackingField: 0
+            <HitboxRect>k__BackingField:
+              serializedVersion: 2
+              x: -1.5
+              y: 0.25
+              width: 1.5
+              height: 2
+          - DrawGizmo: 1
+            <Direction>k__BackingField: 2
+            <Angle>k__BackingField: 0
+            <HitboxRect>k__BackingField:
+              serializedVersion: 2
+              x: 1.5
+              y: 0.25
+              width: 1.5
+              height: 2
+          - DrawGizmo: 1
+            <Direction>k__BackingField: 3
+            <Angle>k__BackingField: 0
+            <HitboxRect>k__BackingField:
+              serializedVersion: 2
+              x: -0.5
+              y: 2.5
+              width: 2
+              height: 1.5
+        - <DirectionalHitboxes>k__BackingField:
+          - DrawGizmo: 1
+            <Direction>k__BackingField: 0
+            <Angle>k__BackingField: 0
+            <HitboxRect>k__BackingField:
+              serializedVersion: 2
+              x: 0.5
+              y: -0.25
+              width: 2
+              height: 1.5
+          - DrawGizmo: 1
+            <Direction>k__BackingField: 1
+            <Angle>k__BackingField: 0
+            <HitboxRect>k__BackingField:
+              serializedVersion: 2
+              x: -1.5
+              y: 0.25
+              width: 1.5
+              height: 2
+          - DrawGizmo: 1
+            <Direction>k__BackingField: 2
+            <Angle>k__BackingField: 0
+            <HitboxRect>k__BackingField:
+              serializedVersion: 2
+              x: 1.5
+              y: 0.25
+              width: 1.5
+              height: 2
+          - DrawGizmo: 1
+            <Direction>k__BackingField: 3
+            <Angle>k__BackingField: 0
+            <HitboxRect>k__BackingField:
+              serializedVersion: 2
+              x: -0.5
+              y: 2.5
+              width: 2
+              height: 1.5
         <HitboxLayers>k__BackingField:
           serializedVersion: 2
           m_Bits: 128
+    - rid: 55396264888238163
+      type: {class: WeaponDamageData, ns: EntitySystems.WeaponSystem.Components.ComponentData, asm: Assembly-CSharp}
+      data:
+        <Damages>k__BackingField:
+        - <Coefficient>k__BackingField: 0.5
+        - <Coefficient>k__BackingField: 0.7

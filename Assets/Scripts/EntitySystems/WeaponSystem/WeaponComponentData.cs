@@ -1,8 +1,10 @@
+using System;
+
 namespace EntitySystems.WeaponSystem
 {
     [System.Serializable]
-    public class WeaponComponentData
+    public abstract class WeaponComponentData
     {
-        
+        public Type DependencyType { get; protected set; }
     }
 }

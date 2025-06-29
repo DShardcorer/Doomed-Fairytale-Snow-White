@@ -12,6 +12,9 @@ namespace EntitySystems.WeaponSystem
         private WeaponSystem _parent;
         public WeaponSystem Parent => _parent;
         private List<WeaponComponent> _components = new List<WeaponComponent>();
+        public List<WeaponComponent> Components => _components;
+        public WeaponDataSO WeaponData => _view.WeaponData;
+        public bool IsActive { get; private set; }
 
         public void Initialize(WeaponSystem parent, WeaponView view)
         {
@@ -22,21 +25,23 @@ namespace EntitySystems.WeaponSystem
         public void Initialize(WeaponSystem parent)
         {
             _parent = parent;
-            if (_view == null)
+            _view.Initialize(this);
+            _components.Clear();
+            foreach (WeaponComponentData weaponComponentData in WeaponData.ComponentDataList)
             {
-                Debug.LogError("WeaponView is not assigned in Weapon.");
-            }
-            else
-            {
-                _view.Initialize(this);
+                if (weaponComponentData.DependencyType.IsSubclassOf(typeof(WeaponComponent)))
+                {
+                    WeaponComponent component =
+                        (WeaponComponent)System.Activator.CreateInstance(weaponComponentData.DependencyType);
+                    _components.Add(component);
+                }
+                else
+                {
+                    Debug.LogWarning(
+                        $"Weapon Component Data {weaponComponentData.GetType().Name} does not have a valid DependencyType.");
+                }
             }
 
-            _components.Clear();
-            WeaponMovement movementComponent = new WeaponMovement();
-            _components.Add(movementComponent);
-            WeaponHitbox hitboxComponent = new WeaponHitbox();
-            _components.Add(hitboxComponent);
-            
 
             foreach (WeaponComponent component in _components)
             {
@@ -44,9 +49,26 @@ namespace EntitySystems.WeaponSystem
             }
         }
 
+        public void SetAsActiveWeapon()
+        {
+            if (!IsActive)
+            {
+                IsActive = true;
+            }
+        }
+
+        public void SetAsInactiveWeapon()
+        {
+            if (IsActive)
+            {
+                IsActive = false;
+            }
+        }
+
         public void Enter()
         {
             _view.SetIsAttacking(true);
+            _parent.SetActiveWeapon(this);
         }
 
         public void Update()
@@ -74,11 +96,7 @@ namespace EntitySystems.WeaponSystem
             }
 
             _components.Clear();
-            if (_view != null)
-            {
-                _view.Dispose();
-                _view = null;
-            }
+            _view = null;
         }
     }
 }

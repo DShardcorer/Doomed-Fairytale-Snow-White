@@ -4,7 +4,7 @@ using EventBus.Dialogue;
 using EventBus.Player;
 using GeneralManagers;
 using Input;
-using InteractInterface;
+using GeneralInterfaces;
 using UnityEngine;
 
 namespace EntityBase.Player.Interaction

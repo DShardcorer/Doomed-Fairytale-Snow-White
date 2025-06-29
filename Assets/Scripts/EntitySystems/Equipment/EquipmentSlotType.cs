@@ -7,8 +7,8 @@ namespace EntitySystems.Equipment
         Legs,
         Boots,
         Hands,
-        Weapon,
-        OffHand,
+        PrimaryWeapon,
+        SecondaryWeapon,
         Necklace,
         Ring1,
         Ring2

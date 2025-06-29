@@ -1,5 +1,6 @@
 using System.Collections;
 using EntitySystems.WeaponSystem;
+using GeneralInterfaces;
 using GeneralManagers;
 using Helpers;
 using UI.General;
@@ -7,7 +8,7 @@ using UnityEngine;
 
 namespace EntityBase
 {
-    public class EntityView : MonoBehaviour, ILifecycle<Entity>
+    public class EntityView : MonoBehaviour, ILifecycle<Entity>, IDamagable
     {
         protected Entity _parent;
         public Entity Parent => _parent;
@@ -137,6 +138,11 @@ namespace EntityBase
             {
                 _rigidbody2D.linearVelocity = Vector2.zero;
             }
+        }
+
+        public void TakeDamage(float damage, Entity attacker)
+        {
+            _parent.TakeDamage(damage, attacker);
         }
     }
 }

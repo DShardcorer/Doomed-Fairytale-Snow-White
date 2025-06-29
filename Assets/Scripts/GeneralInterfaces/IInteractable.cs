@@ -1,6 +1,6 @@
 using EntityBase.Player;
 
-namespace InteractInterface
+namespace GeneralInterfaces
 {
     public interface IInteractable
     {

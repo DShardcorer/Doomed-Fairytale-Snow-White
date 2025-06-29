@@ -22,7 +22,13 @@ namespace EntitySystems.WeaponSystem
         
         [SerializeField] private WeaponDataSO weaponData;
         public WeaponDataSO WeaponData => weaponData;
-
+        
+        
+        public void Initialize(Weapon parent, WeaponDataSO weaponData)
+        {
+            this.weaponData = weaponData;
+            Initialize(parent);
+        }
 
         public void Initialize(Weapon parent)
         {
@@ -37,7 +43,8 @@ namespace EntitySystems.WeaponSystem
         public void Dispose()
         {
             _parent = null;
-            _animator = null;
+            weaponData = null;
+            
         }
 
         public void SetIsAttacking(bool isAttacking)
@@ -47,17 +54,12 @@ namespace EntitySystems.WeaponSystem
 
         public virtual void SetAnimationDirection(Vector2 movement)
         {
-            Debug.Log("Set Animation Direction: " + movement);
             if (_lastMovementVector == movement)
                 return;
             _lastMovementVector = movement;
             _animator.SetFloat(HelperAnimationStateName.MOVEMENT_X, movement.x);
             _animator.SetFloat(HelperAnimationStateName.MOVEMENT_Y, movement.y);
         }
-
-        private void OnDrawGizmosSelected()
-        {
-            
-        }
+        
     }
 }

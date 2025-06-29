@@ -8,6 +8,7 @@ using EntitySystems.Stats;
 using EntitySystems.VitalStatSystems.Health_System;
 using EntitySystems.VitalStatSystems.Mana_System;
 using EntitySystems.VitalStatSystems.Stamina_System;
+using EntitySystems.WeaponSystem;
 using Item.Inventory;
 using UnityEngine;
 
@@ -40,7 +41,8 @@ namespace EntityBase
         public StaminaSystem StaminaSystem => staminaSystem;
         protected BuffSystem buffSystem;
         public BuffSystem BuffSystem => buffSystem;
-
+        protected WeaponSystem weaponSystem;
+        public WeaponSystem WeaponSystem => weaponSystem;
 
         public EntityStateMachine StateMachine => stateMachine;
         public EntityView View => view;
@@ -90,6 +92,7 @@ namespace EntityBase
             this.stateMachine = stateMachine;
             this.inventorySystem = inventorySystem;
             this.buffSystem = buffSystem;
+            this.weaponSystem = new WeaponSystem();
         }
 
 
@@ -109,6 +112,7 @@ namespace EntityBase
             healthSystem.Initialize(this);
             manaSystem.Initialize(this);
             staminaSystem.Initialize(this);
+            weaponSystem.Initialize(this);
         }
 
         public virtual void TakeDamage(float damage, Entity damageSource)

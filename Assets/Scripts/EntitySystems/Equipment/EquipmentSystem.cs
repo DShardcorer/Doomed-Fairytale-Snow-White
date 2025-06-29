@@ -35,6 +35,10 @@ namespace EntitySystems.Equipment
             if (_equippedItems.ContainsKey(item.SoEquipmentDataSo.equipmentSlotType))
             {
                 _equippedItems[item.SoEquipmentDataSo.equipmentSlotType] = item;
+                if (item.SoEquipmentDataSo.equipmentSlotType == EquipmentSlotType.PrimaryWeapon)
+                {
+                    
+                }
             }
             else
             {

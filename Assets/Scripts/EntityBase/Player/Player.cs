@@ -50,8 +50,7 @@ namespace EntityBase.Player
         private PlayerEquippedSkillSystem _equippedSkillSystem;
         public PlayerEquippedSkillSystem EquippedSkillSystem => _equippedSkillSystem;
 
-        private WeaponSystem _weaponSystem;
-        public WeaponSystem WeaponSystem => _weaponSystem;
+
 
         public Player(
             PlayerProfile profile,
@@ -71,7 +70,6 @@ namespace EntityBase.Player
                 healthSystem, manaSystem, staminaSystem,
                 stateMachine, inventory, buffSystem)
         {
-            _weaponSystem = new WeaponSystem();
             _equippedSkillSystem = equippedSkillSystem;
             _playerView = view;
             _playerProperties = properties;
@@ -154,7 +152,7 @@ namespace EntityBase.Player
 
             //SkillSystem initialization
             activeSkillSystem.Initialize(this);
-            _weaponSystem.Initialize(this);
+
         }
 
         private void OnAttackInputted(object sender, EventArgs e)
