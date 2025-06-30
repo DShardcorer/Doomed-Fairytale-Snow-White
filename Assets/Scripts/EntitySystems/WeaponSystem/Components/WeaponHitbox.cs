@@ -15,17 +15,18 @@ namespace EntitySystems.WeaponSystem.Components
         public override void Initialize(Weapon parent)
         {
             base.Initialize(parent);
-            _data = parent.View.WeaponData.GetComponentData<WeaponHitboxData>();
+            _data = parent.View.WeaponData.GetBodyTypeHitboxData(_entity.Profile.BodyType);
             _entityAnimationTriggers.OnTakingEffect += HandleAttackTakingEffect;
             GizmoDrawer.Instance.AddDrawGizmoObject(this);
         }
 
         public override void Dispose()
         {
-            base.Dispose();
+
             _entityAnimationTriggers.OnTakingEffect -= HandleAttackTakingEffect;
             _data = null;
             GizmoDrawer.Instance.RemoveDrawGizmoObject(this);
+            base.Dispose();
         }
 
         private void HandleAttackTakingEffect()
@@ -38,7 +39,6 @@ namespace EntitySystems.WeaponSystem.Components
             {
                 return;
             }
-            Debug.LogWarning("WeaponHitbox: HandleAttackTakingEffect called");
             int attackIndex = _entity.CurrentAttackCounter();
             Vector2 movementVector = _entity.Properties.CardinalizedLastMovementVector();
             Direction playerFacingDirection = GetDirectionFromVector(movementVector);

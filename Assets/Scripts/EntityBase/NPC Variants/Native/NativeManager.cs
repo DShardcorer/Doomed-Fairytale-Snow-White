@@ -26,7 +26,7 @@ namespace EntityBase.NPC_Variants.Native
 
         public void SpawnMeleeNative(Vector3 position)
         {
-            EntityProfile entityProfile = new EntityProfile("Native", "A native NPC");
+            EntityProfile entityProfile = new EntityProfile("Native", "A native NPC", BodyType.Man_Average);
             // // EnemyProperties enemyProperties = new EnemyProperties(_enemyPropertiesSO);
             NativeView nativeView = Instantiate(_nativePrefab).GetComponent<NativeView>();
             nativeView.transform.position = position;
@@ -44,8 +44,8 @@ namespace EntityBase.NPC_Variants.Native
             EquipmentSystem equipmentSystem = new EquipmentSystem();
 
 
-            NPCProperties npcProperties = new NPCProperties(EntityFaction.Native,
-                new List<EntityFaction> {EntityFaction.Civilized, EntityFaction.Player}, 2, 10);
+            NPCProperties npcProperties = new NPCProperties(EntityFaction.Native
+                , 2);
 
             //LevelSystem creation
             LevelSystem levelSystem = new LevelSystem();
@@ -63,8 +63,8 @@ namespace EntityBase.NPC_Variants.Native
                 new PatrolNormalNPCAIController(
                     UnityEngine.Resources.Load<NPCAIConfiguration>(HelperResourcePath.NPCAIConfigPath +
                                                                    "StandardNPCMeleeAIConfig"));
-            
-            BuffSystem buffSystem= new BuffSystem();
+
+            BuffSystem buffSystem = new BuffSystem();
             NPC.NPC npc = new NPC.NPC(
                 entityProfile,
                 nativeView,

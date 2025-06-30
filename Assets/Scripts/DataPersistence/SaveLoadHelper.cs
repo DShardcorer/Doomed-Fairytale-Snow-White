@@ -307,7 +307,7 @@ namespace DataPersistence
                     {
                         if (item is EquipmentInventoryItem equipItem && 
                             item.itemDataSo.itemName == slotData.itemName &&
-                            equipItem.SoEquipmentDataSo.equipmentSlotType == slotData.slotType)
+                            equipItem.EquipmentDataSo.equipmentSlotType == slotData.slotType)
                         {
                             equipmentSystem.EquipItem(equipItem);
                             break;

@@ -20,10 +20,11 @@ namespace EntitySystems.WeaponSystem.Components
 
         public override void Dispose()
         {
-            base.Dispose();
+
             _entityAnimationTriggers.OnAttackMovementStart -= HandleAttackMovementStart;
             _entityAnimationTriggers.OnAttackMovementEnd -= HandleAttackMovementEnd;
             _weaponMovementData = null;
+            base.Dispose();
         }
 
 

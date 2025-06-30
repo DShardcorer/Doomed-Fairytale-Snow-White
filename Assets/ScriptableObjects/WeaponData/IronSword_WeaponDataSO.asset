@@ -12,10 +12,16 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: d73a233c487c4df6ae4def067e6078c1, type: 3}
   m_Name: IronSword_WeaponDataSO
   m_EditorClassIdentifier: 
-  <WeaponAnimatorController>k__BackingField: {fileID: 9100000, guid: d24d0988ddeb57b4f83288fa3892645f, type: 2}
+  <BodyTypeSpecificData>k__BackingField:
+  - <BodyType>k__BackingField: 1
+    <WeaponAnimatorController>k__BackingField: {fileID: 9100000, guid: d24d0988ddeb57b4f83288fa3892645f, type: 2}
+    <WeaponHitbox>k__BackingField:
+      rid: 55396287969230936
+  <DefaultWeaponAnimatorController>k__BackingField: {fileID: 9100000, guid: d24d0988ddeb57b4f83288fa3892645f, type: 2}
+  <DefaultWeaponHitbox>k__BackingField:
+    rid: 55396287969230939
   <ComponentDataList>k__BackingField:
   - rid: 55396219995291741
-  - rid: 55396243830997080
   - rid: 55396264888238163
   references:
     version: 2
@@ -28,7 +34,13 @@ MonoBehaviour:
           <Velocity>k__BackingField: 2
         - <DirectionCompareToEntityLastMovementVector2>k__BackingField: 0
           <Velocity>k__BackingField: 3
-    - rid: 55396243830997080
+    - rid: 55396264888238163
+      type: {class: WeaponDamageData, ns: EntitySystems.WeaponSystem.Components.ComponentData, asm: Assembly-CSharp}
+      data:
+        <Damages>k__BackingField:
+        - <Coefficient>k__BackingField: 0.5
+        - <Coefficient>k__BackingField: 0.7
+    - rid: 55396287969230936
       type: {class: WeaponHitboxData, ns: EntitySystems.WeaponSystem.Components.ComponentData, asm: Assembly-CSharp}
       data:
         <Hitboxes>k__BackingField:
@@ -109,9 +121,84 @@ MonoBehaviour:
         <HitboxLayers>k__BackingField:
           serializedVersion: 2
           m_Bits: 128
-    - rid: 55396264888238163
-      type: {class: WeaponDamageData, ns: EntitySystems.WeaponSystem.Components.ComponentData, asm: Assembly-CSharp}
+    - rid: 55396287969230939
+      type: {class: WeaponHitboxData, ns: EntitySystems.WeaponSystem.Components.ComponentData, asm: Assembly-CSharp}
       data:
-        <Damages>k__BackingField:
-        - <Coefficient>k__BackingField: 0.5
-        - <Coefficient>k__BackingField: 0.7
+        <Hitboxes>k__BackingField:
+        - <DirectionalHitboxes>k__BackingField:
+          - DrawGizmo: 1
+            <Direction>k__BackingField: 0
+            <Angle>k__BackingField: 0
+            <HitboxRect>k__BackingField:
+              serializedVersion: 2
+              x: 0.5
+              y: -0.25
+              width: 2
+              height: 1.5
+          - DrawGizmo: 1
+            <Direction>k__BackingField: 1
+            <Angle>k__BackingField: 0
+            <HitboxRect>k__BackingField:
+              serializedVersion: 2
+              x: -1.5
+              y: 0.25
+              width: 1.5
+              height: 2
+          - DrawGizmo: 1
+            <Direction>k__BackingField: 2
+            <Angle>k__BackingField: 0
+            <HitboxRect>k__BackingField:
+              serializedVersion: 2
+              x: 1.5
+              y: 0.25
+              width: 1.5
+              height: 2
+          - DrawGizmo: 1
+            <Direction>k__BackingField: 3
+            <Angle>k__BackingField: 0
+            <HitboxRect>k__BackingField:
+              serializedVersion: 2
+              x: -0.5
+              y: 2.5
+              width: 2
+              height: 1.5
+        - <DirectionalHitboxes>k__BackingField:
+          - DrawGizmo: 1
+            <Direction>k__BackingField: 0
+            <Angle>k__BackingField: 0
+            <HitboxRect>k__BackingField:
+              serializedVersion: 2
+              x: 0.5
+              y: -0.25
+              width: 2
+              height: 1.5
+          - DrawGizmo: 1
+            <Direction>k__BackingField: 1
+            <Angle>k__BackingField: 0
+            <HitboxRect>k__BackingField:
+              serializedVersion: 2
+              x: -1.5
+              y: 0.25
+              width: 1.5
+              height: 2
+          - DrawGizmo: 1
+            <Direction>k__BackingField: 2
+            <Angle>k__BackingField: 0
+            <HitboxRect>k__BackingField:
+              serializedVersion: 2
+              x: 1.5
+              y: 0.25
+              width: 1.5
+              height: 2
+          - DrawGizmo: 1
+            <Direction>k__BackingField: 3
+            <Angle>k__BackingField: 0
+            <HitboxRect>k__BackingField:
+              serializedVersion: 2
+              x: -0.5
+              y: 2.5
+              width: 2
+              height: 1.5
+        <HitboxLayers>k__BackingField:
+          serializedVersion: 2
+          m_Bits: 128

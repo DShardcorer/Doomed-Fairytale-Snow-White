@@ -1,6 +1,7 @@
 using System;
 using EntityBase.AttackCheck;
 using EntityBase.Player.State;
+using EntitySystems.Equipment;
 using EntitySystems.WeaponSystem;
 using Helpers;
 using UnityEngine;
@@ -14,6 +15,7 @@ namespace EntitySystems.Skill.ActiveSkills.Player.Attack
         private PlayerAttackingProperties _playerAttackProperties;
         private WeaponSystem.WeaponSystem _weaponSystem;
         private Weapon _activeWeapon => _weaponSystem?.PrimaryWeapon;
+        private EquipmentSystem _equipmentSystem => _player.EquipmentSystem;
         
         
         //Counter fields
@@ -68,7 +70,11 @@ namespace EntitySystems.Skill.ActiveSkills.Player.Attack
             base.EnterState();
             _view.SetAttackCounter(CurrentAttackCounter);
             _player.IsBusy = true;
-            _activeWeapon.Enter();
+            if (_equipmentSystem.IsPrimaryWeaponEquipped())
+            {
+                _activeWeapon.Enter();
+            }
+
             AttackCounterResetTimer.StopTimer();
             _player.InvokeOnAttackStarts();
         }
@@ -76,7 +82,6 @@ namespace EntitySystems.Skill.ActiveSkills.Player.Attack
         public override void UpdateState()
         {
             base.UpdateState();
-            _activeWeapon.Update();
             AttackCounterResetTimer.Tick(Time.deltaTime);
             if(_isAnimationEnded)
             {
@@ -91,13 +96,20 @@ namespace EntitySystems.Skill.ActiveSkills.Player.Attack
             _player.IsBusy = false;
             CurrentAttackCounter++;
             _view.SetAttackCounter(CurrentAttackCounter);
-            _activeWeapon.Exit();
+            if (_equipmentSystem.IsPrimaryWeaponEquipped())
+            {
+                _activeWeapon.Exit();
+            }
             AttackCounterResetTimer.StartTimer();
             base.ExitState();
         }
 
         protected override void OnTakingEffect()
         {
+            if (_equipmentSystem.IsPrimaryWeaponEquipped())
+            {
+                return;
+            }
             _entity.AttackHitbox.PerformAttack(AttackType.OverlapCircle,
                 _player.StatSystem.CombatStatBoard.PhysicalAttack.ModifiedValue);
         }

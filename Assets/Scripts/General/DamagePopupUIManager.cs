@@ -24,6 +24,7 @@ namespace General
 
         private void OnHealthChanged(object sender, HealthChangedEventArgs e)
         {
+            Debug.LogWarning("Health Changed");
             if (e.CurrentHealth - e.LastCurrentHealth == 0)
             {
                 return;

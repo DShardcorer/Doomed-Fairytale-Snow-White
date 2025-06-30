@@ -93,31 +93,31 @@ namespace GeneralManagers
         }
 
 
-        private void Update()
-        {
-            if (UnityEngine.Input.GetMouseButtonDown(0))
-            {
-                // Check for UI elements first
-                PointerEventData eventData = new PointerEventData(EventSystem.current);
-                eventData.position = UnityEngine.Input.mousePosition;
-                List<RaycastResult> results = new List<RaycastResult>();
-                EventSystem.current.RaycastAll(eventData, results);
-
-                if (results.Count > 0)
-                {
-                    Debug.LogWarning("Clicked on UI: " + results[0].gameObject.name);
-                }
-                else
-                {
-                    // If no UI was clicked, check for world objects
-                    Ray ray = Camera.main.ScreenPointToRay(UnityEngine.Input.mousePosition);
-                    if (Physics.Raycast(ray, out RaycastHit hit))
-                    {
-                        Debug.LogWarning("Clicked on: " + hit.collider.name);
-                    }
-                }
-            }
-        }
+        // private void Update()
+        // {
+        //     if (UnityEngine.Input.GetMouseButtonDown(0))
+        //     {
+        //         // Check for UI elements first
+        //         PointerEventData eventData = new PointerEventData(EventSystem.current);
+        //         eventData.position = UnityEngine.Input.mousePosition;
+        //         List<RaycastResult> results = new List<RaycastResult>();
+        //         EventSystem.current.RaycastAll(eventData, results);
+        //
+        //         if (results.Count > 0)
+        //         {
+        //             Debug.LogWarning("Clicked on UI: " + results[0].gameObject.name);
+        //         }
+        //         else
+        //         {
+        //             // If no UI was clicked, check for world objects
+        //             Ray ray = Camera.main.ScreenPointToRay(UnityEngine.Input.mousePosition);
+        //             if (Physics.Raycast(ray, out RaycastHit hit))
+        //             {
+        //                 Debug.LogWarning("Clicked on: " + hit.collider.name);
+        //             }
+        //         }
+        //     }
+        // }
 
         public void Dispose()
         {

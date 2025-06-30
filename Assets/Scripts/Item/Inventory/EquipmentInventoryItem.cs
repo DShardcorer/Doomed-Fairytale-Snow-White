@@ -2,12 +2,12 @@ namespace Item.Inventory
 {
     public class EquipmentInventoryItem : InventoryItem
     {
-        private ItemDataSOEquipment _soEquipmentDataSo;
-        public ItemDataSOEquipment SoEquipmentDataSo => _soEquipmentDataSo;
+        private ItemDataSOEquipment _equipmentDataSo;
+        public ItemDataSOEquipment EquipmentDataSo => _equipmentDataSo;
         public bool isEquipped = false;
         public EquipmentInventoryItem(ItemDataSOEquipment itemDataSo, int quantity) : base(itemDataSo, quantity)
         {
-            _soEquipmentDataSo = itemDataSo;
+            _equipmentDataSo = itemDataSo;
         }
         
     }

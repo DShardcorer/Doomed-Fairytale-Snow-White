@@ -227,7 +227,7 @@ namespace EntitySystems.VitalStatSystems.Health_System
         // Virtual hook for derived classes to override when health changes.
         protected virtual void InvokeHealthChanged()
         {
-            // EntityVitalStatsEventSystem.InvokeHealthChanged(_entity, new HealthChangedEventArgs(lastCurrentHealth, currentHealth, maxHealth));
+            EntityVitalStatsEventSystem.InvokeHealthChanged(_entity, new HealthChangedEventArgs(lastCurrentHealth, currentHealth, maxHealth));
             OnHealthChangedHook?.Invoke(new HealthChangedEventArgs(lastCurrentHealth, currentHealth, maxHealth));
         }
     }

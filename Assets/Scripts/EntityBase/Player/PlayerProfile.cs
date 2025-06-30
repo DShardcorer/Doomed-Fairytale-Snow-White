@@ -4,7 +4,7 @@ namespace EntityBase.Player
 {
     public class PlayerProfile : EntityProfile
     {
-        public PlayerProfile(string name, string description) : base(name, description)
+        public PlayerProfile(string name, string description, BodyType bodyType) : base(name, description, bodyType)
         {
         }
 

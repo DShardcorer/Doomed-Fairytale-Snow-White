@@ -56,7 +56,8 @@ namespace EntityBase.Player
 
             //PlayerView creation
             PlayerView playerView = playerGameObject.GetComponent<PlayerView>();
-            PlayerProfile playerProfile = new PlayerProfile("Player", "The main player character");
+            PlayerProfile playerProfile =
+                new PlayerProfile("Player", "The main player character", BodyType.Man_Average);
             DontDestroyOnLoad(playerView);
             //ActiveSkillSystem creation
             DashActiveSkill dashActiveSkill =

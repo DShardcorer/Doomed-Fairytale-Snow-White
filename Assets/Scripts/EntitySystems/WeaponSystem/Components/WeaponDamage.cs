@@ -1,4 +1,5 @@
 using System.Linq;
+using EntityBase;
 using EntitySystems.Stats;
 using EntitySystems.WeaponSystem.Components.ComponentData;
 using GeneralInterfaces;
@@ -54,6 +55,10 @@ namespace EntitySystems.WeaponSystem.Components
             {
                 if (collider.TryGetComponent(out IDamagable damagable))
                 {
+                    if (_entity.View == damagable)
+                    {
+                        continue;
+                    }
                     float damageAmount = _data.Damages[_entity.CurrentAttackCounter()].Coefficient *
                                          _entityStatSystem.CombatStatBoard.PhysicalAttack.ModifiedValue;
                     // Apply damage to the damagable entity

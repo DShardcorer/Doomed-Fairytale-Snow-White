@@ -5,7 +5,7 @@ using UnityEngine;
 
 namespace Item
 {
-    [CreateAssetMenu(fileName = "New Equipment Item", menuName = "Equipment ItemData")]
+    [CreateAssetMenu(fileName = "New Equipment Item Data", menuName = "ItemData/Equipment ItemData")]
     public class ItemDataSOEquipment : ItemDataSO
     {
 

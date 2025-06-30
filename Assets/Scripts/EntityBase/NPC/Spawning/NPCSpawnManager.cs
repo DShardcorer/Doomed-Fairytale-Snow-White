@@ -156,9 +156,7 @@ namespace EntityBase.NPC.Spawning
             // Create NPC properties
             NPCProperties npcProperties = new NPCProperties(
                 npcData.faction,
-                npcData.enemyFactions,
-                npcData.speed,
-                npcData.aggroRange
+                npcData.speed
             );
 
             // Create level system

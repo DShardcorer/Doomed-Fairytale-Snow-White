@@ -9,13 +9,13 @@ MonoBehaviour:
   m_GameObject: {fileID: 0}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: dc073f018375f4f419f2f84b047889b1, type: 3}
-  m_Name: Iron Sword
+  m_Script: {fileID: 11500000, guid: 8e86f39e4e6256d4099186bc5a7266bd, type: 3}
+  m_Name: IronSword
   m_EditorClassIdentifier: 
   itemType: 0
   itemName: Iron Sword
   icon: {fileID: 756598989, guid: 1cdeade6368c6cf4bac8b847b58f7c5c, type: 3}
-  description: No description available.
+  description: Standard mass-produced iron sword for soldiers of the queendom.
   value: 300
   weight: 10
   equipmentSlotType: 5
@@ -27,3 +27,4 @@ MonoBehaviour:
   - StatType: 0
     statModifierType: 0
     Value: 1
+  <WeaponData>k__BackingField: {fileID: 11400000, guid: 92d569a944a00d441b2cf3252f21fd9a, type: 2}

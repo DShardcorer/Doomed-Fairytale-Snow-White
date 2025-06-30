@@ -5,15 +5,11 @@ namespace EntityBase.NPC
 {
     public class NPCProperties : EntityProperties
     {
-        private List<EntityFaction> hostileToFactions;
-        public List<EntityFaction> HostileToFactions => hostileToFactions;
-
-
-
-        public NPCProperties(EntityFaction entityFaction, List<EntityFaction> hostileToFactions,  float moveSpeed, float chaseRange) : base(entityFaction, moveSpeed)
+        
+        public NPCProperties(EntityFaction entityFaction, float moveSpeed) : base(entityFaction, moveSpeed)
         {
 
-            this.hostileToFactions = hostileToFactions;
+
         }
 
     }

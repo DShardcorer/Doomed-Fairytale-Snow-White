@@ -25,25 +25,25 @@ namespace EntitySystems.WeaponSystem
         {
             _parent = parent;
             _primaryWeaponView = _parent.View.PrimaryWeaponView;
-            if (_primaryWeaponView != null)
-            {
-                _primaryWeapon = new Weapon();
-                _primaryWeapon.Initialize(this, _primaryWeaponView);
-            }
-            else
-            {
-                _primaryWeapon = null;
-            }
+            // if (_primaryWeaponView != null)
+            // {
+            //     _primaryWeapon = new Weapon();
+            //     _primaryWeapon.Initialize(this, _primaryWeaponView);
+            // }
+            // else
+            // {
+            //     _primaryWeapon = null;
+            // }
             _secondaryWeaponView = _parent.View.SecondaryWeaponView;
-            if (_secondaryWeaponView != null)
-            {
-                _secondaryWeapon = new Weapon();
-                _secondaryWeapon.Initialize(this, _secondaryWeaponView);
-            }
-            else
-            {
-                _secondaryWeapon = null;
-            }
+            // if (_secondaryWeaponView != null)
+            // {
+            //     _secondaryWeapon = new Weapon();
+            //     _secondaryWeapon.Initialize(this, _secondaryWeaponView);
+            // }
+            // else
+            // {
+            //     _secondaryWeapon = null;
+            // }
         }
         public void EquipWeapon(WeaponDataSO weaponData, WeaponSlotType weaponSlotType)
         {
@@ -59,7 +59,7 @@ namespace EntitySystems.WeaponSystem
                     {
                         _primaryWeapon.Dispose();
                     }
-                    _primaryWeaponView.Initialize(newWeapon, weaponData);
+                    _primaryWeaponView.Initialize(this, weaponData);
                     newWeapon.Initialize(this, _primaryWeaponView);
                     _primaryWeapon = newWeapon;
                     break;
@@ -68,7 +68,7 @@ namespace EntitySystems.WeaponSystem
                     {
                         _secondaryWeapon.Dispose();
                     }
-                    _secondaryWeaponView.Initialize(newWeapon, weaponData);
+                    _secondaryWeaponView.Initialize(this, weaponData);
                     newWeapon.Initialize(this,_secondaryWeaponView);
                     _secondaryWeapon = newWeapon;
                     break;

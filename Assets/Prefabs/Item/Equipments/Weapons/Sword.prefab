@@ -138,7 +138,8 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 14bbe4a625644c242b777891cde63aa2, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  itemData: {fileID: 11400000, guid: e95bd51fae1b2d040b00e5b51ec38010, type: 2}
+  itemDataSo: {fileID: 11400000, guid: bd73ce2ca55bad2488914171d093a606, type: 2}
+  stackSize: 1
 --- !u!114 &6137079114975198028
 MonoBehaviour:
   m_ObjectHideFlags: 0

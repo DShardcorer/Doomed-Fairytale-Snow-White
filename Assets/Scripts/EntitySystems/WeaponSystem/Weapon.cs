@@ -1,11 +1,12 @@
 using System.Collections.Generic;
 using EntitySystems.WeaponSystem.Components;
+using EntitySystems.WeaponSystem.Components.ComponentData;
 using GeneralManagers;
 using UnityEngine;
 
 namespace EntitySystems.WeaponSystem
 {
-    public class Weapon : ILifecycle<WeaponSystem>
+    public class Weapon : ILifecycle<WeaponSystem>, IUpdatable
     {
         private WeaponView _view;
         public WeaponView View => _view;
@@ -25,8 +26,12 @@ namespace EntitySystems.WeaponSystem
         public void Initialize(WeaponSystem parent)
         {
             _parent = parent;
-            _view.Initialize(this);
             _components.Clear();
+            
+            //Bodytype Specific Components
+            WeaponHitbox hitboxComponent = new WeaponHitbox();
+            _components.Add(hitboxComponent);
+            
             foreach (WeaponComponentData weaponComponentData in WeaponData.ComponentDataList)
             {
                 if (weaponComponentData.DependencyType.IsSubclassOf(typeof(WeaponComponent)))
@@ -47,6 +52,7 @@ namespace EntitySystems.WeaponSystem
             {
                 component.Initialize(this);
             }
+            GameManager.Instance.UpdateManager.AddUpdatable(this);
         }
 
         public void SetAsActiveWeapon()
@@ -70,16 +76,11 @@ namespace EntitySystems.WeaponSystem
             _view.SetIsAttacking(true);
             _parent.SetActiveWeapon(this);
         }
-
-        public void Update()
+        public void UpdateLogic()
         {
             _view.SetAnimationDirection(_parent.Parent.Properties.lastMovementVector);
         }
-
-        public void FixedUpdate()
-        {
-            //Fixed update weapon state if needed
-        }
+        
 
         public void Exit()
         {
@@ -89,6 +90,7 @@ namespace EntitySystems.WeaponSystem
 
         public void Dispose()
         {
+            GameManager.Instance.UpdateManager.RemoveUpdatable(this);
             _parent = null;
             foreach (WeaponComponent component in _components)
             {
@@ -97,6 +99,9 @@ namespace EntitySystems.WeaponSystem
 
             _components.Clear();
             _view = null;
+
         }
+
+
     }
 }

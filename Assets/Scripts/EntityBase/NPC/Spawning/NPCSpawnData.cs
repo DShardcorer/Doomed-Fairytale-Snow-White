@@ -27,23 +27,21 @@ namespace EntityBase.NPC.Spawning
         
         [Header("Faction")]
         public EntityFaction faction = EntityFaction.Native;
-        public List<EntityFaction> enemyFactions = new List<EntityFaction>();
         
         [Header("AI Configuration")]
         public NPCAIType aiType = NPCAIType.PatrolNormal;
         public NPCAIConfiguration aiConfiguration;
         
         [Header("Skills")]
-        public List<ActiveSkillInfoSO> activeSkills = new List<ActiveSkillInfoSO>();
-        public List<PassiveSkillInfoSO> passiveSkills = new List<PassiveSkillInfoSO>();
+        public List<ActiveSkillInfoSO> activeSkills;
+        public List<PassiveSkillInfoSO> passiveSkills;
         
         [Header("Equipment")]
-        public List<ItemDataSOEquipment> startingEquipment = new List<ItemDataSOEquipment>();
-        public List<InventoryItem> startingInventory = new List<InventoryItem>();
+        public List<ItemDataSOEquipment> startingEquipment;
+        public List<InventoryItem> startingInventory;
         
         [Header("Behavior")]
         public float speed = 2f;
-        public float aggroRange = 3f;
         
         [Header("Spawn Settings")]      
         public int poolSize = 5;
