@@ -11,6 +11,7 @@ using EntitySystems.Skill.PassiveSkills;
 using EntitySystems.Skill.SkillRegistry;
 using EntitySystems.States.Movement;
 using EntitySystems.Stats;
+using EntitySystems.WeaponSystem;
 using EventBus.Player;
 using GeneralManagers;
 using Helpers;
@@ -57,7 +58,7 @@ namespace EntityBase.Player
             //PlayerView creation
             PlayerView playerView = playerGameObject.GetComponent<PlayerView>();
             PlayerProfile playerProfile =
-                new PlayerProfile("Player", "The main player character", BodyType.Man_Average);
+                new PlayerProfile("Player", "The main player character");
             DontDestroyOnLoad(playerView);
             //ActiveSkillSystem creation
             DashActiveSkill dashActiveSkill =
@@ -125,13 +126,14 @@ namespace EntityBase.Player
 
             PlayerEquippedSkillSystem playerEquippedSkillSystem = new PlayerEquippedSkillSystem();
 
+            WeaponSystem weaponSystem = new WeaponSystem();
             _player = new Player(playerProfile,
                 playerView, playerProperties,
                 playerIdleState, playerMoveState, playerAttackState,
                 statSystem, equipmentSystem,
                 activeSkillSystem, passiveSkillSystem,
                 levelSystem, healthSystem, manaSystem, staminaSystem,
-                stateMachine, inventory, buffSystem, playerEquippedSkillSystem);
+                stateMachine, inventory, buffSystem, playerEquippedSkillSystem, weaponSystem);
             _player.Initialize(this);
         }
 

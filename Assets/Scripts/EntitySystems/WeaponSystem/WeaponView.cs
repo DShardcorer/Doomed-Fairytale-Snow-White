@@ -17,7 +17,7 @@ namespace EntitySystems.WeaponSystem
         [SerializeField] private WeaponAnimationTriggers weaponAnimationTriggers;
         public WeaponAnimationTriggers WeaponAnimationTriggers => weaponAnimationTriggers;
 
-        [SerializeField] private WeaponDataSO weaponData;
+        private WeaponDataSO weaponData;
         public WeaponDataSO WeaponData => weaponData;
 
         public void Initialize(WeaponSystem parent)
@@ -26,11 +26,11 @@ namespace EntitySystems.WeaponSystem
             if (_animator == null)
                 _animator = GetComponent<Animator>();
             //log out the body type
-            Debug.LogWarning(_parent.Parent.Profile.BodyType.ToString());
-            RuntimeAnimatorController controller =  weaponData.GetBodyTypeAnimatorController(_parent.Parent.Profile.BodyType);
+            Debug.LogWarning(_parent.Parent.View.BodyType.ToString());
+            RuntimeAnimatorController controller =  weaponData.GetBodyTypeAnimatorController(_parent.Parent.View.BodyType);
             if (controller == null)
             {
-                Debug.LogError($"Animator Controller not found for body type: {_parent.Parent.Profile.BodyType}");
+                Debug.LogError($"Animator Controller not found for body type: {_parent.Parent.View.BodyType}");
                 return;
             }
             _animator.runtimeAnimatorController = controller;

@@ -15,14 +15,13 @@ namespace EntitySystems.WeaponSystem.Components
         public override void Initialize(Weapon parent)
         {
             base.Initialize(parent);
-            _data = parent.View.WeaponData.GetBodyTypeHitboxData(_entity.Profile.BodyType);
+            _data = parent.View.WeaponData.GetBodyTypeHitboxData(_entity.View.BodyType);
             _entityAnimationTriggers.OnTakingEffect += HandleAttackTakingEffect;
             GizmoDrawer.Instance.AddDrawGizmoObject(this);
         }
 
         public override void Dispose()
         {
-
             _entityAnimationTriggers.OnTakingEffect -= HandleAttackTakingEffect;
             _data = null;
             GizmoDrawer.Instance.RemoveDrawGizmoObject(this);

@@ -28,7 +28,6 @@ namespace EntityBase.NPC.Spawning
         // Additional dictionary to track NPCs by their name
         private Dictionary<string, NPC> spawnedNPCsByName = new Dictionary<string, NPC>();
 
-
         private async void Start()
         {
             await ServiceLocator.InitializationTask;
@@ -39,7 +38,6 @@ namespace EntityBase.NPC.Spawning
             }
         }
 
-
         public async void SpawnAllSceneNPCs()
         {
             for (int i = 0; i < sceneNPCs.Count; i++)
@@ -49,12 +47,23 @@ namespace EntityBase.NPC.Spawning
                 {
                     // Stagger spawns to avoid performance hitches
                     await Task.Delay((int)(staggeredSpawnDelay * 1000));
-                    SpawnSceneNPC(npcData.npcKey);
+                    SpawnSceneNPCByIndex(i);
                 }
             }
         }
 
-        public async Task<NPC> SpawnSceneNPCAsync(string npcKey)
+        private NPC SpawnSceneNPCByIndex(int index)
+        {
+            if (index < 0 || index >= sceneNPCs.Count)
+            {
+                Debug.LogError($"Invalid NPC index: {index}");
+                return null;
+            }
+            
+            return SpawnSceneNPCFromData(sceneNPCs[index]);
+        }
+
+        public async Task<NPC> SpawnSceneNPCAsync(string npcName)
         {
             if (spawnManager == null)
             {
@@ -63,17 +72,18 @@ namespace EntityBase.NPC.Spawning
             }
 
             // Check if NPC already exists
-            if (spawnedNPCs.TryGetValue(npcKey, out var existingNpc))
+            if (spawnedNPCsByName.TryGetValue(npcName, out var existingNpc))
             {
-                Debug.LogWarning($"NPC with key {npcKey} already spawned");
+                Debug.LogWarning($"NPC with name {npcName} already spawned");
                 return existingNpc;
             }
 
-            // Find NPC data by key
-            var npcData = sceneNPCs.FirstOrDefault(n => n.npcKey == npcKey);
+            // Find NPC data for an NPC with a profile that will match this name
+            // This is a heuristic and might not work perfectly without manual keys
+            var npcData = sceneNPCs.FirstOrDefault(n => n.npcData.npcProfile.Name == npcName);
             if (npcData == null)
             {
-                Debug.LogError($"No NPC data found for key: {npcKey}");
+                Debug.LogError($"No NPC data found that would produce an NPC named: {npcName}");
                 return null;
             }
 
@@ -82,37 +92,51 @@ namespace EntityBase.NPC.Spawning
             Quaternion rotation = npcData.spawnPoint ? npcData.spawnPoint.rotation : Quaternion.identity;
 
             // Use the spawn manager to handle the actual spawning
-            // NPC spawnedNPC = await spawnManager.SpawnNPCAsync(npcData.npcData, position, rotation);
             NPC spawnedNPC = await spawnManager.SpawnNPCAsync(npcData.npcData, position, rotation);
             if (spawnedNPC != null)
             {
-                // Add to both dictionaries
-                spawnedNPCs[npcKey] = spawnedNPC;
+                // Use profile name as key
+                string actualKey = spawnedNPC.Profile.Name;
+
+                // Check if NPC already exists with this key
+                if (spawnedNPCs.ContainsKey(actualKey))
+                {
+                    int counter = 1;
+                    string uniqueKey = $"{actualKey}_{counter}";
+                    while (spawnedNPCs.ContainsKey(uniqueKey))
+                    {
+                        counter++;
+                        uniqueKey = $"{actualKey}_{counter}";
+                    }
+                    actualKey = uniqueKey;
+                }
+
+                // Add to key-based dictionary
+                spawnedNPCs[actualKey] = spawnedNPC;
 
                 // Add to name-based dictionary
-                string npcName = spawnedNPC.Profile.Name;
-                if (!string.IsNullOrEmpty(npcName))
+                string npcProfileName = spawnedNPC.Profile.Name;
+                if (!string.IsNullOrEmpty(npcProfileName))
                 {
                     // Handle name conflicts with a numbering scheme
-                    if (spawnedNPCsByName.ContainsKey(npcName))
+                    if (spawnedNPCsByName.ContainsKey(npcProfileName))
                     {
                         int counter = 1;
-                        string uniqueName = $"{npcName}_{counter}";
+                        string uniqueName = $"{npcProfileName}_{counter}";
                         while (spawnedNPCsByName.ContainsKey(uniqueName))
                         {
                             counter++;
-                            uniqueName = $"{npcName}_{counter}";
+                            uniqueName = $"{npcProfileName}_{counter}";
                         }
 
-                        Debug.LogWarning($"NPC name conflict: {npcName} already exists. Using {uniqueName} instead.");
+                        Debug.LogWarning($"NPC name conflict: {npcProfileName} already exists. Using {uniqueName} instead.");
                         spawnedNPCsByName[uniqueName] = spawnedNPC;
                     }
                     else
                     {
-                        spawnedNPCsByName[npcName] = spawnedNPC;
+                        spawnedNPCsByName[npcProfileName] = spawnedNPC;
                     }
                 }
-                
             }
 
             spawnedNPC.Initialize();
@@ -120,7 +144,7 @@ namespace EntityBase.NPC.Spawning
             return spawnedNPC;
         }
 
-        public NPC SpawnSceneNPC(string npcKey)
+        public NPC SpawnSceneNPC(string profileName)
         {
             if (spawnManager == null)
             {
@@ -128,18 +152,22 @@ namespace EntityBase.NPC.Spawning
                 return null;
             }
 
-            // Check if NPC already exists
-            if (spawnedNPCs.TryGetValue(npcKey, out var existingNpc))
-            {
-                Debug.LogWarning($"NPC with key {npcKey} already spawned");
-                return existingNpc;
-            }
-
-            // Find NPC data by key
-            var npcData = sceneNPCs.FirstOrDefault(n => n.npcKey == npcKey);
+            // Find NPC data with matching profile name
+            var npcData = sceneNPCs.FirstOrDefault(n => n.npcData.npcProfile.Name == profileName);
             if (npcData == null)
             {
-                Debug.LogError($"No NPC data found for key: {npcKey}");
+                Debug.LogError($"No NPC data found with profile name: {profileName}");
+                return null;
+            }
+
+            return SpawnSceneNPCFromData(npcData);
+        }
+
+        private NPC SpawnSceneNPCFromData(SceneNPCData npcData)
+        {
+            if (spawnManager == null)
+            {
+                Debug.LogError("Cannot spawn NPC: No NPCSpawnManager available");
                 return null;
             }
 
@@ -151,8 +179,24 @@ namespace EntityBase.NPC.Spawning
             NPC spawnedNPC = spawnManager.SpawnNPC(npcData.npcData, position, rotation);
             if (spawnedNPC != null)
             {
-                // Add to both dictionaries
-                spawnedNPCs[npcKey] = spawnedNPC;
+                // Use profile name as key
+                string actualKey = spawnedNPC.Profile.Name;
+
+                // Check if NPC already exists with this key
+                if (spawnedNPCs.ContainsKey(actualKey))
+                {
+                    int counter = 1;
+                    string uniqueKey = $"{actualKey}_{counter}";
+                    while (spawnedNPCs.ContainsKey(uniqueKey))
+                    {
+                        counter++;
+                        uniqueKey = $"{actualKey}_{counter}";
+                    }
+                    actualKey = uniqueKey;
+                }
+
+                // Add to key-based dictionary
+                spawnedNPCs[actualKey] = spawnedNPC;
 
                 // Add to name-based dictionary
                 string npcName = spawnedNPC.Profile.Name;
@@ -177,7 +221,6 @@ namespace EntityBase.NPC.Spawning
                         spawnedNPCsByName[npcName] = spawnedNPC;
                     }
                 }
-                
             }
 
             spawnedNPC.Initialize();
@@ -194,12 +237,13 @@ namespace EntityBase.NPC.Spawning
                 {
                     spawnedNPCsByName.Remove(npcName);
                 }
-        
-                npc.Dispose();  // Add this to properly dispose
+
+                npc.Dispose();
                 Destroy(npc.NPCView.gameObject);
                 spawnedNPCs.Remove(npcKey);
             }
         }
+
         // Helper method to find NPC name in the dictionary
         private string FindNPCNameInDictionary(NPC npc)
         {
@@ -270,22 +314,16 @@ namespace EntityBase.NPC.Spawning
         private void OnDestroy()
         {
             int npcCount = spawnedNPCs.Values.Count;
-            // Debug.LogWarning($"NPCSceneSpawnManager OnDestroy - Disposing {npcCount} NPCs");
-    
+
             int disposedCount = 0;
             foreach (var npc in spawnedNPCs.Values.ToList())
             {
                 try
                 {
-                    if (npc != null && npc.Profile != null)
+                    if (npc != null)
                     {
-                        // Debug.LogWarning($"NPC {npc.Profile.Name} disposed ({disposedCount+1}/{npcCount})");
                         npc.Dispose();
                         disposedCount++;
-                    }
-                    else
-                    {
-                        // Debug.LogWarning($"Skipping null NPC or NPC with null profile ({disposedCount+1}/{npcCount})");
                     }
                 }
                 catch (System.Exception ex)
@@ -294,7 +332,6 @@ namespace EntityBase.NPC.Spawning
                 }
             }
 
-            // Debug.LogWarning($"Successfully disposed {disposedCount}/{npcCount} NPCs");
             spawnedNPCs.Clear();
             spawnedNPCsByName.Clear();
         }

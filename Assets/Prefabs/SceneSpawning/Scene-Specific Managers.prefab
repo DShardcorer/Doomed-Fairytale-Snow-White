@@ -44,39 +44,12 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 958f7a9aaf5c491e967ae4e9d8990d31, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  sceneNPCs:
-  - rid: 55395762093687063
-  - rid: 55395768653578329
-  - rid: 55395947871207518
+  sceneNPCs: []
   spawnAllOnStart: 1
   staggeredSpawnDelay: 0.1
   references:
     version: 2
-    RefIds:
-    - rid: 55395762093687063
-      type: {class: PatrolSceneNPCData, ns: Entity.NPC.Spawning.SceneNPCDataVariants, asm: Assembly-CSharp}
-      data:
-        npcKey: A random villager
-        npcData: {fileID: 11400000, guid: 56a90780f98d7754da63302be17e60e5, type: 2}
-        spawnPoint: {fileID: 0}
-        spawnOnStart: 1
-        patrolPoints:
-        - {fileID: 0}
-        - {fileID: 0}
-    - rid: 55395768653578329
-      type: {class: SceneNPCData, ns: Entity.NPC.Spawning, asm: Assembly-CSharp}
-      data:
-        npcKey: Next random villager
-        npcData: {fileID: 11400000, guid: bde0757290f46454ca48c8bbdc9fd62f, type: 2}
-        spawnPoint: {fileID: 0}
-        spawnOnStart: 1
-    - rid: 55395947871207518
-      type: {class: SceneNPCData, ns: Entity.NPC.Spawning, asm: Assembly-CSharp}
-      data:
-        npcKey: ShopKeeper
-        npcData: {fileID: 11400000, guid: 58500ee500034784a8c35e7c4de4b9aa, type: 2}
-        spawnPoint: {fileID: 0}
-        spawnOnStart: 1
+    RefIds: []
 --- !u!1 &8596388306047291432
 GameObject:
   m_ObjectHideFlags: 0
@@ -86,7 +59,6 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 5217217939846028768}
-  - component: {fileID: 1658006932797635165}
   m_Layer: 0
   m_Name: Scene-Specific Managers
   m_TagString: Untagged
@@ -110,15 +82,3 @@ Transform:
   - {fileID: 2345977613333334827}
   m_Father: {fileID: 0}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
---- !u!114 &1658006932797635165
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 8596388306047291432}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: add4085d1ac24894bb5cd2e7436414b8, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 

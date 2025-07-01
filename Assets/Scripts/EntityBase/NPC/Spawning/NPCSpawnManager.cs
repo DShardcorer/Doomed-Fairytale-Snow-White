@@ -13,6 +13,7 @@ using EntitySystems.Stats;
 using EntitySystems.VitalStatSystems.Health_System;
 using EntitySystems.VitalStatSystems.Mana_System;
 using EntitySystems.VitalStatSystems.Stamina_System;
+using EntitySystems.WeaponSystem;
 using GeneralManagers;
 using Item;
 using Item.Inventory;
@@ -71,6 +72,7 @@ namespace EntityBase.NPC.Spawning
             if (npc != null)
             {
                 npc.Initialize();
+                PostInitializationAddition(npc, npcData);
                 return npc;
             }
 
@@ -78,6 +80,7 @@ namespace EntityBase.NPC.Spawning
             Destroy(viewObject);
             return null;
         }
+
         //Make a synchronous version
         public virtual NPC SpawnNPC(NPCSpawnData npcData, Vector3 position,
             Quaternion rotation = default)
@@ -107,6 +110,7 @@ namespace EntityBase.NPC.Spawning
             if (npc != null)
             {
                 npc.Initialize();
+                PostInitializationAddition(npc, npcData);
                 return npc;
             }
 
@@ -114,8 +118,12 @@ namespace EntityBase.NPC.Spawning
             Destroy(viewObject);
             return null;
         }
-        
-        
+
+        private void PostInitializationAddition(NPC npc, NPCSpawnData npcData)
+        {
+            AddStartingEquipment(npc.EquipmentSystem, npcData.startingEquipment);
+        }
+
 
         /// <summary>
         /// Non-async wrapper method for backward compatibility
@@ -151,7 +159,7 @@ namespace EntityBase.NPC.Spawning
 
             // Create equipment system and add starting equipment
             EquipmentSystem equipmentSystem = new EquipmentSystem();
-            AddStartingEquipment(equipmentSystem, npcData.startingEquipment);
+
 
             // Create NPC properties
             NPCProperties npcProperties = new NPCProperties(
@@ -171,15 +179,15 @@ namespace EntityBase.NPC.Spawning
             // Create inventory and add starting items
             InventorySystem inventory = new InventorySystem();
             AddStartingInventory(inventory, npcData.startingInventory);
-            
+
             BuffSystem buffSystem = new BuffSystem();
 
+            WeaponSystem weaponSystem = new WeaponSystem();
             // Create AI controller
             NPCAIController aiController = CreateAIController(npcData);
-            
 
-            // Create and return NPC
-            return new NPC(
+
+            NPC createdNPC = new NPC(
                 npcData.npcProfile,
                 npcView,
                 npcProperties,
@@ -194,8 +202,12 @@ namespace EntityBase.NPC.Spawning
                 stateMachine,
                 inventory,
                 buffSystem,
+                weaponSystem,
                 aiController
             );
+            
+            
+            return createdNPC;
         }
 
         protected virtual List<ActiveSkill> CreateActiveSkills(List<ActiveSkillInfoSO> skillSOs)
@@ -213,6 +225,7 @@ namespace EntityBase.NPC.Spawning
                     }
                 }
             }
+
             return skills;
         }
 
@@ -231,6 +244,7 @@ namespace EntityBase.NPC.Spawning
                     }
                 }
             }
+
             return skills;
         }
 
@@ -249,7 +263,8 @@ namespace EntityBase.NPC.Spawning
             }
         }
 
-        protected virtual void AddStartingEquipment(EquipmentSystem equipmentSystem, List<ItemDataSOEquipment> equipment)
+        protected virtual void AddStartingEquipment(EquipmentSystem equipmentSystem,
+            List<ItemDataSOEquipment> equipment)
         {
             foreach (var itemData in equipment)
             {
@@ -276,7 +291,5 @@ namespace EntityBase.NPC.Spawning
         {
             return NPCAIFactory.Create(npcData);
         }
-
-
     }
 }

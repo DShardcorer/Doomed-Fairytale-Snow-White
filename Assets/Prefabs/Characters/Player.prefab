@@ -233,7 +233,6 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   _animator: {fileID: 8028199487964127431}
   weaponAnimationTriggers: {fileID: 402422602383125965}
-  weaponData: {fileID: 11400000, guid: 92d569a944a00d441b2cf3252f21fd9a, type: 2}
 --- !u!1 &2170970304347424379
 GameObject:
   m_ObjectHideFlags: 0
@@ -505,7 +504,6 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   _animator: {fileID: 903455030089438672}
   weaponAnimationTriggers: {fileID: 6804025254716969710}
-  weaponData: {fileID: 11400000, guid: 92d569a944a00d441b2cf3252f21fd9a, type: 2}
 --- !u!1 &6553904771540524225
 GameObject:
   m_ObjectHideFlags: 0
@@ -794,7 +792,7 @@ Transform:
   serializedVersion: 2
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
   m_LocalPosition: {x: 0, y: 0, z: 0}
-  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_LocalScale: {x: 0.67, y: 0.67, z: 0.67}
   m_ConstrainProportionsScale: 0
   m_Children:
   - {fileID: 7620992178914977878}
@@ -842,6 +840,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 8f8e1e9f37e2f514aa239fb59d310efd, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  _bodyType: 1
   _rigidbody2D: {fileID: 2493114286647210097}
   _animator: {fileID: 5489439651947330017}
   _spriteRenderer: {fileID: 5412007118806126440}

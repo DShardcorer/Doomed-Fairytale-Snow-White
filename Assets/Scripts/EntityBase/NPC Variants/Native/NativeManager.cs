@@ -11,6 +11,7 @@ using EntitySystems.Stats;
 using EntitySystems.VitalStatSystems.Health_System;
 using EntitySystems.VitalStatSystems.Mana_System;
 using EntitySystems.VitalStatSystems.Stamina_System;
+using EntitySystems.WeaponSystem;
 using Helpers;
 using Item.Inventory;
 using UnityEngine;
@@ -26,7 +27,7 @@ namespace EntityBase.NPC_Variants.Native
 
         public void SpawnMeleeNative(Vector3 position)
         {
-            EntityProfile entityProfile = new EntityProfile("Native", "A native NPC", BodyType.Man_Average);
+            EntityProfile entityProfile = new EntityProfile("Native", "A native NPC");
             // // EnemyProperties enemyProperties = new EnemyProperties(_enemyPropertiesSO);
             NativeView nativeView = Instantiate(_nativePrefab).GetComponent<NativeView>();
             nativeView.transform.position = position;
@@ -65,6 +66,7 @@ namespace EntityBase.NPC_Variants.Native
                                                                    "StandardNPCMeleeAIConfig"));
 
             BuffSystem buffSystem = new BuffSystem();
+            WeaponSystem weaponSystem = new WeaponSystem();
             NPC.NPC npc = new NPC.NPC(
                 entityProfile,
                 nativeView,
@@ -76,6 +78,7 @@ namespace EntityBase.NPC_Variants.Native
                 healthSystem, manaSystem, staminaSystem,
                 stateMachine,
                 inventory, buffSystem,
+                weaponSystem,
                 enhancedMeleeAIController);
             npc.Initialize();
             // npc.NPCView.transform.position = position;

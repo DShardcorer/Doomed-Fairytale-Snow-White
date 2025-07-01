@@ -20,6 +20,6 @@ namespace Helpers
         //Attack
         public const string ATTACK_COUNTER = "AttackCounter";
         public const string WEAPON_TYPE = "WeaponType";
-        public const string ATTACK_STYLE = "AttackStyle";
+        public const string MASTERY_LEVEL = "MasteryLevel";
     }
 }

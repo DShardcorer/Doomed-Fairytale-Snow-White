@@ -21,12 +21,14 @@ namespace EntitySystems.VitalStatSystems.Health_System
         protected float currentHealth;
         public float CurrentHealth => currentHealth;
         protected float recoveryUpdateTimer = 0f;
-        
+
 
         // Collection of active recovery effects - using Queue for FIFO behavior
-        protected List<RecoveryOverTimeEffect> activeRecoveryEffects = new List<RecoveryOverTimeEffect>(4); // Pre-allocate for common case
+        protected List<RecoveryOverTimeEffect>
+            activeRecoveryEffects = new List<RecoveryOverTimeEffect>(4); // Pre-allocate for common case
 
         public Action<HealthChangedEventArgs> OnHealthChangedHook;
+
         public HealthSystem(float maxHealth)
         {
             this.maxHealth = maxHealth;
@@ -35,10 +37,12 @@ namespace EntitySystems.VitalStatSystems.Health_System
         }
 
         #region APIS
+
         public List<RecoveryOverTimeEffect> GetActiveRecoveryEffects()
         {
             return activeRecoveryEffects;
         }
+
         public void SetMaxHealth(float value)
         {
             if (value <= 0) return;
@@ -49,6 +53,7 @@ namespace EntitySystems.VitalStatSystems.Health_System
                 InvokeHealthChanged();
             }
         }
+
         public void SetCurrentHealth(float value)
         {
             if (value < 0) return;
@@ -59,16 +64,19 @@ namespace EntitySystems.VitalStatSystems.Health_System
 
             InvokeHealthChanged();
         }
+
         public void ClearRecoveryEffects()
         {
             activeRecoveryEffects.Clear();
             recoveryUpdateTimer = 0f;
         }
+
         public void AddRecoveryEffect(RecoveryOverTimeEffect effect)
         {
             if (effect == null || effect.RecoveryRate <= 0 || effect.Duration <= 0) return;
             activeRecoveryEffects.Add(effect);
         }
+
         public void AddRecoveryEffect(RecoveryEffectSaveData effectData)
         {
             // Create a new RecoveryOverTimeEffect from the save data
@@ -78,26 +86,24 @@ namespace EntitySystems.VitalStatSystems.Health_System
                 RemainingTime = effectData.remainingTime
             };
             activeRecoveryEffects.Add(effect);
-            
         }
-        
 
         #endregion
-        
+
 
         public virtual void Initialize(EntityBase.Entity parent)
         {
             _entity = parent;
             GameManager.Instance.UpdateManager.AddUpdatable(this);
         }
-        
+
         public virtual void Dispose()
         {
             _entity = null;
             GameManager.Instance.UpdateManager.RemoveUpdatable(this);
             activeRecoveryEffects.Clear();
         }
-        
+
         public void UpdateLogic()
         {
             ProcessRecoveryEffects(UnityEngine.Time.deltaTime);
@@ -109,13 +115,15 @@ namespace EntitySystems.VitalStatSystems.Health_System
         }
 
         // Virtual method for invoking initial events; base implementation does nothing.
-        public virtual void InvokeInitialEvents() { }
+        public virtual void InvokeInitialEvents()
+        {
+        }
 
         // Apply damage and trigger the OnHealthChanged hook.
         public virtual void TakeDamage(float damage)
         {
             if (damage <= 0) return;
-            
+
             lastCurrentHealth = currentHealth;
             currentHealth -= damage;
             if (currentHealth < 0)
@@ -151,7 +159,7 @@ namespace EntitySystems.VitalStatSystems.Health_System
         }
 
         // Process all active recovery effects
-       
+
         // Modified ProcessRecoveryEffects to update once per second
         protected virtual void ProcessRecoveryEffects(float deltaTime)
         {
@@ -227,7 +235,8 @@ namespace EntitySystems.VitalStatSystems.Health_System
         // Virtual hook for derived classes to override when health changes.
         protected virtual void InvokeHealthChanged()
         {
-            EntityVitalStatsEventSystem.InvokeHealthChanged(_entity, new HealthChangedEventArgs(lastCurrentHealth, currentHealth, maxHealth));
+            EntityVitalStatsEventSystem.InvokeHealthChanged(_entity,
+                new HealthChangedEventArgs(lastCurrentHealth, currentHealth, maxHealth));
             OnHealthChangedHook?.Invoke(new HealthChangedEventArgs(lastCurrentHealth, currentHealth, maxHealth));
         }
     }

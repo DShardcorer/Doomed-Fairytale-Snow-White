@@ -17,7 +17,8 @@ namespace SceneSwitch
         private bool _loadToOverworld = false;
         private PlayerView _playerView;
         private Vector3 _portalSpawnPosition;
-        private Vector3 _overworldSpawnPosition = new Vector3(0, 0, 0);
+        [Header("Initial Overworld Spawn Position")]
+        [SerializeField] private Vector3 _overworldSpawnPosition;
         public Vector3 OverworldSpawnPosition => _overworldSpawnPosition;
         [SerializeField] private SceneField _overworldScene;
         private PlayerViewManager _playerViewManager;
@@ -103,7 +104,7 @@ namespace SceneSwitch
         }
 
         public void SwitchSceneToPortal(SceneField sceneToLoad,
-            SceneSwitchPortal.PortalToSpawnAt portalToSpawnAt = SceneSwitchPortal.PortalToSpawnAt.None)
+            SceneSwitchPortal.PortalToSpawnAt portalToSpawnAt = SceneSwitchPortal.PortalToSpawnAt.Spawn)
         {
             _loadToPortal = true;
             StartCoroutine(FadeOutThenChangeScene(sceneToLoad, portalToSpawnAt));
@@ -111,7 +112,7 @@ namespace SceneSwitch
 
         public void SwitchSceneFromOverworldToPortal(SceneField sceneToLoad,
             Vector3 overworldEnterPosition,
-            SceneSwitchPortal.PortalToSpawnAt portalToSpawnAt = SceneSwitchPortal.PortalToSpawnAt.None)
+            SceneSwitchPortal.PortalToSpawnAt portalToSpawnAt = SceneSwitchPortal.PortalToSpawnAt.Spawn)
         {
             _loadToPortal = true;
             _overworldSpawnPosition = overworldEnterPosition;

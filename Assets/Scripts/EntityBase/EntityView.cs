@@ -12,6 +12,9 @@ namespace EntityBase
     {
         protected Entity _parent;
         public Entity Parent => _parent;
+        [Header("View Specific Info")]
+        [SerializeField] private BodyType _bodyType = BodyType.Man_Average;
+        public BodyType BodyType => _bodyType;
         
         [Header("Components")]
         [SerializeField] private Rigidbody2D _rigidbody2D;
@@ -100,6 +103,15 @@ namespace EntityBase
         public void SetAttackCounter(int attackCounter)
         {
             _animator.SetInteger(HelperAnimationStateName.ATTACK_COUNTER, attackCounter);
+        }
+        public void SetWeaponType(WeaponType weaponType)
+        {
+            _animator.SetInteger(HelperAnimationStateName.WEAPON_TYPE, (int)weaponType);
+        }
+
+        public void SetMasteryLevel(MasteryLevel masteryLevel)
+        {
+            _animator.SetInteger(HelperAnimationStateName.MASTERY_LEVEL, (int)masteryLevel);
         }
 
         public void PlayDamagedAnimation()

@@ -9,6 +9,7 @@ namespace EntitySystems.WeaponSystem
     [CreateAssetMenu(fileName = "WeaponDataSO", menuName = "DataSO/WeaponDataSO/BasicWeaponData", order = 1)]
     public class WeaponDataSO : ScriptableObject
     {
+        [field: SerializeField] public WeaponType WeaponType { get; private set; }
         [field: SerializeField] public List<BodyTypeSpecificData> BodyTypeSpecificData { get; private set; }
         [field: SerializeField] private RuntimeAnimatorController DefaultWeaponAnimatorController { get; set; }
         [field: SerializeReference] private WeaponHitboxData DefaultWeaponHitbox { get; set; }

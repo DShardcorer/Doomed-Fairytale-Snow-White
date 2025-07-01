@@ -6,7 +6,7 @@ namespace EntityBase.NPC.Spawning
     [System.Serializable]
     public class SceneNPCData
     {
-        [BoxGroup("Base")]
+        [BoxGroup("Base"), Tooltip("Entirely Optional")]
         public string npcKey;
         [BoxGroup("Base")]
         public NPCSpawnData npcData;
@@ -14,6 +14,7 @@ namespace EntityBase.NPC.Spawning
         public Transform spawnPoint;
         [BoxGroup("Base")]
         public bool spawnOnStart = true;
+        
         public virtual void Setup(NPC npc)
         {
             // This method should be overridden in derived classes to set up the NPC

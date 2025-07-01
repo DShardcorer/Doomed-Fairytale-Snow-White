@@ -284,9 +284,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   _animator: {fileID: 303227470664684696}
-  weaponSpriteRenderer: {fileID: 4328179972100828162}
   weaponAnimationTriggers: {fileID: 1258562529960695395}
-  weaponData: {fileID: 11400000, guid: 92d569a944a00d441b2cf3252f21fd9a, type: 2}
 --- !u!1 &3972354852573722411
 GameObject:
   m_ObjectHideFlags: 0
@@ -453,7 +451,7 @@ SpriteRenderer:
   m_SortingLayerID: -1474879815
   m_SortingLayer: 3
   m_SortingOrder: 0
-  m_Sprite: {fileID: 487730058, guid: a33e8f8cdbf19674ea788a078bd2990b, type: 3}
+  m_Sprite: {fileID: 1753055971, guid: ec8d2f65cc065a9488a32bee6c2cc094, type: 3}
   m_Color: {r: 1, g: 1, b: 1, a: 1}
   m_FlipX: 0
   m_FlipY: 0
@@ -880,7 +878,7 @@ GameObject:
   - component: {fileID: 3149662734999838776}
   - component: {fileID: 1669204487774191867}
   - component: {fileID: 4771811002992867852}
-  - component: {fileID: 2370579724588794956}
+  - component: {fileID: 802391288601405350}
   - component: {fileID: 933864833126632102}
   - component: {fileID: 93549128644048336}
   - component: {fileID: 1113937526201403415}
@@ -902,7 +900,7 @@ Transform:
   serializedVersion: 2
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
   m_LocalPosition: {x: 0, y: 0, z: 0}
-  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_LocalScale: {x: 0.67, y: 0.67, z: 0.67}
   m_ConstrainProportionsScale: 1
   m_Children:
   - {fileID: 8191300607272863030}
@@ -976,7 +974,7 @@ Rigidbody2D:
   m_SleepingMode: 1
   m_CollisionDetection: 0
   m_Constraints: 4
---- !u!114 &2370579724588794956
+--- !u!114 &802391288601405350
 MonoBehaviour:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
@@ -985,12 +983,13 @@ MonoBehaviour:
   m_GameObject: {fileID: 6419308707183161573}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 5c3db63f692a77c4a97a0e42c213aa15, type: 3}
+  m_Script: {fileID: 11500000, guid: 72edc66ac98d9b94dbf8876e95891ec8, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  _bodyType: 1
   _rigidbody2D: {fileID: 4771811002992867852}
-  _animator: {fileID: 0}
-  _spriteRenderer: {fileID: 0}
+  _animator: {fileID: 8685868455576663519}
+  _spriteRenderer: {fileID: 8276543373109913894}
   _animationTriggers: {fileID: 123421555800764840}
   _primaryWeaponView: {fileID: 2707980819479061769}
   _secondaryWeaponView: {fileID: 7611362570583118494}
@@ -1372,9 +1371,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   _animator: {fileID: 7774125601153433793}
-  weaponSpriteRenderer: {fileID: 1998186404946138609}
   weaponAnimationTriggers: {fileID: 6677813881378238945}
-  weaponData: {fileID: 11400000, guid: 92d569a944a00d441b2cf3252f21fd9a, type: 2}
 --- !u!1001 &8377120452315332761
 PrefabInstance:
   m_ObjectHideFlags: 0

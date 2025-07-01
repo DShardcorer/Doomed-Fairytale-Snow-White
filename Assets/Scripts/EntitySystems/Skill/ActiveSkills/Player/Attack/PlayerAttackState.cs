@@ -1,4 +1,5 @@
 using System;
+using EntityBase;
 using EntityBase.AttackCheck;
 using EntityBase.Player.State;
 using EntitySystems.Equipment;
@@ -11,96 +12,76 @@ namespace EntitySystems.Skill.ActiveSkills.Player.Attack
 {
     public class PlayerAttackState : PlayerState
     {
-           
         private PlayerAttackingProperties _playerAttackProperties;
         private WeaponSystem.WeaponSystem _weaponSystem;
         private Weapon _activeWeapon => _weaponSystem?.PrimaryWeapon;
         private EquipmentSystem _equipmentSystem => _player.EquipmentSystem;
         
-        
-        //Counter fields
-        private int numberOfAttacks = 2;
-        private int currentAttackCounter = 0;
-        public int CurrentAttackCounter
-        {
-            get => currentAttackCounter;
-            private set
-            {
-                currentAttackCounter = value;
-                if (currentAttackCounter >= numberOfAttacks)
-                {
-                    currentAttackCounter = 0;
-                }
-            }
-        }
-        public Timer AttackCounterResetTimer { get; private set; } = new Timer(0.5f);
-        
-        private void ResetAttackCounter()
-        {
-            CurrentAttackCounter = 0;
-        }
-        
+        // Attack handler component
+        private AttackHandler _attackHandler;
+        public int CurrentAttackCounter => _attackHandler.CurrentAttackCounter;
         
         public PlayerAttackState(PlayerAttackingProperties entityStateProperties) : this(
             HelperAnimationStateName.IS_ATTACKING, entityStateProperties)
         {
         }
+
         public PlayerAttackState(string animationBoolName, PlayerAttackingProperties entityStateProperties) : base(
             animationBoolName, entityStateProperties)
         {
             _playerAttackProperties = entityStateProperties;
+            _attackHandler = new AttackHandler(numberOfAttacks: 2, resetTime: 0.5f);
         }
 
         public override void Initialize(EntityBase.Player.Player parent)
         {
             base.Initialize(parent);
             _weaponSystem = parent.WeaponSystem;
-            AttackCounterResetTimer.OnTimerEnded += ResetAttackCounter;
         }
 
         public override void Dispose()
         {
             base.Dispose();
             _weaponSystem = null;
-            AttackCounterResetTimer.OnTimerEnded -= ResetAttackCounter;
+            _attackHandler.Dispose();
         }
 
         public override void EnterState()
         {
             base.EnterState();
+            
             _view.SetAttackCounter(CurrentAttackCounter);
             _player.IsBusy = true;
             if (_equipmentSystem.IsPrimaryWeaponEquipped())
             {
+                _view.SetWeaponType(_activeWeapon.WeaponData.WeaponType);
                 _activeWeapon.Enter();
             }
-
-            AttackCounterResetTimer.StopTimer();
-            _player.InvokeOnAttackStarts();
+            else
+            {
+                _view.SetWeaponType(WeaponType.Barehanded);
+            }
         }
 
         public override void UpdateState()
         {
             base.UpdateState();
-            AttackCounterResetTimer.Tick(Time.deltaTime);
+            _attackHandler.Tick(Time.deltaTime);
             if(_isAnimationEnded)
             {
                 _stateMachine.ChangeState(_entity.IdleState);
             }
         }
-        
-
 
         public override void ExitState()
         {
             _player.IsBusy = false;
-            CurrentAttackCounter++;
+            _attackHandler.IncrementCounter();
             _view.SetAttackCounter(CurrentAttackCounter);
             if (_equipmentSystem.IsPrimaryWeaponEquipped())
             {
                 _activeWeapon.Exit();
             }
-            AttackCounterResetTimer.StartTimer();
             base.ExitState();
         }
 

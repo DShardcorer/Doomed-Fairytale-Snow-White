@@ -9,6 +9,7 @@ using EntitySystems.Stats;
 using EntitySystems.VitalStatSystems.Health_System;
 using EntitySystems.VitalStatSystems.Mana_System;
 using EntitySystems.VitalStatSystems.Stamina_System;
+using EntitySystems.WeaponSystem;
 using GeneralManagers;
 using Helpers;
 using Item.Inventory;
@@ -51,6 +52,7 @@ namespace EntityBase.NPC
             EntityStateMachine stateMachine,
             InventorySystem inventory,
             BuffSystem buffSystem,
+            WeaponSystem weaponSystem,
             NPCAIController aiController
         ) : base(
             profile,
@@ -61,7 +63,8 @@ namespace EntityBase.NPC
             activeSkillSystem, passiveSkillSystem,
             levelSystem, healthSystem,
             manaSystem,
-            staminaSystem, stateMachine, inventory, buffSystem)
+            staminaSystem, stateMachine, 
+            inventory, buffSystem, weaponSystem)
         {
             _npcView = view;
             _npcProperties = properties;
@@ -105,6 +108,7 @@ namespace EntityBase.NPC
         {
             return HelperNPCStateName.Attack == _npcAIController.CurrentStateId;
         }
+
         public override int CurrentAttackCounter()
         {
             return 0;

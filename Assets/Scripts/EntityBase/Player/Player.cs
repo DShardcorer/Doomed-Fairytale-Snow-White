@@ -20,6 +20,7 @@ namespace EntityBase.Player
     {
         Idle,
         Move,
+
         Attack
         // Add additional states as needed
     }
@@ -51,7 +52,6 @@ namespace EntityBase.Player
         public PlayerEquippedSkillSystem EquippedSkillSystem => _equippedSkillSystem;
 
 
-
         public Player(
             PlayerProfile profile,
             PlayerView view, PlayerProperties properties,
@@ -62,13 +62,14 @@ namespace EntityBase.Player
             PlayerLevelSystem levelSystem, PlayerHealthSystem healthSystem,
             PlayerManaSystem manaSystem, PlayerStaminaSystem staminaSystem,
             EntityStateMachine stateMachine, PlayerInventorySystem inventory,
-            PlayerBuffSystem buffSystem, PlayerEquippedSkillSystem equippedSkillSystem)
+            PlayerBuffSystem buffSystem, PlayerEquippedSkillSystem equippedSkillSystem, 
+            WeaponSystem weaponSystem)
             : base(
                 profile,
                 view, properties, statSystem, equipmentSystem,
                 activeSkillSystem, passiveSkillSystem, levelSystem,
                 healthSystem, manaSystem, staminaSystem,
-                stateMachine, inventory, buffSystem)
+                stateMachine, inventory, buffSystem, weaponSystem)
         {
             _equippedSkillSystem = equippedSkillSystem;
             _playerView = view;
@@ -152,7 +153,6 @@ namespace EntityBase.Player
 
             //SkillSystem initialization
             activeSkillSystem.Initialize(this);
-
         }
 
         private void OnAttackInputted(object sender, EventArgs e)
@@ -177,12 +177,14 @@ namespace EntityBase.Player
         {
             return _currentStateType == PlayerStateType.Attack;
         }
+
         public override int CurrentAttackCounter()
         {
             if (_states.TryGetValue(PlayerStateType.Attack, out var state) && state is PlayerAttackState attackState)
             {
                 return attackState.CurrentAttackCounter;
             }
+
             return 0;
         }
 

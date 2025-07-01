@@ -57,16 +57,10 @@ namespace EntityBase
 
         // Default states that any entity should have
         public EntityState IdleState { get; protected set; }
-        
+
         // Abstract methods for weapon convenience
         public abstract bool IsAttacking();
         public abstract int CurrentAttackCounter();
-        public event Action OnAttackStarts;
-        public virtual void InvokeOnAttackStarts()
-        {
-            OnAttackStarts?.Invoke();
-        }
-
 
         public Entity(EntityProfile profile,
             EntityView view, EntityProperties properties,
@@ -74,7 +68,8 @@ namespace EntityBase
             ActiveSkillSystem activeSkillSystem, PassiveSkillSystem passiveSkillSystem,
             LevelSystem levelSystem,
             HealthSystem healthSystem, ManaSystem manaSystem, StaminaSystem staminaSystem,
-            EntityStateMachine stateMachine, InventorySystem inventorySystem, BuffSystem buffSystem)
+            EntityStateMachine stateMachine, InventorySystem inventorySystem, BuffSystem buffSystem,
+            WeaponSystem weaponSystem)
         {
             this.profile = profile;
             this.view = view;
@@ -92,7 +87,7 @@ namespace EntityBase
             this.stateMachine = stateMachine;
             this.inventorySystem = inventorySystem;
             this.buffSystem = buffSystem;
-            this.weaponSystem = new WeaponSystem();
+            this.weaponSystem = weaponSystem;
         }
 
 
@@ -212,6 +207,11 @@ namespace EntityBase
                 {
                     buffSystem.Dispose();
                     buffSystem = null;
+                }
+                if (weaponSystem != null)
+                {
+                    weaponSystem.Dispose();
+                    weaponSystem = null;
                 }
 
                 if (stateMachine != null)

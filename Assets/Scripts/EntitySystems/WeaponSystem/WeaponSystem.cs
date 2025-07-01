@@ -97,6 +97,26 @@ namespace EntitySystems.WeaponSystem
 
         public void Dispose()
         {
+            if (_primaryWeapon != null)
+            {
+                _primaryWeapon.Dispose();
+                _primaryWeapon = null;
+            }
+            if (_secondaryWeapon != null)
+            {
+                _secondaryWeapon.Dispose();
+                _secondaryWeapon = null;
+            }
+            if (_primaryWeaponView != null)
+            {
+                _primaryWeaponView.Dispose();
+                _primaryWeaponView = null;
+            }
+            if (_secondaryWeaponView != null)
+            {
+                _secondaryWeaponView.Dispose();
+                _secondaryWeaponView = null;
+            }
             _parent = null;
         }
         public void SetActiveWeapon(WeaponSlotType weaponSlotType)

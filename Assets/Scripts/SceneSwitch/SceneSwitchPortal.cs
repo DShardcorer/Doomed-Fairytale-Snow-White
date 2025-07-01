@@ -15,14 +15,14 @@ namespace SceneSwitch
             Spawn
         }
 
-        [Header("Is Portal to Overworld?")] [SerializeField]
+        [SerializeField]
         private bool _isPortalToOverworld = false;
 
-        [Header("Spawn TO")] [SerializeField] private PortalToSpawnAt _portalToSpawnTo;
+        [SerializeField] private PortalToSpawnAt _portalToSpawnTo;
         [SerializeField] private SceneField _sceneToLoad;
 
 
-        [Space(10f)] [Header("THIS PORTAL")] [SerializeField]
+        [Space(10f)] [SerializeField]
         private PortalToSpawnAt _currentPortal;
 
         public PortalToSpawnAt CurrentPortal

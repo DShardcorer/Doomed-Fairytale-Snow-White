@@ -119,6 +119,10 @@ namespace EntityBase.AttackCheck
 
             foreach (Collider2D entity in hitEntities)
             {
+                if (entity.gameObject == _parent.View.gameObject)
+                {
+                    continue;
+                }
                 ApplyDamage(entity, damage);
             }
         }
