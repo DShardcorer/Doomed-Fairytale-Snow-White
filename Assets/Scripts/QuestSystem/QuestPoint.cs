@@ -3,6 +3,7 @@ using EntityBase.Player;
 using EventBus.Dialogue;
 using EventBus.Quest;
 using GeneralInterfaces;
+using GeneralManagers;
 using UnityEngine;
 
 namespace QuestSystem
@@ -10,18 +11,18 @@ namespace QuestSystem
     [RequireComponent(typeof(CircleCollider2D))]
     public class QuestPoint : MonoBehaviour, IInteractable, IHasDialogue
     {
-        [Header("Dialogue (Optional)")]
-        [SerializeField] private string knotName;
+        [Header("Dialogue (Optional)")] [SerializeField]
+        private string knotName;
+
         [SerializeField] private TextAsset inkDialogueFile;
 
-        [Header("Quest Info")]
-        [SerializeField] private QuestInfoSO questInfoForPoint;
+        [Header("Quest Info")] [SerializeField]
+        private QuestInfoSO questInfoForPoint;
 
         private QuestState currentQuestState;
         private QuestIcon questIcon;
 
-        [Header("Config")]
-        [SerializeField] private bool isStartPoint;
+        [Header("Config")] [SerializeField] private bool isStartPoint;
         [SerializeField] private bool isFinishPoint;
 
         public int Priority => 20;
@@ -31,10 +32,17 @@ namespace QuestSystem
             questIcon = GetComponentInChildren<QuestIcon>();
         }
 
+        private void Start()
+        {
+            Quest currentQuest = GameManager.Instance.QuestManager.GetQuestByQuestName(questInfoForPoint.QuestName);
+            OnQuestStateChanged(currentQuest);
+        }
+
         private void OnEnable()
         {
             QuestEventSystem.OnQuestStateChanged += OnQuestStateChanged;
         }
+
         private void OnDisable()
         {
             QuestEventSystem.OnQuestStateChanged -= OnQuestStateChanged;
@@ -54,11 +62,11 @@ namespace QuestSystem
         {
             if (inkDialogueFile != null)
             {
-                DialogueEventSystem.InvokeEnterDialogue(new DialogueEventSystem.EnterDialogueEventArgs(inkDialogueFile, knotName));
+                DialogueEventSystem.InvokeEnterDialogue(
+                    new DialogueEventSystem.EnterDialogueEventArgs(inkDialogueFile, knotName));
             }
             else
             {
-
                 if (currentQuestState == QuestState.CAN_START && isStartPoint)
                 {
                     Debug.Log($"Starting quest: {questInfoForPoint.QuestName}");
@@ -71,10 +79,10 @@ namespace QuestSystem
                 }
                 else
                 {
-                    Debug.Log($"Cannot interact with quest point: {questInfoForPoint.QuestName}. Current state: {currentQuestState}");
+                    Debug.Log(
+                        $"Cannot interact with quest point: {questInfoForPoint.QuestName}. Current state: {currentQuestState}");
                 }
             }
-
         }
 
         public TextAsset GetInkDialogueFile()

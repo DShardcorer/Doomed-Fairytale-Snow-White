@@ -2,6 +2,7 @@ using DataPersistence;
 using DataPersistence.Data;
 using EntitySystems.Level;
 using EventBus.Player;
+using UnityEngine;
 
 namespace EntitySystems.PlayerSystems
 {
@@ -26,6 +27,7 @@ namespace EntitySystems.PlayerSystems
 
         public override void AddExperience(int amount)
         {
+            Debug.LogWarning($"Adding experience: {amount} to player level system.");
             base.AddExperience(amount);
             PlayerLevelEventSystem.InvokeExperienceChanged(_experience, _experienceToNextLevel);
         }

@@ -14,15 +14,20 @@ namespace Tile
         [SerializeField] private Tilemap groundTilemap;
         [SerializeField] private Tilemap walkInfrontTilemap;
         [SerializeField] private Tilemap collisionTilemap;
+        [SerializeField] private Tilemap landMarksTilemap;
+        
         public Tilemap GroundTilemap => groundTilemap;
         public Tilemap WalkInfrontTilemap => walkInfrontTilemap;
         public Tilemap CollisionTilemap => collisionTilemap;
+        public Tilemap LandMarksTilemap => landMarksTilemap;
 
         [SerializeField] private List<WorldTileData> groundTileDataList;
         [SerializeField] private List<WorldTileData> walkInfrontTileDataList;
+        [SerializeField] private List<WorldTileData> landMarksTileDataList;
 
         private Dictionary<TileBase, WorldTileData> _groundTileDataDictionary;
         private Dictionary<TileBase, WorldTileData> _walkInfrontTileDataDictionary;
+        private Dictionary<TileBase, WorldTileData> _landMarksTileDataDictionary;
 
         private PlayerView _playerView;
 
@@ -35,6 +40,7 @@ namespace Tile
         {
             _groundTileDataDictionary = new Dictionary<TileBase, WorldTileData>();
             _walkInfrontTileDataDictionary = new Dictionary<TileBase, WorldTileData>();
+            _landMarksTileDataDictionary = new Dictionary<TileBase, WorldTileData>();
 
             foreach (var tileData in groundTileDataList)
             {
@@ -57,6 +63,18 @@ namespace Tile
                     }
                 }
             }
+            
+            foreach (var tileData in landMarksTileDataList)
+            {
+                foreach (var tile in tileData.tiles)
+                {
+                    if (!_landMarksTileDataDictionary.ContainsKey(tile))
+                    {
+                        _landMarksTileDataDictionary.Add(tile, tileData);
+                    }
+                }
+            }
+            
             ServiceLocator.RegisterService(this);
         }
 
@@ -76,24 +94,26 @@ namespace Tile
             }
 
             Vector2 playerPosition = _playerView.transform.position;
+            
+            Vector3Int cellPositionLandmarks = landMarksTilemap.WorldToCell(playerPosition);
             Vector3Int cellPositionGround = groundTilemap.WorldToCell(playerPosition);
-
             Vector3Int cellPositionWalkInFront = walkInfrontTilemap.WorldToCell(playerPosition);
 
+            TileBase tileLandmarks = landMarksTilemap.GetTile(cellPositionLandmarks);
             TileBase tileGround = groundTilemap.GetTile(cellPositionGround);
             TileBase tileWalkInFront = walkInfrontTilemap.GetTile(cellPositionWalkInFront);
+            
             if (UnityEngine.Input.GetKeyDown(KeyCode.E))
             {
-                // if (tileGround != null && _groundTileDataDictionary.TryGetValue(tileGround, out WorldTileData groundTileData))
-                // {
-                //     // Debug.Log($"Ground Tile Data: {groundTileData.name}");
-                // }
-                // else
-                // {
-                //     Debug.Log("No ground tile data found.");
-                // }
-
-                if (tileWalkInFront != null &&
+                // Check landmarks first (prioritized)
+                if (tileLandmarks != null &&
+                    _landMarksTileDataDictionary.TryGetValue(tileLandmarks, out WorldTileData landmarkTileData))
+                {
+                    SceneSwitchManager.Instance.SwitchSceneFromOverworldToPortal(landmarkTileData.sceneToLoad,
+                        playerPosition);
+                }
+                // Then check walk in front tiles
+                else if (tileWalkInFront != null &&
                     _walkInfrontTileDataDictionary.TryGetValue(tileWalkInFront, out WorldTileData walkInfrontTileData))
                 {
                     SceneSwitchManager.Instance.SwitchSceneFromOverworldToPortal(walkInfrontTileData.sceneToLoad,
@@ -101,7 +121,7 @@ namespace Tile
                 }
                 else
                 {
-                    Debug.Log("No walk in front tile data found.");
+                    Debug.Log("No interactable tile data found.");
                 }
             }
         }

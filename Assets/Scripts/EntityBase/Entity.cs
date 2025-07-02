@@ -112,6 +112,7 @@ namespace EntityBase
 
         public virtual void TakeDamage(float damage, Entity damageSource)
         {
+            properties.lastAttacker = damageSource;
             view.PlayDamagedAnimation();
             healthSystem.TakeDamage((int)damage);
         }

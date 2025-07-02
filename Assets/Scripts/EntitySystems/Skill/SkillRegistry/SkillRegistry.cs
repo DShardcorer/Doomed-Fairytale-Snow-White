@@ -1,6 +1,7 @@
 using System;
 using System.Collections.Generic;
 using EntitySystems.Skill.ActiveSkills.Player.Dash;
+using EntitySystems.Skill.ActiveSkills.Player.Kick;
 using EntitySystems.Skill.ActiveSkills.Player.Shoot;
 using EntitySystems.Skill.PassiveSkills;
 using EntitySystems.Skill.PassiveSkills.Flirt;
@@ -43,6 +44,8 @@ namespace EntitySystems.Skill.SkillRegistry
 
         private static void RegisterDefaultCreators()
         {
+            RegisterActiveSkill<KickActiveSkillInfoSO>(HelperSkillName.KickSkill,
+                info => new KickActiveSkill(info));
             RegisterActiveSkill<DashActiveSkillInfoSO>(HelperSkillName.DashSkill,
                 info => new DashActiveSkill(info));
             RegisterActiveSkill<ShootActiveSkillInfoSO>(HelperSkillName.ShootSkill,

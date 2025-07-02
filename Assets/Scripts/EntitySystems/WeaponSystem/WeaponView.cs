@@ -26,7 +26,6 @@ namespace EntitySystems.WeaponSystem
             if (_animator == null)
                 _animator = GetComponent<Animator>();
             //log out the body type
-            Debug.LogWarning(_parent.Parent.View.BodyType.ToString());
             RuntimeAnimatorController controller =  weaponData.GetBodyTypeAnimatorController(_parent.Parent.View.BodyType);
             if (controller == null)
             {

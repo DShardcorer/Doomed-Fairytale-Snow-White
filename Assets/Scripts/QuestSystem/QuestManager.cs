@@ -186,7 +186,7 @@ namespace QuestSystem
 
 
 
-        private Quest GetQuestByQuestName(string questName)
+        public Quest GetQuestByQuestName(string questName)
         {
             if (questMap.TryGetValue(questName, out Quest quest))
             {

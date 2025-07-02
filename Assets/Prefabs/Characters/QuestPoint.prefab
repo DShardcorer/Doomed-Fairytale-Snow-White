@@ -12,6 +12,7 @@ GameObject:
   - component: {fileID: 126362497890681595}
   - component: {fileID: 1393547260785538342}
   - component: {fileID: 3954536502139136642}
+  - component: {fileID: 8229062260495990064}
   m_Layer: 7
   m_Name: QuestPoint
   m_TagString: Untagged
@@ -83,6 +84,8 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 692bb8d6cac72fa40833225b3d1f8522, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  knotName: collectCoinsStart
+  inkDialogueFile: {fileID: 4900000, guid: 3b663184ae84c31449e3e322360314d0, type: 3}
   questInfoForPoint: {fileID: 11400000, guid: c9b1c52cb6cc3f44c9f581aaf58dd3f2, type: 2}
   isStartPoint: 1
   isFinishPoint: 0
@@ -127,8 +130,8 @@ SpriteRenderer:
   m_AutoUVMaxDistance: 0.5
   m_AutoUVMaxAngle: 89
   m_LightmapParameters: {fileID: 0}
-  m_SortingLayerID: 584125351
-  m_SortingLayer: 4
+  m_SortingLayerID: -1474879815
+  m_SortingLayer: 3
   m_SortingOrder: 0
   m_Sprite: {fileID: -1074981202, guid: ebd8164cf07c33e4cb6a458c21ed406b, type: 3}
   m_Color: {r: 1, g: 1, b: 1, a: 1}
@@ -141,6 +144,18 @@ SpriteRenderer:
   m_WasSpriteAssigned: 1
   m_MaskInteraction: 0
   m_SpriteSortPoint: 1
+--- !u!114 &8229062260495990064
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 8353635488341819128}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: a069c5a9d95bcf840b9812c1034b2ad1, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
 --- !u!1001 &61944174578723550
 PrefabInstance:
   m_ObjectHideFlags: 0

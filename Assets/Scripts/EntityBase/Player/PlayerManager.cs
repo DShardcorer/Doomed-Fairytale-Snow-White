@@ -6,6 +6,7 @@ using EntitySystems.PlayerSystems;
 using EntitySystems.Skill;
 using EntitySystems.Skill.ActiveSkills.Player.Attack;
 using EntitySystems.Skill.ActiveSkills.Player.Dash;
+using EntitySystems.Skill.ActiveSkills.Player.Kick;
 using EntitySystems.Skill.ActiveSkills.Player.Shoot;
 using EntitySystems.Skill.PassiveSkills;
 using EntitySystems.Skill.SkillRegistry;
@@ -65,12 +66,14 @@ namespace EntityBase.Player
                 SkillRegistry.CreateActiveSkill(HelperSkillName.DashSkill) as DashActiveSkill;
             ShootActiveSkill shootActiveSkill =
                 SkillRegistry.CreateActiveSkill(HelperSkillName.ShootSkill) as ShootActiveSkill;
-
+            KickActiveSkill kickActiveSkill =
+                SkillRegistry.CreateActiveSkill(HelperSkillName.KickSkill) as KickActiveSkill;
 
             PlayerActiveSkillSystem activeSkillSystem = new PlayerActiveSkillSystem(new List<ActiveSkill>
                 {
                     dashActiveSkill,
-                    shootActiveSkill
+                    shootActiveSkill,
+                    kickActiveSkill
                 }
             );
 

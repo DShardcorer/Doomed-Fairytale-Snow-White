@@ -2,6 +2,7 @@ namespace Helpers
 {
     public static class HelperSkillName
     {
+        public const string KickSkill = "Kick";
         public const string DashSkill = "Dash";
         public const string AttackSkill = "Attack";
         public const string ShootSkill = "Shoot";

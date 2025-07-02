@@ -1,0 +1,20 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: a155efd76c41a7d458cd9c8b782f893b, type: 3}
+  m_Name: Town_GeneralShop
+  m_EditorClassIdentifier: 
+  tiles:
+  - {fileID: 11400000, guid: 098a5d158dc338241965826251b183d2, type: 2}
+  tileType: 4
+  sceneToLoad:
+    m_SceneAsset: {fileID: 102900000, guid: 3308f29b5977b8441b330b3297c9aeb9, type: 3}
+    m_SceneName: Scene_Town_GeneralShop
