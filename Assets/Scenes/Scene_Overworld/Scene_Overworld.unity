@@ -8750,7 +8750,8 @@ MonoBehaviour:
   groundTilemap: {fileID: 532544084}
   walkInfrontTilemap: {fileID: 1641641234}
   collisionTilemap: {fileID: 1382347184}
-  groundTileDataList: []
+  groundTileDataList:
+  - {fileID: 0}
   walkInfrontTileDataList:
   - {fileID: 11400000, guid: dc5afa4280c04cc46b3b37f349837518, type: 2}
 --- !u!4 &1117845298
@@ -11511,8 +11512,8 @@ Tilemap:
   - first: {x: 51, y: 5, z: 0}
     second:
       serializedVersion: 2
-      m_TileIndex: 78
-      m_TileSpriteIndex: 36
+      m_TileIndex: 116
+      m_TileSpriteIndex: 41
       m_TileMatrixIndex: 0
       m_TileColorIndex: 0
       m_TileObjectToInstantiateIndex: 65535
@@ -11966,7 +11967,7 @@ Tilemap:
     m_Data: {fileID: 11400000, guid: aa5b97dff57be2f4683484d70aef4bff, type: 2}
   - m_RefCount: 2
     m_Data: {fileID: 11400000, guid: 7d9fa10fa044ec04cbf65ddb8aa57595, type: 2}
-  - m_RefCount: 2
+  - m_RefCount: 1
     m_Data: {fileID: 11400000, guid: e9928e66d7b54204baf9daea14063460, type: 2}
   - m_RefCount: 2
     m_Data: {fileID: 11400000, guid: 0a18098d885bb7b448179cf653f02d72, type: 2}
@@ -12042,8 +12043,8 @@ Tilemap:
     m_Data: {fileID: 0}
   - m_RefCount: 0
     m_Data: {fileID: 0}
-  - m_RefCount: 0
-    m_Data: {fileID: 0}
+  - m_RefCount: 1
+    m_Data: {fileID: 11400000, guid: 8f4f9c65ab4158746aa91e4c3511dc1d, type: 2}
   m_TileSpriteArray:
   - m_RefCount: 1
     m_Data: {fileID: -1694336539, guid: 1a75b4ab0ccd6304caf6a8447661b985, type: 3}
@@ -12117,7 +12118,7 @@ Tilemap:
     m_Data: {fileID: 1224137329, guid: 1a75b4ab0ccd6304caf6a8447661b985, type: 3}
   - m_RefCount: 1
     m_Data: {fileID: -444298741, guid: 1a75b4ab0ccd6304caf6a8447661b985, type: 3}
-  - m_RefCount: 2
+  - m_RefCount: 1
     m_Data: {fileID: 1388569387, guid: 1a75b4ab0ccd6304caf6a8447661b985, type: 3}
   - m_RefCount: 2
     m_Data: {fileID: 237287093, guid: 1a75b4ab0ccd6304caf6a8447661b985, type: 3}
@@ -12127,6 +12128,8 @@ Tilemap:
     m_Data: {fileID: -928140278, guid: 1a75b4ab0ccd6304caf6a8447661b985, type: 3}
   - m_RefCount: 1
     m_Data: {fileID: -1532798676, guid: 1a75b4ab0ccd6304caf6a8447661b985, type: 3}
+  - m_RefCount: 1
+    m_Data: {fileID: -484559984, guid: 92b8187e1a07de643934ec73d5ceca9e, type: 3}
   m_TileMatrixArray:
   - m_RefCount: 90
     m_Data:
