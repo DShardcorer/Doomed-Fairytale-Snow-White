@@ -1,5 +1,6 @@
 using DefaultNamespace.EventSystem.Barter;
 using GeneralManagers;
+using TMPro;
 using UnityEngine;
 using UnityEngine.Serialization;
 using UnityEngine.UI;
@@ -17,6 +18,10 @@ namespace DefaultNamespace.UI.Barter
         [SerializeField] private BartererInventoryPageUI npcBartererInventoryPageUI;
         [SerializeField] private BarteredItemsHolderUI playerBarteredItemsHolderUI;
         [SerializeField] private BarteredItemsHolderUI npcBarteredItemsHolderUI;
+        [SerializeField] private TextMeshProUGUI playerModifierText;
+        [SerializeField] private TextMeshProUGUI npcModifierText;
+
+
         [SerializeField] private StackSplitInputterUI stackSplitInputterUI;
         [SerializeField] private Button togglePlayerNpcInventoryButton;
         [SerializeField] private Button completeBarterButton;
@@ -54,6 +59,16 @@ namespace DefaultNamespace.UI.Barter
         private void CompleteBarter()
         {
             BarterEventSystem.InvokeBarterComplete();
+            //Unhook from inventory events
+            GameManager.Instance.BarterManager.PlayerInventory.OnItemListChangedAction -=
+                playerBartererInventoryPageUI.UpdateUI;
+            GameManager.Instance.BarterManager.NpcInventory.OnItemListChangedAction -=
+                npcBartererInventoryPageUI.UpdateUI;
+            GameManager.Instance.BarterManager.PlayerBarteredItemsHolder.OnItemsListChanged -=
+                playerBarteredItemsHolderUI.UpdateUI;
+            GameManager.Instance.BarterManager.NpcBarteredItemsHolder.OnItemsListChanged -=
+                npcBarteredItemsHolderUI.UpdateUI;
+
             gameObject.SetActive(false);
         }
 
@@ -68,8 +83,15 @@ namespace DefaultNamespace.UI.Barter
             npcBartererInventoryPageUI.UpdateUI(GameManager.Instance.BarterManager.NpcInventory.ItemList);
             //Update the bartered items holders
             playerBarteredItemsHolderUI.UpdateUI(GameManager.Instance.BarterManager.PlayerBarteredItemsHolder
-                .BarteredItems);
-            npcBarteredItemsHolderUI.UpdateUI(GameManager.Instance.BarterManager.NpcBarteredItemsHolder.BarteredItems);
+                .BarteredItems, 0);
+            npcBarteredItemsHolderUI.UpdateUI(GameManager.Instance.BarterManager.NpcBarteredItemsHolder.BarteredItems,
+                0);
+            //update the value modifiers
+            playerModifierText.text = "Mod:" +
+                GameManager.Instance.BarterManager.PlayerBarteredItemsHolder.ValueModifier;
+            npcModifierText.text = "Mod:" +
+                GameManager.Instance.BarterManager.NpcBarteredItemsHolder.ValueModifier;
+
             GameManager.Instance.BarterManager.PlayerInventory.OnItemListChangedAction +=
                 playerBartererInventoryPageUI.UpdateUI;
             GameManager.Instance.BarterManager.NpcInventory.OnItemListChangedAction +=

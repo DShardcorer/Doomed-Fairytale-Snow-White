@@ -1,6 +1,6 @@
 using System.Collections.Generic;
 
-namespace EntityBase.NPC.BehaviourTree
+namespace EntityBase.NPC.BehaviourTrees
 {
     public class Node
     {

@@ -13,9 +13,9 @@ namespace DefaultNamespace.BarterSystem
         private GameManager _parent;
         private InventorySystem playerInventory;
         private InventorySystem npcInventory;
-        private BarteredItemsHolder playerBarteredItemsHolder = new BarteredItemsHolder();
-        private BarteredItemsHolder npcBarteredItemsHolder = new BarteredItemsHolder();
-        
+        private BarteredItemsHolder playerBarteredItemsHolder = new PlayerBarteredItemsHolder();
+        private BarteredItemsHolder npcBarteredItemsHolder = new NpcBarteredItemsHolder();
+
         public InventorySystem PlayerInventory => playerInventory;
         public InventorySystem NpcInventory => npcInventory;
         public BarteredItemsHolder PlayerBarteredItemsHolder => playerBarteredItemsHolder;
@@ -38,19 +38,25 @@ namespace DefaultNamespace.BarterSystem
         {
             this.playerInventory = playerInventory;
             this.npcInventory = npcInventory;
+            float playerCharismaModifier = playerInventory.Entity.StatSystem.AbilityStatBoard.Charisma.ModifiedValue;
+            float npcCharismaModifier = npcInventory.Entity.StatSystem.AbilityStatBoard.Charisma.ModifiedValue;
+            playerBarteredItemsHolder.UpdateValueModifier(playerCharismaModifier, npcCharismaModifier);
+            npcBarteredItemsHolder.UpdateValueModifier(playerCharismaModifier, npcCharismaModifier);
 
             //Debug.log every item in npc inventory
-            Debug.LogWarning("Starting barter with NPC. NPC Inventory Items:");
-            foreach (var item in npcInventory.ItemList)
-            {
-                Debug.LogWarning($"Item: {item.itemDataSo.itemName}, Value: {item.itemDataSo.value}, Stack Size: {item.stackSize}");
-            }
+            // Debug.LogWarning("Starting barter with NPC. NPC Inventory Items:");
+            // foreach (var item in npcInventory.ItemList)
+            // {
+            //     Debug.LogWarning($"Item: {item.itemDataSo.itemName}, Value: {item.itemDataSo.value}, Stack Size: {item.stackSize}");
+            // }
         }
+
         public void AddPlayerBarteredItem(InventoryItem item)
         {
             playerBarteredItemsHolder.AddItem(item);
             playerInventory.RemoveItem(item);
         }
+
         public void AddNpcBarteredItem(InventoryItem item)
         {
             npcBarteredItemsHolder.AddItem(item);
@@ -62,6 +68,7 @@ namespace DefaultNamespace.BarterSystem
             playerBarteredItemsHolder.RemoveItem(item);
             playerInventory.AddItem(item);
         }
+
         public void RemoveNpcBarteredItem(InventoryItem item)
         {
             npcBarteredItemsHolder.RemoveItem(item);

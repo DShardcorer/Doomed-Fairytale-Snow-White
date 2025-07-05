@@ -1,13 +1,15 @@
+using System;
 using System.Collections.Generic;
 using GeneralManagers;
 using Helpers;
 using Item.Inventory;
 using Pool;
+using TMPro;
 using UnityEngine;
 
 namespace DefaultNamespace.UI.Barter
 {
-    public class BarteredItemsHolderUI:MonoBehaviour, ILifecycle<BarterUI>
+    public class BarteredItemsHolderUI : MonoBehaviour, ILifecycle<BarterUI>
     {
         private BartererType bartererType;
         public BartererType BartererType => bartererType;
@@ -15,25 +17,38 @@ namespace DefaultNamespace.UI.Barter
         public BarterUI Parent => _parent;
         private List<BarteredItemSlotUI> barteredItemSlotUis = new List<BarteredItemSlotUI>();
 
+        [SerializeField] private TextMeshProUGUI totalValueText;
         private PoolManager _poolManager;
+
+        private void Awake()
+        {
+            if (totalValueText == null)
+            {
+               totalValueText = GetComponentInChildren<TextMeshProUGUI>();
+            }
+        }
 
         public void Initialize(BarterUI parent, BartererType type)
         {
             Initialize(parent);
             SetBartererType(type);
         }
+
         public void Initialize(BarterUI parent)
         {
             _parent = parent;
             _poolManager = GameManager.Instance.PoolManager;
         }
+
         public void SetBartererType(BartererType type)
         {
             bartererType = type;
         }
 
-        public void UpdateUI(List<InventoryItem> items)
+        public void UpdateUI(List<InventoryItem> items, int totalValue)
         {
+            // Update the total value text
+            totalValueText.text ="Total:"+ totalValue.ToString() + "G";
             // Ensure we have the correct number of slots
             AdjustItemSlotCount(items.Count);
 
@@ -55,7 +70,8 @@ namespace DefaultNamespace.UI.Barter
             // Add more slots if needed
             while (barteredItemSlotUis.Count < requiredCount)
             {
-                BarteredItemSlotUI newSlot = _poolManager.GetObject(HelperUIName.BarteredItemSlotUI).GetComponent<BarteredItemSlotUI>();
+                BarteredItemSlotUI newSlot = _poolManager.GetObject(HelperUIName.BarteredItemSlotUI)
+                    .GetComponent<BarteredItemSlotUI>();
                 newSlot.transform.SetParent(transform, false);
                 barteredItemSlotUis.Add(newSlot);
                 newSlot.Initialize(this);
