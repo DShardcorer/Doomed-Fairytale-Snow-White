@@ -19,8 +19,7 @@ namespace SceneSwitch
         public bool IsFadingIn { get; private set; }
         
         private string _targetSceneName;
-        private int _targetSceneIndex = -1;
-        private bool _useSceneName = true;
+        private bool _useSceneName = false;
 
         private void Awake()
         {
@@ -51,9 +50,6 @@ namespace SceneSwitch
                     // Change scene when fully black
                     if (_useSceneName)
                         SceneManager.LoadScene(_targetSceneName);
-                    else
-                        SceneManager.LoadScene(_targetSceneIndex);
-                    
                     // Start fade in automatically
                     StartFadeIn();
                 }
@@ -80,13 +76,7 @@ namespace SceneSwitch
             _useSceneName = true;
             StartFadeOut();
         }
-
-        public void FadeToScene(int sceneIndex)
-        {
-            _targetSceneIndex = sceneIndex;
-            _useSceneName = false;
-            StartFadeOut();
-        }
+        
 
         public void StartFadeOut()
         {

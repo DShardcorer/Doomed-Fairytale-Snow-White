@@ -77,6 +77,10 @@ namespace Tile
             
             ServiceLocator.RegisterService(this);
         }
+        private void OnDestroy()
+        {
+            ServiceLocator.UnregisterService(this);
+        }
 
 
         private void Update()

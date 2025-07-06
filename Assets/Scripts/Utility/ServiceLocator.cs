@@ -10,11 +10,7 @@ namespace DefaultNamespace.Utility
         private static Dictionary<Type, object> services = new Dictionary<Type, object>();
         private static bool _isInitialized = false;
         private static TaskCompletionSource<bool> _initializationTask = new TaskCompletionSource<bool>();
-
-        /// <summary>
-        /// Indicates whether core systems have been initialized
-        /// </summary>
-        public static bool IsInitialized => _isInitialized;
+        
 
         /// <summary>
         /// Task that completes when core initialization is done
@@ -23,6 +19,10 @@ namespace DefaultNamespace.Utility
         public static void RegisterService<T>(T service) where T : class
         {
             services[typeof(T)] = service;
+        }
+        public static void UnregisterService<T>(T service) where T : class
+        {
+            services.Remove(typeof(T));
         }
         public static void ClearServices()
         {

@@ -45,13 +45,7 @@ namespace EntityBase.Player
             // if (_isInOverworld) return;
 
             _normalPlayerView.gameObject.SetActive(false);
-
-            if (_overworldPlayerView == null)
-            {
-                Debug.LogError("Overworld player view is not set. Please assign a reference in the inspector.");
-                return;
-            }
-            
+            _normalPlayerView.transform.position = position;
             _overworldPlayerView.gameObject.SetActive(true);
             _overworldPlayerView.transform.position = position;
             _overworldPlayerView.Initialize(_player);

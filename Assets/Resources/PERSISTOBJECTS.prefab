@@ -5703,6 +5703,9 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 033976b9ee16cea4db4a8425733ee3c4, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  cinemachineCamera: {fileID: 8310458617789795}
+  cinemachinePositionComposer: {fileID: 260170998012420800}
+  cinemachineConfiner2D: {fileID: 1028669232690180272}
 --- !u!1 &2379425732145473488
 GameObject:
   m_ObjectHideFlags: 0
@@ -10435,6 +10438,7 @@ GameObject:
   - component: {fileID: 9171186037956316094}
   - component: {fileID: 8310458617789795}
   - component: {fileID: 260170998012420800}
+  - component: {fileID: 1028669232690180272}
   m_Layer: 0
   m_Name: CinemachineCamera
   m_TagString: Untagged
@@ -10482,7 +10486,7 @@ MonoBehaviour:
     CustomLookAtTarget: 0
   Lens:
     FieldOfView: 40
-    OrthographicSize: 8.188163
+    OrthographicSize: 3.75
     NearClipPlane: 0.1
     FarClipPlane: 5000
     Dutch: 0
@@ -10531,6 +10535,26 @@ MonoBehaviour:
     Time: 0
     Smoothing: 0
     IgnoreY: 0
+--- !u!114 &1028669232690180272
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 3674770696242870015}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: f453f694addf4275988fac205bc91968, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  BoundingShape2D: {fileID: 0}
+  Damping: 0.5
+  SlowingDistance: 5
+  OversizeWindow:
+    Enabled: 0
+    MaxWindowSize: 0
+    Padding: 0
+  m_LegacyMaxWindowSize: -2
 --- !u!1 &3767714692500206212
 GameObject:
   m_ObjectHideFlags: 0
@@ -28464,6 +28488,10 @@ PrefabInstance:
     - target: {fileID: 1404282426720855768, guid: a7ef3041802fd8546bc6c34c56c4c819, type: 3}
       propertyPath: m_Depth
       value: -1
+      objectReference: {fileID: 0}
+    - target: {fileID: 1404282426720855768, guid: a7ef3041802fd8546bc6c34c56c4c819, type: 3}
+      propertyPath: orthographic size
+      value: 3.75
       objectReference: {fileID: 0}
     - target: {fileID: 1404282426720855768, guid: a7ef3041802fd8546bc6c34c56c4c819, type: 3}
       propertyPath: m_CullingMask.m_Bits

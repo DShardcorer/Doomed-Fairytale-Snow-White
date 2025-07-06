@@ -22,6 +22,15 @@ namespace Utility
             }
         }
 
+        private void OnDestroy()
+        {
+            if (Instance == this)
+            {
+                Instance = null;
+            }
+            _drawGizmoObjects.Clear();
+        }
+
 
         private void OnDrawGizmosSelected()
         {
