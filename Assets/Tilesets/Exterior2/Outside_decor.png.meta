@@ -1,0 +1,2767 @@
+fileFormatVersion: 2
+guid: 483d4239e25113746bcea2f8c673eaf3
+TextureImporter:
+  internalIDToNameTable: []
+  externalObjects: {}
+  serializedVersion: 13
+  mipmaps:
+    mipMapMode: 0
+    enableMipMap: 0
+    sRGBTexture: 1
+    linearTexture: 0
+    fadeOut: 0
+    borderMipMap: 0
+    mipMapsPreserveCoverage: 0
+    alphaTestReferenceValue: 0.5
+    mipMapFadeDistanceStart: 1
+    mipMapFadeDistanceEnd: 3
+  bumpmap:
+    convertToNormalMap: 0
+    externalNormalMap: 0
+    heightScale: 0.25
+    normalMapFilter: 0
+    flipGreenChannel: 0
+  isReadable: 0
+  streamingMipmaps: 0
+  streamingMipmapsPriority: 0
+  vTOnly: 0
+  ignoreMipmapLimit: 0
+  grayScaleToAlpha: 0
+  generateCubemap: 6
+  cubemapConvolution: 0
+  seamlessCubemap: 0
+  textureFormat: 1
+  maxTextureSize: 2048
+  textureSettings:
+    serializedVersion: 2
+    filterMode: 0
+    aniso: 1
+    mipBias: 0
+    wrapU: 1
+    wrapV: 1
+    wrapW: 1
+  nPOTScale: 0
+  lightmap: 0
+  compressionQuality: 50
+  spriteMode: 2
+  spriteExtrude: 1
+  spriteMeshType: 1
+  alignment: 0
+  spritePivot: {x: 0.5, y: 0.5}
+  spritePixelsToUnits: 48
+  spriteBorder: {x: 0, y: 0, z: 0, w: 0}
+  spriteGenerateFallbackPhysicsShape: 1
+  alphaUsage: 1
+  alphaIsTransparency: 1
+  spriteTessellationDetail: -1
+  textureType: 8
+  textureShape: 1
+  singleChannelComponent: 0
+  flipbookRows: 1
+  flipbookColumns: 1
+  maxTextureSizeSet: 0
+  compressionQualitySet: 0
+  textureFormatSet: 0
+  ignorePngGamma: 0
+  applyGammaDecoding: 0
+  swizzle: 50462976
+  cookieLightType: 0
+  platformSettings:
+  - serializedVersion: 4
+    buildTarget: DefaultTexturePlatform
+    maxTextureSize: 2048
+    resizeAlgorithm: 0
+    textureFormat: -1
+    textureCompression: 0
+    compressionQuality: 50
+    crunchedCompression: 0
+    allowsAlphaSplitting: 0
+    overridden: 0
+    ignorePlatformSupport: 0
+    androidETC2FallbackOverride: 0
+    forceMaximumCompressionQuality_BC6H_BC7: 0
+  - serializedVersion: 4
+    buildTarget: Standalone
+    maxTextureSize: 2048
+    resizeAlgorithm: 0
+    textureFormat: -1
+    textureCompression: 1
+    compressionQuality: 50
+    crunchedCompression: 0
+    allowsAlphaSplitting: 0
+    overridden: 0
+    ignorePlatformSupport: 0
+    androidETC2FallbackOverride: 0
+    forceMaximumCompressionQuality_BC6H_BC7: 0
+  spriteSheet:
+    serializedVersion: 2
+    sprites:
+    - serializedVersion: 2
+      name: Fantasy_Outside_C_seperated_0
+      rect:
+        serializedVersion: 2
+        x: 0
+        y: 624
+        width: 48
+        height: 144
+      alignment: 9
+      pivot: {x: 0.51515704, y: 0.27264363}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: 7bec182c1a2fe724dae5cd2c6c6c014d
+      internalID: 1538225349
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: Fantasy_Outside_C_seperated_1
+      rect:
+        serializedVersion: 2
+        x: 289
+        y: 695
+        width: 46
+        height: 34
+      alignment: 9
+      pivot: {x: 0.5, y: 0.8851695}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: 718e2a9e92244b44fac370340cb2f40d
+      internalID: 1306650609
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: Fantasy_Outside_C_seperated_2
+      rect:
+        serializedVersion: 2
+        x: 339
+        y: 678
+        width: 43
+        height: 66
+      alignment: 9
+      pivot: {x: 0.53383905, y: 0.61023414}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: 6debbb88f4e3dd94680837e96ab591d5
+      internalID: -2107093063
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: Fantasy_Outside_C_seperated_3
+      rect:
+        serializedVersion: 2
+        x: 384
+        y: 672
+        width: 48
+        height: 95
+      alignment: 9
+      pivot: {x: 0.5, y: 0.43107525}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: e96123aff99a37340a80f79a53712bb9
+      internalID: -1703782124
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: Fantasy_Outside_C_seperated_4
+      rect:
+        serializedVersion: 2
+        x: 439
+        y: 672
+        width: 41
+        height: 84
+      alignment: 9
+      pivot: {x: 0.48225588, y: 0.81180316}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: 576838d11e0b2ec4d9b44a063013c965
+      internalID: -469342230
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: Fantasy_Outside_C_seperated_5
+      rect:
+        serializedVersion: 2
+        x: 482
+        y: 695
+        width: 92
+        height: 42
+      alignment: 9
+      pivot: {x: 0.4841846, y: 0.70786977}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: ab0867853ef9d044bb417b0ac2812b62
+      internalID: -2032606974
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: Fantasy_Outside_C_seperated_6
+      rect:
+        serializedVersion: 2
+        x: 579
+        y: 695
+        width: 92
+        height: 42
+      alignment: 9
+      pivot: {x: 0.5079074, y: 0.6559027}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: 5bf2edcd74e76cb4e8f69f2eb5fc36d0
+      internalID: -1174577557
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: Fantasy_Outside_C_seperated_7
+      rect:
+        serializedVersion: 2
+        x: 688
+        y: 630
+        width: 27
+        height: 110
+      alignment: 0
+      pivot: {x: 0.5, y: 0.5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: 9d565ea130574b847a2a873a15357fef
+      internalID: 1770626180
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: Fantasy_Outside_C_seperated_8
+      rect:
+        serializedVersion: 2
+        x: 726
+        y: 625
+        width: 27
+        height: 110
+      alignment: 0
+      pivot: {x: 0.5, y: 0.5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: 8538bf42741e5fc469bf640d1bd4b253
+      internalID: -1735935792
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: Fantasy_Outside_C_seperated_9
+      rect:
+        serializedVersion: 2
+        x: 49
+        y: 602
+        width: 47
+        height: 55
+      alignment: 0
+      pivot: {x: 0.5, y: 0.5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: fde5aecd654a0b446bf07a622fae2e26
+      internalID: -394218503
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: Fantasy_Outside_C_seperated_10
+      rect:
+        serializedVersion: 2
+        x: 98
+        y: 577
+        width: 45
+        height: 78
+      alignment: 0
+      pivot: {x: 0.5, y: 0.5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: e7d66e3bb57354a488f5feef5b67d796
+      internalID: -1043234072
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: Fantasy_Outside_C_seperated_11
+      rect:
+        serializedVersion: 2
+        x: 148
+        y: 597
+        width: 43
+        height: 57
+      alignment: 0
+      pivot: {x: 0.5, y: 0.5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: 0bbd91febe79f694ca18966fd3acbb60
+      internalID: 1583937642
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: Fantasy_Outside_C_seperated_12
+      rect:
+        serializedVersion: 2
+        x: 196
+        y: 579
+        width: 44
+        height: 92
+      alignment: 9
+      pivot: {x: 0.50000036, y: 0.8954023}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: 43855b27252bbb84bbe047286b4343ab
+      internalID: -1107105225
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: Fantasy_Outside_C_seperated_13
+      rect:
+        serializedVersion: 2
+        x: 291
+        y: 630
+        width: 43
+        height: 38
+      alignment: 0
+      pivot: {x: 0.5, y: 0.5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: 226501790ec0ba640ab713979c4cbd59
+      internalID: -1332286653
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: Fantasy_Outside_C_seperated_14
+      rect:
+        serializedVersion: 2
+        x: 339
+        y: 630
+        width: 43
+        height: 38
+      alignment: 0
+      pivot: {x: 0.5, y: 0.5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: b500c9c42568d004981470d29ef957fe
+      internalID: 1680828809
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: Fantasy_Outside_C_seperated_15
+      rect:
+        serializedVersion: 2
+        x: 393
+        y: 578
+        width: 39
+        height: 77
+      alignment: 9
+      pivot: {x: 0.44403625, y: 0.83070034}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: 47f24b8d706788a4e926a5dd9c3adaf0
+      internalID: -1696955252
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: Fantasy_Outside_C_seperated_16
+      rect:
+        serializedVersion: 2
+        x: 438
+        y: 624
+        width: 90
+        height: 42
+      alignment: 9
+      pivot: {x: 0.50000036, y: 0.7078683}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: 3483dc0da18e01544a06dd5797f0d2a0
+      internalID: 2065788960
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: Fantasy_Outside_C_seperated_17
+      rect:
+        serializedVersion: 2
+        x: 529
+        y: 530
+        width: 47
+        height: 116
+      alignment: 9
+      pivot: {x: 0.5, y: 0.81986684}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: 6dd02edcb9576984dbdf4b04d6215293
+      internalID: 2096625377
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: Fantasy_Outside_C_seperated_18
+      rect:
+        serializedVersion: 2
+        x: 578
+        y: 576
+        width: 94
+        height: 73
+      alignment: 9
+      pivot: {x: 0.4690409, y: 0.679394}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: 9d8d32a636ca41f4fa569ea5b83eeaa5
+      internalID: -1619158778
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: Fantasy_Outside_C_seperated_19
+      rect:
+        serializedVersion: 2
+        x: 5
+        y: 509
+        width: 38
+        height: 98
+      alignment: 0
+      pivot: {x: 0.5, y: 0.5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: 752a07236bf09514eaefdade859ca061
+      internalID: 2107456115
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: Fantasy_Outside_C_seperated_20
+      rect:
+        serializedVersion: 2
+        x: 243
+        y: 582
+        width: 43
+        height: 38
+      alignment: 0
+      pivot: {x: 0.5, y: 0.5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: f8485b7af780afa429517e4d09d34f69
+      internalID: 272054806
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: Fantasy_Outside_C_seperated_21
+      rect:
+        serializedVersion: 2
+        x: 291
+        y: 582
+        width: 43
+        height: 38
+      alignment: 0
+      pivot: {x: 0.5, y: 0.5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: 0c452c00ae2539b4ab9e2f7aeae83b62
+      internalID: 1564305942
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: Fantasy_Outside_C_seperated_22
+      rect:
+        serializedVersion: 2
+        x: 339
+        y: 582
+        width: 43
+        height: 42
+      alignment: 0
+      pivot: {x: 0.5, y: 0.5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: 6c91043a160f2db4db4c28f68bea08be
+      internalID: -1412486210
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: Fantasy_Outside_C_seperated_23
+      rect:
+        serializedVersion: 2
+        x: 439
+        y: 578
+        width: 86
+        height: 36
+      alignment: 9
+      pivot: {x: 0.5, y: 0.68188477}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: 3a896eb2260957f4da2dde7c8db85e00
+      internalID: -1322940156
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: Fantasy_Outside_C_seperated_24
+      rect:
+        serializedVersion: 2
+        x: 677
+        y: 576
+        width: 36
+        height: 48
+      alignment: 9
+      pivot: {x: 0.5202128, y: 0.6060994}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: ee2cbb843c663b84d9d547c98e687b08
+      internalID: 1483257012
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: Fantasy_Outside_C_seperated_25
+      rect:
+        serializedVersion: 2
+        x: 726
+        y: 568
+        width: 34
+        height: 45
+      alignment: 9
+      pivot: {x: 0.5213964, y: 0.61317277}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: 7a2cba84804e6c844af6433e43b61d0e
+      internalID: 1748569699
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: Fantasy_Outside_C_seperated_26
+      rect:
+        serializedVersion: 2
+        x: 50
+        y: 500
+        width: 46
+        height: 56
+      alignment: 0
+      pivot: {x: 0.5, y: 0.5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: b06956b6539af014bad5fd9a2861f273
+      internalID: 1573071495
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: Fantasy_Outside_C_seperated_27
+      rect:
+        serializedVersion: 2
+        x: 103
+        y: 504
+        width: 41
+        height: 50
+      alignment: 0
+      pivot: {x: 0.5, y: 0.5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: 938a5d6e30340c146874b9f047010d0d
+      internalID: -1164529924
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: Fantasy_Outside_C_seperated_28
+      rect:
+        serializedVersion: 2
+        x: 145
+        y: 480
+        width: 52
+        height: 89
+      alignment: 0
+      pivot: {x: 0.5, y: 0.5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: 37c4126f4116b6b488b940965ce51b60
+      internalID: 1908791270
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: Fantasy_Outside_C_seperated_29
+      rect:
+        serializedVersion: 2
+        x: 240
+        y: 480
+        width: 47
+        height: 85
+      alignment: 0
+      pivot: {x: 0.5, y: 0.5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: 955dffbdce941464e96cc138caac6c57
+      internalID: -109182621
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: Fantasy_Outside_C_seperated_30
+      rect:
+        serializedVersion: 2
+        x: 288
+        y: 480
+        width: 49
+        height: 74
+      alignment: 0
+      pivot: {x: 0.5, y: 0.5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: 1729629dd0ff3f04a8219cce585d87ef
+      internalID: 514830391
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: Fantasy_Outside_C_seperated_31
+      rect:
+        serializedVersion: 2
+        x: 624
+        y: 440
+        width: 144
+        height: 88
+      alignment: 0
+      pivot: {x: 0.5, y: 0.5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: b8c694fa6e3d37543a71bf1070c1191c
+      internalID: 1091697657
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: Fantasy_Outside_C_seperated_32
+      rect:
+        serializedVersion: 2
+        x: 628
+        y: 533
+        width: 41
+        height: 43
+      alignment: 9
+      pivot: {x: 0.5, y: 0.70303416}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: 029c1528096aa8f46ad9899f787ef78a
+      internalID: 1860047193
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: Fantasy_Outside_C_seperated_33
+      rect:
+        serializedVersion: 2
+        x: 0
+        y: 408
+        width: 48
+        height: 71
+      alignment: 0
+      pivot: {x: 0.5, y: 0.5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: 19056cf51dfab114ab281e35a1d25a62
+      internalID: -471443212
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: Fantasy_Outside_C_seperated_34
+      rect:
+        serializedVersion: 2
+        x: 105
+        y: 432
+        width: 39
+        height: 44
+      alignment: 0
+      pivot: {x: 0.5, y: 0.5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: c87eacfde3cfb624baebf9e4ad215d9a
+      internalID: 1652123271
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: Fantasy_Outside_C_seperated_35
+      rect:
+        serializedVersion: 2
+        x: 144
+        y: 402
+        width: 44
+        height: 66
+      alignment: 0
+      pivot: {x: 0.5, y: 0.5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: 430bcc76572f4cc409a2ca39714e479c
+      internalID: -518190402
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: Fantasy_Outside_C_seperated_36
+      rect:
+        serializedVersion: 2
+        x: 192
+        y: 384
+        width: 47
+        height: 86
+      alignment: 0
+      pivot: {x: 0.5, y: 0.5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: 740a40fe2b921b94f8e197be9ca9e451
+      internalID: -1020552421
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: Fantasy_Outside_C_seperated_37
+      rect:
+        serializedVersion: 2
+        x: 249
+        y: 392
+        width: 36
+        height: 40
+      alignment: 0
+      pivot: {x: 0.5, y: 0.5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: 48ed7cc3517b4de45900b61c5469e5d1
+      internalID: 2105540253
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: Fantasy_Outside_C_seperated_38
+      rect:
+        serializedVersion: 2
+        x: 288
+        y: 384
+        width: 48
+        height: 65
+      alignment: 0
+      pivot: {x: 0.5, y: 0.5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: 6598a18984de6b745a59ecd5200e0f2f
+      internalID: 122845693
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: Fantasy_Outside_C_seperated_39
+      rect:
+        serializedVersion: 2
+        x: 387
+        y: 287
+        width: 93
+        height: 192
+      alignment: 9
+      pivot: {x: 0.49003354, y: 0.41310248}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: 18511c3e6d414a848993db29955a4ac9
+      internalID: -1408373118
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: Fantasy_Outside_C_seperated_40
+      rect:
+        serializedVersion: 2
+        x: 682
+        y: 383
+        width: 33
+        height: 49
+      alignment: 0
+      pivot: {x: 0.5, y: 0.5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: 529a0e669c1b0ed45b310c597fbca123
+      internalID: 645380462
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: Fantasy_Outside_C_seperated_41
+      rect:
+        serializedVersion: 2
+        x: 96
+        y: 384
+        width: 48
+        height: 45
+      alignment: 0
+      pivot: {x: 0.5, y: 0.5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: 10d380ef2bfea6249b295da6987a0ca7
+      internalID: -1585977333
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: Fantasy_Outside_C_seperated_42
+      rect:
+        serializedVersion: 2
+        x: 729
+        y: 368
+        width: 32
+        height: 64
+      alignment: 0
+      pivot: {x: 0.5, y: 0.5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: a707741b01bbe2044bd95309a9e7dcf5
+      internalID: 1026205228
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: Fantasy_Outside_C_seperated_43
+      rect:
+        serializedVersion: 2
+        x: 0
+        y: 312
+        width: 48
+        height: 64
+      alignment: 0
+      pivot: {x: 0.5, y: 0.5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: 3d2e1e3357181534e9b1eabe39ae234a
+      internalID: -599612825
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: Fantasy_Outside_C_seperated_44
+      rect:
+        serializedVersion: 2
+        x: 148
+        y: 312
+        width: 41
+        height: 55
+      alignment: 0
+      pivot: {x: 0.5, y: 0.5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: 9c8e92ec19cccd4449e175a79da67461
+      internalID: 141302169
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: Fantasy_Outside_C_seperated_45
+      rect:
+        serializedVersion: 2
+        x: 196
+        y: 312
+        width: 41
+        height: 55
+      alignment: 0
+      pivot: {x: 0.5, y: 0.5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: d9b80aa969ebdf44284e74333d030800
+      internalID: -1293470210
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: Fantasy_Outside_C_seperated_46
+      rect:
+        serializedVersion: 2
+        x: 240
+        y: 311
+        width: 48
+        height: 34
+      alignment: 0
+      pivot: {x: 0.5, y: 0.5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: 69a485edf129dfd43b8df8cd376f4fdb
+      internalID: 681167061
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: Fantasy_Outside_C_seperated_47
+      rect:
+        serializedVersion: 2
+        x: 295
+        y: 308
+        width: 41
+        height: 45
+      alignment: 0
+      pivot: {x: 0.5, y: 0.5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: 842f2313305f35c448c806a46a089f47
+      internalID: 798645897
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: Fantasy_Outside_C_seperated_48
+      rect:
+        serializedVersion: 2
+        x: 337
+        y: 310
+        width: 47
+        height: 54
+      alignment: 0
+      pivot: {x: 0.5, y: 0.5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: 0718a592b9d712749be281bdca97a1f5
+      internalID: 1962770610
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: Fantasy_Outside_C_seperated_49
+      rect:
+        serializedVersion: 2
+        x: 737
+        y: 289
+        width: 13
+        height: 47
+      alignment: 0
+      pivot: {x: 0.5, y: 0.5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: 330e429ed680bcb44b3a3e9b00cf3891
+      internalID: 1603097294
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: Fantasy_Outside_C_seperated_50
+      rect:
+        serializedVersion: 2
+        x: 0
+        y: 210
+        width: 48
+        height: 75
+      alignment: 0
+      pivot: {x: 0.5, y: 0.5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: 7903030b42ae6804ab7a69a38abc839d
+      internalID: 1413310861
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: Fantasy_Outside_C_seperated_51
+      rect:
+        serializedVersion: 2
+        x: 49
+        y: 218
+        width: 46
+        height: 67
+      alignment: 0
+      pivot: {x: 0.5, y: 0.5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: eeb3a240cb8ae4e4399eb969876168b2
+      internalID: -1067122811
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: Fantasy_Outside_C_seperated_52
+      rect:
+        serializedVersion: 2
+        x: 97
+        y: 240
+        width: 46
+        height: 45
+      alignment: 0
+      pivot: {x: 0.5, y: 0.5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: 2052aa0eae4030c4d8f766bb54008afe
+      internalID: -2036083620
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: Fantasy_Outside_C_seperated_53
+      rect:
+        serializedVersion: 2
+        x: 147
+        y: 240
+        width: 42
+        height: 48
+      alignment: 0
+      pivot: {x: 0.5, y: 0.5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: b208817b09bbb7f479b8a8c1518b4db7
+      internalID: -911124287
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: Fantasy_Outside_C_seperated_54
+      rect:
+        serializedVersion: 2
+        x: 195
+        y: 242
+        width: 41
+        height: 46
+      alignment: 0
+      pivot: {x: 0.5, y: 0.5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: 7718fb2966a4bb94d841236cec3de996
+      internalID: -1365432326
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: Fantasy_Outside_C_seperated_55
+      rect:
+        serializedVersion: 2
+        x: 240
+        y: 217
+        width: 96
+        height: 38
+      alignment: 0
+      pivot: {x: 0.5, y: 0.5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: 0b74b122da78c3649b1205e35e1841f4
+      internalID: 1358843493
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: Fantasy_Outside_C_seperated_56
+      rect:
+        serializedVersion: 2
+        x: 384
+        y: 144
+        width: 48
+        height: 124
+      alignment: 9
+      pivot: {x: 0.46138063, y: 0.41029948}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: 99ac92cace6b4884b9b67d3ee6d39444
+      internalID: -648199848
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: Fantasy_Outside_C_seperated_57
+      rect:
+        serializedVersion: 2
+        x: 490
+        y: 203
+        width: 29
+        height: 62
+      alignment: 0
+      pivot: {x: 0.5, y: 0.5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: 9be43e4a533cea5419532650b36248a0
+      internalID: -1859739722
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: Fantasy_Outside_C_seperated_58
+      rect:
+        serializedVersion: 2
+        x: 538
+        y: 206
+        width: 28
+        height: 59
+      alignment: 0
+      pivot: {x: 0.5, y: 0.5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: 1d925b222c0eac546878ea7c64c23c8f
+      internalID: 2090189975
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: Fantasy_Outside_C_seperated_59
+      rect:
+        serializedVersion: 2
+        x: 587
+        y: 206
+        width: 26
+        height: 50
+      alignment: 0
+      pivot: {x: 0.5, y: 0.5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: 54091e9ad39c19e47a48d293b62c163f
+      internalID: -436661692
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: Fantasy_Outside_C_seperated_60
+      rect:
+        serializedVersion: 2
+        x: 632
+        y: 192
+        width: 130
+        height: 96
+      alignment: 9
+      pivot: {x: 0.49287063, y: 0.67379504}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: 6af3da8fd614c424b9dfaeafb6d7c29c
+      internalID: -124471193
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: Fantasy_Outside_C_seperated_61
+      rect:
+        serializedVersion: 2
+        x: 100
+        y: 148
+        width: 140
+        height: 78
+      alignment: 0
+      pivot: {x: 0.5, y: 0.5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: e64b5d220c746c3428a3d839319bc398
+      internalID: 161131583
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: Fantasy_Outside_C_seperated_62
+      rect:
+        serializedVersion: 2
+        x: 337
+        y: 205
+        width: 44
+        height: 35
+      alignment: 0
+      pivot: {x: 0.5, y: 0.5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: 81f4431de16846842ae709cac2b1720f
+      internalID: -1243508496
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: Fantasy_Outside_C_seperated_71
+      rect:
+        serializedVersion: 2
+        x: 0
+        y: 144
+        width: 48
+        height: 48
+      alignment: 0
+      pivot: {x: 0.5, y: 0.5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: f1626dadb1e129849a61c020c75fc4fd
+      internalID: 152864817
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: Fantasy_Outside_C_seperated_72
+      rect:
+        serializedVersion: 2
+        x: 48
+        y: 144
+        width: 48
+        height: 48
+      alignment: 0
+      pivot: {x: 0.5, y: 0.5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: 775dd3a730e56a9439fcf7b98c83478c
+      internalID: -1094471561
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: Fantasy_Outside_C_seperated_73
+      rect:
+        serializedVersion: 2
+        x: 244
+        y: 96
+        width: 89
+        height: 80
+      alignment: 9
+      pivot: {x: 0.5104147, y: 0.73172724}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: 5e3b51a202cf3c94baab8aeb97dd59a8
+      internalID: 1807283863
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: Fantasy_Outside_C_seperated_74
+      rect:
+        serializedVersion: 2
+        x: 432
+        y: 99
+        width: 288
+        height: 45
+      alignment: 0
+      pivot: {x: 0.5, y: 0.5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: d5601d0ca19eb044baf651bce7b36caa
+      internalID: -783828862
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: Fantasy_Outside_C_seperated_75
+      rect:
+        serializedVersion: 2
+        x: 491
+        y: 156
+        width: 30
+        height: 36
+      alignment: 0
+      pivot: {x: 0.5, y: 0.5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: ccc2a6ef8b97cc34d87cd46da2d08079
+      internalID: -1463568657
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: Fantasy_Outside_C_seperated_76
+      rect:
+        serializedVersion: 2
+        x: 586
+        y: 158
+        width: 27
+        height: 34
+      alignment: 0
+      pivot: {x: 0.5, y: 0.5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: f0180b2db0684e9428c0feed1ec3fcb5
+      internalID: 275193539
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: Fantasy_Outside_C_seperated_78
+      rect:
+        serializedVersion: 2
+        x: 720
+        y: 144
+        width: 44
+        height: 45
+      alignment: 0
+      pivot: {x: 0.5, y: 0.5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: 60d6a922978444547a960ebdc452c59e
+      internalID: 1937737392
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: Fantasy_Outside_C_seperated_81
+      rect:
+        serializedVersion: 2
+        x: 1
+        y: 96
+        width: 46
+        height: 47
+      alignment: 0
+      pivot: {x: 0.5, y: 0.5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: d9a99f94430580e4d91b024cf6cfe811
+      internalID: 1497244427
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: Fantasy_Outside_C_seperated_82
+      rect:
+        serializedVersion: 2
+        x: 48
+        y: 95
+        width: 48
+        height: 48
+      alignment: 0
+      pivot: {x: 0.5, y: 0.5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: 9da51d31e443c9344997342ae04e11d1
+      internalID: -1992417775
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: Fantasy_Outside_C_seperated_84
+      rect:
+        serializedVersion: 2
+        x: 104
+        y: 102
+        width: 38
+        height: 32
+      alignment: 0
+      pivot: {x: 0.5, y: 0.5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: 076bf78adfc8f334c844bb0f2804b276
+      internalID: 1539187107
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: Fantasy_Outside_C_seperated_86
+      rect:
+        serializedVersion: 2
+        x: 159
+        y: 69
+        width: 81
+        height: 75
+      alignment: 9
+      pivot: {x: 0.5, y: 0.6977404}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: 75b9f8b1a10ae114d904a66a5286eb45
+      internalID: -1801943163
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: Fantasy_Outside_C_seperated_87
+      rect:
+        serializedVersion: 2
+        x: 432
+        y: 53
+        width: 288
+        height: 42
+      alignment: 0
+      pivot: {x: 0.5, y: 0.5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: 05ef47b2a7891d343b5daca86b455d4f
+      internalID: -328187989
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: Fantasy_Outside_C_seperated_89
+      rect:
+        serializedVersion: 2
+        x: 1
+        y: 31
+        width: 46
+        height: 64
+      alignment: 0
+      pivot: {x: 0.5, y: 0.5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: d99f7d46b83fa344ea54941fc7e90aec
+      internalID: -1095321880
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: Fantasy_Outside_C_seperated_90
+      rect:
+        serializedVersion: 2
+        x: 48
+        y: 48
+        width: 48
+        height: 42
+      alignment: 0
+      pivot: {x: 0.5, y: 0.5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: 0a397f04d1771ba4592b919e14db932a
+      internalID: -837493795
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: Fantasy_Outside_C_seperated_91
+      rect:
+        serializedVersion: 2
+        x: 96
+        y: 24
+        width: 48
+        height: 66
+      alignment: 9
+      pivot: {x: 0.5579317, y: 0.38764805}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: 753517af52b186e4a859c6ea052437cf
+      internalID: 963615900
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: Fantasy_Outside_C_seperated_92
+      rect:
+        serializedVersion: 2
+        x: 143
+        y: 0
+        width: 46
+        height: 48
+      alignment: 0
+      pivot: {x: 0.5, y: 0.5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: eb5efecd74df55f428187529d953bf7c
+      internalID: 1864112830
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: Fantasy_Outside_C_seperated_93
+      rect:
+        serializedVersion: 2
+        x: 244
+        y: 48
+        width: 40
+        height: 31
+      alignment: 0
+      pivot: {x: 0.5, y: 0.5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: 9766ffe4685db544eb52b57cb763570c
+      internalID: 945818462
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: Fantasy_Outside_C_seperated_94
+      rect:
+        serializedVersion: 2
+        x: 292
+        y: 48
+        width: 40
+        height: 31
+      alignment: 0
+      pivot: {x: 0.5, y: 0.5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: 687dee0c76ce9844f9500a5bf199d49d
+      internalID: -1937548771
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: Fantasy_Outside_C_seperated_95
+      rect:
+        serializedVersion: 2
+        x: 336
+        y: 0
+        width: 48
+        height: 96
+      alignment: 0
+      pivot: {x: 0.5, y: 0.5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: 3e32970e78bc10d498a1174455966174
+      internalID: -1857098592
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: Fantasy_Outside_C_seperated_96
+      rect:
+        serializedVersion: 2
+        x: 48
+        y: 0
+        width: 48
+        height: 42
+      alignment: 0
+      pivot: {x: 0.5, y: 0.5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: 52681c3d37f325e4b9483e2f3c9e3a22
+      internalID: -183970818
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: Fantasy_Outside_C_seperated_97
+      rect:
+        serializedVersion: 2
+        x: 196
+        y: 0
+        width: 40
+        height: 31
+      alignment: 0
+      pivot: {x: 0.5, y: 0.5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: 8b176b5ddc71d4548a7fecf53cf6a751
+      internalID: 129725990
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: Fantasy_Outside_C_seperated_98
+      rect:
+        serializedVersion: 2
+        x: 244
+        y: 0
+        width: 40
+        height: 31
+      alignment: 0
+      pivot: {x: 0.5, y: 0.5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: a36cf1724ac0348418ce64cac9217775
+      internalID: -210959537
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: Fantasy_Outside_C_seperated_99
+      rect:
+        serializedVersion: 2
+        x: 292
+        y: 0
+        width: 40
+        height: 36
+      alignment: 0
+      pivot: {x: 0.5, y: 0.5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: 1815b084b55014b4b81850931f46cfea
+      internalID: 3848864
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: Fantasy_Outside_C_seperated_100
+      rect:
+        serializedVersion: 2
+        x: 528
+        y: 4
+        width: 144
+        height: 42
+      alignment: 0
+      pivot: {x: 0.5, y: 0.5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: 447801a9066f0f943a95b28614e4e418
+      internalID: 2123136186
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: Fantasy_Outside_C_seperated_101
+      rect:
+        serializedVersion: 2
+        x: 48
+        y: 672
+        width: 48
+        height: 96
+      alignment: 9
+      pivot: {x: 0.48484293, y: 0.34085083}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: 7514355f06375b9418ddbb9b902e6256
+      internalID: -151693889
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: Fantasy_Outside_C_seperated_102
+      rect:
+        serializedVersion: 2
+        x: 96
+        y: 672
+        width: 48
+        height: 96
+      alignment: 9
+      pivot: {x: 0.5151572, y: 0.30295816}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: 5f4421c9aff608948ab33c2b8e700168
+      internalID: 1076732691
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: Fantasy_Outside_C_seperated_103
+      rect:
+        serializedVersion: 2
+        x: 144
+        y: 672
+        width: 48
+        height: 96
+      alignment: 9
+      pivot: {x: 0.5, y: 0.31811523}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: 98dab021c4cf65047b4d478701f0fbb5
+      internalID: -445764166
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: Fantasy_Outside_C_seperated_104
+      rect:
+        serializedVersion: 2
+        x: 192
+        y: 672
+        width: 48
+        height: 96
+      alignment: 9
+      pivot: {x: 0.54547185, y: 0.3560079}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: 6e545e17ed0339a4b8f0d8221c7f59ac
+      internalID: 597651390
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: Fantasy_Outside_C_seperated_105
+      rect:
+        serializedVersion: 2
+        x: 240
+        y: 672
+        width: 48
+        height: 88
+      alignment: 9
+      pivot: {x: 0.5, y: 0.40079013}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: b4327d55bf7e10f4bb86e98d47739640
+      internalID: -1301409049
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: Fantasy_Outside_C_seperated_106
+      rect:
+        serializedVersion: 2
+        x: 337
+        y: 497
+        width: 47
+        height: 57
+      alignment: 0
+      pivot: {x: 0.5, y: 0.5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: d025616fbf379664cafeaa1dda6d75f1
+      internalID: -1019936541
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: Fantasy_Outside_C_seperated_107
+      rect:
+        serializedVersion: 2
+        x: 384
+        y: 485
+        width: 144
+        height: 61
+      alignment: 0
+      pivot: {x: 0.5, y: 0.5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: fa91545a2af953947b9047686f8cf596
+      internalID: 408556100
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: Fantasy_Outside_C_seperated_108
+      rect:
+        serializedVersion: 2
+        x: 248
+        y: 440
+        width: 36
+        height: 40
+      alignment: 0
+      pivot: {x: 0.5, y: 0.5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: 3fc8909d7eadd5343bf6e1a47a4cf9f4
+      internalID: 792516032
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: Fantasy_Outside_C_seperated_109
+      rect:
+        serializedVersion: 2
+        x: 48
+        y: 408
+        width: 48
+        height: 71
+      alignment: 0
+      pivot: {x: 0.5, y: 0.5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: 5e8b5b93fe7fd064181d397c8fef334a
+      internalID: -1406713869
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: Fantasy_Outside_C_seperated_110
+      rect:
+        serializedVersion: 2
+        x: 336
+        y: 384
+        width: 48
+        height: 65
+      alignment: 0
+      pivot: {x: 0.5, y: 0.5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: 3145aa0dcb1bfbd43948e91065effe97
+      internalID: 1030388474
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: Fantasy_Outside_C_seperated_111
+      rect:
+        serializedVersion: 2
+        x: 48
+        y: 312
+        width: 48
+        height: 64
+      alignment: 0
+      pivot: {x: 0.5, y: 0.5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: cb8066b71aaaf474897b163339467455
+      internalID: -1133995506
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: Fantasy_Outside_C_seperated_112
+      rect:
+        serializedVersion: 2
+        x: 96
+        y: 312
+        width: 48
+        height: 64
+      alignment: 0
+      pivot: {x: 0.5, y: 0.5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: c6b331f28d2af9f4789f28aa35974ab4
+      internalID: -1316950172
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: Fantasy_Outside_C_seperated_79
+      rect:
+        serializedVersion: 2
+        x: 351
+        y: 160
+        width: 33
+        height: 36
+      alignment: 0
+      pivot: {x: 0.5, y: 0.5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: bd9f1a15f0424b1408b2ef035300b9df
+      internalID: -578198875
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: Fantasy_Outside_C_seperated_80
+      rect:
+        serializedVersion: 2
+        x: 337
+        y: 256
+        width: 47
+        height: 36
+      alignment: 0
+      pivot: {x: 0.5, y: 0.5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: c2679e989a202f043b9f66922760b783
+      internalID: -772913336
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: Fantasy_Outside_C_seperated_83
+      rect:
+        serializedVersion: 2
+        x: 432
+        y: 144
+        width: 48
+        height: 124
+      alignment: 9
+      pivot: {x: 0.5, y: 0.41777483}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: c3eb5c3785db3c449b3a480babe930f6
+      internalID: -331314717
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: Fantasy_Outside_C_seperated_85
+      rect:
+        serializedVersion: 2
+        x: 530
+        y: 480
+        width: 46
+        height: 48
+      alignment: 0
+      pivot: {x: 0.5, y: 0.5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: 7b6a42f4b98aae146930c36b84f0028c
+      internalID: 579829382
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: Fantasy_Outside_C_seperated_88
+      rect:
+        serializedVersion: 2
+        x: 576
+        y: 480
+        width: 48
+        height: 71
+      alignment: 0
+      pivot: {x: 0.5, y: 0.5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: db9e2474fd605d549a273e25a42ceeeb
+      internalID: -1568609871
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: Fantasy_Outside_C_seperated_113
+      rect:
+        serializedVersion: 2
+        x: 480
+        y: 384
+        width: 96
+        height: 82
+      alignment: 0
+      pivot: {x: 0.5, y: 0.5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: 39f57c0f6528dab47b1a86cf3f5708ab
+      internalID: -977944159
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: Fantasy_Outside_C_seperated_114
+      rect:
+        serializedVersion: 2
+        x: 576
+        y: 384
+        width: 48
+        height: 82
+      alignment: 0
+      pivot: {x: 0.5, y: 0.5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: 45e04bdb91c5fc047bbb970d325a910b
+      internalID: -130528747
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: Fantasy_Outside_C_seperated_115
+      rect:
+        serializedVersion: 2
+        x: 624
+        y: 384
+        width: 48
+        height: 48
+      alignment: 0
+      pivot: {x: 0.5, y: 0.5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: 2be73bdf1df19f2458507a5dc38094f3
+      internalID: 862776686
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: Fantasy_Outside_C_seperated_116
+      rect:
+        serializedVersion: 2
+        x: 480
+        y: 287
+        width: 96
+        height: 87
+      alignment: 0
+      pivot: {x: 0.5, y: 0.5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: 6025b2a6ef4b38644a7f133fd91f2ee1
+      internalID: 1677107161
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: Fantasy_Outside_C_seperated_117
+      rect:
+        serializedVersion: 2
+        x: 576
+        y: 288
+        width: 96
+        height: 86
+      alignment: 0
+      pivot: {x: 0.5, y: 0.5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: e6f8ae1cac83fb844a01192d6741e445
+      internalID: -1268344034
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: Fantasy_Outside_C_seperated_118
+      rect:
+        serializedVersion: 2
+        x: 672
+        y: 328
+        width: 48
+        height: 52
+      alignment: 0
+      pivot: {x: 0.5, y: 0.5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: 3888cac80ebcce541b008e017f27d6e4
+      internalID: -227184683
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: Fantasy_Outside_C_seperated_119
+      rect:
+        serializedVersion: 2
+        x: 541
+        y: 144
+        width: 23
+        height: 27
+      alignment: 0
+      pivot: {x: 0.5, y: 0.5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: 68ec2f95ff39deb4581dbf7b458a687c
+      internalID: -1748239796
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: Fantasy_Outside_C_seperated_63
+      rect:
+        serializedVersion: 2
+        x: 677
+        y: 148
+        width: 39
+        height: 37
+      alignment: 0
+      pivot: {x: 0.5, y: 0.5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: 9f20c978711e0994e8dc1032f0fa44ff
+      internalID: -1871193541
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: Fantasy_Outside_C_seperated_64
+      rect:
+        serializedVersion: 2
+        x: 422
+        y: 32
+        width: 10
+        height: 90
+      alignment: 0
+      pivot: {x: 0.5, y: 0.5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: d69141dfd2a83ec46af2a3f8ebce09d9
+      internalID: -949376908
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: Fantasy_Outside_C_seperated_65
+      rect:
+        serializedVersion: 2
+        x: 432
+        y: 34
+        width: 95
+        height: 4
+      alignment: 0
+      pivot: {x: 0.5, y: 0.5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: 448f71fdb939d1d4bb802c6401151e34
+      internalID: 1994635304
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: Fantasy_Outside_C_seperated_66
+      rect:
+        serializedVersion: 2
+        x: 720
+        y: 32
+        width: 10
+        height: 90
+      alignment: 0
+      pivot: {x: 0.5, y: 0.5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: e5791415033042a4c9c5192f29817743
+      internalID: 849036008
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    outline: []
+    customData: 
+    physicsShape: []
+    bones: []
+    spriteID: 2bfe4e3c3cba6d44f90610539a87267d
+    internalID: 0
+    vertices: []
+    indices: 
+    edges: []
+    weights: []
+    secondaryTextures: []
+    spriteCustomMetadata:
+      entries: []
+    nameFileIdTable:
+      Fantasy_Outside_C_seperated_0: 1538225349
+      Fantasy_Outside_C_seperated_1: 1306650609
+      Fantasy_Outside_C_seperated_10: -1043234072
+      Fantasy_Outside_C_seperated_100: 2123136186
+      Fantasy_Outside_C_seperated_101: -151693889
+      Fantasy_Outside_C_seperated_102: 1076732691
+      Fantasy_Outside_C_seperated_103: -445764166
+      Fantasy_Outside_C_seperated_104: 597651390
+      Fantasy_Outside_C_seperated_105: -1301409049
+      Fantasy_Outside_C_seperated_106: -1019936541
+      Fantasy_Outside_C_seperated_107: 408556100
+      Fantasy_Outside_C_seperated_108: 792516032
+      Fantasy_Outside_C_seperated_109: -1406713869
+      Fantasy_Outside_C_seperated_11: 1583937642
+      Fantasy_Outside_C_seperated_110: 1030388474
+      Fantasy_Outside_C_seperated_111: -1133995506
+      Fantasy_Outside_C_seperated_112: -1316950172
+      Fantasy_Outside_C_seperated_113: -977944159
+      Fantasy_Outside_C_seperated_114: -130528747
+      Fantasy_Outside_C_seperated_115: 862776686
+      Fantasy_Outside_C_seperated_116: 1677107161
+      Fantasy_Outside_C_seperated_117: -1268344034
+      Fantasy_Outside_C_seperated_118: -227184683
+      Fantasy_Outside_C_seperated_119: -1748239796
+      Fantasy_Outside_C_seperated_12: -1107105225
+      Fantasy_Outside_C_seperated_13: -1332286653
+      Fantasy_Outside_C_seperated_14: 1680828809
+      Fantasy_Outside_C_seperated_15: -1696955252
+      Fantasy_Outside_C_seperated_16: 2065788960
+      Fantasy_Outside_C_seperated_17: 2096625377
+      Fantasy_Outside_C_seperated_18: -1619158778
+      Fantasy_Outside_C_seperated_19: 2107456115
+      Fantasy_Outside_C_seperated_2: -2107093063
+      Fantasy_Outside_C_seperated_20: 272054806
+      Fantasy_Outside_C_seperated_21: 1564305942
+      Fantasy_Outside_C_seperated_22: -1412486210
+      Fantasy_Outside_C_seperated_23: -1322940156
+      Fantasy_Outside_C_seperated_24: 1483257012
+      Fantasy_Outside_C_seperated_25: 1748569699
+      Fantasy_Outside_C_seperated_26: 1573071495
+      Fantasy_Outside_C_seperated_27: -1164529924
+      Fantasy_Outside_C_seperated_28: 1908791270
+      Fantasy_Outside_C_seperated_29: -109182621
+      Fantasy_Outside_C_seperated_3: -1703782124
+      Fantasy_Outside_C_seperated_30: 514830391
+      Fantasy_Outside_C_seperated_31: 1091697657
+      Fantasy_Outside_C_seperated_32: 1860047193
+      Fantasy_Outside_C_seperated_33: -471443212
+      Fantasy_Outside_C_seperated_34: 1652123271
+      Fantasy_Outside_C_seperated_35: -518190402
+      Fantasy_Outside_C_seperated_36: -1020552421
+      Fantasy_Outside_C_seperated_37: 2105540253
+      Fantasy_Outside_C_seperated_38: 122845693
+      Fantasy_Outside_C_seperated_39: -1408373118
+      Fantasy_Outside_C_seperated_4: -469342230
+      Fantasy_Outside_C_seperated_40: 645380462
+      Fantasy_Outside_C_seperated_41: -1585977333
+      Fantasy_Outside_C_seperated_42: 1026205228
+      Fantasy_Outside_C_seperated_43: -599612825
+      Fantasy_Outside_C_seperated_44: 141302169
+      Fantasy_Outside_C_seperated_45: -1293470210
+      Fantasy_Outside_C_seperated_46: 681167061
+      Fantasy_Outside_C_seperated_47: 798645897
+      Fantasy_Outside_C_seperated_48: 1962770610
+      Fantasy_Outside_C_seperated_49: 1603097294
+      Fantasy_Outside_C_seperated_5: -2032606974
+      Fantasy_Outside_C_seperated_50: 1413310861
+      Fantasy_Outside_C_seperated_51: -1067122811
+      Fantasy_Outside_C_seperated_52: -2036083620
+      Fantasy_Outside_C_seperated_53: -911124287
+      Fantasy_Outside_C_seperated_54: -1365432326
+      Fantasy_Outside_C_seperated_55: 1358843493
+      Fantasy_Outside_C_seperated_56: -648199848
+      Fantasy_Outside_C_seperated_57: -1859739722
+      Fantasy_Outside_C_seperated_58: 2090189975
+      Fantasy_Outside_C_seperated_59: -436661692
+      Fantasy_Outside_C_seperated_6: -1174577557
+      Fantasy_Outside_C_seperated_60: -124471193
+      Fantasy_Outside_C_seperated_61: 161131583
+      Fantasy_Outside_C_seperated_62: -1243508496
+      Fantasy_Outside_C_seperated_63: -1871193541
+      Fantasy_Outside_C_seperated_64: -949376908
+      Fantasy_Outside_C_seperated_65: 1994635304
+      Fantasy_Outside_C_seperated_66: 849036008
+      Fantasy_Outside_C_seperated_67: 953420584
+      Fantasy_Outside_C_seperated_68: 929487460
+      Fantasy_Outside_C_seperated_69: -1967854532
+      Fantasy_Outside_C_seperated_7: 1770626180
+      Fantasy_Outside_C_seperated_70: 1923721251
+      Fantasy_Outside_C_seperated_71: 152864817
+      Fantasy_Outside_C_seperated_72: -1094471561
+      Fantasy_Outside_C_seperated_73: 1807283863
+      Fantasy_Outside_C_seperated_74: -783828862
+      Fantasy_Outside_C_seperated_75: -1463568657
+      Fantasy_Outside_C_seperated_76: 275193539
+      Fantasy_Outside_C_seperated_77: 941025362
+      Fantasy_Outside_C_seperated_78: 1937737392
+      Fantasy_Outside_C_seperated_79: -578198875
+      Fantasy_Outside_C_seperated_8: -1735935792
+      Fantasy_Outside_C_seperated_80: -772913336
+      Fantasy_Outside_C_seperated_81: 1497244427
+      Fantasy_Outside_C_seperated_82: -1992417775
+      Fantasy_Outside_C_seperated_83: -331314717
+      Fantasy_Outside_C_seperated_84: 1539187107
+      Fantasy_Outside_C_seperated_85: 579829382
+      Fantasy_Outside_C_seperated_86: -1801943163
+      Fantasy_Outside_C_seperated_87: -328187989
+      Fantasy_Outside_C_seperated_88: -1568609871
+      Fantasy_Outside_C_seperated_89: -1095321880
+      Fantasy_Outside_C_seperated_9: -394218503
+      Fantasy_Outside_C_seperated_90: -837493795
+      Fantasy_Outside_C_seperated_91: 963615900
+      Fantasy_Outside_C_seperated_92: 1864112830
+      Fantasy_Outside_C_seperated_93: 945818462
+      Fantasy_Outside_C_seperated_94: -1937548771
+      Fantasy_Outside_C_seperated_95: -1857098592
+      Fantasy_Outside_C_seperated_96: -183970818
+      Fantasy_Outside_C_seperated_97: 129725990
+      Fantasy_Outside_C_seperated_98: -210959537
+      Fantasy_Outside_C_seperated_99: 3848864
+  mipmapLimitGroupName: 
+  pSDRemoveMatte: 0
+  userData: 
+  assetBundleName: 
+  assetBundleVariant: 
