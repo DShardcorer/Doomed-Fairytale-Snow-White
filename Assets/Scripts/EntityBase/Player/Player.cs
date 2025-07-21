@@ -163,8 +163,8 @@ namespace EntityBase.Player
 
         private void OnDashInputted(object sender, EventArgs e)
         {
-            if (IsBusy) return;
-            activeSkillSystem.GetSkill(HelperSkillName.DashSkill).TryUseSkill();
+            // if (IsBusy) return;
+            // activeSkillSystem.GetSkill(HelperSkillName.DashSkill).TryUseSkill();
         }
 
         private void OnSkill1Inputted(object sender, EventArgs e)

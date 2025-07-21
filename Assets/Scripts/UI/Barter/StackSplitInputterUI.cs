@@ -89,8 +89,6 @@ namespace DefaultNamespace.UI.Barter
             {
                 // Create a new item with the split quantity
                 splitItem = new InventoryItem(_currentItem.itemDataSo, _currentQuantity);
-                // Reduce the original stack size
-                _currentItem.stackSize -= _currentQuantity;
             }
             
             // Add the split item to barter based on barterer type

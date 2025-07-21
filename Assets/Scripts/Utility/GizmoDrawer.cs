@@ -34,6 +34,10 @@ namespace Utility
 
         private void OnDrawGizmosSelected()
         {
+            if (_drawGizmoObjects == null)
+                return;
+            if(_drawGizmoObjects.Count == 0)
+                return;
             foreach (var drawGizmo in _drawGizmoObjects)
             {
                 drawGizmo.DrawGizmoSelected();
@@ -41,6 +45,10 @@ namespace Utility
         }
         private void OnDrawGizmos()
         {
+            if (_drawGizmoObjects == null)
+                return;
+            if(_drawGizmoObjects.Count == 0)
+                return;
             foreach (var drawGizmo in _drawGizmoObjects)
             {
                 drawGizmo.DrawGizmo();

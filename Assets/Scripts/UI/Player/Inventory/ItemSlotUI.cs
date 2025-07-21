@@ -86,8 +86,8 @@ namespace UI.Player.Inventory
             Vector2 screenPosition = RectTransformUtility.WorldToScreenPoint(null, slotRectTransform.position);
 
             // Calculate offset in screen space
-            float offsetX = 4.5f; // Right offset in pixels
-            float offsetY = -3f;
+            float offsetX = 1.5f; // Right offset in pixels
+            float offsetY = -1f;
             screenPosition.x += offsetX;
             screenPosition.y += offsetY;
             // Convert screen position to popup's local space in its new parent
@@ -146,7 +146,7 @@ namespace UI.Player.Inventory
             DisableItemInfoPopup();
         }
 
-        private void DisableItemInfoPopup()
+        protected void DisableItemInfoPopup()
         {
             if (itemInfoGameObject != null)
             {

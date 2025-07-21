@@ -1,25 +1,35 @@
 === collectCoinsFinish ===
-{CollectCoinsQuestState:
-    - "FINISHED": ->finished
-    - else: ->default
-}
-    
 
+{CollectCoinsQuestState:
+
+    - "FINISHED": ->finished
+
+    - else: ->default
+
+}
 
 = finished
-Thank you !#speaker:Hoshiko #sprite:HoshikoSchool_smile #layout:left
-->END
+
+Thank you! #speaker:VillageWoman #sprite:VillageWoman_laugh #layout:left
+
+-> END
+
 = default
-Hm ? What do you want?#speaker:Hoshiko #sprite:HoshikoSchool_smile #layout:left
+
+Hm? What do you want? #speaker:VillageWoman #sprite:VillageWoman_default #layout:left
+
 *[Just checking on you.]
+
     ...Creep.
-->END
+
+-> END
+
 *{CollectCoinsQuestState == "CAN_FINISH"} [Here are the coins.]
+
     ~ FinishQuest(CollectCoinsQuestId)
-    Oh. The other guy sent you eh ? Thanks.
-    Here are the rewards.
-->END
 
+    Oh. The other guy sent you, eh? Thanks.
 
+    Here are the rewards. #speaker:VillageWoman #sprite:VillageWoman_laugh #layout:left
 
 -> END

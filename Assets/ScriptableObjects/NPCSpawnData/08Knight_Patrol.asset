@@ -28,7 +28,8 @@ MonoBehaviour:
   aiType: 0
   aiConfiguration: {fileID: 11400000, guid: e89df6cb4ad219b45a2c25a8abe0332d, type: 2}
   activeSkills: []
-  passiveSkills: []
+  passiveSkills:
+  - {fileID: 11400000, guid: f0035ed70383efc41be3946a98627b9c, type: 2}
   startingEquipment:
   - {fileID: 11400000, guid: bd73ce2ca55bad2488914171d093a606, type: 2}
   startingInventory: []

@@ -1,4 +1,5 @@
 using System.Collections;
+using System.Threading.Tasks;
 using DefaultNamespace.Utility;
 using DefaultNamespace.Utitlity.Camera;
 using SceneSwitch;
@@ -15,10 +16,11 @@ namespace GeneralManagers
         [SerializeField] private CinemachinePositionComposer cinemachinePositionComposer;
         [SerializeField] private CinemachineConfiner2D cinemachineConfiner2D;
         private Vector3 originalDamping;
+
         public void Initialize(GameManager gameManager)
         {
             _gameManager = gameManager;
-            
+
             SceneManager.sceneLoaded += OnSceneLoaded;
             FollowPlayer();
             originalDamping = cinemachinePositionComposer.Damping;
@@ -31,15 +33,18 @@ namespace GeneralManagers
             FollowPlayer();
 
             // Set damping to 0 when a new scene is loaded
-            cinemachineCamera.CancelDamping(updateNow:true);
+            cinemachineCamera.CancelDamping(updateNow: true);
             cinemachinePositionComposer.Damping = Vector3.zero;
-            StartCoroutine(ResetDamping(1));
+            StartCoroutine(ResetDamping(0.1f));
+            //if scene is overworld, dont setup confiner
             SetupConfiner();
+            FollowPlayer();
         }
 
-        private void SetupConfiner()
+        private async void SetupConfiner()
         {
-            PolygonCollider2D confinerCollider = ServiceLocator.GetService<CameraConfiner>().ConfineArea;
+            CameraConfiner confiner = await ServiceLocator.GetServiceAsync<CameraConfiner>();
+            PolygonCollider2D confinerCollider = confiner?.ConfineArea;
             if (confinerCollider != null)
             {
                 cinemachineConfiner2D.BoundingShape2D = confinerCollider;
@@ -55,12 +60,13 @@ namespace GeneralManagers
             // cinemachineCamera = FindAnyObjectByType<CinemachineCamera>();
             SetFollowTarget(GameManager.Instance.PlayerManager.Player.View.transform);
         }
+
         private IEnumerator ResetDamping(float time)
         {
             yield return new WaitForSeconds(time);
             cinemachinePositionComposer.Damping = originalDamping;
         }
-        
+
 
         public void Dispose()
         {

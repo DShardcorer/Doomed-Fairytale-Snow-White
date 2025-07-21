@@ -4,7 +4,7 @@ INCLUDE ../global_methods.ink
 
 ==RandomMan==
 
-Well now... didn’t expect to see anyone brave enough to stroll out this far. You lost, or just curious? #speaker:RandomMan #sprite:HoshikoSchool_default #layout:right
+Well now... didn’t expect to see anyone brave enough to stroll out this far. You lost, or just curious? #speaker:RandomMan #sprite:HoshikoSchool_default
 
 * [Just curious.]
 
@@ -12,9 +12,6 @@ Well now... didn’t expect to see anyone brave enough to stroll out this far. Y
 
     But I like it. Means you’re still alive inside.
 
-* [Do you live out here?]
-
-    Live? Survive is more accurate. But yeah. This patch of dirt is mine. No neighbors, no noise, just me and the occasional raccoon fight. #sprite:HoshikoSchool_sweat
 
 * [You seem pretty sharp. What’s your story?]
 
@@ -22,11 +19,6 @@ Well now... didn’t expect to see anyone brave enough to stroll out this far. Y
 
     Let’s just say I used to be someone else. Now I’m someone who avoids towns and keeps a knife under the pillow.
 
-* [You look like you've seen things.]
-
-    That obvious, huh? #sprite:HoshikoSchool_thoughtful
-
-    Yeah. I’ve seen peace fall apart, friends turn, and promises rot. But I’ve also seen sunrises worth living for. Balance, I guess.
 
 * [Got any advice for someone passing through?]
 

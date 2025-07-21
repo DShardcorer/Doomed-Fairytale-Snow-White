@@ -295,50 +295,33 @@ namespace Item.Inventory
         {
             if (itemDictionary.ContainsKey(itemDataSo))
             {
-                itemDictionary[itemDataSo].RemoveFromStack(amount);
-                switch (itemDataSo.itemType)
-                {
-                    case ItemType.Material:
-                        materialItemDictionary[itemDataSo].RemoveFromStack(amount);
-                        OnMaterialItemListChanged(materialItems);
-                        break;
-                    case ItemType.Consumable:
-                        consumableItemDictionary[itemDataSo].RemoveFromStack(amount);
-                        OnConsumableItemListChanged(consumableItems);
-                        break;
-                    case ItemType.Equipment:
-                        equipmentItemDictionary[itemDataSo].RemoveFromStack(amount);
-                        OnEquipmentItemListChanged(equipmentItems);
-                        break;
-                    case ItemType.Miscellaneous:
-                        miscellaneousItemDictionary[itemDataSo].RemoveFromStack(amount);
-                        OnMiscellaneousItemListChanged(miscellaneousItems);
-                        break;
-                }
+                var item = itemDictionary[itemDataSo];
+                item.RemoveFromStack(amount); // This should handle the stack size reduction
 
-                if (itemDictionary[itemDataSo].stackSize <= 0)
+                if (item.stackSize <= 0)
                 {
-                    ItemList.Remove(itemDictionary[itemDataSo]);
+                    ItemList.Remove(item);
                     itemDictionary.Remove(itemDataSo);
+
                     switch (itemDataSo.itemType)
                     {
                         case ItemType.Material:
-                            materialItems.Remove(materialItemDictionary[itemDataSo]);
+                            materialItems.Remove(item);
                             materialItemDictionary.Remove(itemDataSo);
                             OnMaterialItemListChanged(materialItems);
                             break;
                         case ItemType.Consumable:
-                            consumableItems.Remove(consumableItemDictionary[itemDataSo]);
+                            consumableItems.Remove(item);
                             consumableItemDictionary.Remove(itemDataSo);
                             OnConsumableItemListChanged(consumableItems);
                             break;
                         case ItemType.Equipment:
-                            equipmentItems.Remove(equipmentItemDictionary[itemDataSo]);
+                            equipmentItems.Remove(item);
                             equipmentItemDictionary.Remove(itemDataSo);
                             OnEquipmentItemListChanged(equipmentItems);
                             break;
                         case ItemType.Miscellaneous:
-                            miscellaneousItems.Remove(miscellaneousItemDictionary[itemDataSo]);
+                            miscellaneousItems.Remove(item);
                             miscellaneousItemDictionary.Remove(itemDataSo);
                             OnMiscellaneousItemListChanged(miscellaneousItems);
                             break;
@@ -346,69 +329,9 @@ namespace Item.Inventory
                 }
 
                 OnItemListChanged(ItemList);
-                DecrementCurrentWeight(itemDataSo.weight * amount);
+                DecrementCurrentWeight(itemDataSo.weight * amount); // Ensure weight is decremented correctly
             }
         }
-
-        public virtual void RemoveItem(ItemDataSO itemDataSo)
-        {
-            if (itemDictionary.ContainsKey(itemDataSo))
-            {
-                itemDictionary[itemDataSo].RemoveFromStack();
-                switch (itemDataSo.itemType)
-                {
-                    case ItemType.Material:
-                        materialItemDictionary[itemDataSo].RemoveFromStack();
-                        OnMaterialItemListChanged(materialItems);
-                        break;
-                    case ItemType.Consumable:
-                        consumableItemDictionary[itemDataSo].RemoveFromStack();
-                        OnConsumableItemListChanged(consumableItems);
-                        break;
-                    case ItemType.Equipment:
-                        equipmentItemDictionary[itemDataSo].RemoveFromStack();
-                        OnEquipmentItemListChanged(equipmentItems);
-                        break;
-                    case ItemType.Miscellaneous:
-                        miscellaneousItemDictionary[itemDataSo].RemoveFromStack();
-                        OnMiscellaneousItemListChanged(miscellaneousItems);
-                        break;
-                }
-
-                if (itemDictionary[itemDataSo].stackSize <= 0)
-                {
-                    ItemList.Remove(itemDictionary[itemDataSo]);
-                    itemDictionary.Remove(itemDataSo);
-                    switch (itemDataSo.itemType)
-                    {
-                        case ItemType.Material:
-                            materialItems.Remove(materialItemDictionary[itemDataSo]);
-                            materialItemDictionary.Remove(itemDataSo);
-                            OnMaterialItemListChanged(materialItems);
-                            break;
-                        case ItemType.Consumable:
-                            consumableItems.Remove(consumableItemDictionary[itemDataSo]);
-                            consumableItemDictionary.Remove(itemDataSo);
-                            OnConsumableItemListChanged(consumableItems);
-                            break;
-                        case ItemType.Equipment:
-                            equipmentItems.Remove(equipmentItemDictionary[itemDataSo]);
-                            equipmentItemDictionary.Remove(itemDataSo);
-                            OnEquipmentItemListChanged(equipmentItems);
-                            break;
-                        case ItemType.Miscellaneous:
-                            miscellaneousItems.Remove(miscellaneousItemDictionary[itemDataSo]);
-                            miscellaneousItemDictionary.Remove(itemDataSo);
-                            OnMiscellaneousItemListChanged(miscellaneousItems);
-                            break;
-                    }
-                }
-
-                OnItemListChanged(ItemList);
-                DecrementCurrentWeight(itemDataSo.weight);
-            }
-        }
-
         public virtual void DropAllItemsOnTheGround()
         {
             foreach (var item in ItemList)

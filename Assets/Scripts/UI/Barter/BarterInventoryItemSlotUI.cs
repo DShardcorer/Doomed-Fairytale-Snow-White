@@ -35,6 +35,7 @@ namespace DefaultNamespace.UI.Barter
                         break;
                 }
             }
+            DisableItemInfoPopup();
         }
 
 

@@ -5103,7 +5103,7 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 2621242028644766950, guid: 965a74791d5923c49afb1a9a8347e0cd, type: 3}
       propertyPath: stackSize
-      value: 500
+      value: 2000
       objectReference: {fileID: 0}
     - target: {fileID: 7680160679054900460, guid: 965a74791d5923c49afb1a9a8347e0cd, type: 3}
       propertyPath: m_LocalPosition.x
@@ -10772,7 +10772,7 @@ TilemapRenderer:
   m_LightmapParameters: {fileID: 0}
   m_SortingLayerID: -1474879815
   m_SortingLayer: 3
-  m_SortingOrder: 1
+  m_SortingOrder: 0
   m_ChunkSize: {x: 32, y: 32, z: 32}
   m_ChunkCullingBounds: {x: 0, y: 0, z: 0}
   m_MaxChunkCount: 16

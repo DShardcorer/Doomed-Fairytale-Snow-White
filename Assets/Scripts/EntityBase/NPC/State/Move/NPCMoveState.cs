@@ -31,7 +31,7 @@ namespace EntityBase.NPC.State.Move
         {
             base.EnterState();
             astarAI.canMove = true;
-            _properties.lastMovementVector = (_targetPosition - npc.View.transform.position).normalized;
+            // _properties.lastMovementVector = (_targetPosition - npc.View.transform.position).normalized;
             astarAI.destination = _targetPosition;
         }
 
@@ -39,6 +39,7 @@ namespace EntityBase.NPC.State.Move
         {
             base.FixedUpdateState();
             //set last movement vector to the current direction
+            Debug.LogWarning(astarAI.destination);
             _properties.lastMovementVector = astarAI.velocity.normalized;
             npc.FOVDetector.SetColliderRotation(_properties.lastMovementVector);
             npc.AttackHitbox.SetAttackHitBoxRotation(_properties.lastMovementVector);
