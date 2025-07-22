@@ -9,6 +9,10 @@ namespace EntityBase
         public EntityFaction EntityFaction => entityFaction;
 
         public Vector2 lastMovementVector = Vector2.down;
+        public void SetLastMovementVector(Vector2 vector)
+        {
+            lastMovementVector = vector;
+        }
         private Vector2 _cardinalizedLastMovementVector = Vector2.down;
         public Vector2 CardinalizedLastMovementVector()
         {

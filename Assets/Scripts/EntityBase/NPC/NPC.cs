@@ -1,7 +1,10 @@
+using System.Collections.Generic;
 using DefaultNamespace.EntitySystems.Buff;
 using EntityBase.Detectors;
 using EntityBase.Faction;
 using EntityBase.NPC.AI;
+using EntityBase.NPC.BehaviourTrees;
+using EntityBase.NPC.BehaviourTrees.Strategies;
 using EntitySystems.Equipment;
 using EntitySystems.Level;
 using EntitySystems.Skill;
@@ -35,6 +38,9 @@ namespace EntityBase.NPC
 
         protected NPCInteractSystem _npcInteractSystem;
         public NPCInteractSystem NPCInteractSystem => _npcInteractSystem;
+        
+        private BehaviourTree _behaviourTree;
+        public bool UseBehaviourTree = true;
 
         // Constructor used by the builder
         public NPC(
@@ -96,14 +102,62 @@ namespace EntityBase.NPC
 
             _npcAIController.Initialize(this);
             base.Initialize();
+
+            if (UseBehaviourTree)
+            {
+                InitializeBehaviourTree();
+            }
         }
+        private void InitializeBehaviourTree()
+        {
+            // Create a simple behavior tree
+            _behaviourTree = new BehaviourTree("NPC Behavior Tree");
+            
+            // Create patrol points (example)
+            List<Vector3> patrolPoints = new List<Vector3>
+            {
+                view.transform.position + new Vector3(5, 0, 0),
+                view.transform.position + new Vector3(0, 0, 5),
+                view.transform.position + new Vector3(-5, 0, 0),
+                view.transform.position + new Vector3(0, 0, -5)
+            };
+            
+            // Create and add patrol strategy
+            PatrolStrategy patrolStrategy = new PatrolStrategy(this, patrolPoints, 2f);
+            Leaf patrolNode = new Leaf("Patrol", patrolStrategy);
+            
+            // Add patrol node to behavior tree
+            _behaviourTree.AddChild(patrolNode);
+        }
+        
+
 
         public void UpdateLogic()
         {
             if (IsBusy) return;
-            _npcAIController.UpdateLogic();
+            
+            if (UseBehaviourTree)
+            {
+                // Use behavior tree approach
+                _behaviourTree?.Process();
+            }
+            else
+            {
+                // Use existing FSM approach
+                _npcAIController.UpdateLogic();
+            }
         }
 
+        public override void FixedUpdateLogic()
+        {
+            if (IsBusy) return;
+            base.FixedUpdateLogic();
+            
+            if (!UseBehaviourTree)
+            {
+                _npcAIController.FixedUpdateLogic();
+            }
+        }
         public override bool IsAttacking()
         {
             return HelperNPCStateName.Attack == _npcAIController.CurrentStateId;
@@ -113,13 +167,7 @@ namespace EntityBase.NPC
         {
             return 0;
         }
-
-        public override void FixedUpdateLogic()
-        {
-            if (IsBusy) return;
-            base.FixedUpdateLogic();
-            _npcAIController.FixedUpdateLogic();
-        }
+        
 
         public override void TakeDamage(float damage, Entity damageSource)
         {
