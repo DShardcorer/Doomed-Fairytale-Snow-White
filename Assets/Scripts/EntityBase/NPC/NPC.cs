@@ -41,8 +41,7 @@ namespace EntityBase.NPC
         
         private BehaviourTree _behaviourTree;
         public bool UseBehaviourTree = true;
-
-        // Constructor used by the builder
+        
         public NPC(
             EntityProfile profile,
             NPCView view,
@@ -117,9 +116,9 @@ namespace EntityBase.NPC
             List<Vector3> patrolPoints = new List<Vector3>
             {
                 view.transform.position + new Vector3(5, 0, 0),
-                view.transform.position + new Vector3(0, 0, 5),
+                view.transform.position + new Vector3(0, 5, 0),
                 view.transform.position + new Vector3(-5, 0, 0),
-                view.transform.position + new Vector3(0, 0, -5)
+                view.transform.position + new Vector3(0, 0, 0)
             };
             
             // Create and add patrol strategy

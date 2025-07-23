@@ -8,85 +8,116 @@ namespace EntityBase.NPC.BehaviourTrees.Strategies
     {
         private NPC npc;
         private IAstarAI astarAI;
-        private List<Vector3> patrolPoints;
+        private List<Vector3> patrolPoints = new List<Vector3>();
         private int currentPatrolPointIndex;
         private float waitTime = 2f;
         private float waitCounter = 0f;
         private bool isWaiting = false;
-        private float reachDistance = 0.5f;
+        private float reachDistance = 0.25f;
+        private Vector3 spawnPosition;
+        private float patrolRadius = 5f;
 
-        public PatrolStrategy(NPC npc, List<Vector3> patrolPoints, float waitTime = 2f, float reachDistance = 0.5f)
+        public PatrolStrategy(NPC npc, List<Vector3> patrolPoints = null, float waitTime = 2f,
+            float reachDistance = 0.5f)
         {
             this.npc = npc;
             this.astarAI = npc.View.GetComponent<IAstarAI>();
-            this.patrolPoints = patrolPoints;
             this.waitTime = waitTime;
             this.reachDistance = reachDistance;
-            currentPatrolPointIndex = 0;
+            this.spawnPosition = npc.View.transform.position;
+
+            // Generate patrol points if none provided
+            if (patrolPoints != null)
+            {
+                SetPatrolPoints(patrolPoints);
+            }
+
+
+            // Start moving immediately
+            if (this.patrolPoints.Count > 0)
+            {
+                MoveToCurrentPatrolPoint();
+            }
         }
+
+        public void SetPatrolPoints(List<Vector3> newPatrolPoints)
+        {
+            if (newPatrolPoints != null && newPatrolPoints.Count > 0)
+            {
+                patrolPoints.Clear();
+                patrolPoints.AddRange(newPatrolPoints);
+                currentPatrolPointIndex = 0;
+
+                // Log patrol points for debugging
+                for (int i = 0; i < patrolPoints.Count; i++)
+                {
+                    Debug.LogWarning($"Patrol Strategy Point {i}: {patrolPoints[i]}");
+                }
+            }
+            else
+            {
+                Debug.LogWarning("PatrolStrategy: Attempted to set empty patrol points");
+            }
+        }
+        
 
         public Node.Status Process()
         {
-            // Safety check
-            if (npc == null || astarAI == null || patrolPoints == null || patrolPoints.Count == 0)
-            {
-                Debug.LogWarning("PatrolStrategy: Missing required components or patrol points");
-                return Node.Status.Failure;
-            }
+            // if (npc.NPCProperties.target != null)
+            // {
+            //     return Node.Status.Failure; // Let other nodes handle combat
+            // }
 
             // If waiting at a point
             if (isWaiting)
             {
-                waitCounter += Time.deltaTime;
-                if (waitCounter >= waitTime)
-                {
-                    // Waiting finished
-                    isWaiting = false;
-                    waitCounter = 0f;
-
-                    // Move to next patrol point
-                    currentPatrolPointIndex = (currentPatrolPointIndex + 1) % patrolPoints.Count;
-                }
-                else
-                {
-                    // Still waiting
-                    return Node.Status.Running;
-                }
+                HandleWaiting();
+                return Node.Status.Running;
             }
+            
 
-            // Check if we've reached the current patrol point
-            Vector3 currentDestination = patrolPoints[currentPatrolPointIndex];
-            float distanceToTarget = Vector3.Distance(npc.View.transform.position, currentDestination);
-
-            if (distanceToTarget <= reachDistance)
+            if (astarAI.reachedDestination && !isWaiting)
             {
                 // We've reached the point, start waiting
+                Debug.LogWarning($"Reached patrol point {currentPatrolPointIndex}, waiting {waitTime} seconds");
                 isWaiting = true;
-                waitCounter = 0f;
-
-                // Update facing direction toward next point
-                if (patrolPoints.Count > 1)
-                {
-                    Vector3 nextPoint = patrolPoints[(currentPatrolPointIndex + 1) % patrolPoints.Count];
-                    Vector3 dirToNextPoint = (nextPoint - npc.View.transform.position).normalized;
-                    npc.NPCProperties.lastMovementVector = dirToNextPoint;
-                }
-
-                // Stop movement
                 astarAI.canMove = false;
-                return Node.Status.Running;
             }
             else
             {
-                // Move toward the current patrol point
+                Vector3 dirToTarget = (patrolPoints[currentPatrolPointIndex] - npc.View.transform.position).normalized;
+                npc.NPCProperties.SetLastMovementVector(dirToTarget);
+            }
+
+            // CRITICAL: Always return Running to keep the patrol behavior active
+            return Node.Status.Running;
+        }
+
+        private void HandleWaiting()
+        {
+            waitCounter += Time.deltaTime;
+            if (waitCounter >= waitTime)
+            {
+                isWaiting = false;
+                waitCounter = 0f;
+                currentPatrolPointIndex = (currentPatrolPointIndex + 1) % patrolPoints.Count;
+                Debug.LogWarning($"Waiting finished, moving to next patrol point {currentPatrolPointIndex}");
+                MoveToCurrentPatrolPoint();
+            }
+        }
+
+        private void MoveToCurrentPatrolPoint()
+        {
+            if (patrolPoints.Count > 0 && astarAI != null)
+            {
+                Debug.LogWarning(
+                    $"Moving to patrol point {currentPatrolPointIndex}: {patrolPoints[currentPatrolPointIndex]}");
                 astarAI.canMove = true;
-                astarAI.destination = currentDestination;
+                astarAI.destination = patrolPoints[currentPatrolPointIndex];
 
-                // Update facing direction
-                npc.NPCProperties.SetLastMovementVector((currentDestination - npc.View.transform.position).normalized);
-
-
-                return Node.Status.Running;
+                // Update facing direction immediately
+                Vector3 dirToTarget = (patrolPoints[currentPatrolPointIndex] - npc.View.transform.position).normalized;
+                npc.NPCProperties.SetLastMovementVector(dirToTarget);
             }
         }
 
@@ -96,14 +127,8 @@ namespace EntityBase.NPC.BehaviourTrees.Strategies
             isWaiting = false;
             waitCounter = 0f;
 
-            if (astarAI != null)
-            {
-                astarAI.canMove = true;
-                if (patrolPoints != null && patrolPoints.Count > 0)
-                {
-                    astarAI.destination = patrolPoints[0];
-                }
-            }
+            // Start patrolling immediately on reset
+            MoveToCurrentPatrolPoint();
         }
     }
 }

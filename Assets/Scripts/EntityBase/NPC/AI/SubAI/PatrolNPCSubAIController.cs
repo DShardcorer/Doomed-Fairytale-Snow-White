@@ -9,7 +9,6 @@ namespace EntityBase.NPC.AI.SubControllers
     {
         private List<Vector3> _patrolPoints = new List<Vector3>();
         private int _currentPatrolIndex = 0;
-        private float _patrolRadius = 5f;
         private float _waitTime = 2f;
         private float _waitTimer = 0f;
         private bool _isWaiting = false;
@@ -18,7 +17,6 @@ namespace EntityBase.NPC.AI.SubControllers
         public override void Initialize(NPCAIController parent)
         {
             base.Initialize(parent);
-            _patrolRadius = config.patrolRadius;
             _waitTime = config.patrolWaitTime;
         }
 
