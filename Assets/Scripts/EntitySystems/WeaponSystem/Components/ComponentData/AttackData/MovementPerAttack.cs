@@ -1,6 +1,6 @@
 using System;
 using UnityEngine;
-using Utility;
+using Utilities;
 
 namespace EntitySystems.WeaponSystem.Components.ComponentData.AttackData
 {

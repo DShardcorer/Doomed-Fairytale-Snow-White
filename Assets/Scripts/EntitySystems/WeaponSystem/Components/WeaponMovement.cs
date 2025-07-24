@@ -2,7 +2,7 @@ using EntityBase;
 using EntitySystems.WeaponSystem.Components.ComponentData;
 using EntitySystems.WeaponSystem.Components.ComponentData.AttackData;
 using UnityEngine;
-using Utility;
+using Utilities;
 
 namespace EntitySystems.WeaponSystem.Components
 {

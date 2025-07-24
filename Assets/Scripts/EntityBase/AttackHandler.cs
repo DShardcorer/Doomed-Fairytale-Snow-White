@@ -1,4 +1,4 @@
-using Utility;
+using Utilities;
 
 namespace EntityBase
 {

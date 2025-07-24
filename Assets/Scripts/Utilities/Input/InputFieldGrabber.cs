@@ -6,7 +6,7 @@ using TMPro;
 using UnityEngine;
 using UnityEngine.Serialization;
 
-namespace Utility.Input
+namespace Utilities.Input
 {
     public class InputFieldGrabber : MonoBehaviour
     {

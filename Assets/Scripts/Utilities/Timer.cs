@@ -1,6 +1,6 @@
 using System;
 
-namespace Utility
+namespace Utilities
 {
     public class Timer
     {

@@ -1,5 +1,5 @@
 using System;
-using Utility.Input;
+using Utilities.Input;
 
 namespace DefaultNamespace.EventSystem.Input
 {

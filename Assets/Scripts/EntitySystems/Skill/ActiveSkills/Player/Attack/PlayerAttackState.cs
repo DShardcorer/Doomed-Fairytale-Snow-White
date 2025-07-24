@@ -6,7 +6,7 @@ using EntitySystems.Equipment;
 using EntitySystems.WeaponSystem;
 using Helpers;
 using UnityEngine;
-using Utility;
+using Utilities;
 
 namespace EntitySystems.Skill.ActiveSkills.Player.Attack
 {

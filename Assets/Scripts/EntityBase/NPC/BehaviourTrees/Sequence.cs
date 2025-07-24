@@ -3,7 +3,7 @@ namespace EntityBase.NPC.BehaviourTrees
     //Basically a logical AND operation for child nodes.
     public class Sequence : Node
     {
-        public Sequence(string name) : base(name)
+        public Sequence(string name, int priority = 0) : base(name, priority)
         {
         }
 

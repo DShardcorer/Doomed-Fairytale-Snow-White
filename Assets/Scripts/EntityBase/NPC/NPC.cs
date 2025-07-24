@@ -16,6 +16,7 @@ using EntitySystems.WeaponSystem;
 using GeneralManagers;
 using Helpers;
 using Item.Inventory;
+using Pathfinding;
 using UnityEngine;
 
 // The refactored NPC class remains mostly unchanged.
@@ -34,14 +35,15 @@ namespace EntityBase.NPC
         public FOVDetector FOVDetector => _fovDetector;
         protected ProximityDetector _proximityDetector;
         public ProximityDetector ProximityDetector => _proximityDetector;
-
+        private IAstarAI _astarAI;
+        public IAstarAI AstarAI => _astarAI;
 
         protected NPCInteractSystem _npcInteractSystem;
         public NPCInteractSystem NPCInteractSystem => _npcInteractSystem;
-        
+
         private BehaviourTree _behaviourTree;
         public bool UseBehaviourTree = true;
-        
+
         public NPC(
             EntityProfile profile,
             NPCView view,
@@ -68,10 +70,11 @@ namespace EntityBase.NPC
             activeSkillSystem, passiveSkillSystem,
             levelSystem, healthSystem,
             manaSystem,
-            staminaSystem, stateMachine, 
+            staminaSystem, stateMachine,
             inventory, buffSystem, weaponSystem)
         {
             _npcView = view;
+            _astarAI = view.GetComponent<IAstarAI>();
             _npcProperties = properties;
             _npcAIController = aiController;
             IdleState = aiController.GetState(HelperNPCStateName.Idle);
@@ -107,11 +110,12 @@ namespace EntityBase.NPC
                 InitializeBehaviourTree();
             }
         }
+
         private void InitializeBehaviourTree()
         {
             // Create a simple behavior tree
             _behaviourTree = new BehaviourTree("NPC Behavior Tree");
-            
+
             // Create patrol points (example)
             List<Vector3> patrolPoints = new List<Vector3>
             {
@@ -120,21 +124,34 @@ namespace EntityBase.NPC
                 view.transform.position + new Vector3(-5, 0, 0),
                 view.transform.position + new Vector3(0, 0, 0)
             };
-            
+
             // Create and add patrol strategy
-            PatrolStrategy patrolStrategy = new PatrolStrategy(this, patrolPoints, 2f);
-            Leaf patrolNode = new Leaf("Patrol", patrolStrategy);
-            
-            // Add patrol node to behavior tree
-            _behaviourTree.AddChild(patrolNode);
+            // PatrolStrategy patrolStrategy = new PatrolStrategy(this, patrolPoints, 2f);
+            // Leaf patrolNode = new Leaf("Patrol", patrolStrategy);
+            //
+            // // Add patrol node to behavior tree
+            // _behaviourTree.AddChild(patrolNode);
+            Vector3 treasurePosition = new Vector3(10, 0, 0); // Example treasure position
+
+            Leaf isTreasurePresentNode = new Leaf("Is Treasure Present", new Condition(() => true));
+            Leaf moveToTreasureNode = new Leaf("Move to Treasure",
+                new ActionStrategy(() =>
+                {
+                    _astarAI.destination = treasurePosition;
+                    _astarAI.canMove = true;
+                }));
+
+            Sequence goToTreasureSequence = new Sequence("Go to Treasure");
+            goToTreasureSequence.AddChild(isTreasurePresentNode);
+            goToTreasureSequence.AddChild(moveToTreasureNode);
+            _behaviourTree.AddChild(goToTreasureSequence);
         }
-        
 
 
         public void UpdateLogic()
         {
             if (IsBusy) return;
-            
+
             if (UseBehaviourTree)
             {
                 // Use behavior tree approach
@@ -151,12 +168,13 @@ namespace EntityBase.NPC
         {
             if (IsBusy) return;
             base.FixedUpdateLogic();
-            
+
             if (!UseBehaviourTree)
             {
                 _npcAIController.FixedUpdateLogic();
             }
         }
+
         public override bool IsAttacking()
         {
             return HelperNPCStateName.Attack == _npcAIController.CurrentStateId;
@@ -166,7 +184,7 @@ namespace EntityBase.NPC
         {
             return 0;
         }
-        
+
 
         public override void TakeDamage(float damage, Entity damageSource)
         {

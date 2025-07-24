@@ -12,12 +12,14 @@ namespace EntityBase.NPC.BehaviourTrees
         }
 
         public readonly string name;
+        public readonly int priority;
         public readonly List<Node> children = new();
         protected int currentChildIndex = 0;
 
-        public Node(string name)
+        public Node(string name = "Node", int priority = 0)
         {
             this.name = name;
+            this.priority = priority;
         }
 
         public void AddChild(Node child)
