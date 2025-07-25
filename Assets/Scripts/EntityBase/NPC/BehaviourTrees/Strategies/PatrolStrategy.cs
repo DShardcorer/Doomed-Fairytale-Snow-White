@@ -51,7 +51,7 @@ namespace EntityBase.NPC.BehaviourTrees.Strategies
                 // Log patrol points for debugging
                 for (int i = 0; i < patrolPoints.Count; i++)
                 {
-                    Debug.LogWarning($"Patrol Strategy Point {i}: {patrolPoints[i]}");
+                    // Debug.LogWarning($"Patrol Strategy Point {i}: {patrolPoints[i]}");
                 }
             }
             else
