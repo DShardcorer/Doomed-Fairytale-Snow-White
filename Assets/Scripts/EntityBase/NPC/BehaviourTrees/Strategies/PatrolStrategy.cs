@@ -11,20 +11,15 @@ namespace EntityBase.NPC.BehaviourTrees.Strategies
         private List<Vector3> patrolPoints = new List<Vector3>();
         private int currentPatrolPointIndex;
         private float waitTime = 2f;
-        private float waitCounter = 0f;
+        private float waitCounter;
         private bool isWaiting = false;
-        private float reachDistance = 0.25f;
-        private Vector3 spawnPosition;
         private float patrolRadius = 5f;
 
-        public PatrolStrategy(NPC npc, List<Vector3> patrolPoints = null, float waitTime = 2f,
-            float reachDistance = 0.5f)
+        public PatrolStrategy(NPC npc, List<Vector3> patrolPoints = null, float waitTime = 2f)
         {
             this.npc = npc;
             this.astarAI = npc.View.GetComponent<IAstarAI>();
             this.waitTime = waitTime;
-            this.reachDistance = reachDistance;
-            this.spawnPosition = npc.View.transform.position;
 
             // Generate patrol points if none provided
             if (patrolPoints != null)

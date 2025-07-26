@@ -5,6 +5,7 @@ using EntityBase.Faction;
 using EntityBase.NPC.AI;
 using EntityBase.NPC.BehaviourTrees;
 using EntityBase.NPC.BehaviourTrees.Strategies;
+using EntityBase.NPC.BlackboardSystem;
 using EntitySystems.Equipment;
 using EntitySystems.Level;
 using EntitySystems.Skill;
@@ -40,14 +41,7 @@ namespace EntityBase.NPC
 
         protected NPCInteractSystem _npcInteractSystem;
         public NPCInteractSystem NPCInteractSystem => _npcInteractSystem;
-
-        private BehaviourTree _behaviourTree;
-        public bool UseBehaviourTree = true;
-
-        //Test bools
-        private bool inDanger = true;
-        private bool treasure1Present = true;
-        private bool treasure2Present = true;
+        
 
         public NPC(
             EntityProfile profile,
@@ -116,8 +110,24 @@ namespace EntityBase.NPC
             }
         }
 
+        #region Behaviour Tree
+        private BehaviourTree _behaviourTree;
+        public bool UseBehaviourTree = true;
+
+        //Test bools
+        private bool treasure1Present = true;
+        private bool treasure2Present = true;
+        readonly Blackboard blackboard = new Blackboard();
+        private BlackboardData _blackboardData;
+        BlackboardKey isInDangerKey;
+
+
         private void InitializeBehaviourTree()
         {
+            _blackboardData = UnityEngine.Resources.Load<BlackboardData>("BlackboardData/");
+            _blackboardData.SetValueOnBlackboard(blackboard);
+            isInDangerKey = blackboard.GetOrRegisterKey("IsInDanger");
+            // blackboard.SetValue(isInDangerKey, false);
             _behaviourTree = new BehaviourTree("NPC Behavior Tree");
 
             PrioritySelector prioritySelector = new PrioritySelector("Agent Logic");
@@ -131,24 +141,26 @@ namespace EntityBase.NPC
 
             bool IsInDanger()
             {
-                if (!inDanger)
+                // if (!inDanger)
+                // {
+                //     runToSafetySequence.Reset();
+                //     return false;
+                // }
+                if (blackboard.TryGetValue(isInDangerKey, out bool isInDanger))
                 {
-                    runToSafetySequence.Reset();
-                    return false;
+                    if (isInDanger)
+                    {
+                        return true;
+                    }
                 }
 
-                return true;
+                runToSafetySequence.Reset();
+                return false;
             }
 
             runToSafetySequence.AddChild(new Leaf("Is In Danger?", new Condition(IsInDanger)));
-            runToSafetySequence.AddChild(new Leaf("Run to Safety", new ActionStrategy(() =>
-                {
-                    //Placeholder code. Should call MoveToPosition from the ai to change state in the FSM. 
-                    _astarAI.destination = safetyPosition;
-                    _astarAI.canMove = true;
-                    Debug.Log("Run to Safety");
-                }
-            )));
+            runToSafetySequence.AddChild(new Leaf("Run to Safety", new MoveToPositionStrategy(this, safetyPosition)));
+
 
             //Collect treasures subtree
             Selector goToTreasureSelector = new RandomSelector("Get Treasures", 50);
@@ -157,13 +169,7 @@ namespace EntityBase.NPC
             goToTreasureSelector.AddChild(getTreasure1Sequence);
             getTreasure1Sequence.AddChild(new Leaf("Is Treasure 1 Present", new Condition(() => true)));
             getTreasure1Sequence.AddChild(new Leaf("Move to Treasure 1",
-                new ActionStrategy(() =>
-                {
-                    Vector3 treasure1Position = new Vector3(11, 11, 0); // Example treasure position
-                    _astarAI.destination = treasure1Position;
-                    _astarAI.canMove = true;
-                    Debug.Log("Move to Treasure 1");
-                })));
+                new MoveToPositionStrategy(this, new Vector3(11, 11, 0))));
             getTreasure1Sequence.AddChild(new Leaf("Collect Treasure 1",
                 new ActionStrategy(() =>
                 {
@@ -173,17 +179,11 @@ namespace EntityBase.NPC
                 })));
 
 
-
             Sequence getTreasure2Sequence = new Sequence("Get Treasure 2");
             goToTreasureSelector.AddChild(getTreasure2Sequence);
             getTreasure2Sequence.AddChild(new Leaf("Is Treasure 2 Present", new Condition(() => true)));
             getTreasure2Sequence.AddChild(new Leaf("Move to Treasure 2",
-                new ActionStrategy(() =>
-                {
-                    Vector3 treasure2Position = new Vector3(15, -5, 0); // Example treasure position
-                    _astarAI.destination = treasure2Position;
-                    _astarAI.canMove = true;
-                })));
+                new MoveToPositionStrategy(this, new Vector3(-12, -12, 0))));
             getTreasure2Sequence.AddChild(new Leaf("Collect Treasure 2",
                 new ActionStrategy(() =>
                 {
@@ -193,9 +193,8 @@ namespace EntityBase.NPC
                 })));
 
 
-
             //Patrol subtree
-            
+
             // Create patrol points (example)
             List<Vector3> patrolPoints = new List<Vector3>
             {
@@ -207,11 +206,9 @@ namespace EntityBase.NPC
 
             Leaf patrolNode = new Leaf("Patrol", new PatrolStrategy(this, patrolPoints, 2f), 0);
             prioritySelector.AddChild(patrolNode);
-            
-            
-            
-            
         }
+
+        #endregion
 
 
         public void UpdateLogic()
@@ -235,7 +232,12 @@ namespace EntityBase.NPC
         {
             if (UnityEngine.Input.GetKeyDown(KeyCode.T))
             {
-                inDanger = !inDanger;
+                // Toggle inDanger state for testing
+                if (blackboard.TryGetValue(isInDangerKey, out bool isInDanger))
+                {
+                    blackboard.SetValue(isInDangerKey, !isInDanger);
+                    Debug.Log($"NPC in danger state toggled to: {!isInDanger}");
+                }
             }
         }
 

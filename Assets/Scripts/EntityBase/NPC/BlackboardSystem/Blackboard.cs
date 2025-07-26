@@ -8,6 +8,16 @@ namespace EntityBase.NPC.BlackboardSystem
     {
         private Dictionary<string, BlackboardKey> keyRegistry = new();
         private Dictionary<BlackboardKey, object> entries = new();
+        public List<Action> PassedActions { get; } = new();
+        
+        public void AddAction(Action action)
+        {
+            if (action != null && !PassedActions.Contains(action))
+            {
+                PassedActions.Add(action);
+            }
+        }
+        public void ClearActions() => PassedActions.Clear();
 
         public bool TryGetValue<T>(BlackboardKey key, out T value)
         {
