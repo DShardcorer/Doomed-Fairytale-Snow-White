@@ -1,4 +1,5 @@
 using System.Collections.Generic;
+using EntityBase.NPC.State;
 using EntityBase.NPC.State.BeingInteractedWith;
 using EntityBase.NPC.State.Idle;
 using GeneralManagers;

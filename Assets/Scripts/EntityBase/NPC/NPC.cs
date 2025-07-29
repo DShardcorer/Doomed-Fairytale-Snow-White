@@ -38,10 +38,11 @@ namespace EntityBase.NPC
         public ProximityDetector ProximityDetector => _proximityDetector;
         private IAstarAI _astarAI;
         public IAstarAI AstarAI => _astarAI;
-
+        protected NPCStateSystem _npcStateSystem;
+        public NPCStateSystem NPCStateSystem => _npcStateSystem;
         protected NPCInteractSystem _npcInteractSystem;
         public NPCInteractSystem NPCInteractSystem => _npcInteractSystem;
-        
+
 
         public NPC(
             EntityProfile profile,
@@ -111,6 +112,7 @@ namespace EntityBase.NPC
         }
 
         #region Behaviour Tree
+
         private BehaviourTree _behaviourTree;
         public bool UseBehaviourTree = true;
 

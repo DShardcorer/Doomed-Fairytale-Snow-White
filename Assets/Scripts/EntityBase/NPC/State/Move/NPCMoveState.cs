@@ -1,4 +1,5 @@
 using EntityBase.NPC.AI;
+using EntityBase.NPC.BehaviourTrees;
 using Helpers;
 using UnityEngine;
 
@@ -25,32 +26,34 @@ namespace EntityBase.NPC.State.Move
         {
             _stateToReturnToWhenMovingEnds = stateToReturnToWhenMovingEnds;
             _targetPosition = targetPosition;
+            SetStatus(Node.Status.Running);
         }
 
         public override void EnterState()
         {
             base.EnterState();
             astarAI.canMove = true;
-            // _properties.lastMovementVector = (_targetPosition - npc.View.transform.position).normalized;
             astarAI.destination = _targetPosition;
         }
 
         public override void FixedUpdateState()
         {
             base.FixedUpdateState();
-            //set last movement vector to the current direction
-            Debug.LogWarning(astarAI.destination);
+            
+            // Set last movement vector to the current direction
             _properties.lastMovementVector = astarAI.velocity.normalized;
-            npc.FOVDetector.SetColliderRotation(_properties.lastMovementVector);
-            npc.AttackHitbox.SetAttackHitBoxRotation(_properties.lastMovementVector);
+            
             if (astarAI.reachedDestination)
             {
                 astarAI.canMove = false;
-
+                
+                // Set success status before changing state
+                SetStatus(Node.Status.Success);
+                
                 if (_stateToReturnToWhenMovingEnds != null)
-                    npcAIController.ChangeState(_stateToReturnToWhenMovingEnds);
+                    stateSystem.ChangeState(_stateToReturnToWhenMovingEnds);
                 else
-                    npcAIController.ChangeState(HelperNPCStateName.Idle);
+                    stateSystem.ChangeState(HelperNPCStateName.Idle);
             }
         }
 
@@ -59,7 +62,5 @@ namespace EntityBase.NPC.State.Move
             astarAI.canMove = false;
             base.ExitState();
         }
-
-        
     }
 }

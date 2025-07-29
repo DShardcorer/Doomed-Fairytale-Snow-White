@@ -20,20 +20,20 @@ namespace EntityBase.NPC
         protected EntityStateMachine stateMachine;
         protected Dictionary<string, NPCState> states = new Dictionary<string, NPCState>();
 
-        // Track current state ID
         private string currentStateId = string.Empty;
-        
+
         public string CurrentStateId => currentStateId;
+        public NPCState CurrentState => GetCurrentState();
 
         public NPCStateSystem(NPCAIConfiguration config)
         {
             this.config = config;
-            
+
             // Add basic states all NPCs need
             NPCIdleState npcIdleState = new NPCIdleState(config);
             NPCBeingInteractedWithState npcBeingInteractedWithState = new NPCBeingInteractedWithState(config);
             NPCMoveState npcMoveState = new NPCMoveState(config);
-            
+
             states.Add(HelperNPCStateName.Idle, npcIdleState);
             states.Add(HelperNPCStateName.BeingInteractedWith, npcBeingInteractedWithState);
             states.Add(HelperNPCStateName.Move, npcMoveState);
@@ -49,12 +49,6 @@ namespace EntityBase.NPC
 
             if (astarAI == null)
                 astarAI = npc.View.GetComponent<IAstarAI>();
-
-            if (seeker == null || astarAI == null)
-            {
-                Debug.LogError("Missing Seeker or AIPath component on NPC GameObject");
-                return;
-            }
 
             // Initialize all states
             foreach (var state in states)
@@ -75,11 +69,10 @@ namespace EntityBase.NPC
             if (!states.ContainsKey(stateId))
             {
                 states.Add(stateId, state);
-                state.Initialize(npc);
-            }
-            else
-            {
-                Debug.LogWarning($"State with ID {stateId} already exists.");
+                if (npc != null)
+                {
+                    state.Initialize(npc);
+                }
             }
         }
 
@@ -88,10 +81,6 @@ namespace EntityBase.NPC
             if (!states.ContainsKey(stateId))
             {
                 states.Add(stateId, state);
-            }
-            else
-            {
-                Debug.LogWarning($"State with ID {stateId} already exists.");
             }
         }
 
@@ -108,17 +97,24 @@ namespace EntityBase.NPC
             }
         }
 
+        // Direct methods for strategies to use
+        public void MoveToPosition(Vector3 position, string returnStateId = null)
+        {
+            if (states.TryGetValue(HelperNPCStateName.Move, out var stateObj) &&
+                stateObj is NPCMoveState moveState)
+            {
+                moveState.Setup(returnStateId ?? HelperNPCStateName.Idle, position);
+                ChangeState(HelperNPCStateName.Move);
+            }
+        }
+
         public NPCState GetState(string stateId)
         {
             if (states.TryGetValue(stateId, out var state))
             {
                 return state;
             }
-            else
-            {
-                Debug.LogWarning($"State with ID {stateId} does not exist.");
-                return null;
-            }
+            return null;
         }
 
         public NPCState GetCurrentState()
@@ -135,38 +131,8 @@ namespace EntityBase.NPC
 
         public virtual void UpdateLogic()
         {
-            // Handle objective-based state changes
-            ProcessObjective();
-            
             // Update state machine
             stateMachine.UpdateLogic();
-        }
-        
-        // Translate objectives from behavior tree into state changes
-        private void ProcessObjective()
-        {
-            switch (npc.NPCProperties.CurrentObjective)
-            {
-                case NPCObjective.Idle:
-                    if (currentStateId != HelperNPCStateName.Idle)
-                        ChangeState(HelperNPCStateName.Idle);
-                    break;
-                
-                
-                case NPCObjective.Move:
-                    var moveState = GetState(HelperNPCStateName.Move) as NPCMoveState;
-                    if (moveState != null)
-                    {
-                        moveState.Setup(npc.NPCProperties.ReturnState, npc.NPCProperties.TargetPosition);
-                        ChangeState(HelperNPCStateName.Move);
-                    }
-                    break;
-                
-                case NPCObjective.Attack:
-                    if (currentStateId != HelperNPCStateName.Attack)
-                        ChangeState(HelperNPCStateName.Attack);
-                    break;
-            }
         }
 
         public virtual void FixedUpdateLogic()
@@ -174,7 +140,7 @@ namespace EntityBase.NPC
             // Update basic character components
             npc.FOVDetector.SetColliderRotation(npc.NPCProperties.lastMovementVector);
             npc.AttackHitbox.SetAttackHitBoxRotation(npc.NPCProperties.lastMovementVector);
-            
+
             // Update state machine
             stateMachine.FixedUpdateLogic();
         }
