@@ -60,7 +60,8 @@ namespace EntityBase.NPC
             InventorySystem inventory,
             BuffSystem buffSystem,
             WeaponSystem weaponSystem,
-            NPCAIController aiController
+            NPCAIController aiController,
+            NPCStateSystem npcStateSystem = null
         ) : base(
             profile,
             view,
@@ -78,6 +79,7 @@ namespace EntityBase.NPC
             _npcProperties = properties;
             _npcAIController = aiController;
             IdleState = aiController.GetState(HelperNPCStateName.Idle);
+            _npcStateSystem = npcStateSystem;
         }
 
         public override void Initialize()

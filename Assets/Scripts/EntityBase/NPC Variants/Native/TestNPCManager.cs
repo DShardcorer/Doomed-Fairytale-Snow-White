@@ -18,7 +18,7 @@ using UnityEngine;
 
 namespace EntityBase.NPC_Variants.Native
 {
-    public class NativeManager : NPCManager
+    public class TestNPCManager : NPCManager
     {
         [SerializeField] private GameObject _nativePrefab;
         [SerializeField] private AbilityStatboardSO _abilityStatboardSO;
@@ -60,13 +60,16 @@ namespace EntityBase.NPC_Variants.Native
             //StaminaSystem creation
             StaminaSystem staminaSystem = new StaminaSystem((int)statSystem.CombatStatBoard.Stamina.ModifiedValue);
             InventorySystem inventory = new InventorySystem();
+            NPCAIConfiguration config =
+                UnityEngine.Resources.Load<NPCAIConfiguration>(HelperResourcePath.NPCAIConfigPath +
+                                                               "StandardNPCMeleeAIConfig");
+            
             NPCAIController enhancedMeleeAIController =
-                new PatrolNormalNPCAIController(
-                    UnityEngine.Resources.Load<NPCAIConfiguration>(HelperResourcePath.NPCAIConfigPath +
-                                                                   "StandardNPCMeleeAIConfig"));
+                new PatrolNormalNPCAIController(config);
 
             BuffSystem buffSystem = new BuffSystem();
             WeaponSystem weaponSystem = new WeaponSystem();
+            NPCStateSystem stateSystem = new NPCStateSystem(config);
             NPC.NPC npc = new NPC.NPC(
                 entityProfile,
                 nativeView,

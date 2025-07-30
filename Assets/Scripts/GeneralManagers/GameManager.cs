@@ -37,7 +37,7 @@ namespace GeneralManagers
         [SerializeField] private FixedUpdateManager _fixedUpdateManager;
         [SerializeField] private GameTimeManager _gameTimeManager;
         [SerializeField] private DayCycleLightingManager _dayCycleLightingManager;
-        [SerializeField] private NativeManager _enemyManager;
+        [SerializeField] private TestNPCManager _enemyManager;
         [SerializeField] private CameraManager _cameraManager;
         [SerializeField] private QuestManager _questManager;
         [SerializeField] private DialogueManager _dialogueManager;
@@ -55,7 +55,7 @@ namespace GeneralManagers
         public FixedUpdateManager FixedUpdateManager => _fixedUpdateManager;
         public DayCycleLightingManager DayCycleLightingManager => _dayCycleLightingManager;
         public GameTimeManager GameTimeManager => _gameTimeManager;
-        public NativeManager EnemyManager => _enemyManager;
+        public TestNPCManager EnemyManager => _enemyManager;
         public CameraManager CameraManager => _cameraManager;
         public QuestManager QuestManager => _questManager;
         public DialogueManager DialogueManager => _dialogueManager;
