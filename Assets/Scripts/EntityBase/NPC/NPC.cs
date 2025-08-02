@@ -105,6 +105,7 @@ namespace EntityBase.NPC
             passiveSkillSystem.Initialize(this);
 
             _npcAIController.Initialize(this);
+            _npcStateSystem.Initialize(this);
             base.Initialize();
 
             if (UseBehaviourTree)
@@ -128,7 +129,7 @@ namespace EntityBase.NPC
 
         private void InitializeBehaviourTree()
         {
-            _blackboardData = UnityEngine.Resources.Load<BlackboardData>("BlackboardData/");
+            _blackboardData = UnityEngine.Resources.Load<BlackboardData>("BlackboardData/BlackboardData");
             _blackboardData.SetValueOnBlackboard(blackboard);
             isInDangerKey = blackboard.GetOrRegisterKey("IsInDanger");
             // blackboard.SetValue(isInDangerKey, false);

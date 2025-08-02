@@ -82,7 +82,8 @@ namespace EntityBase.NPC_Variants.Native
                 stateMachine,
                 inventory, buffSystem,
                 weaponSystem,
-                enhancedMeleeAIController);
+                enhancedMeleeAIController,
+                stateSystem);
             npc.Initialize();
             // npc.NPCView.transform.position = position;
             _enemies.Add(npc);
